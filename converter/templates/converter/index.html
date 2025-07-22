@@ -172,6 +172,32 @@
             color: #333;
         }
 
+        .result-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .format-btn {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .format-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(108, 117, 125, 0.3);
+        }
+
         .download-btn {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
@@ -193,29 +219,71 @@
         }
 
         .json-display {
-            background: #2d3748;
+            background: #1a202c;
             border-radius: 10px;
             padding: 1.5rem;
-            max-height: 500px;
+            max-height: 600px;
             overflow-y: auto;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #e2e8f0;
+            border: 1px solid #2d3748;
+            position: relative;
         }
 
         .json-display::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         .json-display::-webkit-scrollbar-track {
-            background: #4a5568;
-            border-radius: 4px;
+            background: #2d3748;
+            border-radius: 5px;
         }
 
         .json-display::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 5px;
+        }
+
+        .json-display::-webkit-scrollbar-thumb:hover {
             background: #718096;
-            border-radius: 4px;
+        }
+
+        /* JSON Syntax Highlighting */
+        .json-key {
+            color: #9f7aea;
+            font-weight: 600;
+        }
+
+        .json-string {
+            color: #68d391;
+        }
+
+        .json-number {
+            color: #f6ad55;
+        }
+
+        .json-boolean {
+            color: #fc8181;
+        }
+
+        .json-null {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .json-bracket {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .json-comma {
+            color: #a0aec0;
+        }
+
+        .json-colon {
+            color: #e2e8f0;
         }
 
         .error-section {
@@ -311,6 +379,53 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .file-metadata {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .file-metadata h4 {
+            color: #495057;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .metadata-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .metadata-value {
+            color: #6c757d;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
         }
 
         .success-message {
@@ -409,14 +524,49 @@
                 <p><strong>Sheets:</strong> <span id="sheetCount"></span></p>
             </div>
 
+            <div class="file-metadata" id="fileMetadata">
+                <h4><i class="fas fa-info-circle"></i> File Metadata</h4>
+                <div class="metadata-grid">
+                    <div class="metadata-item">
+                        <span class="metadata-label">File Name:</span>
+                        <span class="metadata-value" id="metaFileName"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">File Size:</span>
+                        <span class="metadata-value" id="metaFileSize"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Last Modified:</span>
+                        <span class="metadata-value" id="metaLastModified"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">File Type:</span>
+                        <span class="metadata-value" id="metaFileType"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Number of Sheets:</span>
+                        <span class="metadata-value" id="metaSheetCount"></span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Processing Time:</span>
+                        <span class="metadata-value" id="metaProcessingTime"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="result-section" id="resultSection">
                 <div class="result-header">
                     <div class="result-title">
                         <i class="fas fa-code"></i> JSON Output
                     </div>
-                    <button class="download-btn" id="downloadBtn" onclick="downloadJSON()">
-                        <i class="fas fa-download"></i> Download JSON
-                    </button>
+                    <div class="result-controls">
+                        <button class="format-btn" id="formatBtn" onclick="toggleFormat()" title="Toggle formatting">
+                            <i class="fas fa-indent"></i> Toggle Format
+                        </button>
+                        <button class="download-btn" id="downloadBtn" onclick="downloadJSON()">
+                            <i class="fas fa-download"></i> Download JSON
+                        </button>
+                    </div>
                 </div>
                 <div class="json-display" id="jsonDisplay"></div>
             </div>
@@ -426,6 +576,8 @@
     <script>
         let currentFile = null;
         let jsonData = null;
+        let processingStartTime = null;
+        let isFormatted = true;
 
         // DOM elements
         const uploadArea = document.getElementById('uploadArea');
@@ -441,9 +593,17 @@
         const fullFileName = document.getElementById('fullFileName');
         const fileSize = document.getElementById('fileSize');
         const sheetCount = document.getElementById('sheetCount');
+        const fileMetadata = document.getElementById('fileMetadata');
+        const metaFileName = document.getElementById('metaFileName');
+        const metaFileSize = document.getElementById('metaFileSize');
+        const metaLastModified = document.getElementById('metaLastModified');
+        const metaFileType = document.getElementById('metaFileType');
+        const metaSheetCount = document.getElementById('metaSheetCount');
+        const metaProcessingTime = document.getElementById('metaProcessingTime');
         const resultSection = document.getElementById('resultSection');
         const jsonDisplay = document.getElementById('jsonDisplay');
         const downloadBtn = document.getElementById('downloadBtn');
+        const formatBtn = document.getElementById('formatBtn');
 
         // Drag and drop functionality
         uploadArea.addEventListener('dragover', (e) => {
@@ -497,6 +657,9 @@
         function uploadFile(file) {
             const formData = new FormData();
             formData.append('file', file);
+
+            // Start timing
+            processingStartTime = Date.now();
 
             // Show progress
             showProgress();
@@ -581,6 +744,22 @@
             fileSize.textContent = formatFileSize(file.size);
             sheetCount.textContent = data.workbook.sheets.length;
             fileInfo.style.display = 'block';
+
+            // Show metadata
+            showMetadata(file, data);
+        }
+
+        function showMetadata(file, data) {
+            const processingTime = Date.now() - processingStartTime;
+            
+            metaFileName.textContent = file.name;
+            metaFileSize.textContent = formatFileSize(file.size);
+            metaLastModified.textContent = new Date(file.lastModified).toLocaleString();
+            metaFileType.textContent = file.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            metaSheetCount.textContent = data.workbook.sheets.length;
+            metaProcessingTime.textContent = `${processingTime}ms`;
+            
+            fileMetadata.style.display = 'block';
         }
 
         function removeFile() {
@@ -593,6 +772,7 @@
             
             // Hide sections
             fileInfo.style.display = 'none';
+            fileMetadata.style.display = 'none';
             resultSection.style.display = 'none';
             errorSection.style.display = 'none';
             successMessage.style.display = 'none';
@@ -600,14 +780,90 @@
             // Reset upload button
             uploadBtn.disabled = false;
             uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
+            
+            // Reset formatting state
+            isFormatted = true;
         }
 
         function showResult(data) {
-            jsonDisplay.textContent = JSON.stringify(data, null, 2);
+            jsonDisplay.innerHTML = formatJSON(data);
             resultSection.style.display = 'block';
             
             // Scroll to result
             resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function formatJSON(obj, indent = 0) {
+            const spaces = '  '.repeat(indent);
+            let result = '';
+            
+            if (obj === null) {
+                return '<span class="json-null">null</span>';
+            }
+            
+            if (typeof obj === 'boolean') {
+                return `<span class="json-boolean">${obj}</span>`;
+            }
+            
+            if (typeof obj === 'number') {
+                return `<span class="json-number">${obj}</span>`;
+            }
+            
+            if (typeof obj === 'string') {
+                return `<span class="json-string">"${obj.replace(/"/g, '\\"')}"</span>`;
+            }
+            
+            if (Array.isArray(obj)) {
+                if (obj.length === 0) {
+                    return '<span class="json-bracket">[]</span>';
+                }
+                
+                result = '<span class="json-bracket">[</span>\n';
+                for (let i = 0; i < obj.length; i++) {
+                    result += spaces + '  ' + formatJSON(obj[i], indent + 1);
+                    if (i < obj.length - 1) {
+                        result += '<span class="json-comma">,</span>';
+                    }
+                    result += '\n';
+                }
+                result += spaces + '<span class="json-bracket">]</span>';
+                return result;
+            }
+            
+            if (typeof obj === 'object') {
+                const keys = Object.keys(obj);
+                if (keys.length === 0) {
+                    return '<span class="json-bracket">{}</span>';
+                }
+                
+                result = '<span class="json-bracket">{</span>\n';
+                for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+                    result += spaces + '  <span class="json-key">"' + key + '"</span><span class="json-colon">:</span> ' + formatJSON(obj[key], indent + 1);
+                    if (i < keys.length - 1) {
+                        result += '<span class="json-comma">,</span>';
+                    }
+                    result += '\n';
+                }
+                result += spaces + '<span class="json-bracket">}</span>';
+                return result;
+            }
+            
+            return String(obj);
+        }
+
+        function toggleFormat() {
+            if (!jsonData) return;
+            
+            isFormatted = !isFormatted;
+            
+            if (isFormatted) {
+                jsonDisplay.innerHTML = formatJSON(jsonData);
+                formatBtn.innerHTML = '<i class="fas fa-indent"></i> Toggle Format';
+            } else {
+                jsonDisplay.textContent = JSON.stringify(jsonData);
+                formatBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Toggle Format';
+            }
         }
 
         function formatFileSize(bytes) {
