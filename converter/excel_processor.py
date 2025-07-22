@@ -33,29 +33,36 @@ class ExcelProcessor:
             raise ValueError(f"Unsupported file format: {file_extension}")
         
         try:
-            workbook = load_workbook(file_path, data_only=False, keep_vba=True)
-            return self._process_workbook(workbook, file_path)
+            # First pass: get all data including formulas (data_only=False)
+            workbook_with_formulas = load_workbook(file_path, data_only=False, keep_vba=True)
+            
+            # Second pass: get calculated values (data_only=True)
+            workbook_with_values = load_workbook(file_path, data_only=True, keep_vba=True)
+            
+            return self._process_workbook(workbook_with_formulas, workbook_with_values, file_path)
         except Exception as e:
             raise Exception(f"Error processing Excel file: {str(e)}")
     
-    def _process_workbook(self, workbook: Workbook, file_path: str) -> Dict[str, Any]:
-        """Process the entire workbook"""
+    def _process_workbook(self, workbook_with_formulas: Workbook, workbook_with_values: Workbook, file_path: str) -> Dict[str, Any]:
+        """Process the entire workbook with both formula and value data"""
         file_stats = os.stat(file_path)
         
         result = {
             "workbook": {
-                "metadata": self._extract_workbook_metadata(workbook, file_path, file_stats),
+                "metadata": self._extract_workbook_metadata(workbook_with_formulas, file_path, file_stats),
                 "sheets": [],
-                "properties": self._extract_workbook_properties(workbook)
+                "properties": self._extract_workbook_properties(workbook_with_formulas)
             }
         }
         
         # Process each worksheet
-        for sheet_name in workbook.sheetnames:
-            worksheet = workbook[sheet_name]
+        for sheet_name in workbook_with_formulas.sheetnames:
+            worksheet_with_formulas = workbook_with_formulas[sheet_name]
+            worksheet_with_values = workbook_with_values[sheet_name]
+            
             # Check if it's a worksheet (not a chart sheet)
-            if hasattr(worksheet, 'title') and not hasattr(worksheet, 'chart'):
-                sheet_data = self._process_worksheet(worksheet)
+            if hasattr(worksheet_with_formulas, 'title') and not hasattr(worksheet_with_formulas, 'chart'):
+                sheet_data = self._process_worksheet(worksheet_with_formulas, worksheet_with_values)
                 result["workbook"]["sheets"].append(sheet_data)
         
         # Final safeguard: ensure the entire result is JSON serializable
@@ -142,28 +149,28 @@ class ExcelProcessor:
             "visibility": getattr(workbook, 'visibility', 'visible')
         }
     
-    def _process_worksheet(self, worksheet: Worksheet) -> Dict[str, Any]:
-        """Process a single worksheet"""
+    def _process_worksheet(self, worksheet_with_formulas: Worksheet, worksheet_with_values: Worksheet) -> Dict[str, Any]:
+        """Process a single worksheet with both formula and value data"""
         sheet_data = {
-            "name": worksheet.title,
-            "index": getattr(worksheet.sheet_properties.tabColor, 'index', 0) if worksheet.sheet_properties.tabColor else 0,
-            "sheet_id": getattr(worksheet.sheet_properties, 'sheetId', ''),
-            "state": getattr(worksheet, 'sheet_state', 'visible'),
+            "name": worksheet_with_formulas.title,
+            "index": getattr(worksheet_with_formulas.sheet_properties.tabColor, 'index', 0) if worksheet_with_formulas.sheet_properties.tabColor else 0,
+            "sheet_id": getattr(worksheet_with_formulas.sheet_properties, 'sheetId', ''),
+            "state": getattr(worksheet_with_formulas, 'sheet_state', 'visible'),
             "sheet_type": "worksheet",
-            "properties": self._extract_sheet_properties(worksheet),
-            "dimensions": self._extract_dimensions(worksheet),
-            "frozen_panes": self._extract_frozen_panes(worksheet),
-            "views": self._extract_sheet_views(worksheet),
-            "protection": self._extract_sheet_protection(worksheet),
-            "rows": self._extract_row_properties(worksheet),
-            "columns": self._extract_column_properties(worksheet),
-            "cells": self._extract_cell_data(worksheet),
-            "merged_cells": self._extract_merged_cells(worksheet),
-            "data_validations": self._extract_data_validations(worksheet),
-            "conditional_formatting": self._extract_conditional_formatting(worksheet),
-            "charts": self._extract_charts(worksheet),
-            "images": self._extract_images(worksheet),
-            "comments": self._extract_comments(worksheet)
+            "properties": self._extract_sheet_properties(worksheet_with_formulas),
+            "dimensions": self._extract_dimensions(worksheet_with_formulas),
+            "frozen_panes": self._extract_frozen_panes(worksheet_with_formulas),
+            "views": self._extract_sheet_views(worksheet_with_formulas),
+            "protection": self._extract_sheet_protection(worksheet_with_formulas),
+            "rows": self._extract_row_properties(worksheet_with_formulas),
+            "columns": self._extract_column_properties(worksheet_with_formulas),
+            "cells": self._extract_cell_data(worksheet_with_formulas, worksheet_with_values),
+            "merged_cells": self._extract_merged_cells(worksheet_with_formulas),
+            "data_validations": self._extract_data_validations(worksheet_with_formulas),
+            "conditional_formatting": self._extract_conditional_formatting(worksheet_with_formulas),
+            "charts": self._extract_charts(worksheet_with_formulas),
+            "images": self._extract_images(worksheet_with_formulas),
+            "comments": self._extract_comments(worksheet_with_formulas)
         }
         
         return sheet_data
@@ -367,22 +374,27 @@ class ExcelProcessor:
                 columns.append(col_data)
         return columns
     
-    def _extract_cell_data(self, worksheet: Worksheet) -> Dict[str, Any]:
-        """Extract all cell data with formatting and formulas"""
+    def _extract_cell_data(self, worksheet_with_formulas: Worksheet, worksheet_with_values: Worksheet) -> Dict[str, Any]:
+        """Extract all cell data with formatting, formulas, and calculated values"""
         cells = {}
         
-        for row in worksheet.iter_rows():
+        for row in worksheet_with_formulas.iter_rows():
             for cell in row:
-                # openpyxl: cell.data_type == 'f' means formula, cell.value is the formula string
+                # Get formula from the worksheet with formulas
                 formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
-                if cell.value is not None or formula or cell.comment:
+                
+                # Get calculated value from the worksheet with values
+                value_cell = worksheet_with_values[cell.coordinate]
+                calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
+                
+                if calculated_value is not None or formula or cell.comment:
                     cell_data = {
                         "coordinate": cell.coordinate,
                         "row": cell.row,
                         "column": cell.column,
                         "column_letter": cell.column_letter,
-                        "value": self._extract_cell_value(cell) if not formula else None,
-                        "data_type": self._get_cell_data_type(cell),
+                        "value": calculated_value,
+                        "data_type": self._get_cell_data_type(value_cell),
                         "formula": formula,
                         "formula_type": self._get_formula_type(cell, formula),
                         "shared_formula": None,  # openpyxl doesn't expose this directly
@@ -390,14 +402,14 @@ class ExcelProcessor:
                         "comment": self._extract_cell_comment(cell),
                         "hyperlink": self._extract_cell_hyperlink(cell),
                         "style": self._extract_cell_style(cell),
-                        "is_date": cell.is_date,
-                        "is_time": getattr(cell, 'is_time', False),
-                        "is_datetime": cell.is_date and not getattr(cell, 'is_time', False),
-                        "is_number": isinstance(cell.value, (int, float)),
-                        "is_string": isinstance(cell.value, str),
-                        "is_boolean": isinstance(cell.value, bool),
-                        "is_error": cell.data_type == 'e',
-                        "is_empty": cell.value is None
+                        "is_date": value_cell.is_date,
+                        "is_time": getattr(value_cell, 'is_time', False),
+                        "is_datetime": value_cell.is_date and not getattr(value_cell, 'is_time', False),
+                        "is_number": isinstance(calculated_value, (int, float)),
+                        "is_string": isinstance(calculated_value, str),
+                        "is_boolean": isinstance(calculated_value, bool),
+                        "is_error": value_cell.data_type == 'e',
+                        "is_empty": calculated_value is None
                     }
                     cells[cell.coordinate] = cell_data
         
