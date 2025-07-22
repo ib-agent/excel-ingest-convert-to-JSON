@@ -242,9 +242,54 @@
             display: none;
         }
 
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
         .file-info h4 {
             color: #2b6cb0;
-            margin-bottom: 0.5rem;
+            margin: 0;
+        }
+
+        .remove-file-btn {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .remove-file-btn:hover {
+            background: #c53030;
+            transform: scale(1.1);
+        }
+
+        .current-file-display {
+            background: white;
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: #2b6cb0;
+        }
+
+        .current-file-display i {
+            color: #28a745;
+            font-size: 1.1rem;
         }
 
         .file-info p {
@@ -350,8 +395,16 @@
             </div>
 
             <div class="file-info" id="fileInfo">
-                <h4><i class="fas fa-info-circle"></i> File Information</h4>
-                <p><strong>Filename:</strong> <span id="fileName"></span></p>
+                <div class="file-header">
+                    <h4><i class="fas fa-info-circle"></i> File Information</h4>
+                    <button class="remove-file-btn" id="removeFileBtn" onclick="removeFile()" title="Remove file">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="current-file-display" id="currentFileDisplay">
+                    <i class="fas fa-file-excel"></i>
+                    <span id="fullFileName"></span>
+                </div>
                 <p><strong>Size:</strong> <span id="fileSize"></span></p>
                 <p><strong>Sheets:</strong> <span id="sheetCount"></span></p>
             </div>
@@ -385,7 +438,7 @@
         const errorMessage = document.getElementById('errorMessage');
         const successMessage = document.getElementById('successMessage');
         const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
+        const fullFileName = document.getElementById('fullFileName');
         const fileSize = document.getElementById('fileSize');
         const sheetCount = document.getElementById('sheetCount');
         const resultSection = document.getElementById('resultSection');
@@ -524,10 +577,29 @@
         }
 
         function showFileInfo(file, data) {
-            fileName.textContent = file.name;
+            fullFileName.textContent = file.name;
             fileSize.textContent = formatFileSize(file.size);
             sheetCount.textContent = data.workbook.sheets.length;
             fileInfo.style.display = 'block';
+        }
+
+        function removeFile() {
+            // Clear current file and data
+            currentFile = null;
+            jsonData = null;
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Hide sections
+            fileInfo.style.display = 'none';
+            resultSection.style.display = 'none';
+            errorSection.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Reset upload button
+            uploadBtn.disabled = false;
+            uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
         }
 
         function showResult(data) {
