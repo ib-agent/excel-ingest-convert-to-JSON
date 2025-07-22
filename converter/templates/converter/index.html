@@ -178,24 +178,38 @@
             align-items: center;
         }
 
-        .format-btn {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .display-type-selector {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .format-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(108, 117, 125, 0.3);
+        .display-type-selector label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .display-type-selector select {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .display-type-selector select:hover {
+            border-color: #667eea;
+        }
+
+        .display-type-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .download-btn {
@@ -560,9 +574,14 @@
                         <i class="fas fa-code"></i> JSON Output
                     </div>
                     <div class="result-controls">
-                        <button class="format-btn" id="formatBtn" onclick="toggleFormat()" title="Toggle formatting">
-                            <i class="fas fa-indent"></i> Toggle Format
-                        </button>
+                        <div class="display-type-selector">
+                            <label for="displayType">Display Type:</label>
+                            <select id="displayType" onchange="changeDisplayType()">
+                                <option value="formatted">Formatted</option>
+                                <option value="compact">Compact</option>
+                                <option value="raw">Raw</option>
+                            </select>
+                        </div>
                         <button class="download-btn" id="downloadBtn" onclick="downloadJSON()">
                             <i class="fas fa-download"></i> Download JSON
                         </button>
@@ -577,7 +596,7 @@
         let currentFile = null;
         let jsonData = null;
         let processingStartTime = null;
-        let isFormatted = true;
+        let currentDisplayType = 'formatted';
 
         // DOM elements
         const uploadArea = document.getElementById('uploadArea');
@@ -603,7 +622,7 @@
         const resultSection = document.getElementById('resultSection');
         const jsonDisplay = document.getElementById('jsonDisplay');
         const downloadBtn = document.getElementById('downloadBtn');
-        const formatBtn = document.getElementById('formatBtn');
+        const displayType = document.getElementById('displayType');
 
         // Drag and drop functionality
         uploadArea.addEventListener('dragover', (e) => {
@@ -781,16 +800,74 @@
             uploadBtn.disabled = false;
             uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
             
-            // Reset formatting state
-            isFormatted = true;
+            // Reset display type
+            currentDisplayType = 'formatted';
+            displayType.value = 'formatted';
         }
 
         function showResult(data) {
-            jsonDisplay.innerHTML = formatJSON(data);
+            updateJSONDisplay(data);
             resultSection.style.display = 'block';
             
             // Scroll to result
             resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateJSONDisplay(data) {
+            switch (currentDisplayType) {
+                case 'formatted':
+                    jsonDisplay.innerHTML = formatJSON(data);
+                    break;
+                case 'compact':
+                    jsonDisplay.innerHTML = formatJSON(compactJSON(data));
+                    break;
+                case 'raw':
+                    jsonDisplay.textContent = JSON.stringify(data, null, 2);
+                    break;
+            }
+        }
+
+        function changeDisplayType() {
+            currentDisplayType = displayType.value;
+            if (jsonData) {
+                updateJSONDisplay(jsonData);
+            }
+        }
+
+        function compactJSON(obj) {
+            if (obj === null || obj === false) {
+                return undefined;
+            }
+            
+            if (typeof obj === 'boolean') {
+                return obj ? obj : undefined;
+            }
+            
+            if (typeof obj === 'string') {
+                return obj === '' ? undefined : obj;
+            }
+            
+            if (typeof obj === 'number') {
+                return obj;
+            }
+            
+            if (Array.isArray(obj)) {
+                const compacted = obj.map(item => compactJSON(item)).filter(item => item !== undefined);
+                return compacted.length > 0 ? compacted : undefined;
+            }
+            
+            if (typeof obj === 'object') {
+                const compacted = {};
+                for (const [key, value] of Object.entries(obj)) {
+                    const compactedValue = compactJSON(value);
+                    if (compactedValue !== undefined) {
+                        compacted[key] = compactedValue;
+                    }
+                }
+                return Object.keys(compacted).length > 0 ? compacted : undefined;
+            }
+            
+            return obj;
         }
 
         function formatJSON(obj, indent = 0) {
@@ -852,19 +929,7 @@
             return String(obj);
         }
 
-        function toggleFormat() {
-            if (!jsonData) return;
-            
-            isFormatted = !isFormatted;
-            
-            if (isFormatted) {
-                jsonDisplay.innerHTML = formatJSON(jsonData);
-                formatBtn.innerHTML = '<i class="fas fa-indent"></i> Toggle Format';
-            } else {
-                jsonDisplay.textContent = JSON.stringify(jsonData);
-                formatBtn.innerHTML = '<i class="fas fa-compress-alt"></i> Toggle Format';
-            }
-        }
+
 
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
