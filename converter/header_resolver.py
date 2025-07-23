@@ -249,7 +249,32 @@ class HeaderResolver:
         row = cell.get('row', 0)
         col = cell.get('column', 0)
         
-        return row >= data_start_row and col >= data_start_col
+        # Must be in the data region
+        if row < data_start_row or col < data_start_col:
+            return False
+        
+        # Check if it's a numeric data cell (most common case)
+        data_type = cell.get('data_type', '')
+        if data_type == 'number':
+            return True
+        
+        # Check if it's a string that looks like data (not a header)
+        value = cell.get('value')
+        if data_type == 'string' and value:
+            # Skip cells that look like headers (short strings, bold formatting)
+            style = cell.get('style', {})
+            font = style.get('font', {})
+            
+            # If it's bold, it's likely a header
+            if font.get('bold', False):
+                return False
+            
+            # If it's a short string (likely a header), skip it
+            if len(str(value)) <= 10:
+                return False
+        
+        # For other data types, assume it's data if it's in the data region
+        return True
     
     def _add_cell_header_context(self, cell: dict, col_headers: List[dict], 
                                row_headers: dict, options: dict):
