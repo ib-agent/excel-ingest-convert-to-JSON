@@ -2151,6 +2151,12 @@
 
         // Large file handling functions
         function showLargeFileWarning(data) {
+            // Clear any existing warnings first
+            const existingWarning = document.querySelector('.large-file-warning');
+            if (existingWarning) {
+                existingWarning.remove();
+            }
+            
             const warningDiv = document.createElement('div');
             warningDiv.className = 'large-file-warning';
             warningDiv.innerHTML = `
@@ -2163,8 +2169,13 @@
             `;
             
             // Insert warning at the top of the results section
-            const resultsSection = document.querySelector('.results-section');
-            resultsSection.insertBefore(warningDiv, resultsSection.firstChild);
+            const resultsSection = document.querySelector('.result-section');
+            if (resultsSection) {
+                resultsSection.insertBefore(warningDiv, resultsSection.firstChild);
+            } else {
+                // Fallback: append to body
+                document.body.insertBefore(warningDiv, document.body.firstChild);
+            }
             
             // Add CSS for the warning
             const style = document.createElement('style');
@@ -2204,6 +2215,12 @@
         }
 
         function showLargeFileSummary(summary) {
+            // Clear any existing summary first
+            const existingSummary = document.querySelector('.large-file-summary');
+            if (existingSummary) {
+                existingSummary.remove();
+            }
+            
             const summaryDiv = document.createElement('div');
             summaryDiv.className = 'large-file-summary';
             summaryDiv.innerHTML = `
@@ -2240,6 +2257,14 @@
             const warning = document.querySelector('.large-file-warning');
             if (warning) {
                 warning.parentNode.insertBefore(summaryDiv, warning.nextSibling);
+            } else {
+                // Fallback: append to the first result section
+                const resultsSection = document.querySelector('.result-section');
+                if (resultsSection) {
+                    resultsSection.appendChild(summaryDiv);
+                } else {
+                    document.body.appendChild(summaryDiv);
+                }
             }
             
             // Add CSS for the summary
