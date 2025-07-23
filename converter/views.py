@@ -13,6 +13,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from .excel_processor import ExcelProcessor
+from .table_processor import TableProcessor
+from .header_resolver import HeaderResolver
 
 
 @api_view(['POST'])
@@ -116,3 +118,63 @@ def index(request):
     Main page view
     """
     return render(request, 'converter/index.html')
+
+
+@api_view(['POST'])
+def transform_to_tables(request):
+    """
+    Transform Excel JSON output to table-oriented format
+    """
+    try:
+        json_data = request.data.get('json_data')
+        options = request.data.get('options', {})
+        
+        if not json_data:
+            return Response(
+                {'error': 'No JSON data provided'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        processor = TableProcessor()
+        table_data = processor.transform_to_table_format(json_data, options)
+        
+        return Response({
+            'success': True,
+            'table_data': table_data
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response(
+            {'error': f'Error transforming to table format: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+def resolve_headers(request):
+    """
+    Resolve row and column headers for data cells in table-oriented JSON
+    """
+    try:
+        table_json = request.data.get('table_json')
+        options = request.data.get('options', {})
+        
+        if not table_json:
+            return Response(
+                {'error': 'No table JSON data provided'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        resolver = HeaderResolver()
+        enhanced_data = resolver.resolve_headers(table_json, options)
+        
+        return Response({
+            'success': True,
+            'enhanced_data': enhanced_data
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response(
+            {'error': f'Error resolving headers: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
