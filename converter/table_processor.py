@@ -766,7 +766,7 @@ class TableProcessor:
                 if cell_value is not None:
                     labels.append(str(cell_value))
         
-        return " | ".join(labels) if labels else f"Column {col_letter}"
+        return " | ".join(labels) if labels else "unlabeled"
     
     def _get_row_label(self, table_cells: dict, row: int, header_cols: List[int]) -> str:
         """Get the label for a row from header columns"""
@@ -780,7 +780,7 @@ class TableProcessor:
                 if cell_value is not None:
                     labels.append(str(cell_value))
         
-        return " | ".join(labels) if labels else f"Row {row}"
+        return " | ".join(labels) if labels else "unlabeled"
     
     def _create_default_table(self, sheet_data: dict, options: dict) -> Optional[Dict[str, Any]]:
         """Create a default table for the entire sheet if no tables detected"""
