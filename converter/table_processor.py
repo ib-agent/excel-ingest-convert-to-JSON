@@ -68,6 +68,10 @@ class TableProcessor:
                 if isinstance(value, bool) and not value:
                     continue
                 
+                # Skip error messages and invalid data patterns
+                if isinstance(value, str) and self._is_error_message(value):
+                    continue
+                
                 # Recursively clean nested structures
                 if isinstance(value, (dict, list)):
                     cleaned_value = self._clean_table_json(value)
@@ -82,6 +86,10 @@ class TableProcessor:
         elif isinstance(data, list):
             cleaned_list = []
             for item in data:
+                # For string items, check if they are error messages
+                if isinstance(item, str) and self._is_error_message(item):
+                    continue
+                
                 cleaned_item = self._clean_table_json(item)
                 if cleaned_item is not None:
                     cleaned_list.append(cleaned_item)
@@ -89,6 +97,71 @@ class TableProcessor:
         
         else:
             return data
+    
+    def _is_error_message(self, value: str) -> bool:
+        """
+        Check if a string value contains error messages or invalid data patterns
+        
+        Args:
+            value: String value to check
+            
+        Returns:
+            True if the value appears to be an error message or invalid data
+        """
+        if not isinstance(value, str):
+            return False
+        
+        # Convert to lowercase for case-insensitive matching
+        value_lower = value.lower()
+        
+        # Common error message patterns
+        error_patterns = [
+            'values must be of type',
+            'invalid',
+            'error',
+            'exception',
+            'failed',
+            'not found',
+            'undefined',
+            'null reference',
+            'type error',
+            'validation error',
+            'parse error',
+            'syntax error',
+            'runtime error',
+            'missing',
+            'required',
+            'cannot',
+            'unable to',
+            'failed to',
+            'unexpected',
+            'unrecognized',
+            'unknown',
+            'unsupported',
+            'deprecated',
+            'obsolete',
+            'placeholder',
+            'todo',
+            'fixme',
+            'bug',
+            'issue',
+            'problem'
+        ]
+        
+        # Check if the value contains any error patterns
+        for pattern in error_patterns:
+            if pattern in value_lower:
+                return True
+        
+        # Check for incomplete or truncated strings that might be error messages
+        if value_lower.endswith(' of type') or value_lower.endswith(' must be') or value_lower == 'of type' or value_lower == 'must be':
+            return True
+        
+        # Check for strings that are just punctuation or very short error indicators
+        if len(value.strip()) <= 3 and value.strip() in ['...', '---', '***', '!!!', '???']:
+            return True
+        
+        return False
     
     def _clean_cell_data(self, cell_data: dict) -> dict:
         """
