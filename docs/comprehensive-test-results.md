@@ -63,6 +63,21 @@ This document summarizes the results of comprehensive testing for the header res
 - Column headers: ['Q1 Sales'], [], ['Q2 Sales']
 - Row headers: ['Widget A'], ['Widget B']
 
+### 6. Collapsed Headers
+**Description**: Table with multiple column header rows that need to be collapsed  
+**Expected**: 1 table, 15 data cells with headers  
+**Result**: ✅ PASS  
+**Details**:
+- Table detected correctly using multiple formatting heuristics
+- 15 numeric data cells (B4-F6) properly annotated with headers
+- 3-level hierarchical column headers properly collapsed:
+  - Level 1: Sales, Expenses, Summary
+  - Level 2: Q1, Q2 (for Sales and Expenses)
+  - Level 3: Jan, Apr (for each quarter)
+- Row headers: ['North'], ['South'], ['East']
+- Merged cells in headers properly handled
+- Null/empty header cells correctly excluded
+
 ## API Testing
 
 All test cases were also validated through the REST API endpoints:
@@ -70,7 +85,7 @@ All test cases were also validated through the REST API endpoints:
 - **POST /api/transform-tables/**: Converts Excel JSON to table format
 - **POST /api/resolve-headers/**: Adds header context to data cells
 
-**API Results**: ✅ All 5 test cases passed
+**API Results**: ✅ All 6 test cases passed
 
 ## Key Features Validated
 
@@ -86,18 +101,22 @@ All test cases were also validated through the REST API endpoints:
 - ✅ Indented row headers
 - ✅ Merged cell handling
 - ✅ Header span detection
+- ✅ Collapsed multi-row headers
+- ✅ Null/empty cell exclusion
 
 ### 3. Data Cell Identification
 - ✅ Numeric data cells properly identified
 - ✅ Header cells excluded from data cell count
 - ✅ Bold formatting detection for header exclusion
 - ✅ String length analysis for header detection
+- ✅ Null/empty value exclusion
 
 ### 4. Header Context
 - ✅ Full column header paths
 - ✅ Full row header paths
 - ✅ Header metadata (coordinates, styling, spans)
 - ✅ Header summaries for easy access
+- ✅ Hierarchical header collapse
 
 ## Test Output Files
 
@@ -107,14 +126,15 @@ The following test result files were generated:
 - `test_results_indented_row_headers.json`
 - `test_results_multiple_tables.json`
 - `test_results_merged_cells.json`
+- `test_results_collapsed_headers.json`
 
 Each file contains the complete enhanced JSON with header context for all data cells.
 
 ## Performance Metrics
 
-- **Total Test Cases**: 5
-- **Direct Tests**: 5/5 passed (100%)
-- **API Tests**: 5/5 passed (100%)
+- **Total Test Cases**: 6
+- **Direct Tests**: 6/6 passed (100%)
+- **API Tests**: 6/6 passed (100%)
 - **Overall Success Rate**: 100%
 
 ## Edge Cases Handled
@@ -125,6 +145,8 @@ Each file contains the complete enhanced JSON with header context for all data c
 4. **Merged Cells**: Partial header resolution for merged cell regions
 5. **Multiple Tables**: Independent processing of each table
 6. **Indentation**: Hierarchical row headers with indentation preserved
+7. **Null Values**: Cells with null/empty values properly excluded
+8. **Collapsed Headers**: Multi-row hierarchical headers correctly processed
 
 ## Conclusion
 
@@ -136,5 +158,6 @@ The header resolution functionality is working correctly across all test scenari
 - Processes multiple tables on the same sheet
 - Provides comprehensive header context for each data cell
 - Works correctly through both direct API calls and REST endpoints
+- Handles collapsed multi-row headers with proper hierarchy
 
-The implementation is ready for production use and can handle real-world Excel files with complex header structures. 
+The implementation is ready for production use and can handle real-world Excel files with complex header structures including the challenging case of multiple column header rows that need to be collapsed. 

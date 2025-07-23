@@ -253,13 +253,17 @@ class HeaderResolver:
         if row < data_start_row or col < data_start_col:
             return False
         
+        # Skip cells with null/empty values
+        value = cell.get('value')
+        if value is None or value == '':
+            return False
+        
         # Check if it's a numeric data cell (most common case)
         data_type = cell.get('data_type', '')
         if data_type == 'number':
             return True
         
         # Check if it's a string that looks like data (not a header)
-        value = cell.get('value')
         if data_type == 'string' and value:
             # Skip cells that look like headers (short strings, bold formatting)
             style = cell.get('style', {})

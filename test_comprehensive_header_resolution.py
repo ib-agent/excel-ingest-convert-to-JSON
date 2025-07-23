@@ -213,6 +213,88 @@ def create_merged_cells_test():
         }
     }
 
+def create_collapsed_column_headers_test():
+    """Test case: Multiple column header rows that need to be collapsed"""
+    return {
+        "workbook": {
+            "metadata": {"filename": "collapsed_headers_test.xlsx"},
+            "sheets": [{
+                "name": "Collapsed Headers",
+                "dimensions": {"min_row": 1, "max_row": 6, "min_col": 1, "max_col": 6},
+                "frozen_panes": {"frozen_rows": 3, "frozen_cols": 1},
+                "cells": {
+                    # Level 1 headers (spans multiple columns)
+                    "A1": {"coordinate": "A1", "row": 1, "column": 1, "value": "Region", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "B1": {"coordinate": "B1", "row": 1, "column": 2, "value": "Sales", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "C1": {"coordinate": "C1", "row": 1, "column": 3, "value": "Sales", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "D1": {"coordinate": "D1", "row": 1, "column": 4, "value": "Expenses", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "E1": {"coordinate": "E1", "row": 1, "column": 5, "value": "Expenses", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "F1": {"coordinate": "F1", "row": 1, "column": 6, "value": "Summary", "data_type": "string", "style": {"font": {"bold": True}}},
+                    
+                    # Level 2 headers (spans multiple columns)
+                    "A2": {"coordinate": "A2", "row": 2, "column": 1, "value": None, "data_type": "null"},
+                    "B2": {"coordinate": "B2", "row": 2, "column": 2, "value": "Q1", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "C2": {"coordinate": "C2", "row": 2, "column": 3, "value": "Q2", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "D2": {"coordinate": "D2", "row": 2, "column": 4, "value": "Q1", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "E2": {"coordinate": "E2", "row": 2, "column": 5, "value": "Q2", "data_type": "string", "style": {"bold": True}},
+                    "F2": {"coordinate": "F2", "row": 2, "column": 6, "value": None, "data_type": "null"},
+                    
+                    # Level 3 headers (individual columns)
+                    "A3": {"coordinate": "A3", "row": 3, "column": 1, "value": None, "data_type": "null"},
+                    "B3": {"coordinate": "B3", "row": 3, "column": 2, "value": "Jan", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "C3": {"coordinate": "C3", "row": 3, "column": 3, "value": "Apr", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "D3": {"coordinate": "D3", "row": 3, "column": 4, "value": "Jan", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "E3": {"coordinate": "E3", "row": 3, "column": 5, "value": "Apr", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "F3": {"coordinate": "F3", "row": 3, "column": 6, "value": "Net", "data_type": "string", "style": {"font": {"bold": True}}},
+                    
+                    # Data rows
+                    "A4": {"coordinate": "A4", "row": 4, "column": 1, "value": "North", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "B4": {"coordinate": "B4", "row": 4, "column": 2, "value": 1500, "data_type": "number"},
+                    "C4": {"coordinate": "C4", "row": 4, "column": 3, "value": 1600, "data_type": "number"},
+                    "D4": {"coordinate": "D4", "row": 4, "column": 4, "value": 500, "data_type": "number"},
+                    "E4": {"coordinate": "E4", "row": 4, "column": 5, "value": 600, "data_type": "number"},
+                    "F4": {"coordinate": "F4", "row": 4, "column": 6, "value": 2000, "data_type": "number"},
+                    
+                    "A5": {"coordinate": "A5", "row": 5, "column": 1, "value": "South", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "B5": {"coordinate": "B5", "row": 5, "column": 2, "value": 2200, "data_type": "number"},
+                    "C5": {"coordinate": "C5", "row": 5, "column": 3, "value": 2300, "data_type": "number"},
+                    "D5": {"coordinate": "D5", "row": 5, "column": 4, "value": 800, "data_type": "number"},
+                    "E5": {"coordinate": "E5", "row": 5, "column": 5, "value": 900, "data_type": "number"},
+                    "F5": {"coordinate": "F5", "row": 5, "column": 6, "value": 2800, "data_type": "number"},
+                    
+                    "A6": {"coordinate": "A6", "row": 6, "column": 1, "value": "East", "data_type": "string", "style": {"font": {"bold": True}}},
+                    "B6": {"coordinate": "B6", "row": 6, "column": 2, "value": 1800, "data_type": "number"},
+                    "C6": {"coordinate": "C6", "row": 6, "column": 3, "value": 1900, "data_type": "number"},
+                    "D6": {"coordinate": "D6", "row": 6, "column": 4, "value": 700, "data_type": "number"},
+                    "E6": {"coordinate": "E6", "row": 6, "column": 5, "value": 750, "data_type": "number"},
+                    "F6": {"coordinate": "F6", "row": 6, "column": 6, "value": 2250, "data_type": "number"}
+                },
+                "merged_cells": [
+                    {
+                        "range": "B1:C1",
+                        "start_cell": "B1",
+                        "end_cell": "C1",
+                        "start_row": 1,
+                        "start_column": 2,
+                        "end_row": 1,
+                        "end_column": 3
+                    },
+                    {
+                        "range": "D1:E1",
+                        "start_cell": "D1",
+                        "end_cell": "E1",
+                        "start_row": 1,
+                        "start_column": 4,
+                        "end_row": 1,
+                        "end_column": 5
+                    }
+                ],
+                "tables": []
+            }],
+            "properties": {}
+        }
+    }
+
 def run_test_case(test_name, test_data, expected_tables, expected_headers):
     """Run a test case and verify results"""
     print(f"\n{'='*60}")
@@ -284,7 +366,8 @@ def test_api_endpoints():
         ("Multi-Level Headers", create_multi_level_header_test(), 1, 8),
         ("Indented Row Headers", create_indented_row_headers_test(), 1, 12),
         ("Multiple Tables", create_multiple_tables_test(), 3, 9),
-        ("Merged Cells", create_merged_cells_test(), 1, 6)
+        ("Merged Cells", create_merged_cells_test(), 1, 6),
+        ("Collapsed Headers", create_collapsed_column_headers_test(), 1, 15)
     ]
     
     results = []
@@ -370,7 +453,8 @@ def main():
         ("Multi-Level Headers", create_multi_level_header_test(), 1, 8),   # Only numeric data cells (B3-E4)
         ("Indented Row Headers", create_indented_row_headers_test(), 1, 12), # Only numeric data cells (B2-D5, 3 cols × 4 rows = 12)
         ("Multiple Tables", create_multiple_tables_test(), 3, 9),          # 4+4+1 data cells
-        ("Merged Cells", create_merged_cells_test(), 1, 6)                 # Only numeric data cells (B3-D4)
+        ("Merged Cells", create_merged_cells_test(), 1, 6),                 # Only numeric data cells (B3-D4)
+        ("Collapsed Headers", create_collapsed_column_headers_test(), 1, 15) # 15 data cells (5 cols × 3 rows)
     ]
     
     # Run direct tests
