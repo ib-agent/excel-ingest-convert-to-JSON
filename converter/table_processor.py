@@ -451,7 +451,6 @@ class TableProcessor:
         
         # Find continuous data regions
         current_start_row = None
-        current_start_col = None
         consecutive_blank_rows = 0
         max_consecutive_blank_rows = 2  # Allow up to 2 consecutive blank rows within a table
         
@@ -463,7 +462,6 @@ class TableProcessor:
                     row_has_data = True
                     if current_start_row is None:
                         current_start_row = row
-                        current_start_col = col
                     consecutive_blank_rows = 0  # Reset blank row counter
                     break
             
@@ -474,12 +472,11 @@ class TableProcessor:
                     regions.append({
                         'start_row': current_start_row,
                         'end_row': row - consecutive_blank_rows,
-                        'start_col': current_start_col,
+                        'start_col': min_col,
                         'end_col': max_col,
                         'detection_method': 'gaps'
                     })
                     current_start_row = None
-                    current_start_col = None
                     consecutive_blank_rows = 0
         
         # Handle table that extends to the end
@@ -487,7 +484,7 @@ class TableProcessor:
             regions.append({
                 'start_row': current_start_row,
                 'end_row': max_row,
-                'start_col': current_start_col,
+                'start_col': min_col,
                 'end_col': max_col,
                 'detection_method': 'gaps'
             })
