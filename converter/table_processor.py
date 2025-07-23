@@ -217,6 +217,19 @@ class TableProcessor:
                 if cleaned_color:
                     cleaned_fill[color_key] = cleaned_color
         
+        # Remove fill sections with default values
+        # Check if this is a default fill (00000000 color and 0.0 tint)
+        has_default_values = False
+        if 'start_color' in cleaned_fill:
+            start_color = cleaned_fill['start_color']
+            if isinstance(start_color, dict) and start_color.get('rgb') == '00000000':
+                tint = start_color.get('tint', 0.0)
+                if tint == 0.0:
+                    has_default_values = True
+        
+        if has_default_values:
+            return {}
+        
         return cleaned_fill
     
     def _clean_border_data(self, border_data: dict) -> dict:
@@ -269,11 +282,19 @@ class TableProcessor:
         
         cleaned_alignment = {}
         
-        # Only include non-null values
+        # Only include non-null values that are not default (0 or 0.0)
         for key in ['horizontal', 'vertical', 'text_rotation', 'wrap_text', 'shrink_to_fit', 
                    'indent', 'relative_indent', 'justify_last_line', 'reading_order']:
             if key in alignment_data and alignment_data[key] is not None:
+                value = alignment_data[key]
+                # Skip default values (0, 0.0, False for boolean fields)
+                if value == 0 or value == 0.0 or value is False:
+                    continue
                 cleaned_alignment[key] = alignment_data[key]
+        
+        # If no meaningful alignment data remains, return empty dict
+        if not cleaned_alignment:
+            return {}
         
         return cleaned_alignment
     
