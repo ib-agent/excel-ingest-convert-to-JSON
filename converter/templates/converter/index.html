@@ -1098,117 +1098,128 @@
         let currentSheetIndex = 0;
         let currentCellSheetIndex = 0;
 
-        // DOM elements
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const progressSection = document.getElementById('progressSection');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const errorSection = document.getElementById('errorSection');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const fileInfo = document.getElementById('fileInfo');
-        const fullFileName = document.getElementById('fullFileName');
-        const fileSize = document.getElementById('fileSize');
-        const sheetCount = document.getElementById('sheetCount');
-        const tableDisplay = document.getElementById('tableDisplay');
-        const sheetTabs = document.getElementById('sheetTabs');
-        const tableContainer = document.getElementById('tableContainer');
-        const fileMetadata = document.getElementById('fileMetadata');
-        const metaFileName = document.getElementById('metaFileName');
-        const metaFileSize = document.getElementById('metaFileSize');
-        const metaLastModified = document.getElementById('metaLastModified');
-        const metaFileType = document.getElementById('metaFileType');
-        const metaSheetCount = document.getElementById('metaSheetCount');
-        const metaProcessingTime = document.getElementById('metaProcessingTime');
-        const resultSection = document.getElementById('resultSection');
-        const jsonDisplay = document.getElementById('jsonDisplay');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const displayType = document.getElementById('displayType');
-        const tableResultSection = document.getElementById('tableResultSection');
-        const tableJsonDisplay = document.getElementById('tableJsonDisplay');
-        const downloadTableBtn = document.getElementById('downloadTableBtn');
-        const tableDisplayType = document.getElementById('tableDisplayType');
-        const cellDisplaySection = document.getElementById('cellDisplaySection');
-        const cellDisplay = document.getElementById('cellDisplay');
-        const downloadCellDataBtn = document.getElementById('downloadCellDataBtn');
-        const cellDisplayType = document.getElementById('cellDisplayType');
-
-        // Drag and drop functionality
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
         });
 
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
+        function initializeApp() {
+            // DOM elements
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const progressSection = document.getElementById('progressSection');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const errorSection = document.getElementById('errorSection');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const fileInfo = document.getElementById('fileInfo');
+            const fullFileName = document.getElementById('fullFileName');
+            const fileSize = document.getElementById('fileSize');
+            const sheetCount = document.getElementById('sheetCount');
+            const tableDisplay = document.getElementById('tableDisplay');
+            const sheetTabs = document.getElementById('sheetTabs');
+            const tableContainer = document.getElementById('tableContainer');
+            const fileMetadata = document.getElementById('fileMetadata');
+            const metaFileName = document.getElementById('metaFileName');
+            const metaFileSize = document.getElementById('metaFileSize');
+            const metaLastModified = document.getElementById('metaLastModified');
+            const metaFileType = document.getElementById('metaFileType');
+            const metaSheetCount = document.getElementById('metaSheetCount');
+            const metaProcessingTime = document.getElementById('metaProcessingTime');
+            const resultSection = document.getElementById('resultSection');
+            const jsonDisplay = document.getElementById('jsonDisplay');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const displayType = document.getElementById('displayType');
+            const tableResultSection = document.getElementById('tableResultSection');
+            const tableJsonDisplay = document.getElementById('tableJsonDisplay');
+            const downloadTableBtn = document.getElementById('downloadTableBtn');
+            const tableDisplayType = document.getElementById('tableDisplayType');
+            const cellDisplaySection = document.getElementById('cellDisplaySection');
+            const cellDisplay = document.getElementById('cellDisplay');
+            const downloadCellDataBtn = document.getElementById('downloadCellDataBtn');
+            const cellDisplayType = document.getElementById('cellDisplayType');
 
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFile(files[0]);
-            }
-        });
-
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
-        });
-
-        function handleFile(file) {
-            // Validate file type
-            const allowedTypes = ['.xlsx', '.xlsm', '.xltx', '.xltm'];
-            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-            
-            if (!allowedTypes.includes(fileExtension)) {
-                showError(`Unsupported file format. Please upload a file with one of these extensions: ${allowedTypes.join(', ')}`);
+            // Check if all required elements exist
+            if (!uploadArea || !fileInput || !uploadBtn) {
                 return;
             }
 
-            // Validate file size (50MB limit)
-            if (file.size > 50 * 1024 * 1024) {
-                showError('File size too large. Please upload a file smaller than 50MB.');
-                return;
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            });
+
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+
+            function handleFile(file) {
+                // Validate file type
+                const allowedTypes = ['.xlsx', '.xlsm', '.xltx', '.xltm'];
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                
+                if (!allowedTypes.includes(fileExtension)) {
+                    showError(`Unsupported file format. Please upload a file with one of these extensions: ${allowedTypes.join(', ')}`);
+                    return;
+                }
+
+                // Validate file size (50MB limit)
+                if (file.size > 50 * 1024 * 1024) {
+                    showError('File size too large. Please upload a file smaller than 50MB.');
+                    return;
+                }
+
+                currentFile = file;
+                uploadFile(file);
             }
 
-            currentFile = file;
-            uploadFile(file);
-        }
+            function uploadFile(file) {
+                const formData = new FormData();
+                formData.append('file', file);
 
-        function uploadFile(file) {
-            const formData = new FormData();
-            formData.append('file', file);
+                // Start timing
+                processingStartTime = Date.now();
 
-            // Start timing
-            processingStartTime = Date.now();
+                // Show progress
+                showProgress();
+                hideError();
+                hideSuccess();
 
-            // Show progress
-            showProgress();
-            hideError();
-            hideSuccess();
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress > 90) progress = 90;
+                    updateProgress(progress);
+                }, 200);
 
-            // Simulate progress
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 90) progress = 90;
-                updateProgress(progress);
-            }, 200);
-
-            fetch('/api/upload/', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
+                fetch('/api/upload/', {
+                    method: 'POST',
+                    body: formData
+                })
+                            .then(response => response.json())
             .then(data => {
                 clearInterval(progressInterval);
                 updateProgress(100);
@@ -1221,943 +1232,107 @@
                         showLargeFileSummary(data.summary);
                         showDownloadLinks(data.download_urls, data.file_info);
                     } else {
-                        // Handle normal file response
-                        jsonData = data.data;
-                        tableData = data.table_data;
-                        showSuccess();
-                        showFileInfo(file, data.data);
-                        showResult(data.data);
-                        showTableResult(data.table_data);
-                        showCellDisplay(data.table_data);
+                            // Handle normal file response
+                            jsonData = data.data;
+                            tableData = data.table_data;
+                            showSuccess();
+                            showFileInfo(file, data.data);
+                            showResult(data.data);
+                            showTableResult(data.table_data);
+                            showCellDisplay(data.table_data);
+                        }
+                    } else {
+                        showError(data.error || 'An error occurred while processing the file.');
                     }
-                } else {
-                    showError(data.error || 'An error occurred while processing the file.');
-                }
-            })
-            .catch(error => {
-                clearInterval(progressInterval);
-                showError('Network error. Please check your connection and try again.');
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                hideProgress();
-            });
-        }
+                })
+                .catch(error => {
+                    clearInterval(progressInterval);
+                    showError('Network error. Please check your connection and try again.');
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    hideProgress();
+                });
+            }
 
-        function showProgress() {
-            progressSection.style.display = 'block';
-            uploadBtn.disabled = true;
-            uploadBtn.innerHTML = '<div class="loading-spinner"></div>Processing...';
-        }
+            function showProgress() {
+                progressSection.style.display = 'block';
+                uploadBtn.disabled = true;
+                uploadBtn.innerHTML = '<div class="loading-spinner"></div>Processing...';
+            }
 
-        function hideProgress() {
-            progressSection.style.display = 'none';
-            uploadBtn.disabled = false;
-            uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
-        }
+            function hideProgress() {
+                progressSection.style.display = 'none';
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
+            }
 
-        function updateProgress(percent) {
-            progressFill.style.width = percent + '%';
-            progressText.textContent = `Processing... ${Math.round(percent)}%`;
-        }
+            function updateProgress(percent) {
+                progressFill.style.width = percent + '%';
+                progressText.textContent = `Processing... ${Math.round(percent)}%`;
+            }
 
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorSection.style.display = 'block';
-        }
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorSection.style.display = 'block';
+            }
 
-        function hideError() {
-            errorSection.style.display = 'none';
-        }
+            function hideError() {
+                errorSection.style.display = 'none';
+            }
 
-        function showSuccess() {
-            successMessage.style.display = 'block';
-            setTimeout(() => {
+            function showSuccess() {
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+
+            function hideSuccess() {
                 successMessage.style.display = 'none';
-            }, 3000);
-        }
-
-        function hideSuccess() {
-            successMessage.style.display = 'none';
-        }
-
-        function showFileInfo(file, data) {
-            fullFileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            sheetCount.textContent = data.workbook.sheets.length;
-            fileInfo.style.display = 'block';
-
-            // Show table display
-            showTableDisplay(data);
-
-            // Show metadata
-            showMetadata(file, data);
-        }
-
-        function showMetadata(file, data) {
-            const processingTime = Date.now() - processingStartTime;
-            
-            metaFileName.textContent = file.name;
-            metaFileSize.textContent = formatFileSize(file.size);
-            metaLastModified.textContent = new Date(file.lastModified).toLocaleString();
-            metaFileType.textContent = file.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-            metaSheetCount.textContent = data.workbook.sheets.length;
-            metaProcessingTime.textContent = `${processingTime}ms`;
-            
-            fileMetadata.style.display = 'block';
-        }
-
-        function showTableDisplay(data) {
-            createSheetTabs(data.workbook.sheets);
-            showSheet(data.workbook.sheets[currentSheetIndex]);
-            tableDisplay.style.display = 'block';
-        }
-
-        function createSheetTabs(sheets) {
-            sheetTabs.innerHTML = '';
-            
-            sheets.forEach((sheet, index) => {
-                const tab = document.createElement('button');
-                tab.className = `sheet-tab ${index === currentSheetIndex ? 'active' : ''}`;
-                tab.textContent = sheet.name || `Sheet ${index + 1}`;
-                tab.onclick = () => switchSheet(index);
-                sheetTabs.appendChild(tab);
-            });
-        }
-
-        function switchSheet(sheetIndex) {
-            currentSheetIndex = sheetIndex;
-            
-            // Update tab states
-            const tabs = sheetTabs.querySelectorAll('.sheet-tab');
-            tabs.forEach((tab, index) => {
-                tab.classList.toggle('active', index === sheetIndex);
-            });
-            
-            // Show the selected sheet
-            showSheet(jsonData.workbook.sheets[sheetIndex]);
-        }
-
-        function showSheet(sheet) {
-            const table = createDataTable(sheet);
-            tableContainer.innerHTML = '';
-            tableContainer.appendChild(table);
-        }
-
-        function createDataTable(sheet) {
-            const table = document.createElement('table');
-            table.className = 'data-table';
-            
-            // Find the data range
-            const dataRange = findDataRange(sheet);
-            if (!dataRange) {
-                table.innerHTML = '<tr><td colspan="1" style="text-align: center; padding: 2rem;">No data found in this sheet</td></tr>';
-                return table;
             }
-            
-            // Create header row
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            
-            for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
-                const th = document.createElement('th');
-                th.textContent = getColumnLabel(col);
-                headerRow.appendChild(th);
+
+            function showFileInfo(file, data) {
+                fullFileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                sheetCount.textContent = data.workbook.sheets.length;
+                fileInfo.style.display = 'block';
+
+                // Show table display
+                showTableDisplay(data);
+
+                // Show metadata
+                showMetadata(file, data);
             }
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-            
-            // Create data rows
-            const tbody = document.createElement('tbody');
-            for (let row = dataRange.minRow; row <= dataRange.maxRow; row++) {
-                const tr = document.createElement('tr');
+
+            function showMetadata(file, data) {
+                const processingTime = Date.now() - processingStartTime;
                 
-                for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
-                    const td = document.createElement('td');
-                    const cellData = getCellData(sheet, row, col);
-                    td.innerHTML = formatCellContent(cellData);
-                    tr.appendChild(td);
-                }
-                tbody.appendChild(tr);
-            }
-            table.appendChild(tbody);
-            
-            return table;
-        }
-
-        function findDataRange(sheet) {
-            let minRow = Infinity, maxRow = -1, minCol = Infinity, maxCol = -1;
-            let hasData = false;
-            
-            // Find the range of cells with data
-            for (const [cellRef, cell] of Object.entries(sheet.cells)) {
-                const [row, col] = parseCellRef(cellRef);
-                if (cell.value !== null && cell.value !== undefined && cell.value !== '') {
-                    minRow = Math.min(minRow, row);
-                    maxRow = Math.max(maxRow, row);
-                    minCol = Math.min(minCol, col);
-                    maxCol = Math.max(maxCol, col);
-                    hasData = true;
-                }
-            }
-            
-            return hasData ? { minRow, maxRow, minCol, maxCol } : null;
-        }
-
-        function parseCellRef(cellRef) {
-            const match = cellRef.match(/^([A-Z]+)(\d+)$/);
-            if (!match) return [0, 0];
-            
-            const colStr = match[1];
-            const row = parseInt(match[2]);
-            let col = 0;
-            
-            for (let i = 0; i < colStr.length; i++) {
-                col = col * 26 + (colStr.charCodeAt(i) - 64);
-            }
-            
-            return [row, col];
-        }
-
-        function getColumnLabel(col) {
-            let label = '';
-            while (col > 0) {
-                col--;
-                label = String.fromCharCode(65 + (col % 26)) + label;
-                col = Math.floor(col / 26);
-            }
-            return label;
-        }
-
-        function getCellData(sheet, row, col) {
-            const cellRef = getColumnLabel(col) + row;
-            return sheet.cells[cellRef] || { value: '', formula: null, comment: null, hyperlink: null };
-        }
-
-        function formatCellContent(cellData) {
-            let content = '';
-            let tooltip = '';
-            
-            // Main value with formatting
-            if (cellData.value !== null && cellData.value !== undefined && cellData.value !== '') {
-                let formattedValue = cellData.value;
-                let cssClass = '';
+                metaFileName.textContent = file.name;
+                metaFileSize.textContent = formatFileSize(file.size);
+                metaLastModified.textContent = new Date(file.lastModified).toLocaleString();
+                metaFileType.textContent = file.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                metaSheetCount.textContent = data.workbook.sheets.length;
+                metaProcessingTime.textContent = `${processingTime}ms`;
                 
-                // Apply number formatting if available
-                if (cellData.style && cellData.style.number_format) {
-                    formattedValue = formatNumberWithStyle(cellData.value, cellData.style.number_format);
-                }
-                
-                // Apply currency formatting
-                if (cellData.style && cellData.style.number_format && 
-                    (cellData.style.number_format.includes('$') || 
-                     cellData.style.number_format.includes('Currency'))) {
-                    cssClass = 'cell-currency';
-                }
-                
-                // Apply negative number styling
-                if (typeof cellData.value === 'number' && cellData.value < 0) {
-                    cssClass += ' cell-negative';
-                }
-                
-                // Add formula tooltip if present
-                if (cellData.formula) {
-                    cssClass += ' cell-with-formula';
-                    tooltip = `title="Formula: = ${cellData.formula}"`;
-                }
-                
-                if (cellData.hyperlink) {
-                    content += `<a href="${cellData.hyperlink}" class="cell-hyperlink ${cssClass}" ${tooltip} target="_blank">${formattedValue}</a>`;
-                } else {
-                    content += `<span class="${cssClass}" ${tooltip}>${formattedValue}</span>`;
-                }
-            }
-            
-            // Comment
-            if (cellData.comment) {
-                content += `<div class="cell-comment">💬 ${cellData.comment}</div>`;
-            }
-            
-            return content || '&nbsp;';
-        }
-
-        function formatNumberWithStyle(value, numberFormat) {
-            if (typeof value !== 'number') {
-                return value;
-            }
-            
-            // Handle currency formats
-            if (numberFormat.includes('$')) {
-                const isNegative = value < 0;
-                const absValue = Math.abs(value);
-                
-                // Determine decimal places from format
-                let decimalPlaces = 2; // default
-                if (numberFormat.includes('#,##0.00')) {
-                    decimalPlaces = 2;
-                } else if (numberFormat.includes('#,##0.0')) {
-                    decimalPlaces = 1;
-                } else if (numberFormat.includes('#,##0')) {
-                    decimalPlaces = 0;
-                }
-                
-                const formatted = absValue.toFixed(decimalPlaces);
-                return `$${formatted}`;
-            }
-            
-            // Handle percentage formats
-            if (numberFormat.includes('%')) {
-                let decimalPlaces = 0;
-                if (numberFormat.includes('0.00%')) {
-                    decimalPlaces = 2;
-                } else if (numberFormat.includes('0.0%')) {
-                    decimalPlaces = 1;
-                }
-                return (value * 100).toFixed(decimalPlaces) + '%';
-            }
-            
-            // Handle decimal formats
-            if (numberFormat.includes('0.00')) {
-                return value.toFixed(2);
-            } else if (numberFormat.includes('0.0')) {
-                return value.toFixed(1);
-            } else if (numberFormat.includes('0')) {
-                return Math.round(value).toString();
-            }
-            
-            // Default formatting
-            return value.toString();
-        }
-
-        function removeFile() {
-            // Clear current file and data
-            currentFile = null;
-            jsonData = null;
-            tableData = null;
-            
-            // Reset file input
-            fileInput.value = '';
-            
-            // Hide sections
-            fileInfo.style.display = 'none';
-            tableDisplay.style.display = 'none';
-            fileMetadata.style.display = 'none';
-            resultSection.style.display = 'none';
-            tableResultSection.style.display = 'none';
-            cellDisplaySection.style.display = 'none';
-            errorSection.style.display = 'none';
-            successMessage.style.display = 'none';
-            
-            // Reset upload button
-            uploadBtn.disabled = false;
-            uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
-            
-            // Reset display types
-            currentDisplayType = 'formatted';
-            currentTableDisplayType = 'formatted';
-            currentCellDisplayType = 'cards';
-            displayType.value = 'formatted';
-            tableDisplayType.value = 'formatted';
-            cellDisplayType.value = 'cards';
-            
-            // Reset sheet indices
-            currentSheetIndex = 0;
-            currentCellSheetIndex = 0;
-        }
-
-        function showResult(data) {
-            updateJSONDisplay(data);
-            resultSection.style.display = 'block';
-            
-            // Scroll to result
-            resultSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function showTableResult(data) {
-            updateTableJSONDisplay(data);
-            tableResultSection.style.display = 'block';
-        }
-
-        function showCellDisplay(data) {
-            updateCellDisplay(data);
-            cellDisplaySection.style.display = 'block';
-        }
-
-        function updateJSONDisplay(data) {
-            switch (currentDisplayType) {
-                case 'formatted':
-                    jsonDisplay.innerHTML = formatJSON(data);
-                    break;
-                case 'compact':
-                    jsonDisplay.innerHTML = formatJSON(compactJSON(data));
-                    break;
-                case 'raw':
-                    jsonDisplay.textContent = JSON.stringify(data, null, 2);
-                    break;
-            }
-        }
-
-        function changeDisplayType() {
-            currentDisplayType = displayType.value;
-            if (jsonData) {
-                updateJSONDisplay(jsonData);
-            }
-        }
-
-        function changeTableDisplayType() {
-            currentTableDisplayType = tableDisplayType.value;
-            if (tableData) {
-                updateTableJSONDisplay(tableData);
-            }
-        }
-
-        function updateTableJSONDisplay(data) {
-            switch (currentTableDisplayType) {
-                case 'formatted':
-                    tableJsonDisplay.innerHTML = formatJSON(data);
-                    break;
-                case 'compact':
-                    tableJsonDisplay.innerHTML = formatJSON(compactJSON(data));
-                    break;
-                case 'raw':
-                    tableJsonDisplay.textContent = JSON.stringify(data, null, 2);
-                    break;
-            }
-        }
-
-        function updateCellDisplay(data) {
-            switch (currentCellDisplayType) {
-                case 'cards':
-                    cellDisplay.innerHTML = createCellCards(data);
-                    break;
-                case 'table':
-                    cellDisplay.innerHTML = createCellTable(data);
-                    break;
-                case 'compact':
-                    cellDisplay.innerHTML = createCellList(data);
-                    break;
-            }
-        }
-
-        function changeCellDisplayType() {
-            currentCellDisplayType = cellDisplayType.value;
-            if (tableData) {
-                updateCellDisplay(tableData);
-            }
-        }
-
-        function createCellCards(data) {
-            let html = '';
-            
-            for (let i = 0; i < data.workbook.sheets.length; i++) {
-                const sheet = data.workbook.sheets[i];
-                const sheetName = sheet.name || `Sheet ${i + 1}`;
-                
-                html += `<div class="cell-sheet-section">`;
-                html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
-                
-                if (sheet.tables && sheet.tables.length > 0) {
-                    html += `<div class="cell-cards">`;
-                    
-                    for (const table of sheet.tables) {
-                        // Extract cells with headers from the table structure
-                        const cellsWithHeaders = extractCellsWithHeaders(table);
-                        for (const cell of cellsWithHeaders) {
-                            html += createCellCard(cell);
-                        }
-                    }
-                    
-                    html += `</div>`;
-                } else {
-                    html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
-                }
-                
-                html += `</div>`;
-            }
-            
-            return html;
-        }
-
-        function extractCellsWithHeaders(table) {
-            const cellsWithHeaders = [];
-            
-            // Iterate through columns to find cells with headers
-            if (table.columns) {
-                for (const column of table.columns) {
-                    if (column.cells) {
-                        for (const [coordinate, cell] of Object.entries(column.cells)) {
-                            // Check if this cell has headers (indicating it's a data cell)
-                            if (cell.headers && (cell.headers.column_headers || cell.headers.row_headers)) {
-                                const cellData = {
-                                    coordinate: cell.coordinate,
-                                    value: cell.value,
-                                    column_headers: cell.headers.column_headers ? cell.headers.column_headers.map(h => h.value) : [],
-                                    row_headers: cell.headers.row_headers ? cell.headers.row_headers.map(h => h.value) : []
-                                };
-                                cellsWithHeaders.push(cellData);
-                            }
-                        }
-                    }
-                }
-            }
-            
-            return cellsWithHeaders;
-        }
-
-        function createCellCard(cell) {
-            const coordinate = cell.coordinate || 'Unknown';
-            const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
-            const columnHeaders = cell.column_headers || [];
-            const rowHeaders = cell.row_headers || [];
-            
-            let html = `<div class="cell-card">`;
-            html += `<div class="cell-card-header">`;
-            html += `<span class="cell-coordinate">${coordinate}</span>`;
-            html += `</div>`;
-            
-            html += `<div class="cell-value">${value}</div>`;
-            
-            html += `<div class="cell-headers">`;
-            
-            if (columnHeaders.length > 0) {
-                html += `<div class="header-group">`;
-                html += `<span class="header-label">Columns:</span>`;
-                html += `<div class="header-values">`;
-                columnHeaders.forEach(header => {
-                    html += `<span class="header-tag column">${header}</span>`;
-                });
-                html += `</div>`;
-                html += `</div>`;
-            }
-            
-            if (rowHeaders.length > 0) {
-                html += `<div class="header-group">`;
-                html += `<span class="header-label">Rows:</span>`;
-                html += `<div class="header-values">`;
-                rowHeaders.forEach(header => {
-                    html += `<span class="header-tag row">${header}</span>`;
-                });
-                html += `</div>`;
-                html += `</div>`;
-            }
-            
-            html += `</div>`;
-            html += `</div>`;
-            
-            return html;
-        }
-
-        function createCellTable(data) {
-            let html = '';
-            
-            for (let i = 0; i < data.workbook.sheets.length; i++) {
-                const sheet = data.workbook.sheets[i];
-                const sheetName = sheet.name || `Sheet ${i + 1}`;
-                
-                html += `<div class="cell-sheet-section">`;
-                html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
-                
-                if (sheet.tables && sheet.tables.length > 0) {
-                    html += `<table class="cell-table">`;
-                    html += `<thead>`;
-                    html += `<tr>`;
-                    html += `<th>Coordinate</th>`;
-                    html += `<th>Value</th>`;
-                    html += `<th>Column Headers</th>`;
-                    html += `<th>Row Headers</th>`;
-                    html += `</tr>`;
-                    html += `</thead>`;
-                    html += `<tbody>`;
-                    
-                    for (const table of sheet.tables) {
-                        // Extract cells with headers from the table structure
-                        const cellsWithHeaders = extractCellsWithHeaders(table);
-                        for (const cell of cellsWithHeaders) {
-                            html += createCellTableRow(cell);
-                        }
-                    }
-                    
-                    html += `</tbody>`;
-                    html += `</table>`;
-                } else {
-                    html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
-                }
-                
-                html += `</div>`;
-            }
-            
-            return html;
-        }
-
-        function createCellTableRow(cell) {
-            const coordinate = cell.coordinate || 'Unknown';
-            const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
-            const columnHeaders = cell.column_headers || [];
-            const rowHeaders = cell.row_headers || [];
-            
-            let html = `<tr>`;
-            html += `<td><span class="cell-coordinate">${coordinate}</span></td>`;
-            html += `<td><strong>${value}</strong></td>`;
-            html += `<td>`;
-            columnHeaders.forEach(header => {
-                html += `<span class="header-tag column">${header}</span> `;
-            });
-            html += `</td>`;
-            html += `<td>`;
-            rowHeaders.forEach(header => {
-                html += `<span class="header-tag row">${header}</span> `;
-            });
-            html += `</td>`;
-            html += `</tr>`;
-            
-            return html;
-        }
-
-        function createCellList(data) {
-            let html = '';
-            
-            for (let i = 0; i < data.workbook.sheets.length; i++) {
-                const sheet = data.workbook.sheets[i];
-                const sheetName = sheet.name || `Sheet ${i + 1}`;
-                
-                html += `<div class="cell-sheet-section">`;
-                html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
-                
-                if (sheet.tables && sheet.tables.length > 0) {
-                    html += `<div class="cell-list">`;
-                    
-                    for (const table of sheet.tables) {
-                        // Extract cells with headers from the table structure
-                        const cellsWithHeaders = extractCellsWithHeaders(table);
-                        for (const cell of cellsWithHeaders) {
-                            html += createCellListItem(cell);
-                        }
-                    }
-                    
-                    html += `</div>`;
-                } else {
-                    html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
-                }
-                
-                html += `</div>`;
-            }
-            
-            return html;
-        }
-
-        function createCellListItem(cell) {
-            const coordinate = cell.coordinate || 'Unknown';
-            const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
-            const columnHeaders = cell.column_headers || [];
-            const rowHeaders = cell.row_headers || [];
-            
-            let html = `<div class="cell-list-item">`;
-            html += `<span class="cell-list-coordinate">${coordinate}</span>`;
-            html += `<span class="cell-list-value">${value}</span>`;
-            html += `<div class="cell-list-headers">`;
-            
-            if (columnHeaders.length > 0) {
-                html += `<div class="cell-list-header-group">`;
-                html += `<span class="cell-list-header-label">Col:</span>`;
-                html += `<div class="cell-list-header-tags">`;
-                columnHeaders.forEach(header => {
-                    html += `<span class="cell-list-header-tag column">${header}</span>`;
-                });
-                html += `</div>`;
-                html += `</div>`;
-            }
-            
-            if (rowHeaders.length > 0) {
-                html += `<div class="cell-list-header-group">`;
-                html += `<span class="cell-list-header-label">Row:</span>`;
-                html += `<div class="cell-list-header-tags">`;
-                rowHeaders.forEach(header => {
-                    html += `<span class="cell-list-header-tag row">${header}</span>`;
-                });
-                html += `</div>`;
-                html += `</div>`;
-            }
-            
-            html += `</div>`;
-            html += `</div>`;
-            
-            return html;
-        }
-
-        function compactJSON(obj) {
-            if (obj === null || obj === false) {
-                return undefined;
-            }
-            
-            if (typeof obj === 'boolean') {
-                return obj ? obj : undefined;
-            }
-            
-            if (typeof obj === 'string') {
-                return obj === '' ? undefined : obj;
-            }
-            
-            if (typeof obj === 'number') {
-                return obj;
-            }
-            
-            if (Array.isArray(obj)) {
-                const compacted = obj.map(item => compactJSON(item)).filter(item => item !== undefined);
-                return compacted.length > 0 ? compacted : undefined;
-            }
-            
-            if (typeof obj === 'object') {
-                const compacted = {};
-                for (const [key, value] of Object.entries(obj)) {
-                    const compactedValue = compactJSON(value);
-                    if (compactedValue !== undefined) {
-                        compacted[key] = compactedValue;
-                    }
-                }
-                return Object.keys(compacted).length > 0 ? compacted : undefined;
-            }
-            
-            return obj;
-        }
-
-        function formatJSON(obj, indent = 0) {
-            const spaces = '  '.repeat(indent);
-            let result = '';
-            
-            if (obj === null) {
-                return '<span class="json-null">null</span>';
-            }
-            
-            if (typeof obj === 'boolean') {
-                return `<span class="json-boolean">${obj}</span>`;
-            }
-            
-            if (typeof obj === 'number') {
-                return `<span class="json-number">${obj}</span>`;
-            }
-            
-            if (typeof obj === 'string') {
-                return `<span class="json-string">"${obj.replace(/"/g, '\\"')}"</span>`;
-            }
-            
-            if (Array.isArray(obj)) {
-                if (obj.length === 0) {
-                    return '<span class="json-bracket">[]</span>';
-                }
-                
-                result = '<span class="json-bracket">[</span>\n';
-                for (let i = 0; i < obj.length; i++) {
-                    result += spaces + '  ' + formatJSON(obj[i], indent + 1);
-                    if (i < obj.length - 1) {
-                        result += '<span class="json-comma">,</span>';
-                    }
-                    result += '\n';
-                }
-                result += spaces + '<span class="json-bracket">]</span>';
-                return result;
-            }
-            
-            if (typeof obj === 'object') {
-                const keys = Object.keys(obj);
-                if (keys.length === 0) {
-                    return '<span class="json-bracket">{}</span>';
-                }
-                
-                result = '<span class="json-bracket">{</span>\n';
-                for (let i = 0; i < keys.length; i++) {
-                    const key = keys[i];
-                    result += spaces + '  <span class="json-key">"' + key + '"</span><span class="json-colon">:</span> ' + formatJSON(obj[key], indent + 1);
-                    if (i < keys.length - 1) {
-                        result += '<span class="json-comma">,</span>';
-                    }
-                    result += '\n';
-                }
-                result += spaces + '<span class="json-bracket">}</span>';
-                return result;
-            }
-            
-            return String(obj);
-        }
-
-
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function downloadJSON() {
-            if (!jsonData || !currentFile) return;
-
-            const filename = currentFile.name.replace(/\.[^/.]+$/, '') + '.json';
-            
-            fetch('/api/download/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({
-                    json_data: jsonData,
-                    filename: filename
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.blob();
-                }
-                throw new Error('Download failed');
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            })
-            .catch(error => {
-                showError('Failed to download JSON file. Please try again.');
-                console.error('Download error:', error);
-            });
-        }
-
-        function downloadTableJSON() {
-            if (!tableData || !currentFile) return;
-
-            const filename = currentFile.name.replace(/\.[^/.]+$/, '') + '_table.json';
-            
-            fetch('/api/download/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({
-                    json_data: tableData,
-                    filename: filename
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.blob();
-                }
-                throw new Error('Download failed');
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            })
-            .catch(error => {
-                showError('Failed to download table JSON file. Please try again.');
-                console.error('Download error:', error);
-            });
-        }
-
-        function downloadCellData() {
-            if (!tableData || !currentFile) return;
-
-            // Create a simplified cell data structure for download
-            const cellData = {
-                filename: currentFile.name,
-                processed_at: new Date().toISOString(),
-                sheets: []
-            };
-
-            for (const sheet of tableData.workbook.sheets) {
-                const sheetData = {
-                    name: sheet.name,
-                    cells: []
-                };
-
-                if (sheet.tables) {
-                    for (const table of sheet.tables) {
-                        // Extract cells with headers from the table structure
-                        const cellsWithHeaders = extractCellsWithHeaders(table);
-                        for (const cell of cellsWithHeaders) {
-                            sheetData.cells.push({
-                                coordinate: cell.coordinate,
-                                value: cell.value,
-                                column_headers: cell.column_headers || [],
-                                row_headers: cell.row_headers || []
-                            });
-                        }
-                    }
-                }
-
-                cellData.sheets.push(sheetData);
+                fileMetadata.style.display = 'block';
             }
 
-            const filename = currentFile.name.replace(/\.[^/.]+$/, '') + '_cell_data.json';
-            
-            fetch('/api/download/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({
-                    json_data: cellData,
-                    filename: filename
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.blob();
-                }
-                throw new Error('Download failed');
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            })
-            .catch(error => {
-                showError('Failed to download cell data file. Please try again.');
-                console.error('Download error:', error);
-            });
-        }
-
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
+            function showTableDisplay(data) {
+                createSheetTabs(data.workbook.sheets);
+                showSheet(data.workbook.sheets[currentSheetIndex]);
+                tableDisplay.style.display = 'block';
             }
-            return cookieValue;
-        }
 
-        // Large file handling functions
-        function showLargeFileWarning(data) {
+            // Large file handling functions
+                    function showLargeFileWarning(data) {
             // Clear any existing warnings first
             const existingWarning = document.querySelector('.large-file-warning');
             if (existingWarning) {
                 existingWarning.remove();
             }
-            
-            const warningDiv = document.createElement('div');
+                
+                            const warningDiv = document.createElement('div');
             warningDiv.className = 'large-file-warning';
             warningDiv.innerHTML = `
                 <div class="warning-content">
@@ -2167,20 +1342,21 @@
                     <p>The file contains ${data.file_info.sheet_count} sheets with ${data.file_info.total_tables} tables.</p>
                 </div>
             `;
-            
-            // Insert warning at the top of the results section
+                
+                            // Insert warning at the top of the results section
             const resultsSection = document.querySelector('.result-section');
             if (resultsSection) {
                 resultsSection.insertBefore(warningDiv, resultsSection.firstChild);
+                resultsSection.style.display = 'block'; // Make sure it's visible
             } else {
                 // Fallback: append to body
                 document.body.insertBefore(warningDiv, document.body.firstChild);
             }
-            
-            // Add CSS for the warning
-            const style = document.createElement('style');
-            style.textContent = `
-                .large-file-warning {
+                
+                // Add CSS for the warning
+                const style = document.createElement('style');
+                style.textContent = `
+                                    .large-file-warning {
                     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
                     color: white;
                     padding: 1.5rem;
@@ -2188,72 +1364,72 @@
                     margin-bottom: 2rem;
                     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
                 }
-                .warning-content {
-                    text-align: center;
-                }
-                .warning-content i {
-                    font-size: 2rem;
-                    margin-bottom: 1rem;
-                }
-                .warning-content h3 {
-                    margin: 0 0 1rem 0;
-                    font-size: 1.5rem;
-                }
-                .warning-content p {
-                    margin: 0.5rem 0;
-                    font-size: 1rem;
-                }
-            `;
-            document.head.appendChild(style);
-        }
+                    .warning-content {
+                        text-align: center;
+                    }
+                    .warning-content i {
+                        font-size: 2rem;
+                        margin-bottom: 1rem;
+                    }
+                    .warning-content h3 {
+                        margin: 0 0 1rem 0;
+                        font-size: 1.5rem;
+                    }
+                    .warning-content p {
+                        margin: 0.5rem 0;
+                        font-size: 1rem;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
 
-        function showLargeFileInfo(file, data) {
+                    function showLargeFileInfo(file, data) {
             fullFileName.textContent = file.name;
             fileSize.textContent = formatFileSize(file.size);
             sheetCount.textContent = data.file_info.sheet_count;
             fileInfo.style.display = 'block';
         }
 
-        function showLargeFileSummary(summary) {
+                    function showLargeFileSummary(summary) {
             // Clear any existing summary first
             const existingSummary = document.querySelector('.large-file-summary');
             if (existingSummary) {
                 existingSummary.remove();
             }
-            
-            const summaryDiv = document.createElement('div');
-            summaryDiv.className = 'large-file-summary';
-            summaryDiv.innerHTML = `
-                <h3><i class="fas fa-chart-bar"></i> File Summary</h3>
-                <div class="summary-grid">
-                    <div class="summary-item">
-                        <span class="label">Sheets:</span>
-                        <span class="value">${summary.workbook.sheets.length}</span>
+                
+                const summaryDiv = document.createElement('div');
+                summaryDiv.className = 'large-file-summary';
+                summaryDiv.innerHTML = `
+                    <h3><i class="fas fa-chart-bar"></i> File Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="label">Sheets:</span>
+                            <span class="value">${summary.workbook.sheets.length}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Total Tables:</span>
+                            <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.table_count, 0)}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Total Rows:</span>
+                            <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_rows, 0)}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Total Columns:</span>
+                            <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_columns, 0)}</span>
+                        </div>
                     </div>
-                    <div class="summary-item">
-                        <span class="label">Total Tables:</span>
-                        <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.table_count, 0)}</span>
+                    <div class="sheet-list">
+                        <h4>Sheets:</h4>
+                        <ul>
+                            ${summary.workbook.sheets.map(sheet => `
+                                <li>${sheet.name} (${sheet.table_count} tables, ${sheet.total_rows} rows, ${sheet.total_columns} columns)</li>
+                            `).join('')}
+                        </ul>
                     </div>
-                    <div class="summary-item">
-                        <span class="label">Total Rows:</span>
-                        <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_rows, 0)}</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="label">Total Columns:</span>
-                        <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_columns, 0)}</span>
-                    </div>
-                </div>
-                <div class="sheet-list">
-                    <h4>Sheets:</h4>
-                    <ul>
-                        ${summary.workbook.sheets.map(sheet => `
-                            <li>${sheet.name} (${sheet.table_count} tables, ${sheet.total_rows} rows, ${sheet.total_columns} columns)</li>
-                        `).join('')}
-                    </ul>
-                </div>
-            `;
-            
-            // Insert summary after the warning
+                `;
+                
+                            // Insert summary after the warning
             const warning = document.querySelector('.large-file-warning');
             if (warning) {
                 warning.parentNode.insertBefore(summaryDiv, warning.nextSibling);
@@ -2266,171 +1442,848 @@
                     document.body.appendChild(summaryDiv);
                 }
             }
-            
-            // Add CSS for the summary
-            const style = document.createElement('style');
-            style.textContent = `
-                .large-file-summary {
+                
+                // Add CSS for the summary
+                const style = document.createElement('style');
+                style.textContent = `
+                                    .large-file-summary {
                     background: #f8f9fa;
                     border: 1px solid #dee2e6;
                     border-radius: 10px;
                     padding: 1.5rem;
                     margin-bottom: 2rem;
                 }
-                .large-file-summary h3 {
-                    color: #495057;
-                    margin-bottom: 1rem;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                }
-                .summary-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 1rem;
-                    margin-bottom: 1.5rem;
-                }
-                .summary-item {
-                    background: white;
-                    padding: 1rem;
-                    border-radius: 8px;
-                    border: 1px solid #e9ecef;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-                .summary-item .label {
-                    font-weight: 600;
-                    color: #6c757d;
-                }
-                .summary-item .value {
-                    font-weight: 700;
-                    color: #495057;
-                    font-size: 1.1rem;
-                }
-                .sheet-list h4 {
-                    color: #495057;
-                    margin-bottom: 0.5rem;
-                }
-                .sheet-list ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                }
-                .sheet-list li {
-                    padding: 0.5rem 0;
-                    border-bottom: 1px solid #e9ecef;
-                    color: #6c757d;
-                }
-                .sheet-list li:last-child {
-                    border-bottom: none;
-                }
-            `;
-            document.head.appendChild(style);
-        }
+                    .large-file-summary h3 {
+                        color: #495057;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+                    .summary-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                        gap: 1rem;
+                        margin-bottom: 1.5rem;
+                    }
+                    .summary-item {
+                        background: white;
+                        padding: 1rem;
+                        border-radius: 8px;
+                        border: 1px solid #dee2e6;
+                        text-align: center;
+                    }
+                    .summary-item .label {
+                        display: block;
+                        font-weight: 600;
+                        color: #6c757d;
+                        margin-bottom: 0.5rem;
+                    }
+                    .summary-item .value {
+                        display: block;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        color: #495057;
+                    }
+                    .sheet-list h4 {
+                        color: #495057;
+                        margin-bottom: 0.5rem;
+                    }
+                    .sheet-list ul {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+                    .sheet-list li {
+                        background: white;
+                        padding: 0.75rem;
+                        margin-bottom: 0.5rem;
+                        border-radius: 6px;
+                        border: 1px solid #dee2e6;
+                        color: #495057;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
 
-        function showDownloadLinks(downloadUrls, fileInfo) {
+                    function showDownloadLinks(downloadUrls, fileInfo) {
             const downloadDiv = document.createElement('div');
             downloadDiv.className = 'download-links';
-            downloadDiv.innerHTML = `
-                <h3><i class="fas fa-download"></i> Download Options</h3>
-                <div class="download-grid">
-                    <div class="download-item">
-                        <h4>Full Data</h4>
-                        <p>Complete JSON with all cell data and styling</p>
-                        <p class="size-info">Size: ${fileInfo.json_data_size_mb.toFixed(1)} MB</p>
-                        <button onclick="downloadLargeFile('${downloadUrls.full_data}', 'full')" class="download-btn">
-                            <i class="fas fa-download"></i> Download Full Data
-                        </button>
+                downloadDiv.innerHTML = `
+                    <h3><i class="fas fa-download"></i> Download Options</h3>
+                    <div class="download-grid">
+                        <div class="download-item">
+                            <h4>Full Data</h4>
+                            <p>Complete JSON with all cell data and styling</p>
+                            <p class="size-info">Size: ${fileInfo.json_data_size_mb.toFixed(1)} MB</p>
+                            <button onclick="downloadLargeFile('${downloadUrls.full_data}', 'full')" class="download-btn">
+                                <i class="fas fa-download"></i> Download Full Data
+                            </button>
+                        </div>
+                        <div class="download-item">
+                            <h4>Table Data</h4>
+                            <p>Table-oriented format with resolved headers</p>
+                            <p class="size-info">Size: ${fileInfo.table_data_size_mb.toFixed(1)} MB</p>
+                            <button onclick="downloadLargeFile('${downloadUrls.table_data}', 'table')" class="download-btn">
+                                <i class="fas fa-download"></i> Download Table Data
+                            </button>
+                        </div>
                     </div>
-                    <div class="download-item">
-                        <h4>Table Data</h4>
-                        <p>Table-oriented format with resolved headers</p>
-                        <p class="size-info">Size: ${fileInfo.table_data_size_mb.toFixed(1)} MB</p>
-                        <button onclick="downloadLargeFile('${downloadUrls.table_data}', 'table')" class="download-btn">
-                            <i class="fas fa-download"></i> Download Table Data
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Insert download links after the summary
+                `;
+                
+                            // Insert download links after the summary
             const summary = document.querySelector('.large-file-summary');
             if (summary) {
                 summary.parentNode.insertBefore(downloadDiv, summary.nextSibling);
+            } else {
+                // Fallback: append to the first result section
+                const resultsSection = document.querySelector('.result-section');
+                if (resultsSection) {
+                    resultsSection.appendChild(downloadDiv);
+                } else {
+                    // Final fallback: append to body
+                    document.body.appendChild(downloadDiv);
+                }
             }
-            
-            // Add CSS for the download links
-            const style = document.createElement('style');
-            style.textContent = `
-                .download-links {
+                
+                // Add CSS for the download links
+                const style = document.createElement('style');
+                style.textContent = `
+                                    .download-links {
                     background: #e3f2fd;
                     border: 1px solid #bbdefb;
                     border-radius: 10px;
                     padding: 1.5rem;
                     margin-bottom: 2rem;
                 }
-                .download-links h3 {
-                    color: #1976d2;
-                    margin-bottom: 1rem;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                }
-                .download-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 1.5rem;
-                }
-                .download-item {
-                    background: white;
-                    padding: 1.5rem;
-                    border-radius: 8px;
-                    border: 1px solid #bbdefb;
-                    text-align: center;
-                }
-                .download-item h4 {
-                    color: #1976d2;
-                    margin-bottom: 0.5rem;
-                }
-                .download-item p {
-                    color: #6c757d;
-                    margin-bottom: 0.5rem;
-                }
-                .download-item .size-info {
-                    font-weight: 600;
-                    color: #495057;
-                    margin-bottom: 1rem;
-                }
-                .download-item .download-btn {
-                    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-                    color: white;
-                    border: none;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 25px;
-                    font-size: 1rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                }
-                .download-item .download-btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 16px rgba(25, 118, 210, 0.3);
-                }
-            `;
-            document.head.appendChild(style);
-        }
+                    .download-links h3 {
+                        color: #1976d2;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+                    .download-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 1.5rem;
+                    }
+                    .download-item {
+                        background: white;
+                        padding: 1.5rem;
+                        border-radius: 8px;
+                        border: 1px solid #bbdefb;
+                        text-align: center;
+                    }
+                    .download-item h4 {
+                        color: #1976d2;
+                        margin-bottom: 0.5rem;
+                    }
+                    .download-item p {
+                        color: #6c757d;
+                        margin-bottom: 0.5rem;
+                    }
+                    .download-item .size-info {
+                        font-weight: 600;
+                        color: #495057;
+                        margin-bottom: 1rem;
+                    }
+                    .download-item .download-btn {
+                        background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+                        color: white;
+                        border: none;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 25px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+                    .download-item .download-btn:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 16px rgba(25, 118, 210, 0.3);
+                    }
+                `;
+                document.head.appendChild(style);
+            }
 
-        function downloadLargeFile(url, type) {
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            function downloadLargeFile(url, type) {
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            // Make downloadLargeFile globally accessible
+            window.downloadLargeFile = downloadLargeFile;
+
+            // Utility functions
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            // Sheet and table display functions
+            function createSheetTabs(sheets) {
+                sheetTabs.innerHTML = '';
+                
+                sheets.forEach((sheet, index) => {
+                    const tab = document.createElement('button');
+                    tab.className = `sheet-tab ${index === currentSheetIndex ? 'active' : ''}`;
+                    tab.textContent = sheet.name || `Sheet ${index + 1}`;
+                    tab.onclick = () => switchSheet(index);
+                    sheetTabs.appendChild(tab);
+                });
+            }
+
+            function switchSheet(sheetIndex) {
+                currentSheetIndex = sheetIndex;
+                
+                // Update tab states
+                const tabs = sheetTabs.querySelectorAll('.sheet-tab');
+                tabs.forEach((tab, index) => {
+                    tab.classList.toggle('active', index === sheetIndex);
+                });
+                
+                // Show the selected sheet
+                showSheet(jsonData.workbook.sheets[sheetIndex]);
+            }
+
+            function showSheet(sheet) {
+                const table = createDataTable(sheet);
+                tableContainer.innerHTML = '';
+                tableContainer.appendChild(table);
+            }
+
+            function createDataTable(sheet) {
+                const table = document.createElement('table');
+                table.className = 'data-table';
+                
+                // Find the data range
+                const dataRange = findDataRange(sheet);
+                if (!dataRange) {
+                    table.innerHTML = '<tr><td colspan="1" style="text-align: center; padding: 2rem;">No data found in this sheet</td></tr>';
+                    return table;
+                }
+                
+                // Create header row
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                
+                for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
+                    const th = document.createElement('th');
+                    th.textContent = getColumnLabel(col);
+                    headerRow.appendChild(th);
+                }
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+                
+                // Create data rows
+                const tbody = document.createElement('tbody');
+                for (let row = dataRange.minRow; row <= dataRange.maxRow; row++) {
+                    const tr = document.createElement('tr');
+                    
+                    for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
+                        const td = document.createElement('td');
+                        const cellData = getCellData(sheet, row, col);
+                        td.innerHTML = formatCellContent(cellData);
+                        tr.appendChild(td);
+                    }
+                    tbody.appendChild(tr);
+                }
+                table.appendChild(tbody);
+                
+                return table;
+            }
+
+            function findDataRange(sheet) {
+                let minRow = Infinity, maxRow = -1, minCol = Infinity, maxCol = -1;
+                let hasData = false;
+                
+                // Find the range of cells with data
+                for (const [cellRef, cell] of Object.entries(sheet.cells)) {
+                    const [row, col] = parseCellRef(cellRef);
+                    if (cell.value !== null && cell.value !== undefined && cell.value !== '') {
+                        minRow = Math.min(minRow, row);
+                        maxRow = Math.max(maxRow, row);
+                        minCol = Math.min(minCol, col);
+                        maxCol = Math.max(maxCol, col);
+                        hasData = true;
+                    }
+                }
+                
+                return hasData ? { minRow, maxRow, minCol, maxCol } : null;
+            }
+
+            function parseCellRef(cellRef) {
+                const match = cellRef.match(/^([A-Z]+)(\d+)$/);
+                if (!match) return [0, 0];
+                
+                const colStr = match[1];
+                const row = parseInt(match[2]);
+                let col = 0;
+                
+                for (let i = 0; i < colStr.length; i++) {
+                    col = col * 26 + (colStr.charCodeAt(i) - 64);
+                }
+                
+                return [row, col];
+            }
+
+            function getColumnLabel(col) {
+                let label = '';
+                while (col > 0) {
+                    col--;
+                    label = String.fromCharCode(65 + (col % 26)) + label;
+                    col = Math.floor(col / 26);
+                }
+                return label;
+            }
+
+            function getCellData(sheet, row, col) {
+                const cellRef = getColumnLabel(col) + row;
+                return sheet.cells[cellRef] || { value: '', formula: null, comment: null, hyperlink: null };
+            }
+
+            function formatCellContent(cellData) {
+                let content = '';
+                let tooltip = '';
+                
+                // Main value with formatting
+                if (cellData.value !== null && cellData.value !== undefined && cellData.value !== '') {
+                    let formattedValue = cellData.value;
+                    let cssClass = '';
+                    
+                    // Apply number formatting if available
+                    if (cellData.style && cellData.style.number_format) {
+                        formattedValue = formatNumberWithStyle(cellData.value, cellData.style.number_format);
+                    }
+                    
+                    // Apply currency formatting
+                    if (cellData.style && cellData.style.number_format && 
+                        (cellData.style.number_format.includes('$') || 
+                         cellData.style.number_format.includes('Currency'))) {
+                        cssClass = 'cell-currency';
+                    }
+                    
+                    // Apply negative number styling
+                    if (typeof cellData.value === 'number' && cellData.value < 0) {
+                        cssClass += ' cell-negative';
+                    }
+                    
+                    // Add formula tooltip if present
+                    if (cellData.formula) {
+                        cssClass += ' cell-with-formula';
+                        tooltip = `title="Formula: = ${cellData.formula}"`;
+                    }
+                    
+                    if (cellData.hyperlink) {
+                        content += `<a href="${cellData.hyperlink}" class="cell-hyperlink ${cssClass}" ${tooltip} target="_blank">${formattedValue}</a>`;
+                    } else {
+                        content += `<span class="${cssClass}" ${tooltip}>${formattedValue}</span>`;
+                    }
+                }
+                
+                // Comment
+                if (cellData.comment) {
+                    content += `<div class="cell-comment">💬 ${cellData.comment}</div>`;
+                }
+                
+                return content || '&nbsp;';
+            }
+
+            function formatNumberWithStyle(value, numberFormat) {
+                if (typeof value !== 'number') {
+                    return value;
+                }
+                
+                // Handle currency formats
+                if (numberFormat.includes('$')) {
+                    const isNegative = value < 0;
+                    const absValue = Math.abs(value);
+                    
+                    // Determine decimal places from format
+                    let decimalPlaces = 2; // default
+                    if (numberFormat.includes('#,##0.00')) {
+                        decimalPlaces = 2;
+                    } else if (numberFormat.includes('#,##0.0')) {
+                        decimalPlaces = 1;
+                    } else if (numberFormat.includes('#,##0')) {
+                        decimalPlaces = 0;
+                    }
+                    
+                    const formatted = absValue.toFixed(decimalPlaces);
+                    return `$${formatted}`;
+                }
+                
+                // Handle percentage formats
+                if (numberFormat.includes('%')) {
+                    let decimalPlaces = 0;
+                    if (numberFormat.includes('0.00%')) {
+                        decimalPlaces = 2;
+                    } else if (numberFormat.includes('0.0%')) {
+                        decimalPlaces = 1;
+                    }
+                    return (value * 100).toFixed(decimalPlaces) + '%';
+                }
+                
+                // Handle decimal formats
+                if (numberFormat.includes('0.00')) {
+                    return value.toFixed(2);
+                } else if (numberFormat.includes('0.0')) {
+                    return value.toFixed(1);
+                } else if (numberFormat.includes('0')) {
+                    return Math.round(value).toString();
+                }
+                
+                // Default formatting
+                return value.toString();
+            }
+
+            // Result display functions
+            function showResult(data) {
+                updateJSONDisplay(data);
+                resultSection.style.display = 'block';
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function showTableResult(data) {
+                updateTableJSONDisplay(data);
+                tableResultSection.style.display = 'block';
+            }
+
+            function showCellDisplay(data) {
+                updateCellDisplay(data);
+                cellDisplaySection.style.display = 'block';
+            }
+
+            function updateJSONDisplay(data) {
+                switch (currentDisplayType) {
+                    case 'formatted':
+                        jsonDisplay.innerHTML = formatJSON(data);
+                        break;
+                    case 'compact':
+                        jsonDisplay.innerHTML = formatJSON(compactJSON(data));
+                        break;
+                    case 'raw':
+                        jsonDisplay.textContent = JSON.stringify(data, null, 2);
+                        break;
+                }
+            }
+
+            function changeDisplayType() {
+                currentDisplayType = displayType.value;
+                if (jsonData) {
+                    updateJSONDisplay(jsonData);
+                }
+            }
+
+            function changeTableDisplayType() {
+                currentTableDisplayType = tableDisplayType.value;
+                if (tableData) {
+                    updateTableJSONDisplay(tableData);
+                }
+            }
+
+            function updateTableJSONDisplay(data) {
+                switch (currentTableDisplayType) {
+                    case 'formatted':
+                        tableJsonDisplay.innerHTML = formatJSON(data);
+                        break;
+                    case 'compact':
+                        tableJsonDisplay.innerHTML = formatJSON(compactJSON(data));
+                        break;
+                    case 'raw':
+                        tableJsonDisplay.textContent = JSON.stringify(data, null, 2);
+                        break;
+                }
+            }
+
+            function updateCellDisplay(data) {
+                switch (currentCellDisplayType) {
+                    case 'cards':
+                        cellDisplay.innerHTML = createCellCards(data);
+                        break;
+                    case 'table':
+                        cellDisplay.innerHTML = createCellTable(data);
+                        break;
+                    case 'compact':
+                        cellDisplay.innerHTML = createCellList(data);
+                        break;
+                }
+            }
+
+            function changeCellDisplayType() {
+                currentCellDisplayType = cellDisplayType.value;
+                if (tableData) {
+                    updateCellDisplay(tableData);
+                }
+            }
+
+            // Cell display functions
+            function createCellCards(data) {
+                let html = '';
+                
+                for (let i = 0; i < data.workbook.sheets.length; i++) {
+                    const sheet = data.workbook.sheets[i];
+                    const sheetName = sheet.name || `Sheet ${i + 1}`;
+                    
+                    html += `<div class="cell-sheet-section">`;
+                    html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                    
+                    if (sheet.tables && sheet.tables.length > 0) {
+                        html += `<div class="cell-cards">`;
+                        
+                        for (const table of sheet.tables) {
+                            // Extract cells with headers from the table structure
+                            const cellsWithHeaders = extractCellsWithHeaders(table);
+                            for (const cell of cellsWithHeaders) {
+                                html += createCellCard(cell);
+                            }
+                        }
+                        
+                        html += `</div>`;
+                    } else {
+                        html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+                
+                return html;
+            }
+
+            function extractCellsWithHeaders(table) {
+                const cellsWithHeaders = [];
+                
+                // Iterate through columns to find cells with headers
+                if (table.columns) {
+                    for (const column of table.columns) {
+                        if (column.cells) {
+                            for (const [coordinate, cell] of Object.entries(column.cells)) {
+                                // Check if this cell has headers (indicating it's a data cell)
+                                if (cell.headers && (cell.headers.column_headers || cell.headers.row_headers)) {
+                                    const cellData = {
+                                        coordinate: cell.coordinate,
+                                        value: cell.value,
+                                        column_headers: cell.headers.column_headers ? cell.headers.column_headers.map(h => h.value) : [],
+                                        row_headers: cell.headers.row_headers ? cell.headers.row_headers.map(h => h.value) : []
+                                    };
+                                    cellsWithHeaders.push(cellData);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return cellsWithHeaders;
+            }
+
+            function createCellCard(cell) {
+                const coordinate = cell.coordinate || 'Unknown';
+                const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
+                const columnHeaders = cell.column_headers || [];
+                const rowHeaders = cell.row_headers || [];
+                
+                let html = `<div class="cell-card">`;
+                html += `<div class="cell-card-header">`;
+                html += `<span class="cell-coordinate">${coordinate}</span>`;
+                html += `</div>`;
+                
+                html += `<div class="cell-value">${value}</div>`;
+                
+                html += `<div class="cell-headers">`;
+                
+                if (columnHeaders.length > 0) {
+                    html += `<div class="header-group">`;
+                    html += `<span class="header-label">Columns:</span>`;
+                    html += `<div class="header-values">`;
+                    columnHeaders.forEach(header => {
+                        html += `<span class="header-tag column">${header}</span>`;
+                    });
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+                
+                if (rowHeaders.length > 0) {
+                    html += `<div class="header-group">`;
+                    html += `<span class="header-label">Rows:</span>`;
+                    html += `<div class="header-values">`;
+                    rowHeaders.forEach(header => {
+                        html += `<span class="header-tag row">${header}</span>`;
+                    });
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+                html += `</div>`;
+                
+                return html;
+            }
+
+            function createCellTable(data) {
+                let html = '';
+                
+                for (let i = 0; i < data.workbook.sheets.length; i++) {
+                    const sheet = data.workbook.sheets[i];
+                    const sheetName = sheet.name || `Sheet ${i + 1}`;
+                    
+                    html += `<div class="cell-sheet-section">`;
+                    html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                    
+                    if (sheet.tables && sheet.tables.length > 0) {
+                        html += `<table class="cell-table">`;
+                        html += `<thead>`;
+                        html += `<tr>`;
+                        html += `<th>Coordinate</th>`;
+                        html += `<th>Value</th>`;
+                        html += `<th>Column Headers</th>`;
+                        html += `<th>Row Headers</th>`;
+                        html += `</tr>`;
+                        html += `</thead>`;
+                        html += `<tbody>`;
+                        
+                        for (const table of sheet.tables) {
+                            // Extract cells with headers from the table structure
+                            const cellsWithHeaders = extractCellsWithHeaders(table);
+                            for (const cell of cellsWithHeaders) {
+                                html += createCellTableRow(cell);
+                            }
+                        }
+                        
+                        html += `</tbody>`;
+                        html += `</table>`;
+                    } else {
+                        html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+                
+                return html;
+            }
+
+            function createCellTableRow(cell) {
+                const coordinate = cell.coordinate || 'Unknown';
+                const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
+                const columnHeaders = cell.column_headers || [];
+                const rowHeaders = cell.row_headers || [];
+                
+                let html = `<tr>`;
+                html += `<td><span class="cell-coordinate">${coordinate}</span></td>`;
+                html += `<td><strong>${value}</strong></td>`;
+                html += `<td>`;
+                columnHeaders.forEach(header => {
+                    html += `<span class="header-tag column">${header}</span> `;
+                });
+                html += `</td>`;
+                html += `<td>`;
+                rowHeaders.forEach(header => {
+                    html += `<span class="header-tag row">${header}</span> `;
+                });
+                html += `</td>`;
+                html += `</tr>`;
+                
+                return html;
+            }
+
+            function createCellList(data) {
+                let html = '';
+                
+                for (let i = 0; i < data.workbook.sheets.length; i++) {
+                    const sheet = data.workbook.sheets[i];
+                    const sheetName = sheet.name || `Sheet ${i + 1}`;
+                    
+                    html += `<div class="cell-sheet-section">`;
+                    html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                    
+                    if (sheet.tables && sheet.tables.length > 0) {
+                        html += `<div class="cell-list">`;
+                        
+                        for (const table of sheet.tables) {
+                            // Extract cells with headers from the table structure
+                            const cellsWithHeaders = extractCellsWithHeaders(table);
+                            for (const cell of cellsWithHeaders) {
+                                html += createCellListItem(cell);
+                            }
+                        }
+                        
+                        html += `</div>`;
+                    } else {
+                        html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+                
+                return html;
+            }
+
+            function createCellListItem(cell) {
+                const coordinate = cell.coordinate || 'Unknown';
+                const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
+                const columnHeaders = cell.column_headers || [];
+                const rowHeaders = cell.row_headers || [];
+                
+                let html = `<div class="cell-list-item">`;
+                html += `<span class="cell-list-coordinate">${coordinate}</span>`;
+                html += `<span class="cell-list-value">${value}</span>`;
+                html += `<div class="cell-list-headers">`;
+                
+                if (columnHeaders.length > 0) {
+                    html += `<div class="cell-list-header-group">`;
+                    html += `<span class="cell-list-header-label">Col:</span>`;
+                    html += `<div class="cell-list-header-tags">`;
+                    columnHeaders.forEach(header => {
+                        html += `<span class="cell-list-header-tag column">${header}</span>`;
+                    });
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+                
+                if (rowHeaders.length > 0) {
+                    html += `<div class="cell-list-header-group">`;
+                    html += `<span class="cell-list-header-label">Row:</span>`;
+                    html += `<div class="cell-list-header-tags">`;
+                    rowHeaders.forEach(header => {
+                        html += `<span class="cell-list-header-tag row">${header}</span>`;
+                    });
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+                html += `</div>`;
+                
+                return html;
+            }
+
+            // JSON formatting functions
+            function compactJSON(obj) {
+                if (obj === null || obj === false) {
+                    return undefined;
+                }
+                
+                if (typeof obj === 'boolean') {
+                    return obj ? obj : undefined;
+                }
+                
+                if (typeof obj === 'string') {
+                    return obj === '' ? undefined : obj;
+                }
+                
+                if (typeof obj === 'number') {
+                    return obj;
+                }
+                
+                if (Array.isArray(obj)) {
+                    const compacted = obj.map(item => compactJSON(item)).filter(item => item !== undefined);
+                    return compacted.length > 0 ? compacted : undefined;
+                }
+                
+                if (typeof obj === 'object') {
+                    const compacted = {};
+                    for (const [key, value] of Object.entries(obj)) {
+                        const compactedValue = compactJSON(value);
+                        if (compactedValue !== undefined) {
+                            compacted[key] = compactedValue;
+                        }
+                    }
+                    return Object.keys(compacted).length > 0 ? compacted : undefined;
+                }
+                
+                return obj;
+            }
+
+            function formatJSON(obj, indent = 0) {
+                const spaces = '  '.repeat(indent);
+                let result = '';
+                
+                if (obj === null) {
+                    return '<span class="json-null">null</span>';
+                }
+                
+                if (typeof obj === 'boolean') {
+                    return `<span class="json-boolean">${obj}</span>`;
+                }
+                
+                if (typeof obj === 'number') {
+                    return `<span class="json-number">${obj}</span>`;
+                }
+                
+                if (typeof obj === 'string') {
+                    return `<span class="json-string">"${obj.replace(/"/g, '\\"')}"</span>`;
+                }
+                
+                if (Array.isArray(obj)) {
+                    if (obj.length === 0) {
+                        return '<span class="json-bracket">[]</span>';
+                    }
+                    
+                    result = '<span class="json-bracket">[</span>\n';
+                    for (let i = 0; i < obj.length; i++) {
+                        result += spaces + '  ' + formatJSON(obj[i], indent + 1);
+                        if (i < obj.length - 1) {
+                            result += '<span class="json-comma">,</span>';
+                        }
+                        result += '\n';
+                    }
+                    result += spaces + '<span class="json-bracket">]</span>';
+                    return result;
+                }
+                
+                if (typeof obj === 'object') {
+                    const keys = Object.keys(obj);
+                    if (keys.length === 0) {
+                        return '<span class="json-bracket">{}</span>';
+                    }
+                    
+                    result = '<span class="json-bracket">{</span>\n';
+                    for (let i = 0; i < keys.length; i++) {
+                        const key = keys[i];
+                        result += spaces + '  <span class="json-key">"' + key + '"</span><span class="json-colon">:</span> ' + formatJSON(obj[key], indent + 1);
+                        if (i < keys.length - 1) {
+                            result += '<span class="json-comma">,</span>';
+                        }
+                        result += '\n';
+                    }
+                    result += spaces + '<span class="json-bracket">}</span>';
+                    return result;
+                }
+                
+                return String(obj);
+            }
+
+            // Make functions globally accessible
+            window.changeDisplayType = changeDisplayType;
+            window.changeTableDisplayType = changeTableDisplayType;
+            window.changeCellDisplayType = changeCellDisplayType;
         }
     </script>
 </body>

@@ -59,8 +59,10 @@ class TableProcessor:
         cells = sheet_data.get('cells', {})
         
         # Detect tables using various methods
+        detection_options = options.copy()
+        detection_options['sheet_data'] = sheet_data
         table_regions = self._detect_table_regions(
-            cells, min_row, max_row, min_col, max_col, options
+            cells, min_row, max_row, min_col, max_col, detection_options
         )
         
         # Process each detected table region
@@ -94,6 +96,31 @@ class TableProcessor:
         """
         regions = []
         
+        # Check if this sheet has frozen panes (indicating a structured table)
+        sheet_data = options.get('sheet_data', {})
+        frozen_panes = sheet_data.get('frozen_panes', {})
+        frozen_rows = frozen_panes.get('frozen_rows', 0)
+        frozen_cols = frozen_panes.get('frozen_cols', 0)
+        
+        # Check for structured table indicators
+        has_structured_layout = self._detect_structured_table_layout(cells, min_row, max_row, min_col, max_col)
+        
+        # If sheet has frozen first row and first column, or shows structured layout, treat as single table
+        if (frozen_rows > 0 and frozen_cols > 0) or has_structured_layout:
+            # Create a single table region for the entire data area
+            regions.append({
+                'start_row': min_row,
+                'end_row': max_row,
+                'start_col': min_col,
+                'end_col': max_col,
+                'detection_method': 'structured_layout',
+                'frozen_rows': frozen_rows,
+                'frozen_cols': frozen_cols,
+                'has_structured_layout': has_structured_layout
+            })
+            return regions
+        
+        # For sheets without frozen panes, use the original detection methods
         # Method 1: Detect based on empty row/column gaps
         regions.extend(self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col))
         
@@ -116,6 +143,8 @@ class TableProcessor:
         # Find continuous data regions
         current_start_row = None
         current_start_col = None
+        consecutive_blank_rows = 0
+        max_consecutive_blank_rows = 2  # Allow up to 2 consecutive blank rows within a table
         
         for row in range(min_row, max_row + 1):
             row_has_data = False
@@ -126,19 +155,23 @@ class TableProcessor:
                     if current_start_row is None:
                         current_start_row = row
                         current_start_col = col
+                    consecutive_blank_rows = 0  # Reset blank row counter
                     break
             
-            if not row_has_data and current_start_row is not None:
-                # End of a table region
-                regions.append({
-                    'start_row': current_start_row,
-                    'end_row': row - 1,
-                    'start_col': current_start_col,
-                    'end_col': max_col,
-                    'detection_method': 'gaps'
-                })
-                current_start_row = None
-                current_start_col = None
+            if not row_has_data:
+                consecutive_blank_rows += 1
+                if current_start_row is not None and consecutive_blank_rows > max_consecutive_blank_rows:
+                    # End of a table region after too many consecutive blank rows
+                    regions.append({
+                        'start_row': current_start_row,
+                        'end_row': row - consecutive_blank_rows,
+                        'start_col': current_start_col,
+                        'end_col': max_col,
+                        'detection_method': 'gaps'
+                    })
+                    current_start_row = None
+                    current_start_col = None
+                    consecutive_blank_rows = 0
         
         # Handle table that extends to the end
         if current_start_row is not None:
@@ -445,3 +478,100 @@ class TableProcessor:
         }
         
         return self._process_table_region(sheet_data, region, 0, options) 
+    
+    def _detect_structured_table_layout(self, cells: dict, min_row: int, max_row: int, 
+                                      min_col: int, max_col: int) -> bool:
+        """
+        Detect if a sheet has a structured table layout based on formatting and organization
+        
+        Args:
+            cells: Cell data dictionary
+            min_row, max_row, min_col, max_col: Sheet dimensions
+            
+        Returns:
+            True if the sheet appears to have a structured table layout
+        """
+        if not cells:
+            return False
+        
+        # Check for header-like formatting in first few rows
+        header_indicators = 0
+        max_header_rows_to_check = min(5, max_row - min_row + 1)
+        
+        for row in range(min_row, min_row + max_header_rows_to_check):
+            row_header_indicators = 0
+            for col in range(min_col, min_col + min(10, max_col - min_col + 1)):  # Check first 10 columns
+                cell_key = f"{get_column_letter(col)}{row}"
+                if cell_key in cells:
+                    cell = cells[cell_key]
+                    style = cell.get('style', {})
+                    font = style.get('font', {})
+                    fill = style.get('fill', {})
+                    
+                    # Check for header-like formatting
+                    if (font.get('bold') or 
+                        fill.get('fill_type') in ['solid', 'darkGray', 'mediumGray'] or
+                        any(border.get('style') for border in style.get('border', {}).values() if border)):
+                        row_header_indicators += 1
+            
+            if row_header_indicators > 0:
+                header_indicators += 1
+        
+        # Check for consistent data structure
+        data_structure_indicators = 0
+        
+        # Check if there are multiple columns with data
+        columns_with_data = 0
+        for col in range(min_col, max_col + 1):
+            col_has_data = False
+            for row in range(min_row, max_row + 1):
+                cell_key = f"{get_column_letter(col)}{row}"
+                if cell_key in cells and cells[cell_key].get('value') is not None:
+                    col_has_data = True
+                    break
+            if col_has_data:
+                columns_with_data += 1
+        
+        # Check if there are multiple rows with data
+        rows_with_data = 0
+        for row in range(min_row, max_row + 1):
+            row_has_data = False
+            for col in range(min_col, max_col + 1):
+                cell_key = f"{get_column_letter(col)}{row}"
+                if cell_key in cells and cells[cell_key].get('value') is not None:
+                    row_has_data = True
+                    break
+            if row_has_data:
+                rows_with_data += 1
+        
+        # A structured table should have:
+        # 1. Header-like formatting in first few rows
+        # 2. Multiple columns with data
+        # 3. Multiple rows with data
+        # 4. Reasonable data density
+        
+        if (header_indicators >= 2 and  # At least 2 rows have header-like formatting
+            columns_with_data >= 3 and  # At least 3 columns have data
+            rows_with_data >= 5):       # At least 5 rows have data
+            data_structure_indicators = 1
+        
+        # Check for financial/structured data patterns
+        financial_indicators = 0
+        
+        # Look for common financial terms in headers
+        financial_terms = ['revenue', 'income', 'expense', 'profit', 'loss', 'balance', 'cash', 'flow', 
+                          'assets', 'liabilities', 'equity', 'total', 'net', 'gross', 'operating']
+        
+        for row in range(min_row, min_row + 3):  # Check first 3 rows
+            for col in range(min_col, max_col + 1):
+                cell_key = f"{get_column_letter(col)}{row}"
+                if cell_key in cells:
+                    cell_value = cells[cell_key].get('value', '')
+                    if isinstance(cell_value, str):
+                        cell_value_lower = cell_value.lower()
+                        if any(term in cell_value_lower for term in financial_terms):
+                            financial_indicators += 1
+                            break
+        
+        # Consider it a structured table if it has good indicators
+        return (header_indicators >= 2 and data_structure_indicators >= 1) or financial_indicators >= 2 

@@ -1,6 +1,7 @@
 import json
 import os
 import tempfile
+import uuid
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -15,6 +16,9 @@ from rest_framework import status
 from .excel_processor import ExcelProcessor
 from .table_processor import TableProcessor
 from .header_resolver import HeaderResolver
+
+# Temporary storage for processed data (in production, use Redis or database)
+processed_data_cache = {}
 
 
 @api_view(['POST'])
@@ -89,6 +93,21 @@ def upload_and_convert(request):
                 }
                 summary_data['workbook']['sheets'].append(sheet_summary)
             
+            # Generate a unique identifier for this file
+            file_id = str(uuid.uuid4())
+            
+            # Store the processed data for download
+            processed_data_cache[file_id] = {
+                'full_data': json_data,
+                'table_data': enhanced_table_data,
+                'filename': uploaded_file.name
+            }
+            
+            # Clean up old entries (keep only last 10)
+            if len(processed_data_cache) > 10:
+                oldest_key = next(iter(processed_data_cache))
+                del processed_data_cache[oldest_key]
+            
             # Clean up temporary file
             default_storage.delete(temp_path)
             
@@ -99,8 +118,8 @@ def upload_and_convert(request):
                 'warning': f'File is very large ({total_size / 1024 / 1024:.1f} MB). Use download links below.',
                 'summary': summary_data,
                 'download_urls': {
-                    'full_data': f'/api/download-json/?type=full&filename={uploaded_file.name}',
-                    'table_data': f'/api/download-json/?type=table&filename={uploaded_file.name}'
+                    'full_data': f'/api/download/?type=full&file_id={file_id}',
+                    'table_data': f'/api/download/?type=table&file_id={file_id}'
                 },
                 'file_info': {
                     'total_size_mb': total_size / 1024 / 1024,
@@ -137,17 +156,22 @@ def download_json(request):
     """
     try:
         download_type = request.GET.get('type', 'full')
-        filename = request.GET.get('filename', 'converted_data.json')
+        file_id = request.GET.get('file_id')
         
-        # For now, return a placeholder response
-        # In a real implementation, you would store the processed data temporarily
-        # and retrieve it here based on the filename
+        if not file_id or file_id not in processed_data_cache:
+            return Response(
+                {'error': 'File not found or expired'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        cached_data = processed_data_cache[file_id]
+        filename = cached_data['filename']
         
         if download_type == 'full':
-            content = json.dumps({'message': 'Full data download not yet implemented'}, indent=2)
+            content = json.dumps(cached_data['full_data'], indent=2)
             download_filename = f"{os.path.splitext(filename)[0]}_full_data.json"
         else:  # table
-            content = json.dumps({'message': 'Table data download not yet implemented'}, indent=2)
+            content = json.dumps(cached_data['table_data'], indent=2)
             download_filename = f"{os.path.splitext(filename)[0]}_table_data.json"
         
         # Create JSON response with proper headers for download
