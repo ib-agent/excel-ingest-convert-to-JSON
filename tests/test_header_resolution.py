@@ -5,6 +5,10 @@ Test script for header resolution functionality
 
 import json
 import requests
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from converter.table_processor import TableProcessor
 from converter.header_resolver import HeaderResolver
 

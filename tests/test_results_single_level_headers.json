@@ -1,0 +1,1033 @@
+{
+  "workbook": {
+    "metadata": {
+      "filename": "single_level_test.xlsx"
+    },
+    "sheets": [
+      {
+        "name": "Simple Table",
+        "dimensions": {
+          "min_row": 1,
+          "max_row": 4,
+          "min_col": 1,
+          "max_col": 3
+        },
+        "frozen_panes": {
+          "frozen_rows": 1,
+          "frozen_cols": 1
+        },
+        "cells": {
+          "A1": {
+            "coordinate": "A1",
+            "row": 1,
+            "column": 1,
+            "value": "Product",
+            "data_type": "string",
+            "style": {
+              "font": {
+                "bold": true
+              }
+            }
+          },
+          "B1": {
+            "coordinate": "B1",
+            "row": 1,
+            "column": 2,
+            "value": "Price",
+            "data_type": "string",
+            "style": {
+              "font": {
+                "bold": true
+              }
+            }
+          },
+          "C1": {
+            "coordinate": "C1",
+            "row": 1,
+            "column": 3,
+            "value": "Quantity",
+            "data_type": "string",
+            "style": {
+              "font": {
+                "bold": true
+              }
+            }
+          },
+          "A2": {
+            "coordinate": "A2",
+            "row": 2,
+            "column": 1,
+            "value": "Widget A",
+            "data_type": "string"
+          },
+          "B2": {
+            "coordinate": "B2",
+            "row": 2,
+            "column": 2,
+            "value": 29.99,
+            "data_type": "number",
+            "headers": {
+              "column_headers": [
+                {
+                  "level": 1,
+                  "value": "Price",
+                  "coordinate": "B1",
+                  "row": 1,
+                  "column": 2,
+                  "column_letter": "B",
+                  "span": {
+                    "start_row": 1,
+                    "end_row": 1,
+                    "start_col": 2,
+                    "end_col": 2
+                  },
+                  "style": {
+                    "font": {
+                      "bold": true
+                    }
+                  },
+                  "is_merged": false
+                }
+              ],
+              "row_headers": [
+                {
+                  "level": 1,
+                  "value": "Widget A",
+                  "coordinate": "A2",
+                  "row": 2,
+                  "column": 1,
+                  "column_letter": "A",
+                  "span": {
+                    "start_row": 2,
+                    "end_row": 2,
+                    "start_col": 1,
+                    "end_col": 1
+                  },
+                  "style": {},
+                  "indent_level": 0,
+                  "is_merged": false
+                }
+              ],
+              "full_column_path": [
+                "Price"
+              ],
+              "full_row_path": [
+                "Widget A"
+              ],
+              "header_summary": {
+                "primary_column_header": "Price",
+                "primary_row_header": "Widget A",
+                "column_header_levels": 1,
+                "row_header_levels": 1,
+                "has_merged_headers": false,
+                "max_indent_level": 0
+              }
+            }
+          },
+          "C2": {
+            "coordinate": "C2",
+            "row": 2,
+            "column": 3,
+            "value": 100,
+            "data_type": "number",
+            "headers": {
+              "column_headers": [
+                {
+                  "level": 1,
+                  "value": "Quantity",
+                  "coordinate": "C1",
+                  "row": 1,
+                  "column": 3,
+                  "column_letter": "C",
+                  "span": {
+                    "start_row": 1,
+                    "end_row": 1,
+                    "start_col": 3,
+                    "end_col": 3
+                  },
+                  "style": {
+                    "font": {
+                      "bold": true
+                    }
+                  },
+                  "is_merged": false
+                }
+              ],
+              "row_headers": [
+                {
+                  "level": 1,
+                  "value": "Widget A",
+                  "coordinate": "A2",
+                  "row": 2,
+                  "column": 1,
+                  "column_letter": "A",
+                  "span": {
+                    "start_row": 2,
+                    "end_row": 2,
+                    "start_col": 1,
+                    "end_col": 1
+                  },
+                  "style": {},
+                  "indent_level": 0,
+                  "is_merged": false
+                }
+              ],
+              "full_column_path": [
+                "Quantity"
+              ],
+              "full_row_path": [
+                "Widget A"
+              ],
+              "header_summary": {
+                "primary_column_header": "Quantity",
+                "primary_row_header": "Widget A",
+                "column_header_levels": 1,
+                "row_header_levels": 1,
+                "has_merged_headers": false,
+                "max_indent_level": 0
+              }
+            }
+          },
+          "A3": {
+            "coordinate": "A3",
+            "row": 3,
+            "column": 1,
+            "value": "Widget B",
+            "data_type": "string"
+          },
+          "B3": {
+            "coordinate": "B3",
+            "row": 3,
+            "column": 2,
+            "value": 49.99,
+            "data_type": "number",
+            "headers": {
+              "column_headers": [
+                {
+                  "level": 1,
+                  "value": "Price",
+                  "coordinate": "B1",
+                  "row": 1,
+                  "column": 2,
+                  "column_letter": "B",
+                  "span": {
+                    "start_row": 1,
+                    "end_row": 1,
+                    "start_col": 2,
+                    "end_col": 2
+                  },
+                  "style": {
+                    "font": {
+                      "bold": true
+                    }
+                  },
+                  "is_merged": false
+                }
+              ],
+              "row_headers": [
+                {
+                  "level": 1,
+                  "value": "Widget B",
+                  "coordinate": "A3",
+                  "row": 3,
+                  "column": 1,
+                  "column_letter": "A",
+                  "span": {
+                    "start_row": 3,
+                    "end_row": 3,
+                    "start_col": 1,
+                    "end_col": 1
+                  },
+                  "style": {},
+                  "indent_level": 0,
+                  "is_merged": false
+                }
+              ],
+              "full_column_path": [
+                "Price"
+              ],
+              "full_row_path": [
+                "Widget B"
+              ],
+              "header_summary": {
+                "primary_column_header": "Price",
+                "primary_row_header": "Widget B",
+                "column_header_levels": 1,
+                "row_header_levels": 1,
+                "has_merged_headers": false,
+                "max_indent_level": 0
+              }
+            }
+          },
+          "C3": {
+            "coordinate": "C3",
+            "row": 3,
+            "column": 3,
+            "value": 50,
+            "data_type": "number",
+            "headers": {
+              "column_headers": [
+                {
+                  "level": 1,
+                  "value": "Quantity",
+                  "coordinate": "C1",
+                  "row": 1,
+                  "column": 3,
+                  "column_letter": "C",
+                  "span": {
+                    "start_row": 1,
+                    "end_row": 1,
+                    "start_col": 3,
+                    "end_col": 3
+                  },
+                  "style": {
+                    "font": {
+                      "bold": true
+                    }
+                  },
+                  "is_merged": false
+                }
+              ],
+              "row_headers": [
+                {
+                  "level": 1,
+                  "value": "Widget B",
+                  "coordinate": "A3",
+                  "row": 3,
+                  "column": 1,
+                  "column_letter": "A",
+                  "span": {
+                    "start_row": 3,
+                    "end_row": 3,
+                    "start_col": 1,
+                    "end_col": 1
+                  },
+                  "style": {},
+                  "indent_level": 0,
+                  "is_merged": false
+                }
+              ],
+              "full_column_path": [
+                "Quantity"
+              ],
+              "full_row_path": [
+                "Widget B"
+              ],
+              "header_summary": {
+                "primary_column_header": "Quantity",
+                "primary_row_header": "Widget B",
+                "column_header_levels": 1,
+                "row_header_levels": 1,
+                "has_merged_headers": false,
+                "max_indent_level": 0
+              }
+            }
+          }
+        },
+        "merged_cells": [],
+        "tables": [
+          {
+            "table_id": "table_1",
+            "name": "Table 1",
+            "region": {
+              "start_row": 1,
+              "end_row": 3,
+              "start_col": 1,
+              "end_col": 3,
+              "detection_method": "gaps+formatting"
+            },
+            "header_info": {
+              "header_rows": [
+                1
+              ],
+              "header_columns": [
+                1
+              ],
+              "data_start_row": 2,
+              "data_start_col": 2
+            },
+            "columns": [
+              {
+                "column_index": 1,
+                "column_letter": "A",
+                "column_label": "Product",
+                "is_header_column": true,
+                "width": null,
+                "hidden": false,
+                "cells": {
+                  "A1": {
+                    "coordinate": "A1",
+                    "row": 1,
+                    "column": 1,
+                    "value": "Product",
+                    "data_type": "string",
+                    "style": {
+                      "font": {
+                        "bold": true
+                      }
+                    }
+                  },
+                  "A2": {
+                    "coordinate": "A2",
+                    "row": 2,
+                    "column": 1,
+                    "value": "Widget A",
+                    "data_type": "string"
+                  },
+                  "A3": {
+                    "coordinate": "A3",
+                    "row": 3,
+                    "column": 1,
+                    "value": "Widget B",
+                    "data_type": "string"
+                  }
+                }
+              },
+              {
+                "column_index": 2,
+                "column_letter": "B",
+                "column_label": "Price",
+                "is_header_column": false,
+                "width": null,
+                "hidden": false,
+                "cells": {
+                  "B1": {
+                    "coordinate": "B1",
+                    "row": 1,
+                    "column": 2,
+                    "value": "Price",
+                    "data_type": "string",
+                    "style": {
+                      "font": {
+                        "bold": true
+                      }
+                    }
+                  },
+                  "B2": {
+                    "coordinate": "B2",
+                    "row": 2,
+                    "column": 2,
+                    "value": 29.99,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Price",
+                          "coordinate": "B1",
+                          "row": 1,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget A",
+                          "coordinate": "A2",
+                          "row": 2,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Price"
+                      ],
+                      "full_row_path": [
+                        "Widget A"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Price",
+                        "primary_row_header": "Widget A",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  },
+                  "B3": {
+                    "coordinate": "B3",
+                    "row": 3,
+                    "column": 2,
+                    "value": 49.99,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Price",
+                          "coordinate": "B1",
+                          "row": 1,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget B",
+                          "coordinate": "A3",
+                          "row": 3,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Price"
+                      ],
+                      "full_row_path": [
+                        "Widget B"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Price",
+                        "primary_row_header": "Widget B",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "column_index": 3,
+                "column_letter": "C",
+                "column_label": "Quantity",
+                "is_header_column": false,
+                "width": null,
+                "hidden": false,
+                "cells": {
+                  "C1": {
+                    "coordinate": "C1",
+                    "row": 1,
+                    "column": 3,
+                    "value": "Quantity",
+                    "data_type": "string",
+                    "style": {
+                      "font": {
+                        "bold": true
+                      }
+                    }
+                  },
+                  "C2": {
+                    "coordinate": "C2",
+                    "row": 2,
+                    "column": 3,
+                    "value": 100,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Quantity",
+                          "coordinate": "C1",
+                          "row": 1,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget A",
+                          "coordinate": "A2",
+                          "row": 2,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Quantity"
+                      ],
+                      "full_row_path": [
+                        "Widget A"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Quantity",
+                        "primary_row_header": "Widget A",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  },
+                  "C3": {
+                    "coordinate": "C3",
+                    "row": 3,
+                    "column": 3,
+                    "value": 50,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Quantity",
+                          "coordinate": "C1",
+                          "row": 1,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget B",
+                          "coordinate": "A3",
+                          "row": 3,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Quantity"
+                      ],
+                      "full_row_path": [
+                        "Widget B"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Quantity",
+                        "primary_row_header": "Widget B",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 1,
+                "row_label": "Product",
+                "is_header_row": true,
+                "height": null,
+                "hidden": false,
+                "cells": {
+                  "A1": {
+                    "coordinate": "A1",
+                    "row": 1,
+                    "column": 1,
+                    "value": "Product",
+                    "data_type": "string",
+                    "style": {
+                      "font": {
+                        "bold": true
+                      }
+                    }
+                  },
+                  "B1": {
+                    "coordinate": "B1",
+                    "row": 1,
+                    "column": 2,
+                    "value": "Price",
+                    "data_type": "string",
+                    "style": {
+                      "font": {
+                        "bold": true
+                      }
+                    }
+                  },
+                  "C1": {
+                    "coordinate": "C1",
+                    "row": 1,
+                    "column": 3,
+                    "value": "Quantity",
+                    "data_type": "string",
+                    "style": {
+                      "font": {
+                        "bold": true
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Widget A",
+                "is_header_row": false,
+                "height": null,
+                "hidden": false,
+                "cells": {
+                  "A2": {
+                    "coordinate": "A2",
+                    "row": 2,
+                    "column": 1,
+                    "value": "Widget A",
+                    "data_type": "string"
+                  },
+                  "B2": {
+                    "coordinate": "B2",
+                    "row": 2,
+                    "column": 2,
+                    "value": 29.99,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Price",
+                          "coordinate": "B1",
+                          "row": 1,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget A",
+                          "coordinate": "A2",
+                          "row": 2,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Price"
+                      ],
+                      "full_row_path": [
+                        "Widget A"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Price",
+                        "primary_row_header": "Widget A",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  },
+                  "C2": {
+                    "coordinate": "C2",
+                    "row": 2,
+                    "column": 3,
+                    "value": 100,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Quantity",
+                          "coordinate": "C1",
+                          "row": 1,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget A",
+                          "coordinate": "A2",
+                          "row": 2,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Quantity"
+                      ],
+                      "full_row_path": [
+                        "Widget A"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Quantity",
+                        "primary_row_header": "Widget A",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Widget B",
+                "is_header_row": false,
+                "height": null,
+                "hidden": false,
+                "cells": {
+                  "A3": {
+                    "coordinate": "A3",
+                    "row": 3,
+                    "column": 1,
+                    "value": "Widget B",
+                    "data_type": "string"
+                  },
+                  "B3": {
+                    "coordinate": "B3",
+                    "row": 3,
+                    "column": 2,
+                    "value": 49.99,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Price",
+                          "coordinate": "B1",
+                          "row": 1,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget B",
+                          "coordinate": "A3",
+                          "row": 3,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Price"
+                      ],
+                      "full_row_path": [
+                        "Widget B"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Price",
+                        "primary_row_header": "Widget B",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  },
+                  "C3": {
+                    "coordinate": "C3",
+                    "row": 3,
+                    "column": 3,
+                    "value": 50,
+                    "data_type": "number",
+                    "headers": {
+                      "column_headers": [
+                        {
+                          "level": 1,
+                          "value": "Quantity",
+                          "coordinate": "C1",
+                          "row": 1,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 1,
+                            "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        }
+                      ],
+                      "row_headers": [
+                        {
+                          "level": 1,
+                          "value": "Widget B",
+                          "coordinate": "A3",
+                          "row": 3,
+                          "column": 1,
+                          "column_letter": "A",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
+                            "start_col": 1,
+                            "end_col": 1
+                          },
+                          "style": {},
+                          "indent_level": 0,
+                          "is_merged": false
+                        }
+                      ],
+                      "full_column_path": [
+                        "Quantity"
+                      ],
+                      "full_row_path": [
+                        "Widget B"
+                      ],
+                      "header_summary": {
+                        "primary_column_header": "Quantity",
+                        "primary_row_header": "Widget B",
+                        "column_header_levels": 1,
+                        "row_header_levels": 1,
+                        "has_merged_headers": false,
+                        "max_indent_level": 0
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "gaps+formatting",
+              "cell_count": 9,
+              "has_merged_cells": false
+            }
+          }
+        ]
+      }
+    ],
+    "properties": {}
+  }
+}

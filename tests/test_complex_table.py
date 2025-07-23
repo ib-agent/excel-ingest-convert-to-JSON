@@ -4,6 +4,10 @@ Test script for complex table transformation with multi-level headers
 """
 
 import json
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from converter.table_processor import TableProcessor
 
 def create_complex_excel_json():
