@@ -377,7 +377,7 @@ class TableProcessor:
         # Process each detected table region
         for i, region in enumerate(table_regions):
             table = self._process_table_region(
-                sheet_data, region, i, options
+                sheet_data, region, i, detection_options
             )
             if table:
                 tables.append(table)
@@ -635,7 +635,7 @@ class TableProcessor:
             'region': region,
             'header_info': header_info,
             'columns': self._create_columns(cleaned_table_cells, header_info, region),
-            'rows': self._create_rows(cleaned_table_cells, header_info, region),
+            'rows': self._create_rows(cleaned_table_cells, header_info, region, sheet_data),
             'metadata': self._clean_metadata({
                 'detection_method': region.get('detection_method', 'unknown'),
                 'cell_count': len(cleaned_table_cells),
@@ -669,10 +669,35 @@ class TableProcessor:
         start_col = region['start_col']
         end_col = region['end_col']
         
-        # Simple heuristic: first row is header row, first column is header column
-        # This can be enhanced with more sophisticated detection
-        header_rows = [start_row] if start_row < end_row else []
-        header_cols = [start_col] if start_col < end_col else []
+        # Get frozen panes information from sheet data
+        sheet_data = options.get('sheet_data', {})
+        frozen_panes = sheet_data.get('frozen_panes', {})
+        frozen_rows = frozen_panes.get('frozen_rows', 0)
+        frozen_cols = frozen_panes.get('frozen_cols', 0)
+        
+        # Determine header rows: include all frozen rows plus the first non-frozen row
+        header_rows = []
+        if frozen_rows > 0:
+            # Add all frozen rows
+            for row in range(start_row, start_row + frozen_rows):
+                if row <= end_row:
+                    header_rows.append(row)
+        
+        # If no frozen rows or we need more header rows, add the first row
+        if not header_rows and start_row < end_row:
+            header_rows.append(start_row)
+        
+        # Determine header columns: include all frozen columns plus the first non-frozen column
+        header_cols = []
+        if frozen_cols > 0:
+            # Add all frozen columns
+            for col in range(start_col, start_col + frozen_cols):
+                if col <= end_col:
+                    header_cols.append(col)
+        
+        # If no frozen columns or we need more header columns, add the first column
+        if not header_cols and start_col < end_col:
+            header_cols.append(start_col)
         
         return {
             'header_rows': header_rows,
@@ -716,16 +741,18 @@ class TableProcessor:
         
         return columns
     
-    def _create_rows(self, table_cells: dict, header_info: dict, region: dict) -> List[Dict[str, Any]]:
+    def _create_rows(self, table_cells: dict, header_info: dict, region: dict, 
+                    sheet_data: dict = None) -> List[Dict[str, Any]]:
         """Create row definitions with labels"""
         rows = []
         start_row = region['start_row']
         end_row = region['end_row']
         header_cols = header_info['header_columns']
+        header_rows = header_info['header_rows']
         
         for row in range(start_row, end_row + 1):
-            # Get row label from header columns
-            row_label = self._get_row_label(table_cells, row, header_cols)
+            # Get row label from header columns, considering frozen rows
+            row_label = self._get_row_label(table_cells, row, header_cols, header_rows, sheet_data)
             
             row_def = {
                 'row_index': row,
@@ -761,19 +788,47 @@ class TableProcessor:
                 if cell_value is not None:
                     labels.append(str(cell_value))
         
-        return " | ".join(labels) if labels else "unlabeled"
+        # Reverse the order so most specific/recent value comes first (e.g., "Jan 2023" not "2023 Jan")
+        labels.reverse()
+        
+        return " ".join(labels) if labels else "unlabeled"
     
-    def _get_row_label(self, table_cells: dict, row: int, header_cols: List[int]) -> str:
-        """Get the label for a row from header columns"""
+    def _get_row_label(self, table_cells: dict, row: int, header_cols: List[int], 
+                      header_rows: List[int] = None, sheet_data: dict = None) -> str:
+        """Get the label for a row from header columns, considering frozen rows"""
         labels = []
+        
+        # Get frozen panes information if available
+        frozen_rows = 0
+        if sheet_data:
+            frozen_panes = sheet_data.get('frozen_panes', {})
+            frozen_rows = frozen_panes.get('frozen_rows', 0)
         
         for header_col in header_cols:
             col_letter = get_column_letter(header_col)
-            cell_key = f"{col_letter}{row}"
-            if cell_key in table_cells:
-                cell_value = table_cells[cell_key].get('value')
-                if cell_value is not None:
-                    labels.append(str(cell_value))
+            column_labels = []
+            
+            # If we have frozen rows and header rows, get values from all frozen rows for this column
+            if frozen_rows > 0 and header_rows:
+                for header_row in header_rows:
+                    cell_key = f"{col_letter}{header_row}"
+                    if cell_key in table_cells:
+                        cell_value = table_cells[cell_key].get('value')
+                        if cell_value is not None:
+                            column_labels.append(str(cell_value))
+                # Reverse the order so most specific/recent value comes first (e.g., "Jan 2023" not "2023 Jan")
+                column_labels.reverse()
+            else:
+                # Fallback to original logic: just get the value from the current row
+                cell_key = f"{col_letter}{row}"
+                if cell_key in table_cells:
+                    cell_value = table_cells[cell_key].get('value')
+                    if cell_value is not None:
+                        column_labels.append(str(cell_value))
+            
+            # Join the column labels with space (e.g., "Jan 2023")
+            if column_labels:
+                labels.append(" ".join(column_labels))
         
         return " | ".join(labels) if labels else "unlabeled"
     
