@@ -617,6 +617,280 @@
             display: none;
         }
 
+        /* Cell Display Styles */
+        .cell-display {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+        }
+
+        .cell-display::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .cell-display::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .cell-display::-webkit-scrollbar-thumb {
+            background: #dee2e6;
+            border-radius: 5px;
+        }
+
+        .cell-display::-webkit-scrollbar-thumb:hover {
+            background: #adb5bd;
+        }
+
+        /* Card View Styles */
+        .cell-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .cell-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cell-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .cell-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .cell-coordinate {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .cell-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .cell-headers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .header-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            min-width: 80px;
+        }
+
+        .header-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .header-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            border: 1px solid #bbdefb;
+        }
+
+        .header-tag.column {
+            background: #f3e5f5;
+            color: #7b1fa2;
+            border-color: #e1bee7;
+        }
+
+        .header-tag.row {
+            background: #e8f5e8;
+            color: #388e3c;
+            border-color: #c8e6c9;
+        }
+
+        /* Table View Styles */
+        .cell-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .cell-table th {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .cell-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            vertical-align: top;
+        }
+
+        .cell-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .cell-table tr:hover {
+            background: #e3f2fd;
+        }
+
+        /* Compact List Styles */
+        .cell-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .cell-list-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .cell-list-item:hover {
+            background: #e3f2fd;
+            border-color: #667eea;
+        }
+
+        .cell-list-coordinate {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .cell-list-value {
+            font-weight: 600;
+            color: #495057;
+            min-width: 80px;
+        }
+
+        .cell-list-headers {
+            display: flex;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .cell-list-header-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cell-list-header-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            min-width: 60px;
+        }
+
+        .cell-list-header-tags {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .cell-list-header-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            border: 1px solid #bbdefb;
+        }
+
+        .cell-list-header-tag.column {
+            background: #f3e5f5;
+            color: #7b1fa2;
+            border-color: #e1bee7;
+        }
+
+        .cell-list-header-tag.row {
+            background: #e8f5e8;
+            color: #388e3c;
+            border-color: #c8e6c9;
+        }
+
+        /* Sheet tabs for cell display */
+        .cell-sheet-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .cell-sheet-tab {
+            padding: 0.75rem 1.5rem;
+            background: #e9ecef;
+            border: none;
+            border-right: 1px solid #dee2e6;
+            cursor: pointer;
+            font-weight: 500;
+            color: #495057;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .cell-sheet-tab:hover {
+            background: #dee2e6;
+        }
+
+        .cell-sheet-tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -748,7 +1022,7 @@
             <div class="result-section" id="resultSection">
                 <div class="result-header">
                     <div class="result-title">
-                        <i class="fas fa-code"></i> JSON Output
+                        <i class="fas fa-code"></i> Original Excel JSON Output
                     </div>
                     <div class="result-controls">
                         <div class="display-type-selector">
@@ -766,15 +1040,63 @@
                 </div>
                 <div class="json-display" id="jsonDisplay"></div>
             </div>
+
+            <div class="result-section" id="tableResultSection">
+                <div class="result-header">
+                    <div class="result-title">
+                        <i class="fas fa-table"></i> Table-Oriented JSON Output
+                    </div>
+                    <div class="result-controls">
+                        <div class="display-type-selector">
+                            <label for="tableDisplayType">Display Type:</label>
+                            <select id="tableDisplayType" onchange="changeTableDisplayType()">
+                                <option value="formatted">Formatted</option>
+                                <option value="compact">Compact</option>
+                                <option value="raw">Raw</option>
+                            </select>
+                        </div>
+                        <button class="download-btn" id="downloadTableBtn" onclick="downloadTableJSON()">
+                            <i class="fas fa-download"></i> Download Table JSON
+                        </button>
+                    </div>
+                </div>
+                <div class="json-display" id="tableJsonDisplay"></div>
+            </div>
+
+            <div class="result-section" id="cellDisplaySection">
+                <div class="result-header">
+                    <div class="result-title">
+                        <i class="fas fa-th"></i> Cell Data with Headers
+                    </div>
+                    <div class="result-controls">
+                        <div class="display-type-selector">
+                            <label for="cellDisplayType">View Mode:</label>
+                            <select id="cellDisplayType" onchange="changeCellDisplayType()">
+                                <option value="cards">Card View</option>
+                                <option value="table">Table View</option>
+                                <option value="compact">Compact List</option>
+                            </select>
+                        </div>
+                        <button class="download-btn" id="downloadCellDataBtn" onclick="downloadCellData()">
+                            <i class="fas fa-download"></i> Download Cell Data
+                        </button>
+                    </div>
+                </div>
+                <div class="cell-display" id="cellDisplay"></div>
+            </div>
         </div>
     </div>
 
     <script>
         let currentFile = null;
         let jsonData = null;
+        let tableData = null;
         let processingStartTime = null;
         let currentDisplayType = 'formatted';
+        let currentTableDisplayType = 'formatted';
+        let currentCellDisplayType = 'cards';
         let currentSheetIndex = 0;
+        let currentCellSheetIndex = 0;
 
         // DOM elements
         const uploadArea = document.getElementById('uploadArea');
@@ -804,6 +1126,14 @@
         const jsonDisplay = document.getElementById('jsonDisplay');
         const downloadBtn = document.getElementById('downloadBtn');
         const displayType = document.getElementById('displayType');
+        const tableResultSection = document.getElementById('tableResultSection');
+        const tableJsonDisplay = document.getElementById('tableJsonDisplay');
+        const downloadTableBtn = document.getElementById('downloadTableBtn');
+        const tableDisplayType = document.getElementById('tableDisplayType');
+        const cellDisplaySection = document.getElementById('cellDisplaySection');
+        const cellDisplay = document.getElementById('cellDisplay');
+        const downloadCellDataBtn = document.getElementById('downloadCellDataBtn');
+        const cellDisplayType = document.getElementById('cellDisplayType');
 
         // Drag and drop functionality
         uploadArea.addEventListener('dragover', (e) => {
@@ -885,9 +1215,12 @@
                 
                 if (data.success) {
                     jsonData = data.data;
+                    tableData = data.table_data;
                     showSuccess();
                     showFileInfo(file, data.data);
                     showResult(data.data);
+                    showTableResult(data.table_data);
+                    showCellDisplay(data.table_data);
                 } else {
                     showError(data.error || 'An error occurred while processing the file.');
                 }
@@ -1191,6 +1524,7 @@
             // Clear current file and data
             currentFile = null;
             jsonData = null;
+            tableData = null;
             
             // Reset file input
             fileInput.value = '';
@@ -1200,6 +1534,8 @@
             tableDisplay.style.display = 'none';
             fileMetadata.style.display = 'none';
             resultSection.style.display = 'none';
+            tableResultSection.style.display = 'none';
+            cellDisplaySection.style.display = 'none';
             errorSection.style.display = 'none';
             successMessage.style.display = 'none';
             
@@ -1207,12 +1543,17 @@
             uploadBtn.disabled = false;
             uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Choose File';
             
-            // Reset display type
+            // Reset display types
             currentDisplayType = 'formatted';
+            currentTableDisplayType = 'formatted';
+            currentCellDisplayType = 'cards';
             displayType.value = 'formatted';
+            tableDisplayType.value = 'formatted';
+            cellDisplayType.value = 'cards';
             
-            // Reset sheet index
+            // Reset sheet indices
             currentSheetIndex = 0;
+            currentCellSheetIndex = 0;
         }
 
         function showResult(data) {
@@ -1221,6 +1562,16 @@
             
             // Scroll to result
             resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showTableResult(data) {
+            updateTableJSONDisplay(data);
+            tableResultSection.style.display = 'block';
+        }
+
+        function showCellDisplay(data) {
+            updateCellDisplay(data);
+            cellDisplaySection.style.display = 'block';
         }
 
         function updateJSONDisplay(data) {
@@ -1242,6 +1593,286 @@
             if (jsonData) {
                 updateJSONDisplay(jsonData);
             }
+        }
+
+        function changeTableDisplayType() {
+            currentTableDisplayType = tableDisplayType.value;
+            if (tableData) {
+                updateTableJSONDisplay(tableData);
+            }
+        }
+
+        function updateTableJSONDisplay(data) {
+            switch (currentTableDisplayType) {
+                case 'formatted':
+                    tableJsonDisplay.innerHTML = formatJSON(data);
+                    break;
+                case 'compact':
+                    tableJsonDisplay.innerHTML = formatJSON(compactJSON(data));
+                    break;
+                case 'raw':
+                    tableJsonDisplay.textContent = JSON.stringify(data, null, 2);
+                    break;
+            }
+        }
+
+        function updateCellDisplay(data) {
+            switch (currentCellDisplayType) {
+                case 'cards':
+                    cellDisplay.innerHTML = createCellCards(data);
+                    break;
+                case 'table':
+                    cellDisplay.innerHTML = createCellTable(data);
+                    break;
+                case 'compact':
+                    cellDisplay.innerHTML = createCellList(data);
+                    break;
+            }
+        }
+
+        function changeCellDisplayType() {
+            currentCellDisplayType = cellDisplayType.value;
+            if (tableData) {
+                updateCellDisplay(tableData);
+            }
+        }
+
+        function createCellCards(data) {
+            let html = '';
+            
+            for (let i = 0; i < data.workbook.sheets.length; i++) {
+                const sheet = data.workbook.sheets[i];
+                const sheetName = sheet.name || `Sheet ${i + 1}`;
+                
+                html += `<div class="cell-sheet-section">`;
+                html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                
+                if (sheet.tables && sheet.tables.length > 0) {
+                    html += `<div class="cell-cards">`;
+                    
+                    for (const table of sheet.tables) {
+                        // Extract cells with headers from the table structure
+                        const cellsWithHeaders = extractCellsWithHeaders(table);
+                        for (const cell of cellsWithHeaders) {
+                            html += createCellCard(cell);
+                        }
+                    }
+                    
+                    html += `</div>`;
+                } else {
+                    html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            return html;
+        }
+
+        function extractCellsWithHeaders(table) {
+            const cellsWithHeaders = [];
+            
+            // Iterate through columns to find cells with headers
+            if (table.columns) {
+                for (const column of table.columns) {
+                    if (column.cells) {
+                        for (const [coordinate, cell] of Object.entries(column.cells)) {
+                            // Check if this cell has headers (indicating it's a data cell)
+                            if (cell.headers && (cell.headers.column_headers || cell.headers.row_headers)) {
+                                const cellData = {
+                                    coordinate: cell.coordinate,
+                                    value: cell.value,
+                                    column_headers: cell.headers.column_headers ? cell.headers.column_headers.map(h => h.value) : [],
+                                    row_headers: cell.headers.row_headers ? cell.headers.row_headers.map(h => h.value) : []
+                                };
+                                cellsWithHeaders.push(cellData);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return cellsWithHeaders;
+        }
+
+        function createCellCard(cell) {
+            const coordinate = cell.coordinate || 'Unknown';
+            const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
+            const columnHeaders = cell.column_headers || [];
+            const rowHeaders = cell.row_headers || [];
+            
+            let html = `<div class="cell-card">`;
+            html += `<div class="cell-card-header">`;
+            html += `<span class="cell-coordinate">${coordinate}</span>`;
+            html += `</div>`;
+            
+            html += `<div class="cell-value">${value}</div>`;
+            
+            html += `<div class="cell-headers">`;
+            
+            if (columnHeaders.length > 0) {
+                html += `<div class="header-group">`;
+                html += `<span class="header-label">Columns:</span>`;
+                html += `<div class="header-values">`;
+                columnHeaders.forEach(header => {
+                    html += `<span class="header-tag column">${header}</span>`;
+                });
+                html += `</div>`;
+                html += `</div>`;
+            }
+            
+            if (rowHeaders.length > 0) {
+                html += `<div class="header-group">`;
+                html += `<span class="header-label">Rows:</span>`;
+                html += `<div class="header-values">`;
+                rowHeaders.forEach(header => {
+                    html += `<span class="header-tag row">${header}</span>`;
+                });
+                html += `</div>`;
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            html += `</div>`;
+            
+            return html;
+        }
+
+        function createCellTable(data) {
+            let html = '';
+            
+            for (let i = 0; i < data.workbook.sheets.length; i++) {
+                const sheet = data.workbook.sheets[i];
+                const sheetName = sheet.name || `Sheet ${i + 1}`;
+                
+                html += `<div class="cell-sheet-section">`;
+                html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                
+                if (sheet.tables && sheet.tables.length > 0) {
+                    html += `<table class="cell-table">`;
+                    html += `<thead>`;
+                    html += `<tr>`;
+                    html += `<th>Coordinate</th>`;
+                    html += `<th>Value</th>`;
+                    html += `<th>Column Headers</th>`;
+                    html += `<th>Row Headers</th>`;
+                    html += `</tr>`;
+                    html += `</thead>`;
+                    html += `<tbody>`;
+                    
+                    for (const table of sheet.tables) {
+                        // Extract cells with headers from the table structure
+                        const cellsWithHeaders = extractCellsWithHeaders(table);
+                        for (const cell of cellsWithHeaders) {
+                            html += createCellTableRow(cell);
+                        }
+                    }
+                    
+                    html += `</tbody>`;
+                    html += `</table>`;
+                } else {
+                    html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            return html;
+        }
+
+        function createCellTableRow(cell) {
+            const coordinate = cell.coordinate || 'Unknown';
+            const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
+            const columnHeaders = cell.column_headers || [];
+            const rowHeaders = cell.row_headers || [];
+            
+            let html = `<tr>`;
+            html += `<td><span class="cell-coordinate">${coordinate}</span></td>`;
+            html += `<td><strong>${value}</strong></td>`;
+            html += `<td>`;
+            columnHeaders.forEach(header => {
+                html += `<span class="header-tag column">${header}</span> `;
+            });
+            html += `</td>`;
+            html += `<td>`;
+            rowHeaders.forEach(header => {
+                html += `<span class="header-tag row">${header}</span> `;
+            });
+            html += `</td>`;
+            html += `</tr>`;
+            
+            return html;
+        }
+
+        function createCellList(data) {
+            let html = '';
+            
+            for (let i = 0; i < data.workbook.sheets.length; i++) {
+                const sheet = data.workbook.sheets[i];
+                const sheetName = sheet.name || `Sheet ${i + 1}`;
+                
+                html += `<div class="cell-sheet-section">`;
+                html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                
+                if (sheet.tables && sheet.tables.length > 0) {
+                    html += `<div class="cell-list">`;
+                    
+                    for (const table of sheet.tables) {
+                        // Extract cells with headers from the table structure
+                        const cellsWithHeaders = extractCellsWithHeaders(table);
+                        for (const cell of cellsWithHeaders) {
+                            html += createCellListItem(cell);
+                        }
+                    }
+                    
+                    html += `</div>`;
+                } else {
+                    html += `<p style="color: #6c757d; text-align: center; padding: 2rem;">No data cells with headers found in this sheet.</p>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            return html;
+        }
+
+        function createCellListItem(cell) {
+            const coordinate = cell.coordinate || 'Unknown';
+            const value = cell.value !== null && cell.value !== undefined ? cell.value : 'N/A';
+            const columnHeaders = cell.column_headers || [];
+            const rowHeaders = cell.row_headers || [];
+            
+            let html = `<div class="cell-list-item">`;
+            html += `<span class="cell-list-coordinate">${coordinate}</span>`;
+            html += `<span class="cell-list-value">${value}</span>`;
+            html += `<div class="cell-list-headers">`;
+            
+            if (columnHeaders.length > 0) {
+                html += `<div class="cell-list-header-group">`;
+                html += `<span class="cell-list-header-label">Col:</span>`;
+                html += `<div class="cell-list-header-tags">`;
+                columnHeaders.forEach(header => {
+                    html += `<span class="cell-list-header-tag column">${header}</span>`;
+                });
+                html += `</div>`;
+                html += `</div>`;
+            }
+            
+            if (rowHeaders.length > 0) {
+                html += `<div class="cell-list-header-group">`;
+                html += `<span class="cell-list-header-label">Row:</span>`;
+                html += `<div class="cell-list-header-tags">`;
+                rowHeaders.forEach(header => {
+                    html += `<span class="cell-list-header-tag row">${header}</span>`;
+                });
+                html += `</div>`;
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            html += `</div>`;
+            
+            return html;
         }
 
         function compactJSON(obj) {
@@ -1383,6 +2014,113 @@
             })
             .catch(error => {
                 showError('Failed to download JSON file. Please try again.');
+                console.error('Download error:', error);
+            });
+        }
+
+        function downloadTableJSON() {
+            if (!tableData || !currentFile) return;
+
+            const filename = currentFile.name.replace(/\.[^/.]+$/, '') + '_table.json';
+            
+            fetch('/api/download/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    json_data: tableData,
+                    filename: filename
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                }
+                throw new Error('Download failed');
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(error => {
+                showError('Failed to download table JSON file. Please try again.');
+                console.error('Download error:', error);
+            });
+        }
+
+        function downloadCellData() {
+            if (!tableData || !currentFile) return;
+
+            // Create a simplified cell data structure for download
+            const cellData = {
+                filename: currentFile.name,
+                processed_at: new Date().toISOString(),
+                sheets: []
+            };
+
+            for (const sheet of tableData.workbook.sheets) {
+                const sheetData = {
+                    name: sheet.name,
+                    cells: []
+                };
+
+                if (sheet.tables) {
+                    for (const table of sheet.tables) {
+                        // Extract cells with headers from the table structure
+                        const cellsWithHeaders = extractCellsWithHeaders(table);
+                        for (const cell of cellsWithHeaders) {
+                            sheetData.cells.push({
+                                coordinate: cell.coordinate,
+                                value: cell.value,
+                                column_headers: cell.column_headers || [],
+                                row_headers: cell.row_headers || []
+                            });
+                        }
+                    }
+                }
+
+                cellData.sheets.push(sheetData);
+            }
+
+            const filename = currentFile.name.replace(/\.[^/.]+$/, '') + '_cell_data.json';
+            
+            fetch('/api/download/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    json_data: cellData,
+                    filename: filename
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                }
+                throw new Error('Download failed');
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(error => {
+                showError('Failed to download cell data file. Please try again.');
                 console.error('Download error:', error);
             });
         }

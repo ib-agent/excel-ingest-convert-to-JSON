@@ -21,7 +21,7 @@ from .header_resolver import HeaderResolver
 @parser_classes([MultiPartParser, FormParser])
 def upload_and_convert(request):
     """
-    Upload an Excel file and convert it to JSON
+    Upload an Excel file and convert it to JSON with table-oriented format
     """
     try:
         if 'file' not in request.FILES:
@@ -49,9 +49,17 @@ def upload_and_convert(request):
         )
         full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
         
-        # Process the Excel file
+        # Process the Excel file to get original JSON
         processor = ExcelProcessor()
         json_data = processor.process_file(full_path)
+        
+        # Transform to table-oriented format
+        table_processor = TableProcessor()
+        table_data = table_processor.transform_to_table_format(json_data, {})
+        
+        # Resolve headers for enhanced table data
+        header_resolver = HeaderResolver()
+        enhanced_table_data = header_resolver.resolve_headers(table_data, {})
         
         # Clean up temporary file
         default_storage.delete(temp_path)
@@ -59,7 +67,8 @@ def upload_and_convert(request):
         return Response({
             'success': True,
             'filename': uploaded_file.name,
-            'data': json_data
+            'data': json_data,
+            'table_data': enhanced_table_data
         }, status=status.HTTP_200_OK)
         
     except Exception as e:
