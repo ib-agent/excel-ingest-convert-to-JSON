@@ -1868,6 +1868,12 @@
                 updateJSONDisplay(data);
                 resultSection.style.display = 'block';
                 
+                // Ensure download button is visible
+                const downloadBtn = document.getElementById('downloadBtn');
+                if (downloadBtn) {
+                    downloadBtn.style.display = 'inline-flex';
+                }
+                
                 // Scroll to result
                 resultSection.scrollIntoView({ behavior: 'smooth' });
             }
@@ -1875,11 +1881,23 @@
             function showTableResult(data) {
                 updateTableJSONDisplay(data);
                 tableResultSection.style.display = 'block';
+                
+                // Ensure download button is visible
+                const downloadTableBtn = document.getElementById('downloadTableBtn');
+                if (downloadTableBtn) {
+                    downloadTableBtn.style.display = 'inline-flex';
+                }
             }
 
             function showCellDisplay(data) {
                 updateCellDisplay(data);
                 cellDisplaySection.style.display = 'block';
+                
+                // Ensure download button is visible
+                const downloadCellDataBtn = document.getElementById('downloadCellDataBtn');
+                if (downloadCellDataBtn) {
+                    downloadCellDataBtn.style.display = 'inline-flex';
+                }
             }
 
             function updateJSONDisplay(data) {
@@ -2280,10 +2298,81 @@
                 return String(obj);
             }
 
+            // Download functions
+            function downloadJSON() {
+                if (!jsonData) {
+                    alert('No JSON data available to download');
+                    return;
+                }
+                
+                const dataStr = JSON.stringify(jsonData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = currentFile ? `${currentFile.name.replace(/\.[^/.]+$/, '')}_full_data.json` : 'excel_data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            function downloadTableJSON() {
+                if (!tableData) {
+                    alert('No table data available to download');
+                    return;
+                }
+                
+                const dataStr = JSON.stringify(tableData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = currentFile ? `${currentFile.name.replace(/\.[^/.]+$/, '')}_table_data.json` : 'excel_table_data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            function downloadCellData() {
+                if (!jsonData) {
+                    alert('No cell data available to download');
+                    return;
+                }
+                
+                // Extract cell data from the JSON
+                const cellData = {
+                    workbook: {
+                        sheets: jsonData.workbook.sheets.map(sheet => ({
+                            name: sheet.name,
+                            cells: sheet.cells
+                        }))
+                    }
+                };
+                
+                const dataStr = JSON.stringify(cellData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = currentFile ? `${currentFile.name.replace(/\.[^/.]+$/, '')}_cell_data.json` : 'excel_cell_data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
             // Make functions globally accessible
             window.changeDisplayType = changeDisplayType;
             window.changeTableDisplayType = changeTableDisplayType;
             window.changeCellDisplayType = changeCellDisplayType;
+            window.downloadJSON = downloadJSON;
+            window.downloadTableJSON = downloadTableJSON;
+            window.downloadCellData = downloadCellData;
         }
     </script>
 </body>
