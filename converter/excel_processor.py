@@ -213,8 +213,6 @@ class ExcelProcessor:
         if isinstance(frozen_cell, str):
             # Handle string format like "A2"
             try:
-                col_idx = column_index_from_string(frozen_cell)
-                row_idx = 1  # Default to row 1 if not specified
                 if ':' in frozen_cell:
                     parts = frozen_cell.split(':')
                     if len(parts) == 2:
@@ -222,8 +220,11 @@ class ExcelProcessor:
                         row_part = parts[1]
                         col_idx = column_index_from_string(col_part)
                         row_idx = int(row_part)
+                    else:
+                        col_idx = 1
+                        row_idx = 1
                 else:
-                    # Extract column and row from cell reference
+                    # Extract column and row from cell reference like "A2"
                     import re
                     match = re.match(r'([A-Z]+)(\d+)', frozen_cell)
                     if match:
@@ -231,7 +232,8 @@ class ExcelProcessor:
                         col_idx = column_index_from_string(col_letter)
                         row_idx = int(row_num)
                     else:
-                        col_idx = 1
+                        # Try to parse as column-only reference
+                        col_idx = column_index_from_string(frozen_cell)
                         row_idx = 1
             except:
                 col_idx = 1
@@ -240,9 +242,9 @@ class ExcelProcessor:
             col_idx, row_idx = frozen_cell
         
         return {
-            "frozen_rows": row_idx,
-            "frozen_cols": col_idx,
-            "top_left_cell": f"{get_column_letter(col_idx + 1)}{row_idx + 1}"
+            "frozen_rows": row_idx - 1 if row_idx > 0 else 0,
+            "frozen_cols": col_idx - 1 if col_idx > 0 else 0,
+            "top_left_cell": f"{get_column_letter(col_idx)}{row_idx}"
         }
     
     def _extract_sheet_views(self, worksheet: Worksheet) -> List[Dict[str, Any]]:

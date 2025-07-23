@@ -423,8 +423,6 @@ class TableProcessor:
                 'start_col': min_col,
                 'end_col': max_col,
                 'detection_method': 'structured_layout',
-                'frozen_rows': frozen_rows,
-                'frozen_cols': frozen_cols,
                 'has_structured_layout': has_structured_layout
             })
             return regions
