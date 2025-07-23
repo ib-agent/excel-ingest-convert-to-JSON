@@ -29,11 +29,320 @@ class TableProcessor:
         # Start with the original structure
         result = excel_json.copy()
         
-        # Process each sheet to add table information
+        # Process each sheet to add table information and clean cell data
         for sheet in result['workbook']['sheets']:
+            # Clean the cells in the sheet
+            if 'cells' in sheet:
+                cleaned_cells = {}
+                for cell_key, cell_data in sheet['cells'].items():
+                    cleaned_cell = self._clean_cell_data(cell_data)
+                    if cleaned_cell:  # Only include non-empty cells
+                        cleaned_cells[cell_key] = cleaned_cell
+                sheet['cells'] = cleaned_cells
+            
             sheet['tables'] = self._detect_and_process_tables(sheet, options or {})
         
+        # Clean the result to remove null/empty values and fix RGB properties
+        result = self._clean_table_json(result)
+        
         return result
+    
+    def _clean_table_json(self, data: dict) -> dict:
+        """
+        Clean the table-oriented JSON by removing null/empty values and fixing RGB properties
+        
+        Args:
+            data: The table-oriented JSON data
+            
+        Returns:
+            Cleaned JSON data
+        """
+        if isinstance(data, dict):
+            cleaned = {}
+            for key, value in data.items():
+                # Skip null values and empty strings
+                if value is None or (isinstance(value, str) and value.strip() == ""):
+                    continue
+                
+                # Skip False boolean values for cleaner output
+                if isinstance(value, bool) and not value:
+                    continue
+                
+                # Recursively clean nested structures
+                if isinstance(value, (dict, list)):
+                    cleaned_value = self._clean_table_json(value)
+                    # Only include if the cleaned value is not empty
+                    if cleaned_value is not None and cleaned_value != {} and cleaned_value != []:
+                        cleaned[key] = cleaned_value
+                else:
+                    cleaned[key] = value
+            
+            return cleaned if cleaned else None
+        
+        elif isinstance(data, list):
+            cleaned_list = []
+            for item in data:
+                cleaned_item = self._clean_table_json(item)
+                if cleaned_item is not None:
+                    cleaned_list.append(cleaned_item)
+            return cleaned_list if cleaned_list else None
+        
+        else:
+            return data
+    
+    def _clean_cell_data(self, cell_data: dict) -> dict:
+        """
+        Clean individual cell data by removing null/empty values and fixing RGB properties
+        
+        Args:
+            cell_data: Cell data dictionary
+            
+        Returns:
+            Cleaned cell data
+        """
+        if not cell_data:
+            return {}
+        
+        cleaned_cell = {}
+        
+        # Copy basic cell properties
+        for key in ['value', 'formula', 'data_type', 'coordinate']:
+            if key in cell_data and cell_data[key] is not None:
+                cleaned_cell[key] = cell_data[key]
+        
+        # Clean style information
+        if 'style' in cell_data and cell_data['style']:
+            cleaned_style = self._clean_style_data(cell_data['style'])
+            if cleaned_style:
+                cleaned_cell['style'] = cleaned_style
+        
+        # Clean other properties
+        for key in ['comment', 'hyperlink']:
+            if key in cell_data and cell_data[key] is not None:
+                cleaned_cell[key] = cell_data[key]
+        
+        return cleaned_cell
+    
+    def _clean_style_data(self, style_data: dict) -> dict:
+        """
+        Clean style data by removing null/empty values and fixing RGB properties
+        
+        Args:
+            style_data: Style data dictionary
+            
+        Returns:
+            Cleaned style data
+        """
+        if not style_data:
+            return {}
+        
+        cleaned_style = {}
+        
+        # Clean font data
+        if 'font' in style_data and style_data['font']:
+            cleaned_font = self._clean_font_data(style_data['font'])
+            if cleaned_font:
+                cleaned_style['font'] = cleaned_font
+        
+        # Clean fill data
+        if 'fill' in style_data and style_data['fill']:
+            cleaned_fill = self._clean_fill_data(style_data['fill'])
+            if cleaned_fill:
+                cleaned_style['fill'] = cleaned_fill
+        
+        # Clean border data
+        if 'border' in style_data and style_data['border']:
+            cleaned_border = self._clean_border_data(style_data['border'])
+            if cleaned_border:
+                cleaned_style['border'] = cleaned_border
+        
+        # Clean alignment data
+        if 'alignment' in style_data and style_data['alignment']:
+            cleaned_alignment = self._clean_alignment_data(style_data['alignment'])
+            if cleaned_alignment:
+                cleaned_style['alignment'] = cleaned_alignment
+        
+        # Clean protection data
+        if 'protection' in style_data and style_data['protection']:
+            cleaned_protection = self._clean_protection_data(style_data['protection'])
+            if cleaned_protection:
+                cleaned_style['protection'] = cleaned_protection
+        
+        # Clean number format
+        if 'number_format' in style_data and style_data['number_format']:
+            cleaned_style['number_format'] = style_data['number_format']
+        
+        return cleaned_style
+    
+    def _clean_font_data(self, font_data: dict) -> dict:
+        """Clean font data"""
+        if not font_data:
+            return {}
+        
+        cleaned_font = {}
+        
+        # Only include non-null, non-empty values
+        for key in ['name', 'size', 'bold', 'italic', 'underline', 'strike', 'scheme']:
+            if key in font_data and font_data[key] is not None:
+                if isinstance(font_data[key], str) and font_data[key].strip() == "":
+                    continue
+                cleaned_font[key] = font_data[key]
+        
+        # Clean color data
+        if 'color' in font_data and font_data['color']:
+            cleaned_color = self._clean_color_data(font_data['color'])
+            if cleaned_color:
+                cleaned_font['color'] = cleaned_color
+        
+        return cleaned_font
+    
+    def _clean_fill_data(self, fill_data: dict) -> dict:
+        """Clean fill data"""
+        if not fill_data:
+            return {}
+        
+        cleaned_fill = {}
+        
+        # Only include non-null, non-empty values
+        for key in ['fill_type']:
+            if key in fill_data and fill_data[key] is not None:
+                if isinstance(fill_data[key], str) and fill_data[key].strip() == "":
+                    continue
+                cleaned_fill[key] = fill_data[key]
+        
+        # Clean color data
+        for color_key in ['start_color', 'end_color']:
+            if color_key in fill_data and fill_data[color_key]:
+                cleaned_color = self._clean_color_data(fill_data[color_key])
+                if cleaned_color:
+                    cleaned_fill[color_key] = cleaned_color
+        
+        return cleaned_fill
+    
+    def _clean_border_data(self, border_data: dict) -> dict:
+        """Clean border data"""
+        if not border_data:
+            return {}
+        
+        cleaned_border = {}
+        
+        # Clean each border side
+        for side in ['left', 'right', 'top', 'bottom', 'diagonal']:
+            if side in border_data and border_data[side]:
+                cleaned_side = self._clean_side_data(border_data[side])
+                if cleaned_side:
+                    cleaned_border[side] = cleaned_side
+        
+        # Clean diagonal direction
+        if 'diagonal_direction' in border_data and border_data['diagonal_direction']:
+            if isinstance(border_data['diagonal_direction'], str) and border_data['diagonal_direction'].strip() != "":
+                cleaned_border['diagonal_direction'] = border_data['diagonal_direction']
+        
+        return cleaned_border
+    
+    def _clean_side_data(self, side_data: dict) -> dict:
+        """Clean border side data"""
+        if not side_data:
+            return {}
+        
+        cleaned_side = {}
+        
+        # Only include non-null, non-empty values
+        for key in ['style']:
+            if key in side_data and side_data[key] is not None:
+                if isinstance(side_data[key], str) and side_data[key].strip() == "":
+                    continue
+                cleaned_side[key] = side_data[key]
+        
+        # Clean color data
+        if 'color' in side_data and side_data['color']:
+            cleaned_color = self._clean_color_data(side_data['color'])
+            if cleaned_color:
+                cleaned_side['color'] = cleaned_color
+        
+        return cleaned_side
+    
+    def _clean_alignment_data(self, alignment_data: dict) -> dict:
+        """Clean alignment data"""
+        if not alignment_data:
+            return {}
+        
+        cleaned_alignment = {}
+        
+        # Only include non-null values
+        for key in ['horizontal', 'vertical', 'text_rotation', 'wrap_text', 'shrink_to_fit', 
+                   'indent', 'relative_indent', 'justify_last_line', 'reading_order']:
+            if key in alignment_data and alignment_data[key] is not None:
+                cleaned_alignment[key] = alignment_data[key]
+        
+        return cleaned_alignment
+    
+    def _clean_protection_data(self, protection_data: dict) -> dict:
+        """Clean protection data"""
+        if not protection_data:
+            return {}
+        
+        cleaned_protection = {}
+        
+        # Only include non-null values
+        for key in ['locked', 'hidden']:
+            if key in protection_data and protection_data[key] is not None:
+                cleaned_protection[key] = protection_data[key]
+        
+        return cleaned_protection
+    
+    def _clean_color_data(self, color_data: dict) -> dict:
+        """Clean color data and fix RGB property types"""
+        if not color_data:
+            return {}
+        
+        cleaned_color = {}
+        
+        # Fix RGB property - ensure it's a string
+        if 'rgb' in color_data and color_data['rgb'] is not None:
+            rgb_value = color_data['rgb']
+            if isinstance(rgb_value, (list, tuple)):
+                # Convert RGB list/tuple to string format
+                cleaned_color['rgb'] = f"FF{rgb_value[0]:02X}{rgb_value[1]:02X}{rgb_value[2]:02X}"
+            elif isinstance(rgb_value, str):
+                cleaned_color['rgb'] = rgb_value
+            elif isinstance(rgb_value, int):
+                # Convert integer RGB to hex string
+                cleaned_color['rgb'] = f"FF{(rgb_value >> 16) & 0xFF:02X}{(rgb_value >> 8) & 0xFF:02X}{rgb_value & 0xFF:02X}"
+        
+        # Clean theme and tint
+        for key in ['theme', 'tint']:
+            if key in color_data and color_data[key] is not None:
+                cleaned_color[key] = color_data[key]
+        
+        return cleaned_color
+    
+    def _clean_metadata(self, metadata: dict) -> dict:
+        """
+        Clean metadata by removing null/empty values
+        
+        Args:
+            metadata: Metadata dictionary
+            
+        Returns:
+            Cleaned metadata dictionary
+        """
+        if not metadata:
+            return {}
+        
+        cleaned_metadata = {}
+        for key, value in metadata.items():
+            # Skip null values and empty strings
+            if value is None or (isinstance(value, str) and value.strip() == ""):
+                continue
+            
+            # For boolean values, only include if they're True
+            if isinstance(value, bool) and not value:
+                continue
+            
+            cleaned_metadata[key] = value
+        
+        return cleaned_metadata
     
     def _detect_and_process_tables(self, sheet_data: dict, options: dict) -> List[Dict[str, Any]]:
         """
@@ -314,8 +623,15 @@ class TableProcessor:
         if not table_cells:
             return None
         
+        # Clean the table cells
+        cleaned_table_cells = {}
+        for cell_key, cell_data in table_cells.items():
+            cleaned_cell = self._clean_cell_data(cell_data)
+            if cleaned_cell:  # Only include non-empty cells
+                cleaned_table_cells[cell_key] = cleaned_cell
+        
         # Determine header rows and columns
-        header_info = self._determine_headers(table_cells, region, merged_cells, options)
+        header_info = self._determine_headers(cleaned_table_cells, region, merged_cells, options)
         
         # Create table structure
         table = {
@@ -323,13 +639,13 @@ class TableProcessor:
             'name': f"Table {table_index + 1}",
             'region': region,
             'header_info': header_info,
-            'columns': self._create_columns(table_cells, header_info, region),
-            'rows': self._create_rows(table_cells, header_info, region),
-            'metadata': {
+            'columns': self._create_columns(cleaned_table_cells, header_info, region),
+            'rows': self._create_rows(cleaned_table_cells, header_info, region),
+            'metadata': self._clean_metadata({
                 'detection_method': region.get('detection_method', 'unknown'),
-                'cell_count': len(table_cells),
+                'cell_count': len(cleaned_table_cells),
                 'has_merged_cells': bool(merged_cells)
-            }
+            })
         }
         
         return table
@@ -388,15 +704,17 @@ class TableProcessor:
                 'column_letter': col_letter,
                 'column_label': column_label,
                 'is_header_column': col in header_info['header_columns'],
-                'width': None,  # Can be populated from sheet column properties
-                'hidden': False,  # Can be populated from sheet column properties
                 'cells': {}
             }
+            
+            # Only add width and hidden if they have meaningful values
+            # (These would be populated from sheet column properties if available)
             
             # Add cells for this column
             for row in range(region['start_row'], region['end_row'] + 1):
                 cell_key = f"{col_letter}{row}"
                 if cell_key in table_cells:
+                    # Cell data is already cleaned in _process_table_region
                     column_def['cells'][cell_key] = table_cells[cell_key]
             
             columns.append(column_def)
@@ -418,16 +736,18 @@ class TableProcessor:
                 'row_index': row,
                 'row_label': row_label,
                 'is_header_row': row in header_info['header_rows'],
-                'height': None,  # Can be populated from sheet row properties
-                'hidden': False,  # Can be populated from sheet row properties
                 'cells': {}
             }
+            
+            # Only add height and hidden if they have meaningful values
+            # (These would be populated from sheet row properties if available)
             
             # Add cells for this row
             for col in range(region['start_col'], region['end_col'] + 1):
                 col_letter = get_column_letter(col)
                 cell_key = f"{col_letter}{row}"
                 if cell_key in table_cells:
+                    # Cell data is already cleaned in _process_table_region
                     row_def['cells'][cell_key] = table_cells[cell_key]
             
             rows.append(row_def)
