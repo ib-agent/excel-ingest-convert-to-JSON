@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document to JSON Converter</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            padding: 3rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .option-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .option-icon {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .option-description {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .option-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .option-features li {
+            padding: 0.5rem 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .option-features li::before {
+            content: '✓';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: white;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .option-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Document to JSON Converter</h1>
+            <p>Transform your Excel spreadsheets and PDF documents into structured JSON data with advanced table detection and header resolution</p>
+        </div>
+
+        <div class="main-content">
+            <div class="options-grid">
+                <div class="option-card" onclick="window.location.href='{% url 'excel_processor' %}'">
+                    <div class="option-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <h2 class="option-title">Excel Processor</h2>
+                    <p class="option-description">
+                        Convert Excel spreadsheets (.xlsx, .xlsm, .xltx, .xltm) to structured JSON with advanced table detection and header resolution.
+                    </p>
+                    <ul class="option-features">
+                        <li>Multi-level header detection</li>
+                        <li>Frozen pane support</li>
+                        <li>Merged cell handling</li>
+                        <li>Table-oriented JSON output</li>
+                        <li>Header resolution and cleaning</li>
+                    </ul>
+                    <a href="{% url 'excel_processor' %}" class="cta-button">
+                        Process Excel Files
+                    </a>
+                </div>
+
+                <div class="option-card" onclick="window.location.href='{% url 'pdf_processor' %}'">
+                    <div class="option-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h2 class="option-title">PDF Processor</h2>
+                    <p class="option-description">
+                        Extract tables from PDF documents and convert them to structured JSON format with intelligent table detection.
+                    </p>
+                    <ul class="option-features">
+                        <li>Table extraction from PDFs</li>
+                        <li>Multi-page document support</li>
+                        <li>Text and data recognition</li>
+                        <li>Structured JSON output</li>
+                        <li>Coming soon...</li>
+                    </ul>
+                    <a href="{% url 'pdf_processor' %}" class="cta-button">
+                        Process PDF Files
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Document to JSON Converter. Built with Django and modern web technologies.</p>
+        </div>
+    </div>
+</body>
+</html> 

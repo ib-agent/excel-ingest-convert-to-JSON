@@ -3,7 +3,9 @@ from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.main_landing, name='main_landing'),
+    path('excel/', views.excel_processor, name='excel_processor'),
+    path('pdf/', views.pdf_processor, name='pdf_processor'),
     path('api/upload/', views.upload_and_convert, name='upload_and_convert'),
     path('api/download/', views.download_json, name='download_json'),
     path('api/transform-tables/', views.transform_to_tables, name='transform_to_tables'),

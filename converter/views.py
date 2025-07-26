@@ -21,6 +21,27 @@ from .header_resolver import HeaderResolver
 processed_data_cache = {}
 
 
+def main_landing(request):
+    """
+    Main landing page with navigation to Excel and PDF processing
+    """
+    return render(request, 'converter/main_landing.html')
+
+
+def excel_processor(request):
+    """
+    Excel processing page
+    """
+    return render(request, 'converter/excel_processor.html')
+
+
+def pdf_processor(request):
+    """
+    PDF processing page
+    """
+    return render(request, 'converter/pdf_processor.html')
+
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def upload_and_convert(request):

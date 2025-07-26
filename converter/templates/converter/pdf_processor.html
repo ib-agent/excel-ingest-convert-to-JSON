@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to JSON Converter</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .nav-back {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .upload-section {
+            padding: 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 3rem;
+            background: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.3rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .result-section {
+            display: none;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .result-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .display-type-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .display-type-selector label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .display-type-selector select {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .display-type-selector select:hover {
+            border-color: #667eea;
+        }
+
+        .display-type-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(40, 167, 69, 0.3);
+        }
+
+        .json-display {
+            background: #1a202c;
+            border-radius: 10px;
+            padding: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            border: 1px solid #2d3748;
+            position: relative;
+        }
+
+        .json-display::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .json-display::-webkit-scrollbar-track {
+            background: #2d3748;
+            border-radius: 5px;
+        }
+
+        .json-display::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 5px;
+        }
+
+        .json-display::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        /* JSON Syntax Highlighting */
+        .json-key {
+            color: #9f7aea;
+            font-weight: 600;
+        }
+
+        .json-string {
+            color: #68d391;
+        }
+
+        .json-number {
+            color: #f6ad55;
+        }
+
+        .json-boolean {
+            color: #fc8181;
+        }
+
+        .json-null {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .json-bracket {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .json-comma {
+            color: #a0aec0;
+        }
+
+        .json-colon {
+            color: #e2e8f0;
+        }
+
+        .error-section {
+            display: none;
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            color: #c53030;
+        }
+
+        .error-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .file-info {
+            background: #e8f4fd;
+            border: 1px solid #bee3f8;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .file-info h4 {
+            color: #2b6cb0;
+            margin: 0;
+        }
+
+        .remove-file-btn {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .remove-file-btn:hover {
+            background: #c53030;
+            transform: scale(1.1);
+        }
+
+        .current-file-display {
+            background: white;
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: #2b6cb0;
+        }
+
+        .current-file-display i {
+            color: #28a745;
+            font-size: 1.1rem;
+        }
+
+        .file-info p {
+            color: #4a5568;
+            margin: 0.25rem 0;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #155724;
+            display: none;
+        }
+
+        .coming-soon {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .coming-soon h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .coming-soon p {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            color: #856404;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .upload-section {
+                padding: 2rem 1rem;
+            }
+
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+
+            .result-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .download-btn {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .nav-back {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'main_landing' %}" class="nav-back">
+            <i class="fas fa-arrow-left"></i> Back to Main Menu
+        </a>
+
+        <div class="header">
+            <h1><i class="fas fa-file-pdf"></i> PDF to JSON Converter</h1>
+            <p>Extract tables from PDF documents and convert them to structured JSON format</p>
+        </div>
+
+        <div class="main-content">
+            <div class="coming-soon">
+                <h3><i class="fas fa-tools"></i> Coming Soon!</h3>
+                <p>PDF processing functionality is currently under development. This feature will include:</p>
+                <ul class="features-list">
+                    <li>Table extraction from PDF documents</li>
+                    <li>Multi-page document support</li>
+                    <li>Text and data recognition</li>
+                    <li>Structured JSON output</li>
+                    <li>Advanced table detection algorithms</li>
+                    <li>Header and footer identification</li>
+                </ul>
+                <p>Stay tuned for updates!</p>
+            </div>
+
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">Drag & Drop your PDF file here</div>
+                    <div class="upload-subtext">or click to browse files</div>
+                    <div class="upload-subtext">Supports: .pdf</div>
+                </div>
+
+                <input type="file" id="fileInput" class="file-input" accept=".pdf" disabled>
+                <button class="upload-btn" id="uploadBtn" disabled>
+                    <i class="fas fa-upload"></i> Coming Soon
+                </button>
+
+                <div class="progress-section" id="progressSection">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Processing...</div>
+                </div>
+
+                <div class="error-section" id="errorSection">
+                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                    <span id="errorMessage"></span>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    File processed successfully!
+                </div>
+            </div>
+
+            <div class="file-info" id="fileInfo">
+                <div class="file-header">
+                    <h4><i class="fas fa-info-circle"></i> File Information</h4>
+                    <button class="remove-file-btn" id="removeFileBtn" onclick="removeFile()" title="Remove file">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="current-file-display" id="currentFileDisplay">
+                    <i class="fas fa-file-pdf"></i>
+                    <span id="fullFileName"></span>
+                </div>
+                <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                <p><strong>Pages:</strong> <span id="pageCount"></span></p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="result-title">
+                        <i class="fas fa-code"></i> JSON Output
+                    </div>
+                    <div class="result-controls">
+                        <div class="display-type-selector">
+                            <label for="displayType">Display Type:</label>
+                            <select id="displayType" onchange="changeDisplayType()">
+                                <option value="formatted">Formatted</option>
+                                <option value="compact">Compact</option>
+                                <option value="raw">Raw</option>
+                            </select>
+                        </div>
+                        <button class="download-btn" id="downloadBtn" onclick="downloadJSON()">
+                            <i class="fas fa-download"></i> Download JSON
+                        </button>
+                    </div>
+                </div>
+                <div class="json-display" id="jsonDisplay"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let jsonData = null;
+        let processingStartTime = null;
+        let currentDisplayType = 'formatted';
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // DOM elements
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const progressSection = document.getElementById('progressSection');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const errorSection = document.getElementById('errorSection');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const fileInfo = document.getElementById('fileInfo');
+            const fullFileName = document.getElementById('fullFileName');
+            const fileSize = document.getElementById('fileSize');
+            const pageCount = document.getElementById('pageCount');
+            const resultSection = document.getElementById('resultSection');
+            const jsonDisplay = document.getElementById('jsonDisplay');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const displayType = document.getElementById('displayType');
+
+            // Check if all required elements exist
+            if (!uploadArea || !fileInput || !uploadBtn) {
+                return;
+            }
+
+            // Show coming soon message when trying to upload
+            uploadArea.addEventListener('click', () => {
+                alert('PDF processing is coming soon! This feature is currently under development.');
+            });
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                alert('PDF processing is coming soon! This feature is currently under development.');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                alert('PDF processing is coming soon! This feature is currently under development.');
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                alert('PDF processing is coming soon! This feature is currently under development.');
+            });
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorSection.style.display = 'block';
+            }
+
+            function hideError() {
+                errorSection.style.display = 'none';
+            }
+
+            function showSuccess() {
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+
+            function hideSuccess() {
+                successMessage.style.display = 'none';
+            }
+
+            function showFileInfo(file, data) {
+                fullFileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                pageCount.textContent = 'N/A'; // Will be implemented when PDF processing is ready
+                fileInfo.style.display = 'block';
+            }
+
+            function showResult(data) {
+                updateJSONDisplay(data);
+                resultSection.style.display = 'block';
+                
+                // Ensure download button is visible
+                const downloadBtn = document.getElementById('downloadBtn');
+                if (downloadBtn) {
+                    downloadBtn.style.display = 'inline-flex';
+                }
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function updateJSONDisplay(data) {
+                switch (currentDisplayType) {
+                    case 'formatted':
+                        jsonDisplay.innerHTML = formatJSON(data);
+                        break;
+                    case 'compact':
+                        jsonDisplay.innerHTML = formatJSON(compactJSON(data));
+                        break;
+                    case 'raw':
+                        jsonDisplay.textContent = JSON.stringify(data, null, 2);
+                        break;
+                }
+            }
+
+            function changeDisplayType() {
+                currentDisplayType = displayType.value;
+                if (jsonData) {
+                    updateJSONDisplay(jsonData);
+                }
+            }
+
+            // JSON formatting functions
+            function compactJSON(obj) {
+                if (obj === null || obj === false) {
+                    return undefined;
+                }
+                
+                if (typeof obj === 'boolean') {
+                    return obj ? obj : undefined;
+                }
+                
+                if (typeof obj === 'string') {
+                    return obj === '' ? undefined : obj;
+                }
+                
+                if (typeof obj === 'number') {
+                    return obj;
+                }
+                
+                if (Array.isArray(obj)) {
+                    const compacted = obj.map(item => compactJSON(item)).filter(item => item !== undefined);
+                    return compacted.length > 0 ? compacted : undefined;
+                }
+                
+                if (typeof obj === 'object') {
+                    const compacted = {};
+                    for (const [key, value] of Object.entries(obj)) {
+                        const compactedValue = compactJSON(value);
+                        if (compactedValue !== undefined) {
+                            compacted[key] = compactedValue;
+                        }
+                    }
+                    return Object.keys(compacted).length > 0 ? compacted : undefined;
+                }
+                
+                return obj;
+            }
+
+            function formatJSON(obj, indent = 0) {
+                const spaces = '  '.repeat(indent);
+                let result = '';
+                
+                if (obj === null) {
+                    return '<span class="json-null">null</span>';
+                }
+                
+                if (typeof obj === 'boolean') {
+                    return `<span class="json-boolean">${obj}</span>`;
+                }
+                
+                if (typeof obj === 'number') {
+                    return `<span class="json-number">${obj}</span>`;
+                }
+                
+                if (typeof obj === 'string') {
+                    return `<span class="json-string">"${obj.replace(/"/g, '\\"')}"</span>`;
+                }
+                
+                if (Array.isArray(obj)) {
+                    if (obj.length === 0) {
+                        return '<span class="json-bracket">[]</span>';
+                    }
+                    
+                    result = '<span class="json-bracket">[</span>\n';
+                    for (let i = 0; i < obj.length; i++) {
+                        result += spaces + '  ' + formatJSON(obj[i], indent + 1);
+                        if (i < obj.length - 1) {
+                            result += '<span class="json-comma">,</span>';
+                        }
+                        result += '\n';
+                    }
+                    result += spaces + '<span class="json-bracket">]</span>';
+                    return result;
+                }
+                
+                if (typeof obj === 'object') {
+                    const keys = Object.keys(obj);
+                    if (keys.length === 0) {
+                        return '<span class="json-bracket">{}</span>';
+                    }
+                    
+                    result = '<span class="json-bracket">{</span>\n';
+                    for (let i = 0; i < keys.length; i++) {
+                        const key = keys[i];
+                        result += spaces + '  <span class="json-key">"' + key + '"</span><span class="json-colon">:</span> ' + formatJSON(obj[key], indent + 1);
+                        if (i < keys.length - 1) {
+                            result += '<span class="json-comma">,</span>';
+                        }
+                        result += '\n';
+                    }
+                    result += spaces + '<span class="json-bracket">}</span>';
+                    return result;
+                }
+                
+                return String(obj);
+            }
+
+            // Download functions
+            function downloadJSON() {
+                if (!jsonData) {
+                    alert('No JSON data available to download');
+                    return;
+                }
+                
+                const dataStr = JSON.stringify(jsonData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = currentFile ? `${currentFile.name.replace(/\.[^/.]+$/, '')}_data.json` : 'pdf_data.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            // Utility functions
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            function removeFile() {
+                currentFile = null;
+                jsonData = null;
+                fileInfo.style.display = 'none';
+                resultSection.style.display = 'none';
+                fileInput.value = '';
+                hideError();
+                hideSuccess();
+            }
+
+            // Make functions globally accessible
+            window.changeDisplayType = changeDisplayType;
+            window.downloadJSON = downloadJSON;
+            window.removeFile = removeFile;
+        }
+    </script>
+</body>
+</html> 
