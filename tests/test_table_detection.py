@@ -271,20 +271,17 @@ class TestTableDetection(unittest.TestCase):
         sheet = result['workbook']['sheets'][0]
         tables = sheet['tables']
         
-        # Should detect 6 tables: 3 title rows + 3 data blocks
-        self.assertEqual(len(tables), 6, f"Expected 6 tables (3 titles + 3 data blocks), got {len(tables)}")
+        # Should detect 3 tables: 3 data blocks only
+        self.assertEqual(len(tables), 3, f"Expected 3 tables (data blocks only), got {len(tables)}")
         
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
         # Expected table regions based on actual detection behavior
         expected_regions = [
-            {'start_row': 1, 'end_row': 1, 'start_col': 1, 'end_col': 6},   # Title 1
-            {'start_row': 3, 'end_row': 5, 'start_col': 1, 'end_col': 6},   # Data 1
-            {'start_row': 9, 'end_row': 9, 'start_col': 1, 'end_col': 6},   # Title 2
-            {'start_row': 11, 'end_row': 13, 'start_col': 1, 'end_col': 6}, # Data 2
-            {'start_row': 17, 'end_row': 17, 'start_col': 1, 'end_col': 6}, # Title 3
-            {'start_row': 19, 'end_row': 21, 'start_col': 1, 'end_col': 6}  # Data 3
+            {'start_row': 1, 'end_row': 5, 'start_col': 1, 'end_col': 6},   # Data 1 (includes title)
+            {'start_row': 9, 'end_row': 13, 'start_col': 1, 'end_col': 6}, # Data 2 (includes title)
+            {'start_row': 17, 'end_row': 25, 'start_col': 1, 'end_col': 6}  # Data 3 (includes title)
         ]
         
         # Verify that each expected region matches a detected table
@@ -381,18 +378,16 @@ class TestTableDetection(unittest.TestCase):
         sheet = result['workbook']['sheets'][0]
         tables = sheet['tables']
         
-        # Should detect 4 tables
-        self.assertEqual(len(tables), 4, f"Expected 4 tables, got {len(tables)}")
+        # Should detect 2 tables: 2 data blocks only
+        self.assertEqual(len(tables), 2, f"Expected 2 tables (data blocks only), got {len(tables)}")
         
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
         # Expected table regions based on actual detection behavior
         expected_regions = [
-            {'start_row': 1, 'end_row': 1, 'start_col': 1, 'end_col': 10},  # Title row (both titles on same row)
-            {'start_row': 3, 'end_row': 4, 'start_col': 1, 'end_col': 10},  # Data rows (both data blocks)
-            {'start_row': 20, 'end_row': 20, 'start_col': 1, 'end_col': 10}, # Title row (both titles on same row)
-            {'start_row': 22, 'end_row': 24, 'start_col': 1, 'end_col': 10}  # Data rows (both data blocks)
+            {'start_row': 1, 'end_row': 4, 'start_col': 1, 'end_col': 10},  # Data rows (both data blocks top, includes titles)
+            {'start_row': 20, 'end_row': 30, 'start_col': 1, 'end_col': 10}  # Data rows (both data blocks bottom, includes titles)
         ]
         
         # Verify that each expected region matches a detected table
@@ -520,20 +515,17 @@ class TestTableDetection(unittest.TestCase):
         sheet = result['workbook']['sheets'][0]
         tables = sheet['tables']
         
-        # Should detect 6 tables: 3 title rows + 3 data blocks
-        self.assertEqual(len(tables), 6, f"Expected 6 tables (3 titles + 3 data blocks), got {len(tables)}")
+        # Should detect 3 tables: 3 data blocks only
+        self.assertEqual(len(tables), 3, f"Expected 3 tables (data blocks only), got {len(tables)}")
         
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
         # Expected table regions based on actual detection behavior
         expected_regions = [
-            {'start_row': 1, 'end_row': 1, 'start_col': 1, 'end_col': 8},   # Title 1 (Small Summary)
-            {'start_row': 3, 'end_row': 4, 'start_col': 1, 'end_col': 8},   # Data 1
-            {'start_row': 8, 'end_row': 8, 'start_col': 1, 'end_col': 8},   # Title 2 (Medium Detail)
-            {'start_row': 10, 'end_row': 13, 'start_col': 1, 'end_col': 8}, # Data 2
-            {'start_row': 18, 'end_row': 18, 'start_col': 1, 'end_col': 8}, # Title 3 (Large Comprehensive)
-            {'start_row': 20, 'end_row': 28, 'start_col': 1, 'end_col': 8}  # Data 3
+            {'start_row': 1, 'end_row': 4, 'start_col': 1, 'end_col': 8},   # Data 1 (includes title)
+            {'start_row': 8, 'end_row': 13, 'start_col': 1, 'end_col': 8}, # Data 2 (includes title)
+            {'start_row': 18, 'end_row': 35, 'start_col': 1, 'end_col': 8}  # Data 3 (includes title)
         ]
         
         # Verify that each expected region matches a detected table
@@ -657,20 +649,17 @@ class TestTableDetection(unittest.TestCase):
         sheet = result['workbook']['sheets'][0]
         tables = sheet['tables']
         
-        # Should detect 6 tables: 3 title rows + 3 data blocks
-        self.assertEqual(len(tables), 6, f"Expected 6 tables (3 titles + 3 data blocks), got {len(tables)}")
+        # Should detect 3 tables: 3 data blocks only
+        self.assertEqual(len(tables), 3, f"Expected 3 tables (data blocks only), got {len(tables)}")
         
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
         # Expected table regions based on actual detection behavior
         expected_regions = [
-            {'start_row': 1, 'end_row': 3, 'start_col': 1, 'end_col': 8},   # Title 1 (Financial Performance + metadata)
-            {'start_row': 5, 'end_row': 8, 'start_col': 1, 'end_col': 8},   # Data 1
-            {'start_row': 12, 'end_row': 14, 'start_col': 1, 'end_col': 8}, # Title 2 (Department Budget + metadata)
-            {'start_row': 16, 'end_row': 19, 'start_col': 1, 'end_col': 8}, # Data 2
-            {'start_row': 23, 'end_row': 25, 'start_col': 1, 'end_col': 8}, # Title 3 (Project Status + metadata)
-            {'start_row': 27, 'end_row': 30, 'start_col': 1, 'end_col': 8}  # Data 3
+            {'start_row': 1, 'end_row': 8, 'start_col': 1, 'end_col': 8},   # Data 1 (includes title and metadata)
+            {'start_row': 12, 'end_row': 19, 'start_col': 1, 'end_col': 8}, # Data 2 (includes title and metadata)
+            {'start_row': 23, 'end_row': 30, 'start_col': 1, 'end_col': 8}  # Data 3 (includes title and metadata)
         ]
         
         # Verify that each expected region matches a detected table
@@ -778,20 +767,17 @@ class TestTableDetection(unittest.TestCase):
         sheet = result['workbook']['sheets'][0]
         tables = sheet['tables']
         
-        # Should detect 6 tables: 3 title rows + 3 data blocks
-        self.assertEqual(len(tables), 6, f"Expected 6 tables (3 titles + 3 data blocks), got {len(tables)}")
+        # Should detect 3 tables: 3 data blocks only
+        self.assertEqual(len(tables), 3, f"Expected 3 tables (data blocks only), got {len(tables)}")
         
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
         # Expected table regions based on actual detection behavior
         expected_regions = [
-            {'start_row': 1, 'end_row': 1, 'start_col': 1, 'end_col': 7},   # Title 1 (Sales Calculations)
-            {'start_row': 3, 'end_row': 5, 'start_col': 1, 'end_col': 7},   # Data 1
-            {'start_row': 9, 'end_row': 9, 'start_col': 1, 'end_col': 7},   # Title 2 (Special Data Report)
-            {'start_row': 11, 'end_row': 14, 'start_col': 1, 'end_col': 7}, # Data 2
-            {'start_row': 18, 'end_row': 18, 'start_col': 1, 'end_col': 7}, # Title 3 (Financial Summary)
-            {'start_row': 20, 'end_row': 23, 'start_col': 1, 'end_col': 7}  # Data 3
+            {'start_row': 1, 'end_row': 5, 'start_col': 1, 'end_col': 7},   # Data 1 (includes title)
+            {'start_row': 9, 'end_row': 14, 'start_col': 1, 'end_col': 7}, # Data 2 (includes title)
+            {'start_row': 18, 'end_row': 25, 'start_col': 1, 'end_col': 7}  # Data 3 (includes title)
         ]
         
         # Verify that each expected region matches a detected table

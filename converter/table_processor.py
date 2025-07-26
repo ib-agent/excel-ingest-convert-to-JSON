@@ -68,8 +68,8 @@ class TableProcessor:
                 if isinstance(value, bool) and not value:
                     continue
                 
-                # Skip error messages and invalid data patterns
-                if isinstance(value, str) and self._is_error_message(value):
+                # Skip error messages and invalid data patterns (but be less aggressive)
+                if isinstance(value, str) and self._is_error_message(value) and len(value) < 50:
                     continue
                 
                 # Recursively clean nested structures
@@ -526,6 +526,19 @@ class TableProcessor:
             })
             return regions
         
+        # If gap detection is explicitly requested, use it regardless of structured layout
+        if use_gap_detection:
+            # Use gap-based detection
+            gap_regions = self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col)
+            if gap_regions:
+                regions.extend(gap_regions)
+            else:
+                # Fallback to other detection methods only if gap detection found nothing
+                regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
+                regions.extend(self._detect_tables_by_merged_cells(cells, min_row, max_row, min_col, max_col))
+                regions = self._merge_overlapping_regions(regions)
+            return regions
+        
         # SECONDARY: If sheet shows structured layout and we're not using gap detection, treat as single table
         if has_structured_layout and not use_gap_detection:
             # Create a single table region for the entire data area
@@ -587,13 +600,23 @@ class TableProcessor:
             r'\b\d{4}\s+(January|February|March|April|May|June|July|August|September|October|November|December)\b',
         ]
         
-        # Common text label patterns that indicate new tables
-        text_label_patterns = [
-            r'\b(Total|Subtotal|Summary|Report|Analysis|Breakdown|Details|Overview)\b',
-            r'\b(Revenue|Sales|Income|Expense|Cost|Profit|Loss|Margin|EBITDA)\b',
+        # Patterns that indicate new tables (section headers, not summary rows)
+        new_table_patterns = [
+            r'\b(Report|Analysis|Breakdown|Details|Overview)\b',
             r'\b(Department|Division|Region|Category|Product|Service|Item)\b',
             r'\b(Monthly|Quarterly|Annual|Yearly|Weekly|Daily)\b',
             r'\b(Performance|Metrics|KPI|Target|Actual|Budget|Forecast)\b',
+            # More specific patterns for section headers
+            r'\b(Revenue|Sales|Cost of Goods|COGS|Gross Profit|Operating Income|Operating Expense)\b',
+            r'\b(SG&A|General|Administrative|Marketing|Research|Development|R&D)\b',
+            r'\b(Interest|Tax|Depreciation|Amortization|Other Income|Other Expense)\b',
+        ]
+        
+        # Patterns that indicate summary rows (part of the same table)
+        summary_patterns = [
+            r'\b(Total|Subtotal|Net Income|EBITDA|EBIT|Net Profit|Net Loss)\b',
+            r'\b(Gross Profit|Operating Profit|Operating Loss|Net Operating Income)\b',
+            r'\b(Total Revenue|Total Sales|Total Expense|Total Cost)\b',
         ]
         
         # Check each cell in the row
@@ -617,13 +640,18 @@ class TableProcessor:
                         if re.search(pattern, value_str, re.IGNORECASE):
                             return True
                     
-                    # Check for text label patterns
-                    for pattern in text_label_patterns:
+                    # Check for summary patterns first (these are part of the same table)
+                    for pattern in summary_patterns:
+                        if re.search(pattern, value_str, re.IGNORECASE):
+                            return False  # This is a summary row, not a new table
+                    
+                    # Check for new table patterns
+                    for pattern in new_table_patterns:
                         if re.search(pattern, value_str, re.IGNORECASE):
                             return True
                     
-                    # If it's not numerical and not empty, it's non-numerical content
-                    # that indicates a new table (dates, text labels, etc.)
+                    # If it's not numerical and not empty, and doesn't match summary patterns,
+                    # it might be a new table indicator
                     return True
         
         return False
@@ -694,7 +722,6 @@ class TableProcessor:
                     
                     if next_row_after_gap <= max_row:
                         should_start_new_table = self._is_non_numerical_content(cells, next_row_after_gap, min_col, max_col)
-                    
                     if should_start_new_table:
                         # End of a table region after gap followed by non-numerical content
                         regions.append({
@@ -706,11 +733,10 @@ class TableProcessor:
                         })
                         current_start_row = None
                         consecutive_blank_rows = 0
+                        continue  # Ensure next non-empty row starts a new region
                     else:
-                        # Continue the current table even through the gap
-                        # Reset the gap counter but keep the current table
-                        consecutive_blank_rows = 0
-        
+                        # Do NOT reset consecutive_blank_rows here; let it accumulate
+                        pass
         # Handle table that extends to the end
         if current_start_row is not None:
             regions.append({
@@ -720,7 +746,6 @@ class TableProcessor:
                 'end_col': max_col,
                 'detection_method': 'gaps'
             })
-        
         return regions
     
     def _detect_tables_by_formatting(self, cells: dict, min_row: int, max_row: int, 

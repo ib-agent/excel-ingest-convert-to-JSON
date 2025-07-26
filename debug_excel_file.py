@@ -160,7 +160,10 @@ def analyze_excel_file(file_path):
 
 def main():
     """Main function"""
-    file_path = "/Users/jeffwinner/Desktop/Number Counter tests/pDD10b - Exos_2023_financials.xlsx"
+    if len(sys.argv) > 1:
+        file_path = sys.argv[1]
+    else:
+        file_path = "/Users/jeffwinner/Desktop/Number Counter tests/EXOS-Total P&L with PT only.xlsx"
     
     print("Excel File Analysis Tool")
     print("=" * 60)
