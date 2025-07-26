@@ -309,7 +309,19 @@ def run_test_case(test_name, test_data, expected_tables, expected_headers):
         # Step 1: Transform to table format
         print("Step 1: Transforming to table format...")
         table_processor = TableProcessor()
-        table_data = table_processor.transform_to_table_format(test_data)
+        
+        # Use gap detection for multiple tables test
+        options = {}
+        if test_name == "Multiple Tables":
+            options = {
+                'table_detection': {
+                    'use_gaps': True,
+                    'use_formatting': True,
+                    'use_merged_cells': True
+                }
+            }
+        
+        table_data = table_processor.transform_to_table_format(test_data, options)
         
         # Step 2: Resolve headers
         print("Step 2: Resolving headers...")
@@ -381,9 +393,19 @@ def test_api_endpoints():
         
         try:
             # Test table transformation API
+            payload = {"json_data": test_data}
+            if test_name == "Multiple Tables":
+                payload["options"] = {
+                    "table_detection": {
+                        "use_gaps": True,
+                        "use_formatting": True,
+                        "use_merged_cells": True
+                    }
+                }
+            
             response1 = requests.post(
                 "http://localhost:8001/api/transform-tables/",
-                json={"json_data": test_data},
+                json=payload,
                 timeout=10
             )
             
@@ -397,7 +419,7 @@ def test_api_endpoints():
             # Test header resolution API
             response2 = requests.post(
                 "http://localhost:8001/api/resolve-headers/",
-                json={"table_json": table_data},
+                json={"table_data": table_data},
                 timeout=10
             )
             
@@ -406,7 +428,7 @@ def test_api_endpoints():
                 results.append((test_name, False))
                 continue
             
-            enhanced_data = response2.json()['enhanced_data']
+            enhanced_data = response2.json()['resolved_data']
             
             # Verify results
             tables = enhanced_data['workbook']['sheets'][0].get('tables', [])

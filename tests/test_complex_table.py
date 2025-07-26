@@ -431,11 +431,13 @@ def test_complex_transformation():
             
             print(f"    Columns ({len(table['columns'])}):")
             for col in table['columns']:
-                print(f"      {col['column_letter']}: '{col['column_label']}' (header: {col['is_header_column']})")
+                is_header = col.get('is_header_column', 'N/A')
+                print(f"      {col['column_letter']}: '{col['column_label']}' (header: {is_header})")
             
             print(f"    Rows ({len(table['rows'])}):")
             for row in table['rows']:
-                print(f"      Row {row['row_index']}: '{row['row_label']}' (header: {row['is_header_row']})")
+                is_header = row.get('is_header_row', 'N/A')
+                print(f"      Row {row['row_index']}: '{row['row_label']}' (header: {is_header})")
     
     # Save results
     with open("test_complex_transformation_result.json", 'w') as f:

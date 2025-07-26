@@ -179,7 +179,7 @@ class TableProcessor:
         cleaned_cell = {}
         
         # Copy basic cell properties
-        for key in ['value', 'formula', 'data_type', 'coordinate']:
+        for key in ['value', 'formula', 'data_type', 'coordinate', 'row', 'column']:
             if key in cell_data and cell_data[key] is not None:
                 cleaned_cell[key] = cell_data[key]
         
@@ -508,8 +508,12 @@ class TableProcessor:
         # Check for structured table indicators
         has_structured_layout = self._detect_structured_table_layout(cells, min_row, max_row, min_col, max_col)
         
-        # If sheet has frozen first row and first column, or shows structured layout, treat as single table
-        if (frozen_rows > 0 and frozen_cols > 0) or has_structured_layout:
+        # Check if we should use gap-based detection (for multiple tables)
+        use_gap_detection = options.get('table_detection', {}).get('use_gaps', False)
+        
+        # If sheet has frozen first row and first column, or shows structured layout, 
+        # and we're not using gap detection, treat as single table
+        if ((frozen_rows > 0 and frozen_cols > 0) or has_structured_layout) and not use_gap_detection:
             # Create a single table region for the entire data area
             regions.append({
                 'start_row': min_row,
@@ -544,7 +548,7 @@ class TableProcessor:
         # Find continuous data regions
         current_start_row = None
         consecutive_blank_rows = 0
-        max_consecutive_blank_rows = 2  # Allow up to 2 consecutive blank rows within a table
+        max_consecutive_blank_rows = 1  # Allow up to 1 consecutive blank row within a table
         
         for row in range(min_row, max_row + 1):
             row_has_data = False
@@ -559,7 +563,7 @@ class TableProcessor:
             
             if not row_has_data:
                 consecutive_blank_rows += 1
-                if current_start_row is not None and consecutive_blank_rows > max_consecutive_blank_rows:
+                if current_start_row is not None and consecutive_blank_rows >= max_consecutive_blank_rows:
                     # End of a table region after too many consecutive blank rows
                     regions.append({
                         'start_row': current_start_row,
@@ -647,9 +651,10 @@ class TableProcessor:
         current = regions[0].copy()
         
         for region in regions[1:]:
-            # Check if regions overlap or are adjacent
+            # Check if regions overlap or are truly adjacent (touching, not separated by gaps)
             if (region['start_row'] <= current['end_row'] + 1 and
-                region['start_col'] <= current['end_col'] + 1):
+                region['start_col'] <= current['end_col'] + 1 and
+                region['start_row'] <= current['end_row']):  # Only merge if they actually overlap or touch
                 # Merge regions
                 current['end_row'] = max(current['end_row'], region['end_row'])
                 current['end_col'] = max(current['end_col'], region['end_col'])

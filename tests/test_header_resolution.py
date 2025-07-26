@@ -813,7 +813,7 @@ def test_api_header_resolution():
         # Make API request
         url = "http://localhost:8001/api/resolve-headers/"
         payload = {
-            "table_json": table_json,
+            "table_data": table_json,
             "options": {
                 "header_detection": {
                     "use_formatting": True,
@@ -829,7 +829,7 @@ def test_api_header_resolution():
             print("✅ API header resolution successful!")
             
             # Print summary
-            enhanced_data = result['enhanced_data']
+            enhanced_data = result['resolved_data']
             for sheet in enhanced_data['workbook']['sheets']:
                 print(f"\nSheet: {sheet['name']}")
                 for table in sheet.get('tables', []):
@@ -844,7 +844,7 @@ def test_api_header_resolution():
                     
                     print(f"    Data cells with header context: {cells_with_headers}")
             
-            return result['enhanced_data']
+            return result['resolved_data']
         else:
             print(f"❌ API request failed with status {response.status_code}")
             print(f"Response: {response.text}")

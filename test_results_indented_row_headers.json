@@ -18,11 +18,11 @@
         },
         "cells": {
           "A1": {
+            "value": "Category",
+            "data_type": "string",
             "coordinate": "A1",
             "row": 1,
             "column": 1,
-            "value": "Category",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -30,11 +30,11 @@
             }
           },
           "B1": {
+            "value": "Q1",
+            "data_type": "string",
             "coordinate": "B1",
             "row": 1,
             "column": 2,
-            "value": "Q1",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -42,11 +42,11 @@
             }
           },
           "C1": {
+            "value": "Q2",
+            "data_type": "string",
             "coordinate": "C1",
             "row": 1,
             "column": 3,
-            "value": "Q2",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -54,11 +54,11 @@
             }
           },
           "D1": {
+            "value": "Q3",
+            "data_type": "string",
             "coordinate": "D1",
             "row": 1,
             "column": 4,
-            "value": "Q3",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -66,239 +66,44 @@
             }
           },
           "A2": {
+            "value": "Electronics",
+            "data_type": "string",
             "coordinate": "A2",
             "row": 2,
             "column": 1,
-            "value": "Electronics",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
-              },
-              "alignment": {
-                "indent": 0
               }
             }
           },
           "B2": {
-            "coordinate": "B2",
-            "row": 2,
-            "column": 2,
             "value": 5000,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q1",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "Electronics",
-                  "coordinate": "A2",
-                  "row": 2,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 2,
-                    "end_row": 2,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    },
-                    "alignment": {
-                      "indent": 0
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q1"
-              ],
-              "full_row_path": [
-                "Electronics"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q1",
-                "primary_row_header": "Electronics",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "B2",
+            "row": 2,
+            "column": 2
           },
           "C2": {
-            "coordinate": "C2",
-            "row": 2,
-            "column": 3,
             "value": 5500,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q2",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "Electronics",
-                  "coordinate": "A2",
-                  "row": 2,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 2,
-                    "end_row": 2,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    },
-                    "alignment": {
-                      "indent": 0
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q2"
-              ],
-              "full_row_path": [
-                "Electronics"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q2",
-                "primary_row_header": "Electronics",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "C2",
+            "row": 2,
+            "column": 3
           },
           "D2": {
-            "coordinate": "D2",
-            "row": 2,
-            "column": 4,
             "value": 6000,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q3",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "Electronics",
-                  "coordinate": "A2",
-                  "row": 2,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 2,
-                    "end_row": 2,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    },
-                    "alignment": {
-                      "indent": 0
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q3"
-              ],
-              "full_row_path": [
-                "Electronics"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q3",
-                "primary_row_header": "Electronics",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "D2",
+            "row": 2,
+            "column": 4
           },
           "A3": {
+            "value": "  - Phones",
+            "data_type": "string",
             "coordinate": "A3",
             "row": 3,
             "column": 1,
-            "value": "  - Phones",
-            "data_type": "string",
             "style": {
               "alignment": {
                 "indent": 2
@@ -306,215 +111,32 @@
             }
           },
           "B3": {
-            "coordinate": "B3",
-            "row": 3,
-            "column": 2,
             "value": 3000,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q1",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "  - Phones",
-                  "coordinate": "A3",
-                  "row": 3,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 3,
-                    "end_row": 3,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "alignment": {
-                      "indent": 2
-                    }
-                  },
-                  "indent_level": 1,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q1"
-              ],
-              "full_row_path": [
-                "  - Phones"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q1",
-                "primary_row_header": "  - Phones",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 1
-              }
-            }
+            "coordinate": "B3",
+            "row": 3,
+            "column": 2
           },
           "C3": {
-            "coordinate": "C3",
-            "row": 3,
-            "column": 3,
             "value": 3200,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q2",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "  - Phones",
-                  "coordinate": "A3",
-                  "row": 3,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 3,
-                    "end_row": 3,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "alignment": {
-                      "indent": 2
-                    }
-                  },
-                  "indent_level": 1,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q2"
-              ],
-              "full_row_path": [
-                "  - Phones"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q2",
-                "primary_row_header": "  - Phones",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 1
-              }
-            }
+            "coordinate": "C3",
+            "row": 3,
+            "column": 3
           },
           "D3": {
-            "coordinate": "D3",
-            "row": 3,
-            "column": 4,
             "value": 3500,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q3",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "  - Phones",
-                  "coordinate": "A3",
-                  "row": 3,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 3,
-                    "end_row": 3,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "alignment": {
-                      "indent": 2
-                    }
-                  },
-                  "indent_level": 1,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q3"
-              ],
-              "full_row_path": [
-                "  - Phones"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q3",
-                "primary_row_header": "  - Phones",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 1
-              }
-            }
+            "coordinate": "D3",
+            "row": 3,
+            "column": 4
           },
           "A4": {
+            "value": "  - Laptops",
+            "data_type": "string",
             "coordinate": "A4",
             "row": 4,
             "column": 1,
-            "value": "  - Laptops",
-            "data_type": "string",
             "style": {
               "alignment": {
                 "indent": 2
@@ -522,449 +144,71 @@
             }
           },
           "B4": {
-            "coordinate": "B4",
-            "row": 4,
-            "column": 2,
             "value": 2000,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q1",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "  - Laptops",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "alignment": {
-                      "indent": 2
-                    }
-                  },
-                  "indent_level": 1,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q1"
-              ],
-              "full_row_path": [
-                "  - Laptops"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q1",
-                "primary_row_header": "  - Laptops",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 1
-              }
-            }
+            "coordinate": "B4",
+            "row": 4,
+            "column": 2
           },
           "C4": {
-            "coordinate": "C4",
-            "row": 4,
-            "column": 3,
             "value": 2300,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q2",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "  - Laptops",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "alignment": {
-                      "indent": 2
-                    }
-                  },
-                  "indent_level": 1,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q2"
-              ],
-              "full_row_path": [
-                "  - Laptops"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q2",
-                "primary_row_header": "  - Laptops",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 1
-              }
-            }
+            "coordinate": "C4",
+            "row": 4,
+            "column": 3
           },
           "D4": {
-            "coordinate": "D4",
-            "row": 4,
-            "column": 4,
             "value": 2500,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q3",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "  - Laptops",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "alignment": {
-                      "indent": 2
-                    }
-                  },
-                  "indent_level": 1,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q3"
-              ],
-              "full_row_path": [
-                "  - Laptops"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q3",
-                "primary_row_header": "  - Laptops",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 1
-              }
-            }
+            "coordinate": "D4",
+            "row": 4,
+            "column": 4
           },
           "A5": {
+            "value": "Clothing",
+            "data_type": "string",
             "coordinate": "A5",
             "row": 5,
             "column": 1,
-            "value": "Clothing",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
-              },
-              "alignment": {
-                "indent": 0
               }
             }
           },
           "B5": {
-            "coordinate": "B5",
-            "row": 5,
-            "column": 2,
             "value": 3000,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q1",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "Clothing",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    },
-                    "alignment": {
-                      "indent": 0
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q1"
-              ],
-              "full_row_path": [
-                "Clothing"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q1",
-                "primary_row_header": "Clothing",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "B5",
+            "row": 5,
+            "column": 2
           },
           "C5": {
-            "coordinate": "C5",
-            "row": 5,
-            "column": 3,
             "value": 3200,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q2",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "Clothing",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    },
-                    "alignment": {
-                      "indent": 0
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q2"
-              ],
-              "full_row_path": [
-                "Clothing"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q2",
-                "primary_row_header": "Clothing",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "C5",
+            "row": 5,
+            "column": 3
           },
           "D5": {
-            "coordinate": "D5",
-            "row": 5,
-            "column": 4,
             "value": 3500,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Q3",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "Clothing",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    },
-                    "alignment": {
-                      "indent": 0
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Q3"
-              ],
-              "full_row_path": [
-                "Clothing"
-              ],
-              "header_summary": {
-                "primary_column_header": "Q3",
-                "primary_row_header": "Clothing",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "D5",
+            "row": 5,
+            "column": 4
           }
         },
-        "merged_cells": [],
         "tables": [
           {
             "table_id": "table_1",
             "name": "Table 1",
             "region": {
               "start_row": 1,
-              "end_row": 5,
+              "end_row": 6,
               "start_col": 1,
               "end_col": 4,
-              "detection_method": "gaps+formatting+formatting+formatting"
+              "detection_method": "structured_layout",
+              "has_structured_layout": true
             },
             "header_info": {
               "header_rows": [
@@ -982,15 +226,13 @@
                 "column_letter": "A",
                 "column_label": "Category",
                 "is_header_column": true,
-                "width": null,
-                "hidden": false,
                 "cells": {
                   "A1": {
+                    "value": "Category",
+                    "data_type": "string",
                     "coordinate": "A1",
                     "row": 1,
                     "column": 1,
-                    "value": "Category",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -998,26 +240,23 @@
                     }
                   },
                   "A2": {
+                    "value": "Electronics",
+                    "data_type": "string",
                     "coordinate": "A2",
                     "row": 2,
                     "column": 1,
-                    "value": "Electronics",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
-                      },
-                      "alignment": {
-                        "indent": 0
                       }
                     }
                   },
                   "A3": {
+                    "value": "  - Phones",
+                    "data_type": "string",
                     "coordinate": "A3",
                     "row": 3,
                     "column": 1,
-                    "value": "  - Phones",
-                    "data_type": "string",
                     "style": {
                       "alignment": {
                         "indent": 2
@@ -1025,11 +264,11 @@
                     }
                   },
                   "A4": {
+                    "value": "  - Laptops",
+                    "data_type": "string",
                     "coordinate": "A4",
                     "row": 4,
                     "column": 1,
-                    "value": "  - Laptops",
-                    "data_type": "string",
                     "style": {
                       "alignment": {
                         "indent": 2
@@ -1037,17 +276,14 @@
                     }
                   },
                   "A5": {
+                    "value": "Clothing",
+                    "data_type": "string",
                     "coordinate": "A5",
                     "row": 5,
                     "column": 1,
-                    "value": "Clothing",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
-                      },
-                      "alignment": {
-                        "indent": 0
                       }
                     }
                   }
@@ -1057,16 +293,13 @@
                 "column_index": 2,
                 "column_letter": "B",
                 "column_label": "Q1",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
                 "cells": {
                   "B1": {
+                    "value": "Q1",
+                    "data_type": "string",
                     "coordinate": "B1",
                     "row": 1,
                     "column": 2,
-                    "value": "Q1",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1074,11 +307,11 @@
                     }
                   },
                   "B2": {
+                    "value": 5000,
+                    "data_type": "number",
                     "coordinate": "B2",
                     "row": 2,
                     "column": 2,
-                    "value": 5000,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1119,9 +352,6 @@
                           "style": {
                             "font": {
                               "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
                             }
                           },
                           "indent_level": 0,
@@ -1145,11 +375,11 @@
                     }
                   },
                   "B3": {
+                    "value": 3000,
+                    "data_type": "number",
                     "coordinate": "B3",
                     "row": 3,
                     "column": 2,
-                    "value": 3000,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1213,11 +443,11 @@
                     }
                   },
                   "B4": {
+                    "value": 2000,
+                    "data_type": "number",
                     "coordinate": "B4",
                     "row": 4,
                     "column": 2,
-                    "value": 2000,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1281,11 +511,11 @@
                     }
                   },
                   "B5": {
+                    "value": 3000,
+                    "data_type": "number",
                     "coordinate": "B5",
                     "row": 5,
                     "column": 2,
-                    "value": 3000,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1326,9 +556,6 @@
                           "style": {
                             "font": {
                               "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
                             }
                           },
                           "indent_level": 0,
@@ -1357,16 +584,13 @@
                 "column_index": 3,
                 "column_letter": "C",
                 "column_label": "Q2",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
                 "cells": {
                   "C1": {
+                    "value": "Q2",
+                    "data_type": "string",
                     "coordinate": "C1",
                     "row": 1,
                     "column": 3,
-                    "value": "Q2",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1374,11 +598,11 @@
                     }
                   },
                   "C2": {
+                    "value": 5500,
+                    "data_type": "number",
                     "coordinate": "C2",
                     "row": 2,
                     "column": 3,
-                    "value": 5500,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1419,9 +643,6 @@
                           "style": {
                             "font": {
                               "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
                             }
                           },
                           "indent_level": 0,
@@ -1445,11 +666,11 @@
                     }
                   },
                   "C3": {
+                    "value": 3200,
+                    "data_type": "number",
                     "coordinate": "C3",
                     "row": 3,
                     "column": 3,
-                    "value": 3200,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1513,11 +734,11 @@
                     }
                   },
                   "C4": {
+                    "value": 2300,
+                    "data_type": "number",
                     "coordinate": "C4",
                     "row": 4,
                     "column": 3,
-                    "value": 2300,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1581,11 +802,11 @@
                     }
                   },
                   "C5": {
+                    "value": 3200,
+                    "data_type": "number",
                     "coordinate": "C5",
                     "row": 5,
                     "column": 3,
-                    "value": 3200,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1626,9 +847,6 @@
                           "style": {
                             "font": {
                               "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
                             }
                           },
                           "indent_level": 0,
@@ -1657,16 +875,13 @@
                 "column_index": 4,
                 "column_letter": "D",
                 "column_label": "Q3",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
                 "cells": {
                   "D1": {
+                    "value": "Q3",
+                    "data_type": "string",
                     "coordinate": "D1",
                     "row": 1,
                     "column": 4,
-                    "value": "Q3",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1674,11 +889,11 @@
                     }
                   },
                   "D2": {
+                    "value": 6000,
+                    "data_type": "number",
                     "coordinate": "D2",
                     "row": 2,
                     "column": 4,
-                    "value": 6000,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1719,9 +934,6 @@
                           "style": {
                             "font": {
                               "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
                             }
                           },
                           "indent_level": 0,
@@ -1745,11 +957,11 @@
                     }
                   },
                   "D3": {
+                    "value": 3500,
+                    "data_type": "number",
                     "coordinate": "D3",
                     "row": 3,
                     "column": 4,
-                    "value": 3500,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1813,11 +1025,11 @@
                     }
                   },
                   "D4": {
+                    "value": 2500,
+                    "data_type": "number",
                     "coordinate": "D4",
                     "row": 4,
                     "column": 4,
-                    "value": 2500,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1881,11 +1093,11 @@
                     }
                   },
                   "D5": {
+                    "value": 3500,
+                    "data_type": "number",
                     "coordinate": "D5",
                     "row": 5,
                     "column": 4,
-                    "value": 3500,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1926,9 +1138,6 @@
                           "style": {
                             "font": {
                               "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
                             }
                           },
                           "indent_level": 0,
@@ -1959,15 +1168,13 @@
                 "row_index": 1,
                 "row_label": "Category",
                 "is_header_row": true,
-                "height": null,
-                "hidden": false,
                 "cells": {
                   "A1": {
+                    "value": "Category",
+                    "data_type": "string",
                     "coordinate": "A1",
                     "row": 1,
                     "column": 1,
-                    "value": "Category",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1975,11 +1182,11 @@
                     }
                   },
                   "B1": {
+                    "value": "Q1",
+                    "data_type": "string",
                     "coordinate": "B1",
                     "row": 1,
                     "column": 2,
-                    "value": "Q1",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1987,11 +1194,11 @@
                     }
                   },
                   "C1": {
+                    "value": "Q2",
+                    "data_type": "string",
                     "coordinate": "C1",
                     "row": 1,
                     "column": 3,
-                    "value": "Q2",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1999,11 +1206,11 @@
                     }
                   },
                   "D1": {
+                    "value": "Q3",
+                    "data_type": "string",
                     "coordinate": "D1",
                     "row": 1,
                     "column": 4,
-                    "value": "Q3",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2014,254 +1221,53 @@
               },
               {
                 "row_index": 2,
-                "row_label": "Electronics",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Category",
                 "cells": {
                   "A2": {
+                    "value": "Electronics",
+                    "data_type": "string",
                     "coordinate": "A2",
                     "row": 2,
                     "column": 1,
-                    "value": "Electronics",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
-                      },
-                      "alignment": {
-                        "indent": 0
                       }
                     }
                   },
                   "B2": {
-                    "coordinate": "B2",
-                    "row": 2,
-                    "column": 2,
                     "value": 5000,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q1",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "Electronics",
-                          "coordinate": "A2",
-                          "row": 2,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 2,
-                            "end_row": 2,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q1"
-                      ],
-                      "full_row_path": [
-                        "Electronics"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q1",
-                        "primary_row_header": "Electronics",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "B2",
+                    "row": 2,
+                    "column": 2
                   },
                   "C2": {
-                    "coordinate": "C2",
-                    "row": 2,
-                    "column": 3,
                     "value": 5500,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q2",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "Electronics",
-                          "coordinate": "A2",
-                          "row": 2,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 2,
-                            "end_row": 2,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q2"
-                      ],
-                      "full_row_path": [
-                        "Electronics"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q2",
-                        "primary_row_header": "Electronics",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "C2",
+                    "row": 2,
+                    "column": 3
                   },
                   "D2": {
-                    "coordinate": "D2",
-                    "row": 2,
-                    "column": 4,
                     "value": 6000,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q3",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "Electronics",
-                          "coordinate": "A2",
-                          "row": 2,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 2,
-                            "end_row": 2,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q3"
-                      ],
-                      "full_row_path": [
-                        "Electronics"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q3",
-                        "primary_row_header": "Electronics",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "D2",
+                    "row": 2,
+                    "column": 4
                   }
                 }
               },
               {
                 "row_index": 3,
-                "row_label": "  - Phones",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Category",
                 "cells": {
                   "A3": {
+                    "value": "  - Phones",
+                    "data_type": "string",
                     "coordinate": "A3",
                     "row": 3,
                     "column": 1,
-                    "value": "  - Phones",
-                    "data_type": "string",
                     "style": {
                       "alignment": {
                         "indent": 2
@@ -2269,224 +1275,38 @@
                     }
                   },
                   "B3": {
-                    "coordinate": "B3",
-                    "row": 3,
-                    "column": 2,
                     "value": 3000,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q1",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "  - Phones",
-                          "coordinate": "A3",
-                          "row": 3,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 3,
-                            "end_row": 3,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "alignment": {
-                              "indent": 2
-                            }
-                          },
-                          "indent_level": 1,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q1"
-                      ],
-                      "full_row_path": [
-                        "  - Phones"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q1",
-                        "primary_row_header": "  - Phones",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 1
-                      }
-                    }
+                    "coordinate": "B3",
+                    "row": 3,
+                    "column": 2
                   },
                   "C3": {
-                    "coordinate": "C3",
-                    "row": 3,
-                    "column": 3,
                     "value": 3200,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q2",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "  - Phones",
-                          "coordinate": "A3",
-                          "row": 3,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 3,
-                            "end_row": 3,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "alignment": {
-                              "indent": 2
-                            }
-                          },
-                          "indent_level": 1,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q2"
-                      ],
-                      "full_row_path": [
-                        "  - Phones"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q2",
-                        "primary_row_header": "  - Phones",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 1
-                      }
-                    }
+                    "coordinate": "C3",
+                    "row": 3,
+                    "column": 3
                   },
                   "D3": {
-                    "coordinate": "D3",
-                    "row": 3,
-                    "column": 4,
                     "value": 3500,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q3",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "  - Phones",
-                          "coordinate": "A3",
-                          "row": 3,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 3,
-                            "end_row": 3,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "alignment": {
-                              "indent": 2
-                            }
-                          },
-                          "indent_level": 1,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q3"
-                      ],
-                      "full_row_path": [
-                        "  - Phones"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q3",
-                        "primary_row_header": "  - Phones",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 1
-                      }
-                    }
+                    "coordinate": "D3",
+                    "row": 3,
+                    "column": 4
                   }
                 }
               },
               {
                 "row_index": 4,
-                "row_label": "  - Laptops",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Category",
                 "cells": {
                   "A4": {
+                    "value": "  - Laptops",
+                    "data_type": "string",
                     "coordinate": "A4",
                     "row": 4,
                     "column": 1,
-                    "value": "  - Laptops",
-                    "data_type": "string",
                     "style": {
                       "alignment": {
                         "indent": 2
@@ -2494,458 +1314,79 @@
                     }
                   },
                   "B4": {
-                    "coordinate": "B4",
-                    "row": 4,
-                    "column": 2,
                     "value": 2000,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q1",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "  - Laptops",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "alignment": {
-                              "indent": 2
-                            }
-                          },
-                          "indent_level": 1,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q1"
-                      ],
-                      "full_row_path": [
-                        "  - Laptops"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q1",
-                        "primary_row_header": "  - Laptops",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 1
-                      }
-                    }
+                    "coordinate": "B4",
+                    "row": 4,
+                    "column": 2
                   },
                   "C4": {
-                    "coordinate": "C4",
-                    "row": 4,
-                    "column": 3,
                     "value": 2300,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q2",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "  - Laptops",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "alignment": {
-                              "indent": 2
-                            }
-                          },
-                          "indent_level": 1,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q2"
-                      ],
-                      "full_row_path": [
-                        "  - Laptops"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q2",
-                        "primary_row_header": "  - Laptops",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 1
-                      }
-                    }
+                    "coordinate": "C4",
+                    "row": 4,
+                    "column": 3
                   },
                   "D4": {
-                    "coordinate": "D4",
-                    "row": 4,
-                    "column": 4,
                     "value": 2500,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q3",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "  - Laptops",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "alignment": {
-                              "indent": 2
-                            }
-                          },
-                          "indent_level": 1,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q3"
-                      ],
-                      "full_row_path": [
-                        "  - Laptops"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q3",
-                        "primary_row_header": "  - Laptops",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 1
-                      }
-                    }
+                    "coordinate": "D4",
+                    "row": 4,
+                    "column": 4
                   }
                 }
               },
               {
                 "row_index": 5,
-                "row_label": "Clothing",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Category",
                 "cells": {
                   "A5": {
+                    "value": "Clothing",
+                    "data_type": "string",
                     "coordinate": "A5",
                     "row": 5,
                     "column": 1,
-                    "value": "Clothing",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
-                      },
-                      "alignment": {
-                        "indent": 0
                       }
                     }
                   },
                   "B5": {
-                    "coordinate": "B5",
-                    "row": 5,
-                    "column": 2,
                     "value": 3000,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q1",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "Clothing",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q1"
-                      ],
-                      "full_row_path": [
-                        "Clothing"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q1",
-                        "primary_row_header": "Clothing",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "B5",
+                    "row": 5,
+                    "column": 2
                   },
                   "C5": {
-                    "coordinate": "C5",
-                    "row": 5,
-                    "column": 3,
                     "value": 3200,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q2",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "Clothing",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q2"
-                      ],
-                      "full_row_path": [
-                        "Clothing"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q2",
-                        "primary_row_header": "Clothing",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "C5",
+                    "row": 5,
+                    "column": 3
                   },
                   "D5": {
-                    "coordinate": "D5",
-                    "row": 5,
-                    "column": 4,
                     "value": 3500,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Q3",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "Clothing",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            },
-                            "alignment": {
-                              "indent": 0
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Q3"
-                      ],
-                      "full_row_path": [
-                        "Clothing"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Q3",
-                        "primary_row_header": "Clothing",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "D5",
+                    "row": 5,
+                    "column": 4
                   }
                 }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Category"
               }
             ],
             "metadata": {
-              "detection_method": "gaps+formatting+formatting+formatting",
-              "cell_count": 20,
-              "has_merged_cells": false
+              "detection_method": "structured_layout",
+              "cell_count": 20
             }
           }
         ]
       }
-    ],
-    "properties": {}
+    ]
   }
 }

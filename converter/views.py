@@ -224,9 +224,12 @@ def transform_to_tables(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        # Get options from request
+        options = request.data.get('options', {})
+        
         # Transform to table-oriented format
         table_processor = TableProcessor()
-        table_data = table_processor.transform_to_table_format(json_data, {})
+        table_data = table_processor.transform_to_table_format(json_data, options)
         
         return Response({
             'success': True,
