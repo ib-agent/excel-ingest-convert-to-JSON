@@ -511,9 +511,23 @@ class TableProcessor:
         # Check if we should use gap-based detection (for multiple tables)
         use_gap_detection = options.get('table_detection', {}).get('use_gaps', False)
         
-        # If sheet has frozen first row and first column, or shows structured layout, 
-        # and we're not using gap detection, treat as single table
-        if ((frozen_rows > 0 and frozen_cols > 0) or has_structured_layout) and not use_gap_detection:
+        # PRIORITY: If sheet has ANY frozen rows or columns, treat as single table
+        # This is a strong indicator of a structured table layout
+        if frozen_rows > 0 or frozen_cols > 0:
+            # Create a single table region for the entire data area
+            regions.append({
+                'start_row': min_row,
+                'end_row': max_row,
+                'start_col': min_col,
+                'end_col': max_col,
+                'detection_method': 'frozen_panes',
+                'frozen_rows': frozen_rows,
+                'frozen_cols': frozen_cols
+            })
+            return regions
+        
+        # SECONDARY: If sheet shows structured layout and we're not using gap detection, treat as single table
+        if has_structured_layout and not use_gap_detection:
             # Create a single table region for the entire data area
             regions.append({
                 'start_row': min_row,
@@ -548,7 +562,14 @@ class TableProcessor:
         # Find continuous data regions
         current_start_row = None
         consecutive_blank_rows = 0
-        max_consecutive_blank_rows = 1  # Allow up to 1 consecutive blank row within a table
+        max_consecutive_blank_rows = 2  # Allow up to 2 consecutive blank rows within a table
+        
+        # Analyze the sheet to determine if it's a financial table with single-row gaps
+        is_financial_table = self._is_financial_table_with_single_gaps(cells, min_row, max_row, min_col, max_col)
+        
+        if is_financial_table:
+            # For financial tables, be more tolerant of single blank rows
+            max_consecutive_blank_rows = 3  # Allow up to 3 consecutive blank rows
         
         for row in range(min_row, max_row + 1):
             row_has_data = False
@@ -947,6 +968,95 @@ class TableProcessor:
         }
         
         return self._process_table_region(sheet_data, region, 0, options) 
+    
+    def _is_financial_table_with_single_gaps(self, cells: dict, min_row: int, max_row: int, 
+                                           min_col: int, max_col: int) -> bool:
+        """
+        Detect if this is a financial table with single-row gaps used for visual separation
+        
+        Args:
+            cells: Cell data dictionary
+            min_row, max_row, min_col, max_col: Sheet dimensions
+            
+        Returns:
+            True if this appears to be a financial table with single-row gaps
+        """
+        # Count total rows with data
+        rows_with_data = []
+        for row in range(min_row, max_row + 1):
+            row_has_data = False
+            for col in range(min_col, max_col + 1):
+                cell_key = f"{get_column_letter(col)}{row}"
+                if cell_key in cells and cells[cell_key].get('value') is not None:
+                    row_has_data = True
+                    break
+            if row_has_data:
+                rows_with_data.append(row)
+        
+        if len(rows_with_data) < 10:  # Need enough data rows to analyze
+            return False
+        
+        # Find gaps between data rows
+        gaps = []
+        for i in range(len(rows_with_data) - 1):
+            gap = rows_with_data[i+1] - rows_with_data[i] - 1
+            if gap > 0:
+                gaps.append(gap)
+        
+        if not gaps:
+            return False
+        
+        # Count single-row gaps vs multi-row gaps
+        single_row_gaps = sum(1 for gap in gaps if gap == 1)
+        multi_row_gaps = sum(1 for gap in gaps if gap > 1)
+        
+        # Check for financial table indicators
+        financial_indicators = 0
+        
+        # Look for common financial terms in the first few rows
+        financial_terms = [
+            'revenue', 'profit', 'loss', 'income', 'expense', 'cost', 'margin', 
+            'ebitda', 'gross', 'net', 'total', 'sales', 'p&l', 'balance', 'cash',
+            'assets', 'liabilities', 'equity', 'depreciation', 'amortization'
+        ]
+        
+        for row in rows_with_data[:10]:  # Check first 10 data rows
+            for col in range(min_col, max_col + 1):
+                cell_key = f"{get_column_letter(col)}{row}"
+                if cell_key in cells:
+                    value = cells[cell_key].get('value', '')
+                    if isinstance(value, str):
+                        value_lower = value.lower()
+                        for term in financial_terms:
+                            if term in value_lower:
+                                financial_indicators += 1
+                                break
+        
+        # Check for numeric data patterns (financial tables have lots of numbers)
+        numeric_cells = 0
+        total_cells = 0
+        for cell_key, cell_data in cells.items():
+            value = cell_data.get('value')
+            if value is not None:
+                total_cells += 1
+                if isinstance(value, (int, float)) or (isinstance(value, str) and value.replace('.', '').replace(',', '').replace('-', '').replace('%', '').isdigit()):
+                    numeric_cells += 1
+        
+        numeric_ratio = numeric_cells / total_cells if total_cells > 0 else 0
+        
+        # Determine if this is a financial table with single gaps
+        # Criteria:
+        # 1. High ratio of single-row gaps to multi-row gaps
+        # 2. Presence of financial terms
+        # 3. High ratio of numeric data
+        # 4. Reasonable number of gaps (not too few, not too many)
+        
+        single_gap_ratio = single_row_gaps / len(gaps) if gaps else 0
+        has_financial_terms = financial_indicators >= 3
+        has_numeric_data = numeric_ratio > 0.3
+        
+        return (single_gap_ratio > 0.7 and has_financial_terms and has_numeric_data and 
+                len(gaps) >= 5 and len(gaps) <= 20)  # Reasonable number of gaps
     
     def _detect_structured_table_layout(self, cells: dict, min_row: int, max_row: int, 
                                       min_col: int, max_col: int) -> bool:

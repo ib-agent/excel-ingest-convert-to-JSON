@@ -140,12 +140,16 @@ class TestFrozenPanes(unittest.TestCase):
         self.assertIn('tables', sheet)
         self.assertGreater(len(sheet['tables']), 0, "No tables created")
         
-        # Verify that frozen panes are NOT in table regions
+        # Verify that frozen panes ARE in table regions (for context)
         table = sheet['tables'][0]
-        self.assertNotIn('frozen_rows', table['region'], 
-                        "Frozen rows should not be in table region")
-        self.assertNotIn('frozen_cols', table['region'], 
-                        "Frozen columns should not be in table region")
+        self.assertIn('frozen_rows', table['region'], 
+                        "Frozen rows should be in table region for context")
+        self.assertIn('frozen_cols', table['region'], 
+                        "Frozen columns should be in table region for context")
+        self.assertEqual(table['region']['frozen_rows'], 2, 
+                        "Frozen rows should be preserved in table region")
+        self.assertEqual(table['region']['frozen_cols'], 1, 
+                        "Frozen columns should be preserved in table region")
     
     def test_different_frozen_pane_formats(self):
         """Test parsing of different frozen pane formats"""

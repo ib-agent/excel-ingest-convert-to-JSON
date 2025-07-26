@@ -84,6 +84,19 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 
 **Usage**: `python tests/test_frozen_panes.py`
 
+#### `test_frozen_panes_table_detection.py`
+**Frozen panes table detection override tests**:
+- **Frozen panes override**: Tests that sheets with any frozen rows or columns default to one table
+- **Other detection bypass**: Validates that gap detection, formatting detection, and other methods are skipped
+- **Frozen rows only**: Tests sheets with only frozen rows (no frozen columns) still create one table
+- **Frozen columns only**: Tests sheets with only frozen columns (no frozen rows) still create one table
+- **No frozen panes**: Verifies that sheets without frozen panes use other detection methods
+- **Data inclusion verification**: Ensures all data is included in the single table when frozen panes are present
+
+**Tests Frozen Pane Detection Variety**: Sheets with frozen panes and large gaps, multiple data sections, different formatting patterns, and various frozen pane configurations.
+
+**Usage**: `python tests/test_frozen_panes_table_detection.py`
+
 #### `test_multiple_frozen_rows.py`
 **Multiple frozen rows handling for row labels**:
 - **Multiple frozen rows**: Tests scenarios with 2+ frozen rows for complex header structures
@@ -132,6 +145,54 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 **Tests Download Variety**: Different file sizes, response formats, URL structures, and metadata configurations.
 
 **Usage**: `python tests/test_download_functionality.py`
+
+### Excel File Creation and Testing Scripts
+
+#### `create_test_frozen_panes_excel.py`
+**Creates test Excel files with frozen panes for testing**:
+- **Frozen panes setup**: Creates Excel files with 2 frozen rows and 1 frozen column
+- **Multiple data sections**: Includes large gaps and different formatting that would normally trigger table detection
+- **Real Excel format**: Generates actual .xlsx files for realistic testing scenarios
+- **Data variety**: Includes headers, data rows, and multiple sections with different styling
+
+**Creates**: `test_frozen_panes_override.xlsx` - Excel file with frozen panes and data patterns
+
+**Usage**: `python tests/create_test_frozen_panes_excel.py`
+
+#### `create_test_no_frozen_panes_excel.py`
+**Creates test Excel files without frozen panes for testing**:
+- **No frozen panes**: Creates Excel files with no frozen rows or columns
+- **Multiple data sections**: Includes large gaps and different formatting that should trigger table detection
+- **Real Excel format**: Generates actual .xlsx files for realistic testing scenarios
+- **Data variety**: Includes multiple tables with different headers and styling
+
+**Creates**: `test_no_frozen_panes.xlsx` - Excel file without frozen panes and multiple data sections
+
+**Usage**: `python tests/create_test_no_frozen_panes_excel.py`
+
+#### `test_real_frozen_panes_excel.py`
+**Tests frozen panes behavior with real Excel files**:
+- **Real file processing**: Tests the complete pipeline with actual Excel files
+- **Frozen panes verification**: Validates that frozen panes are correctly detected and processed
+- **Single table creation**: Confirms that exactly one table is created when frozen panes are present
+- **Data inclusion verification**: Ensures all data sections are included in the single table
+- **Detection method validation**: Verifies the detection method is marked as 'frozen_panes'
+
+**Tests**: `test_frozen_panes_override.xlsx` - Excel file with frozen panes
+
+**Usage**: `python tests/test_real_frozen_panes_excel.py`
+
+#### `test_no_frozen_panes_excel.py`
+**Tests table detection behavior with real Excel files without frozen panes**:
+- **Real file processing**: Tests the complete pipeline with actual Excel files
+- **Multiple table creation**: Confirms that multiple tables are created when no frozen panes are present
+- **Detection method validation**: Verifies that detection methods other than 'frozen_panes' are used
+- **Data separation verification**: Ensures data is properly separated into different tables
+- **Gap detection validation**: Confirms that gap-based detection is working correctly
+
+**Tests**: `test_no_frozen_panes.xlsx` - Excel file without frozen panes
+
+**Usage**: `python tests/test_no_frozen_panes_excel.py`
 
 ### Test Result Files
 
@@ -260,6 +321,9 @@ python tests/test_table_detection.py
 # Frozen panes tests
 python tests/test_frozen_panes.py
 
+# Frozen panes table detection tests
+python tests/test_frozen_panes_table_detection.py
+
 # Multiple frozen rows tests
 python tests/test_multiple_frozen_rows.py
 
@@ -273,6 +337,17 @@ python tests/test_error_message_filtering.py
 python tests/test_download_functionality.py
 ```
 
+### Run Excel File Creation and Testing
+```bash
+# Create test Excel files
+python tests/create_test_frozen_panes_excel.py
+python tests/create_test_no_frozen_panes_excel.py
+
+# Test with real Excel files
+python tests/test_real_frozen_panes_excel.py
+python tests/test_no_frozen_panes_excel.py
+```
+
 ### Test Coverage
 
 The comprehensive test suite covers:
@@ -284,9 +359,11 @@ The comprehensive test suite covers:
 5. **Merged Cells** - Tables with merged cells in headers
 6. **Collapsed Headers** - Multiple column header rows that need collapsing
 7. **Frozen Panes** - Tables with frozen rows and columns
-8. **Style Cleaning** - Removal of default style values
-9. **Error Filtering** - Detection and removal of error messages
-10. **Download Handling** - Large file processing and download URLs
+8. **Frozen Panes Table Detection** - Override behavior for sheets with frozen panes
+9. **Style Cleaning** - Removal of default style values
+10. **Error Filtering** - Detection and removal of error messages
+11. **Download Handling** - Large file processing and download URLs
+12. **Real Excel File Testing** - Testing with actual Excel files
 
 ### Expected Results
 
