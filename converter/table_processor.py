@@ -539,20 +539,123 @@ class TableProcessor:
             })
             return regions
         
-        # For sheets without frozen panes, use the original detection methods
-        # Method 1: Detect based on empty row/column gaps
-        regions.extend(self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col))
+        # For sheets without frozen panes, use the enhanced detection methods
+        # Method 1: Detect based on empty row/column gaps (enhanced with non-numerical content check)
+        gap_regions = self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col)
         
-        # Method 2: Detect based on formatting patterns
-        regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
-        
-        # Method 3: Detect based on merged cells
-        regions.extend(self._detect_tables_by_merged_cells(cells, min_row, max_row, min_col, max_col))
-        
-        # Remove overlapping regions and merge adjacent ones
-        regions = self._merge_overlapping_regions(regions)
+        if gap_regions:
+            # If gap detection found tables, use only those
+            regions.extend(gap_regions)
+        else:
+            # Fallback to other detection methods only if gap detection found nothing
+            # Method 2: Detect based on formatting patterns
+            regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
+            
+            # Method 3: Detect based on merged cells
+            regions.extend(self._detect_tables_by_merged_cells(cells, min_row, max_row, min_col, max_col))
+            
+            # Remove overlapping regions and merge adjacent ones (only for fallback methods)
+            regions = self._merge_overlapping_regions(regions)
         
         return regions
+    
+    def _is_non_numerical_content(self, cells: dict, row: int, min_col: int, max_col: int) -> bool:
+        """
+        Check if a row contains non-numerical content that indicates a new table
+        
+        Args:
+            cells: Cell data dictionary
+            row: Row number to check
+            min_col, max_col: Column range to check
+            
+        Returns:
+            True if the row contains non-numerical content (dates, text labels, etc.)
+        """
+        import re
+        from datetime import datetime
+        
+        # Common date patterns
+        date_patterns = [
+            r'\d{1,2}/\d{1,2}/\d{2,4}',  # MM/DD/YYYY or M/D/YY
+            r'\d{1,2}-\d{1,2}-\d{2,4}',  # MM-DD-YYYY
+            r'\d{4}-\d{1,2}-\d{1,2}',    # YYYY-MM-DD
+            r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}\b',  # Month Year
+            r'\b\d{4}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b',  # Year Month
+            r'\b(Q[1-4])\s+\d{4}\b',     # Q1 2024, Q2 2024, etc.
+            r'\b\d{4}\s+(Q[1-4])\b',     # 2024 Q1, 2024 Q2, etc.
+            r'\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}\b',
+            r'\b\d{4}\s+(January|February|March|April|May|June|July|August|September|October|November|December)\b',
+        ]
+        
+        # Common text label patterns that indicate new tables
+        text_label_patterns = [
+            r'\b(Total|Subtotal|Summary|Report|Analysis|Breakdown|Details|Overview)\b',
+            r'\b(Revenue|Sales|Income|Expense|Cost|Profit|Loss|Margin|EBITDA)\b',
+            r'\b(Department|Division|Region|Category|Product|Service|Item)\b',
+            r'\b(Monthly|Quarterly|Annual|Yearly|Weekly|Daily)\b',
+            r'\b(Performance|Metrics|KPI|Target|Actual|Budget|Forecast)\b',
+        ]
+        
+        # Check each cell in the row
+        for col in range(min_col, max_col + 1):
+            cell_key = f"{get_column_letter(col)}{row}"
+            if cell_key in cells:
+                cell_value = cells[cell_key].get('value')
+                if cell_value is not None:
+                    value_str = str(cell_value).strip()
+                    
+                    # Skip empty values
+                    if not value_str:
+                        continue
+                    
+                    # Check if it's a pure number (including decimals, percentages, currency)
+                    if self._is_pure_numerical(value_str):
+                        continue
+                    
+                    # Check for date patterns
+                    for pattern in date_patterns:
+                        if re.search(pattern, value_str, re.IGNORECASE):
+                            return True
+                    
+                    # Check for text label patterns
+                    for pattern in text_label_patterns:
+                        if re.search(pattern, value_str, re.IGNORECASE):
+                            return True
+                    
+                    # If it's not numerical and not empty, it's non-numerical content
+                    # that indicates a new table (dates, text labels, etc.)
+                    return True
+        
+        return False
+    
+    def _is_pure_numerical(self, value_str: str) -> bool:
+        """
+        Check if a string represents a pure numerical value
+        
+        Args:
+            value_str: String value to check
+            
+        Returns:
+            True if the value is purely numerical
+        """
+        import re
+        
+        # Remove common numerical formatting
+        cleaned = value_str.replace(',', '').replace('$', '').replace('%', '').replace('(', '').replace(')', '')
+        
+        # Check for pure number patterns
+        if re.match(r'^-?\d+\.?\d*$', cleaned):
+            return True
+        
+        # Check for scientific notation
+        if re.match(r'^-?\d+\.?\d*[eE][+-]?\d+$', cleaned):
+            return True
+        
+        # Check for fractions
+        if re.match(r'^\d+/\d+$', cleaned):
+            return True
+        
+        return False
     
     def _detect_tables_by_gaps(self, cells: dict, min_row: int, max_row: int, 
                              min_col: int, max_col: int) -> List[Dict[str, Any]]:
@@ -585,16 +688,28 @@ class TableProcessor:
             if not row_has_data:
                 consecutive_blank_rows += 1
                 if current_start_row is not None and consecutive_blank_rows >= max_consecutive_blank_rows:
-                    # End of a table region after too many consecutive blank rows
-                    regions.append({
-                        'start_row': current_start_row,
-                        'end_row': row - consecutive_blank_rows,
-                        'start_col': min_col,
-                        'end_col': max_col,
-                        'detection_method': 'gaps'
-                    })
-                    current_start_row = None
-                    consecutive_blank_rows = 0
+                    # Check if the next row after the gap contains non-numerical content
+                    next_row_after_gap = row + 1
+                    should_start_new_table = False
+                    
+                    if next_row_after_gap <= max_row:
+                        should_start_new_table = self._is_non_numerical_content(cells, next_row_after_gap, min_col, max_col)
+                    
+                    if should_start_new_table:
+                        # End of a table region after gap followed by non-numerical content
+                        regions.append({
+                            'start_row': current_start_row,
+                            'end_row': row - consecutive_blank_rows,
+                            'start_col': min_col,
+                            'end_col': max_col,
+                            'detection_method': 'gaps'
+                        })
+                        current_start_row = None
+                        consecutive_blank_rows = 0
+                    else:
+                        # Continue the current table even through the gap
+                        # Reset the gap counter but keep the current table
+                        consecutive_blank_rows = 0
         
         # Handle table that extends to the end
         if current_start_row is not None:

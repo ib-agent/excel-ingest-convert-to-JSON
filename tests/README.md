@@ -97,6 +97,18 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 
 **Usage**: `python tests/test_frozen_panes_table_detection.py`
 
+#### `test_enhanced_gap_detection.py`
+**Enhanced gap detection tests** that only start new tables when gaps are followed by non-numerical content:
+- **Numerical content continuation**: Tests that gaps followed by purely numerical data continue the same table
+- **Date content new table**: Tests that gaps followed by date content (Q1 2024, Jan 2024) start new tables
+- **Text label new table**: Tests that gaps followed by text labels (Revenue Summary, Performance Metrics) start new tables
+- **Mixed content new table**: Tests that gaps followed by mixed content (dates + numbers) start new tables
+- **Smart table separation**: Validates intelligent table separation based on content type after gaps
+
+**Tests Enhanced Gap Detection Variety**: Purely numerical data, date ranges, text labels, mixed content, and various gap scenarios.
+
+**Usage**: `python tests/test_enhanced_gap_detection.py`
+
 #### `test_multiple_frozen_rows.py`
 **Multiple frozen rows handling for row labels**:
 - **Multiple frozen rows**: Tests scenarios with 2+ frozen rows for complex header structures
@@ -346,6 +358,9 @@ python tests/create_test_no_frozen_panes_excel.py
 # Test with real Excel files
 python tests/test_real_frozen_panes_excel.py
 python tests/test_no_frozen_panes_excel.py
+
+# Test enhanced gap detection
+python tests/test_enhanced_gap_detection.py
 ```
 
 ### Test Coverage
@@ -360,10 +375,11 @@ The comprehensive test suite covers:
 6. **Collapsed Headers** - Multiple column header rows that need collapsing
 7. **Frozen Panes** - Tables with frozen rows and columns
 8. **Frozen Panes Table Detection** - Override behavior for sheets with frozen panes
-9. **Style Cleaning** - Removal of default style values
-10. **Error Filtering** - Detection and removal of error messages
-11. **Download Handling** - Large file processing and download URLs
-12. **Real Excel File Testing** - Testing with actual Excel files
+9. **Enhanced Gap Detection** - Smart table separation based on content type after gaps
+10. **Style Cleaning** - Removal of default style values
+11. **Error Filtering** - Detection and removal of error messages
+12. **Download Handling** - Large file processing and download URLs
+13. **Real Excel File Testing** - Testing with actual Excel files
 
 ### Expected Results
 
