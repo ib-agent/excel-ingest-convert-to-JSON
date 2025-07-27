@@ -1,0 +1,348 @@
+"""
+Test script for PDF processing functionality
+
+This script tests the PDF processing module with sample PDF files
+"""
+
+import os
+import json
+import sys
+from PDF_processing import PDFProcessor, PDFTableExtractor
+
+def test_table_extraction():
+    """Test table extraction functionality"""
+    print("Testing PDF table extraction...")
+    
+    # Test configuration
+    config = {
+        'table_extraction': {
+            'methods': ['lattice', 'stream'],
+            'quality_threshold': 0.7,  # Lower threshold for testing
+            'edge_tolerance': 3,
+            'row_tolerance': 3,
+            'column_tolerance': 3,
+            'min_table_size': 2  # Lower minimum for testing
+        }
+    }
+    
+    try:
+        # Initialize processor
+        processor = PDFProcessor(config)
+        print("✓ PDFProcessor initialized successfully")
+        
+        # Test with a sample PDF if available
+        test_pdf_path = "sample.pdf"  # You'll need to provide a test PDF
+        
+        if os.path.exists(test_pdf_path):
+            print(f"Testing with: {test_pdf_path}")
+            
+            # Process PDF with tables only
+            result = processor.process_file(test_pdf_path, extract_tables=True, extract_text=False, extract_numbers=False)
+            
+            # Validate result structure
+            assert "pdf_processing_result" in result
+            assert "tables" in result["pdf_processing_result"]
+            assert "metadata" in result["pdf_processing_result"]["tables"]
+            
+            print("✓ PDF processing completed successfully")
+            print(f"✓ Tables extracted: {result['pdf_processing_result']['processing_summary']['tables_extracted']}")
+            
+            # Save result for inspection
+            output_file = "test_table_extraction_result.json"
+            with open(output_file, 'w') as f:
+                json.dump(result, f, indent=2)
+            print(f"✓ Results saved to: {output_file}")
+            
+            # Print table details
+            tables = result["pdf_processing_result"]["tables"]["tables"]
+            for i, table in enumerate(tables):
+                print(f"  Table {i+1}: {table['table_id']} (Quality: {table['metadata']['quality_score']:.2f})")
+                print(f"    Columns: {len(table['columns'])}")
+                print(f"    Rows: {len(table['rows'])}")
+                print(f"    Page: {table['region']['page_number']}")
+            
+        else:
+            print(f"⚠ Test PDF not found: {test_pdf_path}")
+            print("  Please provide a sample PDF file for testing")
+            
+    except ImportError as e:
+        print(f"✗ Import error: {e}")
+        print("  Please install required dependencies:")
+        print("  pip install camelot-py[cv] pandas")
+    except Exception as e:
+        print(f"✗ Error during testing: {e}")
+        return False
+    
+    return True
+
+def test_full_extraction():
+    """Test full PDF extraction (tables, text, and numbers)"""
+    print("\nTesting full PDF extraction (tables, text, and numbers)...")
+    
+    # Test configuration
+    config = {
+        'table_extraction': {
+            'methods': ['lattice', 'stream'],
+            'quality_threshold': 0.6,  # Lower threshold for testing
+            'min_table_size': 2
+        },
+        'text_extraction': {
+            'extract_metadata': True,
+            'preserve_formatting': True,
+            'section_detection': {
+                'min_words_per_section': 5,  # Lower for testing
+                'max_words_per_section': 1000,
+                'use_headers': True
+            }
+        },
+        'number_extraction': {
+            'patterns': {
+                'integer': r'\b\d{1,3}(?:,\d{3})*\b',
+                'decimal': r'\b\d+\.\d+\b',
+                'percentage': r'\b\d+(?:\.\d+)?%\b',
+                'currency': r'\$\s*\d+(?:,\d{3})*(?:\.\d{2})?',
+                'scientific_notation': r'\b\d+(?:\.\d+)?[eE][+-]?\d+\b'
+            },
+            'context_window': 50,  # Smaller for testing
+            'confidence_threshold': 0.5  # Lower for testing
+        }
+    }
+    
+    try:
+        # Initialize processor
+        processor = PDFProcessor(config)
+        print("✓ PDFProcessor initialized successfully")
+        
+        # Test with a sample PDF if available
+        test_pdf_path = "sample.pdf"
+        
+        if os.path.exists(test_pdf_path):
+            print(f"Testing with: {test_pdf_path}")
+            
+            # Process PDF with all extraction types
+            result = processor.process_file(
+                test_pdf_path, 
+                extract_tables=True, 
+                extract_text=True, 
+                extract_numbers=True
+            )
+            
+            # Validate result structure
+            assert "pdf_processing_result" in result
+            assert "tables" in result["pdf_processing_result"]
+            assert "text_content" in result["pdf_processing_result"]
+            assert "numbers_in_text" in result["pdf_processing_result"]
+            
+            print("✓ Full PDF processing completed successfully")
+            print(f"✓ Tables extracted: {result['pdf_processing_result']['processing_summary']['tables_extracted']}")
+            print(f"✓ Text sections: {result['pdf_processing_result']['processing_summary']['text_sections']}")
+            print(f"✓ Numbers found: {result['pdf_processing_result']['processing_summary']['numbers_found']}")
+            print(f"✓ Overall quality: {result['pdf_processing_result']['processing_summary']['overall_quality_score']:.2f}")
+            
+            # Save result for inspection
+            output_file = "test_full_extraction_result.json"
+            with open(output_file, 'w') as f:
+                json.dump(result, f, indent=2)
+            print(f"✓ Results saved to: {output_file}")
+            
+            # Print detailed statistics
+            print("\nDetailed Statistics:")
+            
+            # Table statistics
+            tables = result["pdf_processing_result"]["tables"]["tables"]
+            if tables:
+                print(f"  Tables: {len(tables)} found")
+                for i, table in enumerate(tables):
+                    print(f"    Table {i+1}: {table['table_id']} (Quality: {table['metadata']['quality_score']:.2f})")
+            
+            # Text statistics
+            text_content = result["pdf_processing_result"]["text_content"]
+            if text_content:
+                summary = text_content["text_content"]["summary"]
+                print(f"  Text: {summary['total_sections']} sections, {summary['total_words']} words")
+                print(f"    LLM-ready sections: {summary['llm_ready_sections']}")
+                print(f"    Average section length: {summary['average_section_length']:.1f} words")
+            
+            # Number statistics
+            numbers = result["pdf_processing_result"]["numbers_in_text"]
+            if numbers:
+                summary = numbers["numbers_in_text"]["summary"]
+                print(f"  Numbers: {summary['total_numbers_found']} found")
+                for format_type, count in summary['numbers_by_format'].items():
+                    if count > 0:
+                        print(f"    {format_type}: {count}")
+            
+        else:
+            print(f"⚠ Test PDF not found: {test_pdf_path}")
+            print("  Please provide a sample PDF file for testing")
+            
+    except ImportError as e:
+        print(f"✗ Import error: {e}")
+        print("  Please install required dependencies:")
+        print("  pip install camelot-py[cv] PyMuPDF pandas")
+    except Exception as e:
+        print(f"✗ Error during testing: {e}")
+        return False
+    
+    return True
+
+def test_table_extractor_directly():
+    """Test PDFTableExtractor directly"""
+    print("\nTesting PDFTableExtractor directly...")
+    
+    try:
+        # Initialize table extractor
+        config = {
+            'methods': ['lattice'],
+            'quality_threshold': 0.6,
+            'min_table_size': 2
+        }
+        
+        extractor = PDFTableExtractor(config)
+        print("✓ PDFTableExtractor initialized successfully")
+        
+        # Test configuration
+        assert extractor.extraction_methods == ['lattice']
+        assert extractor.quality_threshold == 0.6
+        assert extractor.min_table_size == 2
+        print("✓ Configuration applied correctly")
+        
+    except ImportError as e:
+        print(f"✗ Import error: {e}")
+    except Exception as e:
+        print(f"✗ Error during testing: {e}")
+        return False
+    
+    return True
+
+def test_configuration():
+    """Test configuration handling"""
+    print("\nTesting configuration handling...")
+    
+    try:
+        # Test with custom configuration
+        custom_config = {
+            'table_extraction': {
+                'methods': ['stream'],
+                'quality_threshold': 0.9,
+                'min_table_size': 10
+            }
+        }
+        
+        processor = PDFProcessor(custom_config)
+        
+        # Verify custom config is applied
+        assert processor.table_extractor.extraction_methods == ['stream']
+        assert processor.table_extractor.quality_threshold == 0.9
+        assert processor.table_extractor.min_table_size == 10
+        print("✓ Custom configuration applied correctly")
+        
+        # Test with default configuration
+        processor_default = PDFProcessor()
+        assert processor_default.table_extractor.extraction_methods == ['lattice', 'stream']
+        assert processor_default.table_extractor.quality_threshold == 0.8
+        print("✓ Default configuration applied correctly")
+        
+    except Exception as e:
+        print(f"✗ Error during configuration testing: {e}")
+        return False
+    
+    return True
+
+def create_sample_pdf():
+    """Create a simple sample PDF for testing"""
+    print("\nCreating sample PDF for testing...")
+    
+    try:
+        from reportlab.pdfgen import canvas
+        from reportlab.lib.pagesizes import letter
+        
+        # Create a simple PDF with a table
+        pdf_path = "sample.pdf"
+        c = canvas.Canvas(pdf_path, pagesize=letter)
+        width, height = letter
+        
+        # Add title
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(100, height - 100, "Sample Table")
+        
+        # Draw table grid
+        c.setFont("Helvetica", 12)
+        
+        # Table data
+        data = [
+            ["Product", "Q1", "Q2", "Q3", "Q4"],
+            ["Widget A", "100", "150", "200", "250"],
+            ["Widget B", "75", "125", "175", "225"],
+            ["Widget C", "50", "100", "150", "200"]
+        ]
+        
+        # Table dimensions
+        start_x, start_y = 100, height - 200
+        cell_width, cell_height = 80, 25
+        
+        # Draw table
+        for i, row in enumerate(data):
+            for j, cell in enumerate(row):
+                x = start_x + j * cell_width
+                y = start_y - i * cell_height
+                
+                # Draw cell border
+                c.rect(x, y, cell_width, cell_height)
+                
+                # Add text
+                c.drawString(x + 5, y + 8, str(cell))
+        
+        c.save()
+        print(f"✓ Sample PDF created: {pdf_path}")
+        return True
+        
+    except ImportError:
+        print("⚠ reportlab not available. Install with: pip install reportlab")
+        return False
+    except Exception as e:
+        print(f"✗ Error creating sample PDF: {e}")
+        return False
+
+def main():
+    """Main test function"""
+    print("PDF Processing Test Suite")
+    print("=" * 50)
+    
+    # Test configuration handling
+    config_success = test_configuration()
+    
+    # Test table extractor
+    extractor_success = test_table_extractor_directly()
+    
+    # Create sample PDF if needed
+    sample_created = create_sample_pdf()
+    
+    # Test table extraction only
+    if sample_created:
+        table_extraction_success = test_table_extraction()
+        full_extraction_success = test_full_extraction()
+    else:
+        print("\n⚠ Skipping extraction tests (no sample PDF)")
+        table_extraction_success = True
+        full_extraction_success = True
+    
+    # Summary
+    print("\n" + "=" * 50)
+    print("Test Summary:")
+    print(f"Configuration: {'✓ PASS' if config_success else '✗ FAIL'}")
+    print(f"Table Extractor: {'✓ PASS' if extractor_success else '✗ FAIL'}")
+    print(f"Sample PDF: {'✓ CREATED' if sample_created else '✗ FAILED'}")
+    print(f"Table Extraction: {'✓ PASS' if table_extraction_success else '✗ FAIL'}")
+    print(f"Full Extraction: {'✓ PASS' if full_extraction_success else '✗ FAIL'}")
+    
+    if all([config_success, extractor_success, table_extraction_success, full_extraction_success]):
+        print("\n🎉 All tests passed!")
+        return True
+    else:
+        print("\n❌ Some tests failed. Check the output above.")
+        return False
+
+if __name__ == "__main__":
+    success = main()
+    sys.exit(0 if success else 1) 

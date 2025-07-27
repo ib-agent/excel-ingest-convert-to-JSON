@@ -465,6 +465,219 @@
             margin-right: 0.5rem;
         }
 
+        /* Results Tabs */
+        .results-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 1px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .tab-count {
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .tab-btn.active .tab-count {
+            background: #5a67d8;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            background: white;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .panel-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-header h3 {
+            color: #2d3748;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-header p {
+            color: #718096;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Tables Display */
+        .tables-display {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .table-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .table-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1rem;
+        }
+
+        .table-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .table-content {
+            overflow-x: auto;
+        }
+
+        .table-content table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .table-content th,
+        .table-content td {
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .table-content th {
+            background: #f7fafc;
+            font-weight: 600;
+        }
+
+        /* Numbers Display */
+        .numbers-display {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .number-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .number-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-context {
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        /* Text Display */
+        .text-display {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .text-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .text-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .text-content {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            padding: 2rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -515,19 +728,6 @@
         </div>
 
         <div class="main-content">
-            <div class="coming-soon">
-                <h3><i class="fas fa-tools"></i> Coming Soon!</h3>
-                <p>PDF processing functionality is currently under development. This feature will include:</p>
-                <ul class="features-list">
-                    <li>Table extraction from PDF documents</li>
-                    <li>Multi-page document support</li>
-                    <li>Text and data recognition</li>
-                    <li>Structured JSON output</li>
-                    <li>Advanced table detection algorithms</li>
-                    <li>Header and footer identification</li>
-                </ul>
-                <p>Stay tuned for updates!</p>
-            </div>
 
             <div class="upload-section">
                 <div class="upload-area" id="uploadArea">
@@ -539,9 +739,9 @@
                     <div class="upload-subtext">Supports: .pdf</div>
                 </div>
 
-                <input type="file" id="fileInput" class="file-input" accept=".pdf" disabled>
-                <button class="upload-btn" id="uploadBtn" disabled>
-                    <i class="fas fa-upload"></i> Coming Soon
+                <input type="file" id="fileInput" class="file-input" accept=".pdf">
+                <button class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-upload"></i> Process PDF
                 </button>
 
                 <div class="progress-section" id="progressSection">
@@ -580,23 +780,75 @@
             <div class="result-section" id="resultSection">
                 <div class="result-header">
                     <div class="result-title">
-                        <i class="fas fa-code"></i> JSON Output
+                        <i class="fas fa-chart-bar"></i> Processing Results
                     </div>
                     <div class="result-controls">
-                        <div class="display-type-selector">
-                            <label for="displayType">Display Type:</label>
-                            <select id="displayType" onchange="changeDisplayType()">
-                                <option value="formatted">Formatted</option>
-                                <option value="compact">Compact</option>
-                                <option value="raw">Raw</option>
-                            </select>
-                        </div>
                         <button class="download-btn" id="downloadBtn" onclick="downloadJSON()">
                             <i class="fas fa-download"></i> Download JSON
                         </button>
                     </div>
                 </div>
-                <div class="json-display" id="jsonDisplay"></div>
+                
+                <!-- Results Tabs -->
+                <div class="results-tabs">
+                    <button class="tab-btn active" onclick="showTab('tables')" id="tablesTab">
+                        <i class="fas fa-table"></i> Tables
+                        <span class="tab-count" id="tablesCount">0</span>
+                    </button>
+                    <button class="tab-btn" onclick="showTab('numbers')" id="numbersTab">
+                        <i class="fas fa-hashtag"></i> Numbers
+                        <span class="tab-count" id="numbersCount">0</span>
+                    </button>
+                    <button class="tab-btn" onclick="showTab('text')" id="textTab">
+                        <i class="fas fa-file-text"></i> Text Content
+                        <span class="tab-count" id="textCount">0</span>
+                    </button>
+                    <button class="tab-btn" onclick="showTab('json')" id="jsonTab">
+                        <i class="fas fa-code"></i> Raw JSON
+                    </button>
+                </div>
+                
+                <!-- Tables Panel -->
+                <div class="tab-content active" id="tablesPanel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-table"></i> Extracted Tables</h3>
+                        <p>Tables found in the PDF document</p>
+                    </div>
+                    <div class="tables-display" id="tablesDisplay">
+                        <div class="no-data">No tables extracted yet</div>
+                    </div>
+                </div>
+                
+                <!-- Numbers Panel -->
+                <div class="tab-content" id="numbersPanel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-hashtag"></i> Numbers in Text</h3>
+                        <p>Numerical values found in text content</p>
+                    </div>
+                    <div class="numbers-display" id="numbersDisplay">
+                        <div class="no-data">No numbers extracted yet</div>
+                    </div>
+                </div>
+                
+                <!-- Text Panel -->
+                <div class="tab-content" id="textPanel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-file-text"></i> Text Content</h3>
+                        <p>Text sections extracted from the PDF</p>
+                    </div>
+                    <div class="text-display" id="textDisplay">
+                        <div class="no-data">No text content extracted yet</div>
+                    </div>
+                </div>
+                
+                <!-- JSON Panel -->
+                <div class="tab-content" id="jsonPanel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-code"></i> Raw JSON Output</h3>
+                        <p>Complete JSON structure of extracted data</p>
+                    </div>
+                    <div class="json-display" id="jsonDisplay"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -637,23 +889,47 @@
                 return;
             }
 
-            // Show coming soon message when trying to upload
+            // Handle file selection
             uploadArea.addEventListener('click', () => {
-                alert('PDF processing is coming soon! This feature is currently under development.');
+                fileInput.click();
             });
 
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                alert('PDF processing is coming soon! This feature is currently under development.');
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
             });
 
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
-                alert('PDF processing is coming soon! This feature is currently under development.');
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    handleFileSelect(files[0]);
+                    // Auto-process the file when dropped
+                    processFile();
+                }
             });
 
             fileInput.addEventListener('change', (e) => {
-                alert('PDF processing is coming soon! This feature is currently under development.');
+                if (e.target.files.length > 0) {
+                    handleFileSelect(e.target.files[0]);
+                    // Auto-process the file when selected
+                    processFile();
+                }
+            });
+
+            uploadBtn.addEventListener('click', () => {
+                if (currentFile) {
+                    processFile();
+                } else {
+                    fileInput.click();
+                }
             });
 
             function showError(message) {
@@ -676,28 +952,322 @@
                 successMessage.style.display = 'none';
             }
 
+            function handleFileSelect(file) {
+                if (file.type !== 'application/pdf') {
+                    showError('Please select a PDF file.');
+                    return;
+                }
+                
+                currentFile = file;
+                showFileInfo(file);
+                hideError();
+                hideSuccess();
+                
+                // Update button text
+                uploadBtn.innerHTML = '<i class="fas fa-cog"></i> Reprocess PDF';
+                uploadBtn.disabled = false;
+            }
+
             function showFileInfo(file, data) {
                 fullFileName.textContent = file.name;
                 fileSize.textContent = formatFileSize(file.size);
-                pageCount.textContent = 'N/A'; // Will be implemented when PDF processing is ready
+                pageCount.textContent = 'Processing...'; // Will be updated after processing
                 fileInfo.style.display = 'block';
             }
 
-            function showResult(data) {
-                updateJSONDisplay(data);
-                resultSection.style.display = 'block';
-                
-                // Ensure download button is visible
-                const downloadBtn = document.getElementById('downloadBtn');
-                if (downloadBtn) {
-                    downloadBtn.style.display = 'inline-flex';
+            function processFile() {
+                if (!currentFile) {
+                    showError('Please select a file first.');
+                    return;
                 }
-                
-                // Scroll to result
-                resultSection.scrollIntoView({ behavior: 'smooth' });
+
+                // Show progress
+                progressSection.style.display = 'block';
+                progressFill.style.width = '0%';
+                progressText.textContent = 'Uploading file...';
+                uploadBtn.disabled = true;
+                uploadBtn.innerHTML = '<div class="loading-spinner"></div>Processing...';
+
+                const formData = new FormData();
+                formData.append('file', currentFile);
+                formData.append('extract_tables', 'true');
+                formData.append('extract_text', 'true');
+                formData.append('extract_numbers', 'true');
+
+                fetch('/api/pdf/upload/?t=' + Date.now(), {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    progressFill.style.width = '100%';
+                    progressText.textContent = 'Processing completed!';
+                    
+                    if (data.success) {
+                        jsonData = data.result;
+                        showResult(data.result);
+                        showSuccess();
+                        
+                        // Update page count
+                        const totalPages = data.result.pdf_processing_result?.document_metadata?.total_pages || 'Unknown';
+                        pageCount.textContent = totalPages;
+                        
+                        // Update button
+                        uploadBtn.innerHTML = '<i class="fas fa-check"></i> Processed';
+                        uploadBtn.disabled = false;
+                    } else {
+                        showError(data.error || 'Processing failed.');
+                        uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Process PDF';
+                        uploadBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError('Processing failed. Please try again.');
+                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Process PDF';
+                    uploadBtn.disabled = false;
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        progressSection.style.display = 'none';
+                    }, 2000);
+                });
             }
 
-            function updateJSONDisplay(data) {
+                    function showResult(data) {
+            updateAllDisplays(data);
+            resultSection.style.display = 'block';
+            
+            // Ensure download button is visible
+            const downloadBtn = document.getElementById('downloadBtn');
+            if (downloadBtn) {
+                downloadBtn.style.display = 'inline-flex';
+            }
+            
+            // Scroll to result
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateAllDisplays(data) {
+            console.log('Full data structure:', data);
+            console.log('Numbers structure:', data?.pdf_processing_result?.numbers_in_text);
+            console.log('Text structure:', data?.pdf_processing_result?.text_content);
+            console.log('Text sections count:', data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections?.length || 0);
+            console.log('Processing summary:', data?.pdf_processing_result?.processing_summary);
+            updateTablesDisplay(data);
+            updateNumbersDisplay(data);
+            updateTextDisplay(data);
+            updateJSONDisplay(data);
+        }
+
+        function updateTablesDisplay(data) {
+            const tablesDisplay = document.getElementById('tablesDisplay');
+            const tablesCount = document.getElementById('tablesCount');
+            
+            const tables = data?.pdf_processing_result?.tables?.tables || [];
+            tablesCount.textContent = tables.length;
+            
+            if (tables.length === 0) {
+                tablesDisplay.innerHTML = '<div class="no-data">No tables found in the document</div>';
+                return;
+            }
+            
+            let html = '';
+            tables.forEach((table, index) => {
+                html += `
+                    <div class="table-item">
+                        <div class="table-header">
+                            <div class="table-title">Table ${index + 1}</div>
+                            <div class="table-meta">
+                                <span>Page ${table.region?.page_number || 'N/A'}</span>
+                                <span>Quality: ${(table.metadata?.quality_score * 100).toFixed(1)}%</span>
+                                <span>${table.metadata?.cell_count || 0} cells</span>
+                            </div>
+                        </div>
+                        <div class="table-content">
+                            ${generateTableHTML(table)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            tablesDisplay.innerHTML = html;
+        }
+
+        function generateTableHTML(table) {
+            if (!table.rows || table.rows.length === 0) {
+                return '<p>No table data available</p>';
+            }
+            
+            let html = '<table>';
+            
+            // Add header row if exists
+            const headerRow = table.rows.find(row => row.is_header_row);
+            if (headerRow && headerRow.cells) {
+                html += '<thead><tr>';
+                Object.values(headerRow.cells).forEach(cell => {
+                    html += `<th>${cell.value || ''}</th>`;
+                });
+                html += '</tr></thead>';
+            }
+            
+            // Add data rows
+            html += '<tbody>';
+            table.rows.forEach(row => {
+                if (!row.is_header_row && row.cells) {
+                    html += '<tr>';
+                    Object.values(row.cells).forEach(cell => {
+                        html += `<td>${cell.value || ''}</td>`;
+                    });
+                    html += '</tr>';
+                }
+            });
+            html += '</tbody></table>';
+            
+            return html;
+        }
+
+        function updateNumbersDisplay(data) {
+            const numbersDisplay = document.getElementById('numbersDisplay');
+            const numbersCount = document.getElementById('numbersCount');
+            
+            // Handle different possible structures
+            let numbers = [];
+            if (data?.pdf_processing_result?.numbers_in_text?.numbers_in_text?.pages?.[0]?.sections) {
+                // Flatten all sections to get all numbers
+                const sections = data.pdf_processing_result.numbers_in_text.numbers_in_text.pages[0].sections;
+                sections.forEach(section => {
+                    if (section.numbers && Array.isArray(section.numbers)) {
+                        numbers = numbers.concat(section.numbers);
+                    }
+                });
+            } else if (data?.pdf_processing_result?.numbers_in_text?.numbers_in_text) {
+                numbers = data.pdf_processing_result.numbers_in_text.numbers_in_text;
+            } else if (data?.pdf_processing_result?.numbers_in_text) {
+                numbers = data.pdf_processing_result.numbers_in_text;
+            } else if (Array.isArray(data?.pdf_processing_result?.numbers_in_text)) {
+                numbers = data.pdf_processing_result.numbers_in_text;
+            }
+            
+            // Ensure numbers is an array
+            if (!Array.isArray(numbers)) {
+                numbers = [];
+            }
+            
+            numbersCount.textContent = numbers.length;
+            
+            if (numbers.length === 0) {
+                numbersDisplay.innerHTML = '<div class="no-data">No numbers found in text content</div>';
+                return;
+            }
+            
+            let html = '';
+            numbers.forEach((number, index) => {
+                html += `
+                    <div class="number-item">
+                        <div class="number-value">${number.value}${number.unit ? ' ' + number.unit : ''}</div>
+                        <div class="number-context">${number.context || 'No context available'}</div>
+                        <div class="number-meta">
+                            <span>Format: ${number.format}</span>
+                            <span>Page: ${number.page_number || 'N/A'}</span>
+                            <span>Confidence: ${(number.confidence * 100).toFixed(1)}%</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            numbersDisplay.innerHTML = html;
+        }
+
+        function updateTextDisplay(data) {
+            const textDisplay = document.getElementById('textDisplay');
+            const textCount = document.getElementById('textCount');
+            
+            console.log('updateTextDisplay called with data:', data);
+            
+            // Handle different possible structures
+            let textSections = [];
+            if (data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections) {
+                textSections = data.pdf_processing_result.text_content.text_content.pages[0].sections;
+                console.log('Found text sections in pages[0].sections:', textSections);
+            } else if (data?.pdf_processing_result?.text_content?.text_content) {
+                textSections = data.pdf_processing_result.text_content.text_content;
+                console.log('Found text sections in text_content:', textSections);
+            } else if (data?.pdf_processing_result?.text_content) {
+                textSections = data.pdf_processing_result.text_content;
+                console.log('Found text sections in text_content (direct):', textSections);
+            } else if (Array.isArray(data?.pdf_processing_result?.text_content)) {
+                textSections = data.pdf_processing_result.text_content;
+                console.log('Found text sections as array:', textSections);
+            }
+            
+            // Ensure textSections is an array
+            if (!Array.isArray(textSections)) {
+                textSections = [];
+                console.log('textSections is not an array, setting to empty array');
+            }
+            
+            console.log('Final textSections:', textSections);
+            textCount.textContent = textSections.length;
+            
+            if (textSections.length === 0) {
+                textDisplay.innerHTML = '<div class="no-data">No text content extracted</div>';
+                return;
+            }
+            
+            let html = '';
+            textSections.forEach((section, index) => {
+                console.log('Processing section:', section);
+                html += `
+                    <div class="text-item">
+                        <div class="text-title">Section ${index + 1} - ${section.section_type || 'Text'}</div>
+                        <div class="text-content">${section.content || 'No content available'}</div>
+                        <div class="text-meta">
+                            <span>Page: ${section.page_number || 'N/A'}</span>
+                            <span>Words: ${section.word_count || 0}</span>
+                            <span>LLM Ready: ${section.llm_ready ? 'Yes' : 'No'}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            console.log('Setting textDisplay.innerHTML with:', html);
+            textDisplay.innerHTML = html;
+            console.log('textDisplay element after setting innerHTML:', textDisplay);
+            console.log('textDisplay.innerHTML length:', textDisplay.innerHTML.length);
+        }
+
+            window.showTab = function(tabName) {
+            console.log('showTab called with:', tabName);
+            
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab content
+            const selectedContent = document.getElementById(tabName + 'Panel');
+            console.log('Looking for element with id:', tabName + 'Panel');
+            console.log('Found selectedContent:', selectedContent);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+                console.log('Added active class to selectedContent');
+            }
+            
+            // Add active class to selected tab button
+            const selectedButton = document.getElementById(tabName + 'Tab');
+            console.log('Looking for button with id:', tabName + 'Tab');
+            console.log('Found selectedButton:', selectedButton);
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+                console.log('Added active class to selectedButton');
+            }
+        }
+
+        function updateJSONDisplay(data) {
                 switch (currentDisplayType) {
                     case 'formatted':
                         jsonDisplay.innerHTML = formatJSON(data);
@@ -851,6 +1421,10 @@
                 fileInput.value = '';
                 hideError();
                 hideSuccess();
+                
+                // Reset button state
+                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Process PDF';
+                uploadBtn.disabled = true;
             }
 
             // Make functions globally accessible

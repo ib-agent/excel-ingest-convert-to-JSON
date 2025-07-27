@@ -1,0 +1,22 @@
+# PDF Processing Dependencies
+
+# Core PDF processing libraries
+camelot-py[cv]>=0.11.0
+PyMuPDF>=1.23.0
+
+# Data processing
+pandas>=1.5.0
+numpy>=1.21.0
+
+# Optional: For creating test PDFs
+reportlab>=3.6.0
+
+# Optional: For enhanced table detection
+opencv-python>=4.5.0
+
+# Optional: For better text processing
+nltk>=3.8.0
+
+# Development and testing
+pytest>=7.0.0
+pytest-cov>=4.0.0 
