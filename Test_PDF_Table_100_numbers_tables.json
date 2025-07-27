@@ -1,0 +1,1509 @@
+{
+  "pdf_processing_result": {
+    "document_metadata": {
+      "filename": "Test_PDF_Table_100_numbers.pdf",
+      "total_pages": 1,
+      "processing_timestamp": "2025-07-27T12:55:20.500252",
+      "processing_duration": 0.017194,
+      "extraction_methods": [
+        "table_extraction",
+        "text_extraction",
+        "number_extraction"
+      ]
+    },
+    "processing_summary": {
+      "tables_extracted": 1,
+      "numbers_found": 0,
+      "text_sections": 0,
+      "overall_quality_score": 0.8,
+      "processing_errors": []
+    },
+    "tables": {
+      "tables": [
+        {
+          "table_id": "table_1",
+          "name": "Table 1",
+          "region": {
+            "page_number": 1,
+            "bbox": [
+              53.50791549682617,
+              56.16096878051758,
+              739.7316284179688,
+              195.7208709716797
+            ],
+            "detection_method": "text_based_fallback"
+          },
+          "header_info": {
+            "header_rows": [
+              0
+            ],
+            "header_columns": [
+              0
+            ],
+            "data_start_row": 1,
+            "data_start_col": 1
+          },
+          "columns": [
+            {
+              "column_index": 0,
+              "column_label": "Column A",
+              "is_header_column": true,
+              "cells": {
+                "A1": {
+                  "value": "Category",
+                  "row": 1,
+                  "column": 1
+                },
+                "A2": {
+                  "value": "First Cost",
+                  "row": 2,
+                  "column": 1
+                },
+                "A3": {
+                  "value": "Second Cost",
+                  "row": 3,
+                  "column": 1
+                },
+                "A4": {
+                  "value": "Third Cost",
+                  "row": 4,
+                  "column": 1
+                },
+                "A5": {
+                  "value": "Fourth Cost",
+                  "row": 5,
+                  "column": 1
+                },
+                "A6": {
+                  "value": "Fifth Cost",
+                  "row": 6,
+                  "column": 1
+                },
+                "A7": {
+                  "value": "Sixth Cost",
+                  "row": 7,
+                  "column": 1
+                },
+                "A8": {
+                  "value": "Seventh Cost",
+                  "row": 8,
+                  "column": 1
+                },
+                "A9": {
+                  "value": "Eighth Cost",
+                  "row": 9,
+                  "column": 1
+                },
+                "A10": {
+                  "value": "Ninth Cost",
+                  "row": 10,
+                  "column": 1
+                },
+                "A11": {
+                  "value": "Tenth Cost",
+                  "row": 11,
+                  "column": 1
+                }
+              }
+            },
+            {
+              "column_index": 1,
+              "column_label": "Column B",
+              "is_header_column": false,
+              "cells": {
+                "B1": {
+                  "value": "1/1/2025",
+                  "row": 1,
+                  "column": 2
+                },
+                "B2": {
+                  "value": "$100",
+                  "row": 2,
+                  "column": 2
+                },
+                "B3": {
+                  "value": "$105",
+                  "row": 3,
+                  "column": 2
+                },
+                "B4": {
+                  "value": "$110",
+                  "row": 4,
+                  "column": 2
+                },
+                "B5": {
+                  "value": "$115",
+                  "row": 5,
+                  "column": 2
+                },
+                "B6": {
+                  "value": "$120",
+                  "row": 6,
+                  "column": 2
+                },
+                "B7": {
+                  "value": "$125",
+                  "row": 7,
+                  "column": 2
+                },
+                "B8": {
+                  "value": "$130",
+                  "row": 8,
+                  "column": 2
+                },
+                "B9": {
+                  "value": "$135",
+                  "row": 9,
+                  "column": 2
+                },
+                "B10": {
+                  "value": "$140",
+                  "row": 10,
+                  "column": 2
+                },
+                "B11": {
+                  "value": "$145",
+                  "row": 11,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "column_index": 2,
+              "column_label": "Column C",
+              "is_header_column": false,
+              "cells": {
+                "C1": {
+                  "value": "2/1/2025",
+                  "row": 1,
+                  "column": 3
+                },
+                "C2": {
+                  "value": "$105",
+                  "row": 2,
+                  "column": 3
+                },
+                "C3": {
+                  "value": "$110",
+                  "row": 3,
+                  "column": 3
+                },
+                "C4": {
+                  "value": "$115",
+                  "row": 4,
+                  "column": 3
+                },
+                "C5": {
+                  "value": "$120",
+                  "row": 5,
+                  "column": 3
+                },
+                "C6": {
+                  "value": "$125",
+                  "row": 6,
+                  "column": 3
+                },
+                "C7": {
+                  "value": "$130",
+                  "row": 7,
+                  "column": 3
+                },
+                "C8": {
+                  "value": "$135",
+                  "row": 8,
+                  "column": 3
+                },
+                "C9": {
+                  "value": "$140",
+                  "row": 9,
+                  "column": 3
+                },
+                "C10": {
+                  "value": "$145",
+                  "row": 10,
+                  "column": 3
+                },
+                "C11": {
+                  "value": "$150",
+                  "row": 11,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "column_index": 3,
+              "column_label": "Column D",
+              "is_header_column": false,
+              "cells": {
+                "D1": {
+                  "value": "3/1/2025",
+                  "row": 1,
+                  "column": 4
+                },
+                "D2": {
+                  "value": "$110",
+                  "row": 2,
+                  "column": 4
+                },
+                "D3": {
+                  "value": "$115",
+                  "row": 3,
+                  "column": 4
+                },
+                "D4": {
+                  "value": "$120",
+                  "row": 4,
+                  "column": 4
+                },
+                "D5": {
+                  "value": "$125",
+                  "row": 5,
+                  "column": 4
+                },
+                "D6": {
+                  "value": "$130",
+                  "row": 6,
+                  "column": 4
+                },
+                "D7": {
+                  "value": "$135",
+                  "row": 7,
+                  "column": 4
+                },
+                "D8": {
+                  "value": "$140",
+                  "row": 8,
+                  "column": 4
+                },
+                "D9": {
+                  "value": "$145",
+                  "row": 9,
+                  "column": 4
+                },
+                "D10": {
+                  "value": "$150",
+                  "row": 10,
+                  "column": 4
+                },
+                "D11": {
+                  "value": "$155",
+                  "row": 11,
+                  "column": 4
+                }
+              }
+            },
+            {
+              "column_index": 4,
+              "column_label": "Column E",
+              "is_header_column": false,
+              "cells": {
+                "E1": {
+                  "value": "4/1/2025",
+                  "row": 1,
+                  "column": 5
+                },
+                "E2": {
+                  "value": "$115",
+                  "row": 2,
+                  "column": 5
+                },
+                "E3": {
+                  "value": "$120",
+                  "row": 3,
+                  "column": 5
+                },
+                "E4": {
+                  "value": "$125",
+                  "row": 4,
+                  "column": 5
+                },
+                "E5": {
+                  "value": "$130",
+                  "row": 5,
+                  "column": 5
+                },
+                "E6": {
+                  "value": "$135",
+                  "row": 6,
+                  "column": 5
+                },
+                "E7": {
+                  "value": "$140",
+                  "row": 7,
+                  "column": 5
+                },
+                "E8": {
+                  "value": "$145",
+                  "row": 8,
+                  "column": 5
+                },
+                "E9": {
+                  "value": "$150",
+                  "row": 9,
+                  "column": 5
+                },
+                "E10": {
+                  "value": "$155",
+                  "row": 10,
+                  "column": 5
+                },
+                "E11": {
+                  "value": "$160",
+                  "row": 11,
+                  "column": 5
+                }
+              }
+            },
+            {
+              "column_index": 5,
+              "column_label": "Column F",
+              "is_header_column": false,
+              "cells": {
+                "F1": {
+                  "value": "5/1/2025",
+                  "row": 1,
+                  "column": 6
+                },
+                "F2": {
+                  "value": "$120",
+                  "row": 2,
+                  "column": 6
+                },
+                "F3": {
+                  "value": "$125",
+                  "row": 3,
+                  "column": 6
+                },
+                "F4": {
+                  "value": "$130",
+                  "row": 4,
+                  "column": 6
+                },
+                "F5": {
+                  "value": "$135",
+                  "row": 5,
+                  "column": 6
+                },
+                "F6": {
+                  "value": "$140",
+                  "row": 6,
+                  "column": 6
+                },
+                "F7": {
+                  "value": "$145",
+                  "row": 7,
+                  "column": 6
+                },
+                "F8": {
+                  "value": "$150",
+                  "row": 8,
+                  "column": 6
+                },
+                "F9": {
+                  "value": "$155",
+                  "row": 9,
+                  "column": 6
+                },
+                "F10": {
+                  "value": "$160",
+                  "row": 10,
+                  "column": 6
+                },
+                "F11": {
+                  "value": "$165",
+                  "row": 11,
+                  "column": 6
+                }
+              }
+            },
+            {
+              "column_index": 6,
+              "column_label": "Column G",
+              "is_header_column": false,
+              "cells": {
+                "G1": {
+                  "value": "6/1/2025",
+                  "row": 1,
+                  "column": 7
+                },
+                "G2": {
+                  "value": "$125",
+                  "row": 2,
+                  "column": 7
+                },
+                "G3": {
+                  "value": "$130",
+                  "row": 3,
+                  "column": 7
+                },
+                "G4": {
+                  "value": "$135",
+                  "row": 4,
+                  "column": 7
+                },
+                "G5": {
+                  "value": "$140",
+                  "row": 5,
+                  "column": 7
+                },
+                "G6": {
+                  "value": "$145",
+                  "row": 6,
+                  "column": 7
+                },
+                "G7": {
+                  "value": "$150",
+                  "row": 7,
+                  "column": 7
+                },
+                "G8": {
+                  "value": "$155",
+                  "row": 8,
+                  "column": 7
+                },
+                "G9": {
+                  "value": "$160",
+                  "row": 9,
+                  "column": 7
+                },
+                "G10": {
+                  "value": "$165",
+                  "row": 10,
+                  "column": 7
+                },
+                "G11": {
+                  "value": "$170",
+                  "row": 11,
+                  "column": 7
+                }
+              }
+            },
+            {
+              "column_index": 7,
+              "column_label": "Column H",
+              "is_header_column": false,
+              "cells": {
+                "H1": {
+                  "value": "7/1/2025",
+                  "row": 1,
+                  "column": 8
+                },
+                "H2": {
+                  "value": "$130",
+                  "row": 2,
+                  "column": 8
+                },
+                "H3": {
+                  "value": "$135",
+                  "row": 3,
+                  "column": 8
+                },
+                "H4": {
+                  "value": "$140",
+                  "row": 4,
+                  "column": 8
+                },
+                "H5": {
+                  "value": "$145",
+                  "row": 5,
+                  "column": 8
+                },
+                "H6": {
+                  "value": "$150",
+                  "row": 6,
+                  "column": 8
+                },
+                "H7": {
+                  "value": "$155",
+                  "row": 7,
+                  "column": 8
+                },
+                "H8": {
+                  "value": "$160",
+                  "row": 8,
+                  "column": 8
+                },
+                "H9": {
+                  "value": "$165",
+                  "row": 9,
+                  "column": 8
+                },
+                "H10": {
+                  "value": "$170",
+                  "row": 10,
+                  "column": 8
+                },
+                "H11": {
+                  "value": "$175",
+                  "row": 11,
+                  "column": 8
+                }
+              }
+            },
+            {
+              "column_index": 8,
+              "column_label": "Column I",
+              "is_header_column": false,
+              "cells": {
+                "I1": {
+                  "value": "8/1/2025",
+                  "row": 1,
+                  "column": 9
+                },
+                "I2": {
+                  "value": "$135",
+                  "row": 2,
+                  "column": 9
+                },
+                "I3": {
+                  "value": "$140",
+                  "row": 3,
+                  "column": 9
+                },
+                "I4": {
+                  "value": "$145",
+                  "row": 4,
+                  "column": 9
+                },
+                "I5": {
+                  "value": "$150",
+                  "row": 5,
+                  "column": 9
+                },
+                "I6": {
+                  "value": "$155",
+                  "row": 6,
+                  "column": 9
+                },
+                "I7": {
+                  "value": "$160",
+                  "row": 7,
+                  "column": 9
+                },
+                "I8": {
+                  "value": "$165",
+                  "row": 8,
+                  "column": 9
+                },
+                "I9": {
+                  "value": "$170",
+                  "row": 9,
+                  "column": 9
+                },
+                "I10": {
+                  "value": "$175",
+                  "row": 10,
+                  "column": 9
+                },
+                "I11": {
+                  "value": "$180",
+                  "row": 11,
+                  "column": 9
+                }
+              }
+            },
+            {
+              "column_index": 9,
+              "column_label": "Column J",
+              "is_header_column": false,
+              "cells": {
+                "J1": {
+                  "value": "9/1/2025",
+                  "row": 1,
+                  "column": 10
+                },
+                "J2": {
+                  "value": "$140",
+                  "row": 2,
+                  "column": 10
+                },
+                "J3": {
+                  "value": "$145",
+                  "row": 3,
+                  "column": 10
+                },
+                "J4": {
+                  "value": "$150",
+                  "row": 4,
+                  "column": 10
+                },
+                "J5": {
+                  "value": "$155",
+                  "row": 5,
+                  "column": 10
+                },
+                "J6": {
+                  "value": "$160",
+                  "row": 6,
+                  "column": 10
+                },
+                "J7": {
+                  "value": "$165",
+                  "row": 7,
+                  "column": 10
+                },
+                "J8": {
+                  "value": "$170",
+                  "row": 8,
+                  "column": 10
+                },
+                "J9": {
+                  "value": "$175",
+                  "row": 9,
+                  "column": 10
+                },
+                "J10": {
+                  "value": "$180",
+                  "row": 10,
+                  "column": 10
+                },
+                "J11": {
+                  "value": "$185",
+                  "row": 11,
+                  "column": 10
+                }
+              }
+            },
+            {
+              "column_index": 10,
+              "column_label": "Column K",
+              "is_header_column": false,
+              "cells": {
+                "K1": {
+                  "value": "10/1/2025",
+                  "row": 1,
+                  "column": 11
+                },
+                "K2": {
+                  "value": "$145",
+                  "row": 2,
+                  "column": 11
+                },
+                "K3": {
+                  "value": "$150",
+                  "row": 3,
+                  "column": 11
+                },
+                "K4": {
+                  "value": "$155",
+                  "row": 4,
+                  "column": 11
+                },
+                "K5": {
+                  "value": "$160",
+                  "row": 5,
+                  "column": 11
+                },
+                "K6": {
+                  "value": "$165",
+                  "row": 6,
+                  "column": 11
+                },
+                "K7": {
+                  "value": "$170",
+                  "row": 7,
+                  "column": 11
+                },
+                "K8": {
+                  "value": "$175",
+                  "row": 8,
+                  "column": 11
+                },
+                "K9": {
+                  "value": "$180",
+                  "row": 9,
+                  "column": 11
+                },
+                "K10": {
+                  "value": "$185",
+                  "row": 10,
+                  "column": 11
+                },
+                "K11": {
+                  "value": "$190",
+                  "row": 11,
+                  "column": 11
+                }
+              }
+            }
+          ],
+          "rows": [
+            {
+              "row_index": 0,
+              "row_label": "Row 1",
+              "is_header_row": true,
+              "cells": {
+                "A1": {
+                  "value": "Category",
+                  "row": 1,
+                  "column": 1
+                },
+                "B1": {
+                  "value": "1/1/2025",
+                  "row": 1,
+                  "column": 2
+                },
+                "C1": {
+                  "value": "2/1/2025",
+                  "row": 1,
+                  "column": 3
+                },
+                "D1": {
+                  "value": "3/1/2025",
+                  "row": 1,
+                  "column": 4
+                },
+                "E1": {
+                  "value": "4/1/2025",
+                  "row": 1,
+                  "column": 5
+                },
+                "F1": {
+                  "value": "5/1/2025",
+                  "row": 1,
+                  "column": 6
+                },
+                "G1": {
+                  "value": "6/1/2025",
+                  "row": 1,
+                  "column": 7
+                },
+                "H1": {
+                  "value": "7/1/2025",
+                  "row": 1,
+                  "column": 8
+                },
+                "I1": {
+                  "value": "8/1/2025",
+                  "row": 1,
+                  "column": 9
+                },
+                "J1": {
+                  "value": "9/1/2025",
+                  "row": 1,
+                  "column": 10
+                },
+                "K1": {
+                  "value": "10/1/2025",
+                  "row": 1,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 1,
+              "row_label": "Row 2",
+              "is_header_row": false,
+              "cells": {
+                "A2": {
+                  "value": "First Cost",
+                  "row": 2,
+                  "column": 1
+                },
+                "B2": {
+                  "value": "$100",
+                  "row": 2,
+                  "column": 2
+                },
+                "C2": {
+                  "value": "$105",
+                  "row": 2,
+                  "column": 3
+                },
+                "D2": {
+                  "value": "$110",
+                  "row": 2,
+                  "column": 4
+                },
+                "E2": {
+                  "value": "$115",
+                  "row": 2,
+                  "column": 5
+                },
+                "F2": {
+                  "value": "$120",
+                  "row": 2,
+                  "column": 6
+                },
+                "G2": {
+                  "value": "$125",
+                  "row": 2,
+                  "column": 7
+                },
+                "H2": {
+                  "value": "$130",
+                  "row": 2,
+                  "column": 8
+                },
+                "I2": {
+                  "value": "$135",
+                  "row": 2,
+                  "column": 9
+                },
+                "J2": {
+                  "value": "$140",
+                  "row": 2,
+                  "column": 10
+                },
+                "K2": {
+                  "value": "$145",
+                  "row": 2,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 2,
+              "row_label": "Row 3",
+              "is_header_row": false,
+              "cells": {
+                "A3": {
+                  "value": "Second Cost",
+                  "row": 3,
+                  "column": 1
+                },
+                "B3": {
+                  "value": "$105",
+                  "row": 3,
+                  "column": 2
+                },
+                "C3": {
+                  "value": "$110",
+                  "row": 3,
+                  "column": 3
+                },
+                "D3": {
+                  "value": "$115",
+                  "row": 3,
+                  "column": 4
+                },
+                "E3": {
+                  "value": "$120",
+                  "row": 3,
+                  "column": 5
+                },
+                "F3": {
+                  "value": "$125",
+                  "row": 3,
+                  "column": 6
+                },
+                "G3": {
+                  "value": "$130",
+                  "row": 3,
+                  "column": 7
+                },
+                "H3": {
+                  "value": "$135",
+                  "row": 3,
+                  "column": 8
+                },
+                "I3": {
+                  "value": "$140",
+                  "row": 3,
+                  "column": 9
+                },
+                "J3": {
+                  "value": "$145",
+                  "row": 3,
+                  "column": 10
+                },
+                "K3": {
+                  "value": "$150",
+                  "row": 3,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 3,
+              "row_label": "Row 4",
+              "is_header_row": false,
+              "cells": {
+                "A4": {
+                  "value": "Third Cost",
+                  "row": 4,
+                  "column": 1
+                },
+                "B4": {
+                  "value": "$110",
+                  "row": 4,
+                  "column": 2
+                },
+                "C4": {
+                  "value": "$115",
+                  "row": 4,
+                  "column": 3
+                },
+                "D4": {
+                  "value": "$120",
+                  "row": 4,
+                  "column": 4
+                },
+                "E4": {
+                  "value": "$125",
+                  "row": 4,
+                  "column": 5
+                },
+                "F4": {
+                  "value": "$130",
+                  "row": 4,
+                  "column": 6
+                },
+                "G4": {
+                  "value": "$135",
+                  "row": 4,
+                  "column": 7
+                },
+                "H4": {
+                  "value": "$140",
+                  "row": 4,
+                  "column": 8
+                },
+                "I4": {
+                  "value": "$145",
+                  "row": 4,
+                  "column": 9
+                },
+                "J4": {
+                  "value": "$150",
+                  "row": 4,
+                  "column": 10
+                },
+                "K4": {
+                  "value": "$155",
+                  "row": 4,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 4,
+              "row_label": "Row 5",
+              "is_header_row": false,
+              "cells": {
+                "A5": {
+                  "value": "Fourth Cost",
+                  "row": 5,
+                  "column": 1
+                },
+                "B5": {
+                  "value": "$115",
+                  "row": 5,
+                  "column": 2
+                },
+                "C5": {
+                  "value": "$120",
+                  "row": 5,
+                  "column": 3
+                },
+                "D5": {
+                  "value": "$125",
+                  "row": 5,
+                  "column": 4
+                },
+                "E5": {
+                  "value": "$130",
+                  "row": 5,
+                  "column": 5
+                },
+                "F5": {
+                  "value": "$135",
+                  "row": 5,
+                  "column": 6
+                },
+                "G5": {
+                  "value": "$140",
+                  "row": 5,
+                  "column": 7
+                },
+                "H5": {
+                  "value": "$145",
+                  "row": 5,
+                  "column": 8
+                },
+                "I5": {
+                  "value": "$150",
+                  "row": 5,
+                  "column": 9
+                },
+                "J5": {
+                  "value": "$155",
+                  "row": 5,
+                  "column": 10
+                },
+                "K5": {
+                  "value": "$160",
+                  "row": 5,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 5,
+              "row_label": "Row 6",
+              "is_header_row": false,
+              "cells": {
+                "A6": {
+                  "value": "Fifth Cost",
+                  "row": 6,
+                  "column": 1
+                },
+                "B6": {
+                  "value": "$120",
+                  "row": 6,
+                  "column": 2
+                },
+                "C6": {
+                  "value": "$125",
+                  "row": 6,
+                  "column": 3
+                },
+                "D6": {
+                  "value": "$130",
+                  "row": 6,
+                  "column": 4
+                },
+                "E6": {
+                  "value": "$135",
+                  "row": 6,
+                  "column": 5
+                },
+                "F6": {
+                  "value": "$140",
+                  "row": 6,
+                  "column": 6
+                },
+                "G6": {
+                  "value": "$145",
+                  "row": 6,
+                  "column": 7
+                },
+                "H6": {
+                  "value": "$150",
+                  "row": 6,
+                  "column": 8
+                },
+                "I6": {
+                  "value": "$155",
+                  "row": 6,
+                  "column": 9
+                },
+                "J6": {
+                  "value": "$160",
+                  "row": 6,
+                  "column": 10
+                },
+                "K6": {
+                  "value": "$165",
+                  "row": 6,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 6,
+              "row_label": "Row 7",
+              "is_header_row": false,
+              "cells": {
+                "A7": {
+                  "value": "Sixth Cost",
+                  "row": 7,
+                  "column": 1
+                },
+                "B7": {
+                  "value": "$125",
+                  "row": 7,
+                  "column": 2
+                },
+                "C7": {
+                  "value": "$130",
+                  "row": 7,
+                  "column": 3
+                },
+                "D7": {
+                  "value": "$135",
+                  "row": 7,
+                  "column": 4
+                },
+                "E7": {
+                  "value": "$140",
+                  "row": 7,
+                  "column": 5
+                },
+                "F7": {
+                  "value": "$145",
+                  "row": 7,
+                  "column": 6
+                },
+                "G7": {
+                  "value": "$150",
+                  "row": 7,
+                  "column": 7
+                },
+                "H7": {
+                  "value": "$155",
+                  "row": 7,
+                  "column": 8
+                },
+                "I7": {
+                  "value": "$160",
+                  "row": 7,
+                  "column": 9
+                },
+                "J7": {
+                  "value": "$165",
+                  "row": 7,
+                  "column": 10
+                },
+                "K7": {
+                  "value": "$170",
+                  "row": 7,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 7,
+              "row_label": "Row 8",
+              "is_header_row": false,
+              "cells": {
+                "A8": {
+                  "value": "Seventh Cost",
+                  "row": 8,
+                  "column": 1
+                },
+                "B8": {
+                  "value": "$130",
+                  "row": 8,
+                  "column": 2
+                },
+                "C8": {
+                  "value": "$135",
+                  "row": 8,
+                  "column": 3
+                },
+                "D8": {
+                  "value": "$140",
+                  "row": 8,
+                  "column": 4
+                },
+                "E8": {
+                  "value": "$145",
+                  "row": 8,
+                  "column": 5
+                },
+                "F8": {
+                  "value": "$150",
+                  "row": 8,
+                  "column": 6
+                },
+                "G8": {
+                  "value": "$155",
+                  "row": 8,
+                  "column": 7
+                },
+                "H8": {
+                  "value": "$160",
+                  "row": 8,
+                  "column": 8
+                },
+                "I8": {
+                  "value": "$165",
+                  "row": 8,
+                  "column": 9
+                },
+                "J8": {
+                  "value": "$170",
+                  "row": 8,
+                  "column": 10
+                },
+                "K8": {
+                  "value": "$175",
+                  "row": 8,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 8,
+              "row_label": "Row 9",
+              "is_header_row": false,
+              "cells": {
+                "A9": {
+                  "value": "Eighth Cost",
+                  "row": 9,
+                  "column": 1
+                },
+                "B9": {
+                  "value": "$135",
+                  "row": 9,
+                  "column": 2
+                },
+                "C9": {
+                  "value": "$140",
+                  "row": 9,
+                  "column": 3
+                },
+                "D9": {
+                  "value": "$145",
+                  "row": 9,
+                  "column": 4
+                },
+                "E9": {
+                  "value": "$150",
+                  "row": 9,
+                  "column": 5
+                },
+                "F9": {
+                  "value": "$155",
+                  "row": 9,
+                  "column": 6
+                },
+                "G9": {
+                  "value": "$160",
+                  "row": 9,
+                  "column": 7
+                },
+                "H9": {
+                  "value": "$165",
+                  "row": 9,
+                  "column": 8
+                },
+                "I9": {
+                  "value": "$170",
+                  "row": 9,
+                  "column": 9
+                },
+                "J9": {
+                  "value": "$175",
+                  "row": 9,
+                  "column": 10
+                },
+                "K9": {
+                  "value": "$180",
+                  "row": 9,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 9,
+              "row_label": "Row 10",
+              "is_header_row": false,
+              "cells": {
+                "A10": {
+                  "value": "Ninth Cost",
+                  "row": 10,
+                  "column": 1
+                },
+                "B10": {
+                  "value": "$140",
+                  "row": 10,
+                  "column": 2
+                },
+                "C10": {
+                  "value": "$145",
+                  "row": 10,
+                  "column": 3
+                },
+                "D10": {
+                  "value": "$150",
+                  "row": 10,
+                  "column": 4
+                },
+                "E10": {
+                  "value": "$155",
+                  "row": 10,
+                  "column": 5
+                },
+                "F10": {
+                  "value": "$160",
+                  "row": 10,
+                  "column": 6
+                },
+                "G10": {
+                  "value": "$165",
+                  "row": 10,
+                  "column": 7
+                },
+                "H10": {
+                  "value": "$170",
+                  "row": 10,
+                  "column": 8
+                },
+                "I10": {
+                  "value": "$175",
+                  "row": 10,
+                  "column": 9
+                },
+                "J10": {
+                  "value": "$180",
+                  "row": 10,
+                  "column": 10
+                },
+                "K10": {
+                  "value": "$185",
+                  "row": 10,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 10,
+              "row_label": "Row 11",
+              "is_header_row": false,
+              "cells": {
+                "A11": {
+                  "value": "Tenth Cost",
+                  "row": 11,
+                  "column": 1
+                },
+                "B11": {
+                  "value": "$145",
+                  "row": 11,
+                  "column": 2
+                },
+                "C11": {
+                  "value": "$150",
+                  "row": 11,
+                  "column": 3
+                },
+                "D11": {
+                  "value": "$155",
+                  "row": 11,
+                  "column": 4
+                },
+                "E11": {
+                  "value": "$160",
+                  "row": 11,
+                  "column": 5
+                },
+                "F11": {
+                  "value": "$165",
+                  "row": 11,
+                  "column": 6
+                },
+                "G11": {
+                  "value": "$170",
+                  "row": 11,
+                  "column": 7
+                },
+                "H11": {
+                  "value": "$175",
+                  "row": 11,
+                  "column": 8
+                },
+                "I11": {
+                  "value": "$180",
+                  "row": 11,
+                  "column": 9
+                },
+                "J11": {
+                  "value": "$185",
+                  "row": 11,
+                  "column": 10
+                },
+                "K11": {
+                  "value": "$190",
+                  "row": 11,
+                  "column": 11
+                }
+              }
+            }
+          ],
+          "metadata": {
+            "detection_method": "text_based_fallback",
+            "quality_score": 0.8,
+            "cell_count": 121,
+            "whitespace": null,
+            "order": null
+          }
+        }
+      ],
+      "metadata": {
+        "filename": "Test_PDF_Table_100_numbers.pdf",
+        "extraction_timestamp": "2025-07-27T12:55:20.500310",
+        "extraction_method": "text_based_fallback",
+        "total_tables_found": 1,
+        "quality_distribution": {
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        }
+      }
+    },
+    "text_content": {
+      "text_content": {
+        "document_metadata": {
+          "filename": "Test_PDF_Table_100_numbers.pdf",
+          "extraction_timestamp": "2025-07-27T12:55:20.514324",
+          "extraction_method": "pymupdf_enhanced",
+          "total_pages": 1,
+          "total_word_count": 0
+        },
+        "pages": [
+          {
+            "page_number": 1,
+            "page_width": 792.0,
+            "page_height": 612.0,
+            "sections": []
+          }
+        ],
+        "document_structure": {
+          "toc": [],
+          "sections_by_type": {
+            "header": 0,
+            "paragraph": 0,
+            "list": 0,
+            "table_caption": 0,
+            "figure_caption": 0,
+            "footer": 0,
+            "sidebar": 0
+          }
+        },
+        "summary": {
+          "total_sections": 0,
+          "total_words": 0,
+          "llm_ready_sections": 0,
+          "average_section_length": 0,
+          "reading_time_estimate": 0
+        }
+      }
+    },
+    "numbers_in_text": {
+      "numbers_in_text": {
+        "document_metadata": {
+          "filename": "Test_PDF_Table_100_numbers.pdf",
+          "total_pages": 1,
+          "extraction_timestamp": "2025-07-27T12:55:20.517425",
+          "extraction_method": "regex_pattern_enhanced"
+        },
+        "pages": [
+          {
+            "page_number": 1,
+            "page_width": 792.0,
+            "page_height": 612.0,
+            "sections": []
+          }
+        ],
+        "summary": {
+          "total_numbers_found": 0,
+          "numbers_by_format": {
+            "integer": 0,
+            "decimal": 0,
+            "percentage": 0,
+            "currency": 0,
+            "scientific_notation": 0,
+            "fraction": 0,
+            "date_number": 0
+          },
+          "confidence_distribution": {
+            "high": 0,
+            "medium": 0,
+            "low": 0
+          }
+        }
+      }
+    }
+  }
+}

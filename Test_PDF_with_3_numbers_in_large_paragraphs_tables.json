@@ -1,0 +1,285 @@
+{
+  "pdf_processing_result": {
+    "document_metadata": {
+      "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+      "total_pages": 1,
+      "processing_timestamp": "2025-07-27T13:34:28.993630",
+      "processing_duration": 0.006352,
+      "extraction_methods": [
+        "table_extraction",
+        "text_extraction",
+        "number_extraction"
+      ]
+    },
+    "processing_summary": {
+      "tables_extracted": 0,
+      "numbers_found": 3,
+      "text_sections": 3,
+      "overall_quality_score": 0.0,
+      "processing_errors": []
+    },
+    "tables": {
+      "tables": [],
+      "metadata": {
+        "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+        "extraction_timestamp": "2025-07-27T13:34:28.993685",
+        "extraction_method": "camelot_py",
+        "total_tables_found": 0,
+        "quality_distribution": {
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        }
+      }
+    },
+    "text_content": {
+      "text_content": {
+        "document_metadata": {
+          "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+          "extraction_timestamp": "2025-07-27T13:34:28.996338",
+          "extraction_method": "pymupdf_enhanced",
+          "total_pages": 1,
+          "total_word_count": 106
+        },
+        "pages": [
+          {
+            "page_number": 1,
+            "page_width": 612.0,
+            "page_height": 792.0,
+            "sections": [
+              {
+                "section_id": "page_1_section_1",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "For the first paragraph I want to say that I have 10 fingers. That is just a simple integer number with no commas and no units so it should be easier to detect.",
+                "word_count": 33,
+                "character_count": 160,
+                "llm_ready": true,
+                "position": {
+                  "start_y": 72.35986328125,
+                  "end_y": 230.111572265625,
+                  "bbox": [
+                    72.0,
+                    72.35986328125,
+                    534.5113525390625,
+                    230.111572265625
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 11.0,
+                  "font_family": "ArialMT",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 10,
+                    "original_text": "10",
+                    "context": "For the first paragraph I want to say that I have 10 fingers. That is just a simple integer number wit",
+                    "position": {
+                      "x": 216.53479766845703,
+                      "y": 121.65727233886719,
+                      "bbox": [
+                        216.53479766845703,
+                        121.65727233886719,
+                        236.53479766845703,
+                        131.6572723388672
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 11.0,
+                      "font_family": "ArialMT",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "section_id": "page_1_section_2",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "For the second paragraph I want to say that I have a crisp new $50 bill in my wallet. This number contains a symbol that should make it clear it is currency.",
+                "word_count": 32,
+                "character_count": 157,
+                "llm_ready": true,
+                "position": {
+                  "start_y": 72.35986328125,
+                  "end_y": 230.111572265625,
+                  "bbox": [
+                    72.0,
+                    72.35986328125,
+                    534.5113525390625,
+                    230.111572265625
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 11.0,
+                  "font_family": "ArialMT",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 50.0,
+                    "original_text": "$50",
+                    "context": "d paragraph I want to say that I have a crisp new $50 bill in my wallet. This number contains a symbol",
+                    "position": {
+                      "x": 257.5937274519805,
+                      "y": 135.6615044660629,
+                      "bbox": [
+                        257.5937274519805,
+                        135.6615044660629,
+                        277.5937274519805,
+                        145.6615044660629
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.8999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 11.0,
+                      "font_family": "ArialMT",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "section_id": "page_1_section_3",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "For the third paragraph I want to test the parsing of a very large number so I am including a number that has a comma in it. That number is 10,000 . This is a test of large numbers with commas.",
+                "word_count": 41,
+                "character_count": 193,
+                "llm_ready": true,
+                "position": {
+                  "start_y": 72.35986328125,
+                  "end_y": 230.111572265625,
+                  "bbox": [
+                    72.0,
+                    72.35986328125,
+                    534.5113525390625,
+                    230.111572265625
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 11.0,
+                  "font_family": "ArialMT",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 10000,
+                    "original_text": "10,000",
+                    "context": "g a number that has a comma in it. That number is 10,000 . This is a test of large numbers with commas.",
+                    "position": {
+                      "x": 407.5004629817034,
+                      "y": 186.79115477250647,
+                      "bbox": [
+                        407.5004629817034,
+                        186.79115477250647,
+                        427.5004629817034,
+                        196.79115477250647
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 11.0,
+                      "font_family": "ArialMT",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "document_structure": {
+          "toc": [],
+          "sections_by_type": {
+            "header": 0,
+            "paragraph": 3,
+            "list": 0,
+            "table_caption": 0,
+            "figure_caption": 0,
+            "footer": 0,
+            "sidebar": 0
+          }
+        },
+        "summary": {
+          "total_sections": 3,
+          "total_words": 106,
+          "llm_ready_sections": 3,
+          "average_section_length": 35.333333333333336,
+          "reading_time_estimate": 0.53
+        }
+      }
+    }
+  }
+}

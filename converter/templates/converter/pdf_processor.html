@@ -671,6 +671,57 @@
             color: #718096;
         }
 
+        /* Numbers within text sections */
+        .section-numbers {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.75rem 0;
+        }
+
+        .numbers-header {
+            font-weight: 600;
+            color: #0c5460;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .numbers-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .number-item {
+            background: white;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .number-value {
+            font-weight: 600;
+            color: #0c5460;
+        }
+
+        .number-format {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .number-confidence {
+            color: #28a745;
+            font-size: 0.75rem;
+        }
+
         .no-data {
             text-align: center;
             color: #718096;
@@ -795,10 +846,6 @@
                         <i class="fas fa-table"></i> Tables
                         <span class="tab-count" id="tablesCount">0</span>
                     </button>
-                    <button class="tab-btn" onclick="showTab('numbers')" id="numbersTab">
-                        <i class="fas fa-hashtag"></i> Numbers
-                        <span class="tab-count" id="numbersCount">0</span>
-                    </button>
                     <button class="tab-btn" onclick="showTab('text')" id="textTab">
                         <i class="fas fa-file-text"></i> Text Content
                         <span class="tab-count" id="textCount">0</span>
@@ -819,16 +866,7 @@
                     </div>
                 </div>
                 
-                <!-- Numbers Panel -->
-                <div class="tab-content" id="numbersPanel">
-                    <div class="panel-header">
-                        <h3><i class="fas fa-hashtag"></i> Numbers in Text</h3>
-                        <p>Numerical values found in text content</p>
-                    </div>
-                    <div class="numbers-display" id="numbersDisplay">
-                        <div class="no-data">No numbers extracted yet</div>
-                    </div>
-                </div>
+
                 
                 <!-- Text Panel -->
                 <div class="tab-content" id="textPanel">
@@ -1050,12 +1088,10 @@
 
         function updateAllDisplays(data) {
             console.log('Full data structure:', data);
-            console.log('Numbers structure:', data?.pdf_processing_result?.numbers_in_text);
             console.log('Text structure:', data?.pdf_processing_result?.text_content);
             console.log('Text sections count:', data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections?.length || 0);
             console.log('Processing summary:', data?.pdf_processing_result?.processing_summary);
             updateTablesDisplay(data);
-            updateNumbersDisplay(data);
             updateTextDisplay(data);
             updateJSONDisplay(data);
         }
@@ -1127,85 +1163,7 @@
             return html;
         }
 
-        function updateNumbersDisplay(data) {
-            const numbersDisplay = document.getElementById('numbersDisplay');
-            const numbersCount = document.getElementById('numbersCount');
-            
-            // Handle different possible structures
-            let numbers = [];
-            
-            // First, try to get numbers from text content (old method)
-            if (data?.pdf_processing_result?.numbers_in_text?.numbers_in_text?.pages?.[0]?.sections) {
-                // Flatten all sections to get all numbers
-                const sections = data.pdf_processing_result.numbers_in_text.numbers_in_text.pages[0].sections;
-                sections.forEach(section => {
-                    if (section.numbers && Array.isArray(section.numbers)) {
-                        numbers = numbers.concat(section.numbers);
-                    }
-                });
-            } else if (data?.pdf_processing_result?.numbers_in_text?.numbers_in_text) {
-                numbers = data.pdf_processing_result.numbers_in_text.numbers_in_text;
-            } else if (data?.pdf_processing_result?.numbers_in_text) {
-                numbers = data.pdf_processing_result.numbers_in_text;
-            } else if (Array.isArray(data?.pdf_processing_result?.numbers_in_text)) {
-                numbers = data.pdf_processing_result.numbers_in_text;
-            }
-            
-            // If no numbers found in text, try to extract numbers from tables
-            if (numbers.length === 0) {
-                const tables = data?.pdf_processing_result?.tables?.tables || [];
-                tables.forEach(table => {
-                    if (table.rows) {
-                        table.rows.forEach(row => {
-                            if (row.cells) {
-                                Object.values(row.cells).forEach(cell => {
-                                    const value = cell.value;
-                                    // Check if cell contains a number
-                                    if (value && (/\d/.test(value) || value.includes('$'))) {
-                                        numbers.push({
-                                            value: value,
-                                            context: `Table ${table.table_id}, Row ${row.row_index + 1}`,
-                                            format: value.includes('$') ? 'currency' : 'number',
-                                            page_number: table.region?.page_number || 'N/A',
-                                            confidence: 0.9
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            
-            // Ensure numbers is an array
-            if (!Array.isArray(numbers)) {
-                numbers = [];
-            }
-            
-            numbersCount.textContent = numbers.length;
-            
-            if (numbers.length === 0) {
-                numbersDisplay.innerHTML = '<div class="no-data">No numbers found in text content</div>';
-                return;
-            }
-            
-            let html = '';
-            numbers.forEach((number, index) => {
-                html += `
-                    <div class="number-item">
-                        <div class="number-value">${number.value}${number.unit ? ' ' + number.unit : ''}</div>
-                        <div class="number-context">${number.context || 'No context available'}</div>
-                        <div class="number-meta">
-                            <span>Format: ${number.format}</span>
-                            <span>Page: ${number.page_number || 'N/A'}</span>
-                            <span>Confidence: ${(number.confidence * 100).toFixed(1)}%</span>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            numbersDisplay.innerHTML = html;
-        }
+
 
         function updateTextDisplay(data) {
             const textDisplay = document.getElementById('textDisplay');
@@ -1252,14 +1210,39 @@
             let html = '';
             textSections.forEach((section, index) => {
                 console.log('Processing section:', section);
+                
+                // Check if section has numbers
+                const numbers = section.numbers || [];
+                let numbersHtml = '';
+                if (numbers.length > 0) {
+                    numbersHtml = `
+                        <div class="section-numbers">
+                            <div class="numbers-header">
+                                <i class="fas fa-hashtag"></i> Numbers found in this section (${numbers.length}):
+                            </div>
+                            <div class="numbers-list">
+                                ${numbers.map(number => `
+                                    <div class="number-item">
+                                        <span class="number-value">${number.original_text || number.value}</span>
+                                        <span class="number-format">(${number.format})</span>
+                                        <span class="number-confidence">${(number.confidence * 100).toFixed(1)}% confidence</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                
                 html += `
                     <div class="text-item">
                         <div class="text-title">Section ${index + 1} - ${section.section_type || 'Text'}</div>
                         <div class="text-content">${section.content || 'No content available'}</div>
+                        ${numbersHtml}
                         <div class="text-meta">
                             <span>Page: ${section.page_number || 'N/A'}</span>
                             <span>Words: ${section.word_count || 0}</span>
                             <span>LLM Ready: ${section.llm_ready ? 'Yes' : 'No'}</span>
+                            ${numbers.length > 0 ? `<span>Numbers: ${numbers.length}</span>` : ''}
                         </div>
                     </div>
                 `;

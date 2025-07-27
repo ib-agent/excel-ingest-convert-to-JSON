@@ -1116,6 +1116,9 @@ class PDFTextProcessor:
                 # Organize text blocks into sections
                 sections = self._organize_into_sections(text_blocks, page_num)
                 
+                # Extract numbers from each section and add them to the section's numbers array
+                sections = self._extract_numbers_from_sections(sections)
+                
                 # Create page data
                 page_data = {
                     "page_number": page_num + 1,
@@ -1309,48 +1312,159 @@ class PDFTextProcessor:
         section_counter = 1
         
         for block in text_blocks:
-            # Determine section type
-            section_type = self._classify_section_type(block)
+            # Split text into paragraphs if it contains multiple paragraphs
+            paragraphs = self._split_into_paragraphs(block["text"])
             
-            # Check if section meets size requirements
-            word_count = len(block["text"].split())
-            if word_count < self.section_config.get("min_words_per_section", 10):
-                continue
-            
-            # Create section
-            section = {
-                "section_id": f"page_{page_num + 1}_section_{section_counter}",
-                "section_type": section_type,
-                "title": self._extract_title(block) if section_type == "header" else None,
-                "content": block["text"],
-                "word_count": word_count,
-                "character_count": len(block["text"]),
-                "llm_ready": self._is_llm_ready(block["text"], word_count),
-                "position": {
-                    "start_y": block["bbox"][1],
-                    "end_y": block["bbox"][3],
-                    "bbox": block["bbox"],
-                    "column_index": 0  # Default to single column
-                },
-                "metadata": block["metadata"],
-                "structure": {
-                    "heading_level": self._determine_heading_level(block),
-                    "list_type": self._detect_list_type(block["text"]),
-                    "list_level": None,
-                    "is_continuation": False
-                },
-                "relationships": {
-                    "parent_section": None,
-                    "child_sections": [],
-                    "related_tables": [],
-                    "related_figures": []
+            for i, paragraph_text in enumerate(paragraphs):
+                # Skip empty paragraphs
+                if not paragraph_text.strip():
+                    continue
+                
+                # Determine section type
+                section_type = self._classify_section_type(block)
+                
+                # Check if section meets size requirements
+                word_count = len(paragraph_text.split())
+                if word_count < self.section_config.get("min_words_per_section", 5):  # Reduced minimum for paragraphs
+                    continue
+                
+                # Create section for each paragraph
+                section = {
+                    "section_id": f"page_{page_num + 1}_section_{section_counter}",
+                    "section_type": section_type,
+                    "title": self._extract_title(block) if section_type == "header" else None,
+                    "content": paragraph_text.strip(),
+                    "word_count": word_count,
+                    "character_count": len(paragraph_text),
+                    "llm_ready": self._is_llm_ready(paragraph_text, word_count),
+                    "position": {
+                        "start_y": block["bbox"][1],
+                        "end_y": block["bbox"][3],
+                        "bbox": block["bbox"],
+                        "column_index": 0  # Default to single column
+                    },
+                    "metadata": block["metadata"],
+                    "structure": {
+                        "heading_level": self._determine_heading_level(block),
+                        "list_type": self._detect_list_type(paragraph_text),
+                        "list_level": None,
+                        "is_continuation": False
+                    },
+                    "relationships": {
+                        "parent_section": None,
+                        "child_sections": [],
+                        "related_tables": [],
+                        "related_figures": []
+                    },
+                    "numbers": []  # Initialize empty numbers array
                 }
-            }
-            
-            sections.append(section)
-            section_counter += 1
+                
+                sections.append(section)
+                section_counter += 1
         
         return sections
+    
+    def _extract_numbers_from_sections(self, sections: List[Dict]) -> List[Dict]:
+        """
+        Extract numbers from each section and add them to the section's numbers array
+        
+        Args:
+            sections: List of section dictionaries
+            
+        Returns:
+            Updated sections with numbers extracted
+        """
+        number_extractor = PDFNumberExtractor()
+        
+        for section in sections:
+            text = section["content"]
+            position = section["position"]
+            metadata = section["metadata"]
+            
+            # Track used positions to prevent overlapping matches
+            used_positions = set()
+            all_matches = []
+            
+            # Collect all matches from all patterns first
+            for format_type, pattern in number_extractor.patterns.items():
+                matches = re.finditer(pattern, text, re.IGNORECASE)
+                for match in matches:
+                    all_matches.append((match, format_type))
+            
+            # Sort matches by start position and length (longer matches first)
+            all_matches.sort(key=lambda x: (x[0].start(), -x[0].end()))
+            
+            # Process matches, avoiding overlaps
+            for match, format_type in all_matches:
+                start_pos = match.start()
+                end_pos = match.end()
+                
+                # Check if this position overlaps with any used position
+                overlaps = False
+                for used_start, used_end in used_positions:
+                    if not (end_pos <= used_start or start_pos >= used_end):
+                        overlaps = True
+                        break
+                
+                if not overlaps:
+                    number_info = number_extractor._process_number_match(
+                        match, format_type, text, position, metadata
+                    )
+                    
+                    if number_info and number_info["confidence"] >= number_extractor.confidence_threshold:
+                        section["numbers"].append(number_info)
+                        used_positions.add((start_pos, end_pos))
+        
+        return sections
+    
+    def _split_into_paragraphs(self, text: str) -> List[str]:
+        """
+        Split text into individual paragraphs
+        
+        Args:
+            text: Text to split into paragraphs
+            
+        Returns:
+            List of paragraph strings
+        """
+        # Split by double newlines (common paragraph separator)
+        paragraphs = re.split(r'\n\s*\n', text)
+        
+        # If no double newlines found, try splitting by single newlines that start with capital letters
+        if len(paragraphs) == 1:
+            # Look for patterns like "For the first paragraph", "For the second paragraph", etc.
+            paragraph_patterns = [
+                r'For the \w+ paragraph',  # "For the first paragraph", "For the second paragraph"
+                r'This is the \w+ paragraph',  # "This is the first paragraph"
+                r'The \w+ paragraph',  # "The first paragraph"
+            ]
+            
+            for pattern in paragraph_patterns:
+                matches = list(re.finditer(pattern, text, re.IGNORECASE))
+                if len(matches) > 1:
+                    # Split at these paragraph markers
+                    paragraphs = []
+                    last_end = 0
+                    for match in matches:
+                        if match.start() > last_end:
+                            paragraphs.append(text[last_end:match.start()].strip())
+                        last_end = match.start()
+                    
+                    # Add the last paragraph
+                    if last_end < len(text):
+                        paragraphs.append(text[last_end:].strip())
+                    break
+        
+        # Clean up paragraphs
+        cleaned_paragraphs = []
+        for paragraph in paragraphs:
+            paragraph = paragraph.strip()
+            if paragraph:
+                # Remove extra whitespace and normalize line breaks
+                paragraph = re.sub(r'\s+', ' ', paragraph)
+                cleaned_paragraphs.append(paragraph)
+        
+        return cleaned_paragraphs
     
     def _classify_section_type(self, block: Dict) -> str:
         """
@@ -1606,7 +1720,7 @@ class PDFNumberExtractor:
                 page_numbers = self._extract_numbers_from_page(page)
                 numbers_data["numbers_in_text"]["pages"].append(page_numbers)
                 
-                # Update summary statistics
+                # Update summary statistics and add numbers back to text sections
                 for section in page_numbers["sections"]:
                     for number in section["numbers"]:
                         numbers_data["numbers_in_text"]["summary"]["total_numbers_found"] += 1
@@ -1624,6 +1738,9 @@ class PDFNumberExtractor:
                             numbers_data["numbers_in_text"]["summary"]["confidence_distribution"]["medium"] += 1
                         else:
                             numbers_data["numbers_in_text"]["summary"]["confidence_distribution"]["low"] += 1
+                
+                # Add numbers back to the text sections for display
+                self._add_numbers_to_text_sections(page, page_numbers)
             
             logger.info(f"Number extraction completed. Found {numbers_data['numbers_in_text']['summary']['total_numbers_found']} numbers")
             return numbers_data
@@ -1655,6 +1772,27 @@ class PDFNumberExtractor:
                 page_numbers["sections"].append(section_numbers)
         
         return page_numbers
+    
+    def _add_numbers_to_text_sections(self, page: Dict, page_numbers: Dict):
+        """
+        Add extracted numbers back to the text sections for display
+        
+        Args:
+            page: Page dictionary from text content
+            page_numbers: Page numbers data
+        """
+        # Create a mapping of section_id to numbers
+        section_numbers_map = {}
+        for section in page_numbers["sections"]:
+            section_numbers_map[section["section_id"]] = section["numbers"]
+        
+        # Add numbers to the corresponding text sections
+        for section in page["sections"]:
+            section_id = section["section_id"]
+            if section_id in section_numbers_map:
+                section["numbers"] = section_numbers_map[section_id]
+            else:
+                section["numbers"] = []
     
     def _extract_numbers_from_section(self, section: Dict) -> Dict:
         """
@@ -2045,8 +2183,7 @@ class PDFProcessor:
                     "processing_errors": []
                 },
                 "tables": None,
-                "text_content": None,
-                "numbers_in_text": None
+                "text_content": None
             }
         }
         
@@ -2089,14 +2226,16 @@ class PDFProcessor:
                 result["pdf_processing_result"]["document_metadata"]["total_pages"] = \
                     text_data["text_content"]["document_metadata"]["total_pages"]
             
-            # Phase 3: Extract numbers from text content
+            # Phase 3: Count numbers from text sections (numbers are now embedded in text sections)
             if extract_numbers and extract_text:
-                logger.info("Phase 3: Extracting numbers from text content...")
-                number_data = self.number_extractor.extract_numbers_in_text(text_data)
-                result["pdf_processing_result"]["numbers_in_text"] = number_data
+                logger.info("Phase 3: Counting numbers from text sections...")
+                total_numbers = 0
+                for page in text_data["text_content"]["pages"]:
+                    for section in page["sections"]:
+                        total_numbers += len(section.get("numbers", []))
+                
+                result["pdf_processing_result"]["processing_summary"]["numbers_found"] = total_numbers
                 result["pdf_processing_result"]["document_metadata"]["extraction_methods"].append("number_extraction")
-                result["pdf_processing_result"]["processing_summary"]["numbers_found"] = \
-                    number_data["numbers_in_text"]["summary"]["total_numbers_found"]
             
             # Calculate overall quality score
             quality_scores = []

@@ -1,220 +1,17 @@
 # PDF JSON Schema Documentation
 
-This document defines the JSON schemas for PDF processing output, including table extraction, numbers-in-text extraction, and contextual text content extraction.
+This document defines the JSON schemas for PDF processing output, including table extraction and contextual text content extraction with embedded numbers.
 
 ## Overview
 
-The PDF processing system produces three distinct JSON structures:
+The PDF processing system produces two distinct JSON structures:
 
 1. **Table-Oriented JSON** - Extracted tables in structured format (similar to Excel processing)
-2. **Numbers-in-Text JSON** - Numerical data found within text content
-3. **Text Content JSON** - Contextual text sections optimized for LLM processing
+2. **Text Content JSON** - Contextual text sections with embedded numbers, optimized for LLM processing
 
-## 1. Numbers-in-Text JSON Schema
+## 1. Text Content JSON Schema
 
-The numbers-in-text schema captures numerical data found within text content, providing context and positioning information for each number.
-
-### Schema Structure
-
-```json
-{
-  "numbers_in_text": {
-    "document_metadata": {
-      "filename": "string",
-      "total_pages": "number",
-      "extraction_timestamp": "string (ISO 8601)",
-      "extraction_method": "string"
-    },
-    "pages": [
-      {
-        "page_number": "number",
-        "page_width": "number",
-        "page_height": "number",
-        "sections": [
-          {
-            "section_id": "string",
-            "section_type": "paragraph|header|footer|table_caption|figure_caption",
-            "numbers": [
-              {
-                "value": "number",
-                "original_text": "string",
-                "context": "string",
-                "position": {
-                  "x": "number",
-                  "y": "number",
-                  "bbox": [x1, y1, x2, y2],
-                  "line_number": "number"
-                },
-                "format": "integer|decimal|percentage|currency|scientific_notation|fraction|date_number",
-                "unit": "string|null",
-                "currency": "string|null",
-                "confidence": "number (0.0-1.0)",
-                "extraction_method": "regex_pattern|ml_model|rule_based",
-                "metadata": {
-                  "font_size": "number|null",
-                  "font_family": "string|null",
-                  "is_bold": "boolean",
-                  "is_italic": "boolean",
-                  "color": "string|null"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "summary": {
-      "total_numbers_found": "number",
-      "numbers_by_format": {
-        "integer": "number",
-        "decimal": "number",
-        "percentage": "number",
-        "currency": "number",
-        "scientific_notation": "number",
-        "fraction": "number",
-        "date_number": "number"
-      },
-      "confidence_distribution": {
-        "high": "number (0.8-1.0)",
-        "medium": "number (0.5-0.79)",
-        "low": "number (0.0-0.49)"
-      }
-    }
-  }
-}
-```
-
-### Number Object Properties
-
-#### Core Properties
-- **value**: The extracted numerical value
-- **original_text**: The exact text as it appears in the PDF
-- **context**: Surrounding text that provides context for the number
-- **position**: Spatial and logical positioning information
-- **format**: The type of number format detected
-- **unit**: Associated unit of measurement (if any)
-- **currency**: Currency symbol or code (for monetary values)
-- **confidence**: Extraction confidence score (0.0-1.0)
-- **extraction_method**: Method used to extract the number
-
-#### Position Object
-- **x, y**: Coordinates of the number's position
-- **bbox**: Bounding box coordinates [x1, y1, x2, y2]
-- **line_number**: Logical line number within the section
-
-#### Metadata Object
-- **font_size**: Font size in points
-- **font_family**: Font family name
-- **is_bold**: Whether the text is bold
-- **is_italic**: Whether the text is italic
-- **color**: Text color in hex format
-
-### Format Types
-
-1. **integer**: Whole numbers (e.g., 1500, -42)
-2. **decimal**: Decimal numbers (e.g., 15.5, -3.14)
-3. **percentage**: Percentages (e.g., 25%, 15.5%)
-4. **currency**: Monetary values (e.g., $1,500, €25.50)
-5. **scientific_notation**: Scientific notation (e.g., 1.5e6, 2.3E-4)
-6. **fraction**: Fractions (e.g., 1/2, 3/4)
-7. **date_number**: Numbers that are part of dates (e.g., 2023, 15th)
-
-### Example Numbers-in-Text Output
-
-```json
-{
-  "numbers_in_text": {
-    "document_metadata": {
-      "filename": "financial_report_2023.pdf",
-      "total_pages": 15,
-      "extraction_timestamp": "2024-01-15T10:30:00Z",
-      "extraction_method": "regex_pattern_ml_enhanced"
-    },
-    "pages": [
-      {
-        "page_number": 1,
-        "page_width": 612,
-        "page_height": 792,
-        "sections": [
-          {
-            "section_id": "executive_summary_1",
-            "section_type": "paragraph",
-            "numbers": [
-              {
-                "value": 1500000,
-                "original_text": "1,500,000",
-                "context": "Total revenue for Q4 2023 reached 1,500,000 dollars",
-                "position": {
-                  "x": 245.6,
-                  "y": 156.8,
-                  "bbox": [240.2, 152.4, 268.9, 161.2],
-                  "line_number": 3
-                },
-                "format": "currency",
-                "unit": "dollars",
-                "currency": "USD",
-                "confidence": 0.95,
-                "extraction_method": "regex_pattern",
-                "metadata": {
-                  "font_size": 12,
-                  "font_family": "Arial",
-                  "is_bold": true,
-                  "is_italic": false,
-                  "color": "#000000"
-                }
-              },
-              {
-                "value": 25.5,
-                "original_text": "25.5%",
-                "context": "representing a 25.5% increase over the previous quarter",
-                "position": {
-                  "x": 312.4,
-                  "y": 156.8,
-                  "bbox": [308.1, 152.4, 325.7, 161.2],
-                  "line_number": 3
-                },
-                "format": "percentage",
-                "unit": null,
-                "currency": null,
-                "confidence": 0.98,
-                "extraction_method": "regex_pattern",
-                "metadata": {
-                  "font_size": 12,
-                  "font_family": "Arial",
-                  "is_bold": false,
-                  "is_italic": false,
-                  "color": "#000000"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "summary": {
-      "total_numbers_found": 47,
-      "numbers_by_format": {
-        "integer": 15,
-        "decimal": 8,
-        "percentage": 12,
-        "currency": 10,
-        "scientific_notation": 1,
-        "fraction": 0,
-        "date_number": 1
-      },
-      "confidence_distribution": {
-        "high": 35,
-        "medium": 10,
-        "low": 2
-      }
-    }
-  }
-}
-```
-
-## 2. Text Content JSON Schema
-
-The text content schema organizes extracted text into logical sections optimized for LLM processing, with metadata about structure and formatting.
+The text content schema organizes extracted text into logical sections optimized for LLM processing, with metadata about structure, formatting, and embedded numbers.
 
 ### Schema Structure
 
@@ -268,7 +65,32 @@ The text content schema organizes extracted text into logical sections optimized
               "child_sections": ["string"],
               "related_tables": ["string"],
               "related_figures": ["string"]
-            }
+            },
+            "numbers": [
+              {
+                "value": "number",
+                "original_text": "string",
+                "context": "string",
+                "position": {
+                  "x": "number",
+                  "y": "number",
+                  "bbox": [x1, y1, x2, y2],
+                  "line_number": "number"
+                },
+                "format": "integer|decimal|percentage|currency|scientific_notation|fraction|date_number",
+                "unit": "string|null",
+                "currency": "string|null",
+                "confidence": "number (0.0-1.0)",
+                "extraction_method": "regex_pattern|ml_model|rule_based",
+                "metadata": {
+                  "font_size": "number|null",
+                  "font_family": "string|null",
+                  "is_bold": "boolean",
+                  "is_italic": "boolean",
+                  "color": "string|null"
+                }
+              }
+            ]
           }
         ]
       }
@@ -297,7 +119,8 @@ The text content schema organizes extracted text into logical sections optimized
       "total_words": "number",
       "llm_ready_sections": "number",
       "average_section_length": "number",
-      "reading_time_estimate": "number (minutes)"
+      "reading_time_estimate": "number (minutes)",
+      "total_numbers_found": "number"
     }
   }
 }
@@ -317,6 +140,7 @@ The text content schema organizes extracted text into logical sections optimized
 - **metadata**: Formatting and styling information
 - **structure**: Structural information about the section
 - **relationships**: Connections to other sections and elements
+- **numbers**: Array of numbers found within this section
 
 #### Position Object
 - **start_y, end_y**: Vertical position range
@@ -344,6 +168,29 @@ The text content schema organizes extracted text into logical sections optimized
 - **related_tables**: Array of related table IDs
 - **related_figures**: Array of related figure IDs
 
+#### Numbers Array
+Each number object in the numbers array contains:
+- **value**: The extracted numerical value
+- **original_text**: The exact text as it appears in the PDF
+- **context**: Surrounding text that provides context for the number
+- **position**: Spatial and logical positioning information
+- **format**: The type of number format detected
+- **unit**: Associated unit of measurement (if any)
+- **currency**: Currency symbol or code (for monetary values)
+- **confidence**: Extraction confidence score (0.0-1.0)
+- **extraction_method**: Method used to extract the number
+- **metadata**: Font and styling information for the number
+
+### Number Format Types
+
+1. **integer**: Whole numbers (e.g., 1500, -42)
+2. **decimal**: Decimal numbers (e.g., 15.5, -3.14)
+3. **percentage**: Percentages (e.g., 25%, 15.5%)
+4. **currency**: Monetary values (e.g., $1,500, €25.50)
+5. **scientific_notation**: Scientific notation (e.g., 1.5e6, 2.3E-4)
+6. **fraction**: Fractions (e.g., 1/2, 3/4)
+7. **date_number**: Numbers that are part of dates (e.g., 2023, 15th)
+
 ### Section Types
 
 1. **header**: Document headers, titles, and headings
@@ -363,7 +210,7 @@ A section is considered "llm_ready" when it meets these criteria:
 - Clear context and meaning
 - Appropriate for standalone processing
 
-### Example Text Content Output
+### Example Text Content Output with Embedded Numbers
 
 ```json
 {
@@ -415,20 +262,45 @@ A section is considered "llm_ready" when it meets these criteria:
               "child_sections": ["executive_summary_1"],
               "related_tables": [],
               "related_figures": []
-            }
+            },
+            "numbers": [
+              {
+                "value": 2023,
+                "original_text": "2023",
+                "context": "Annual Report 2023",
+                "position": {
+                  "x": 420.5,
+                  "y": 110.0,
+                  "bbox": [420.5, 105.0, 435.8, 115.0],
+                  "line_number": 1
+                },
+                "format": "date_number",
+                "unit": null,
+                "currency": null,
+                "confidence": 0.99,
+                "extraction_method": "regex_pattern",
+                "metadata": {
+                  "font_size": 24,
+                  "font_family": "Times New Roman",
+                  "is_bold": true,
+                  "is_italic": false,
+                  "color": "#000000"
+                }
+              }
+            ]
           },
           {
             "section_id": "executive_summary_1",
             "section_type": "paragraph",
             "title": null,
-            "content": "This annual report presents a comprehensive overview of our company's performance, strategic initiatives, and financial results for the fiscal year 2023. Throughout the year, we continued to focus on innovation, operational excellence, and sustainable growth while navigating challenging market conditions. Our commitment to delivering value to shareholders, customers, and employees remained unwavering as we executed our long-term strategic plan.",
-            "word_count": 67,
-            "character_count": 456,
+            "content": "This annual report presents a comprehensive overview of our company's performance, strategic initiatives, and financial results for the fiscal year 2023. Throughout the year, we continued to focus on innovation, operational excellence, and sustainable growth while navigating challenging market conditions. Our commitment to delivering value to shareholders, customers, and employees remained unwavering as we executed our long-term strategic plan. Total revenue for Q4 2023 reached $1,500,000, representing a 25.5% increase over the previous quarter.",
+            "word_count": 75,
+            "character_count": 520,
             "llm_ready": true,
             "position": {
               "start_y": 140,
-              "end_y": 200,
-              "bbox": [72.0, 140.0, 540.0, 200.0],
+              "end_y": 220,
+              "bbox": [72.0, 140.0, 540.0, 220.0],
               "column_index": 0
             },
             "metadata": {
@@ -451,7 +323,78 @@ A section is considered "llm_ready" when it meets these criteria:
               "child_sections": [],
               "related_tables": ["financial_summary_table"],
               "related_figures": []
-            }
+            },
+            "numbers": [
+              {
+                "value": 2023,
+                "original_text": "2023",
+                "context": "fiscal year 2023",
+                "position": {
+                  "x": 245.6,
+                  "y": 156.8,
+                  "bbox": [240.2, 152.4, 268.9, 161.2],
+                  "line_number": 2
+                },
+                "format": "date_number",
+                "unit": null,
+                "currency": null,
+                "confidence": 0.99,
+                "extraction_method": "regex_pattern",
+                "metadata": {
+                  "font_size": 12,
+                  "font_family": "Arial",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": "#000000"
+                }
+              },
+              {
+                "value": 1500000,
+                "original_text": "$1,500,000",
+                "context": "Total revenue for Q4 2023 reached $1,500,000",
+                "position": {
+                  "x": 312.4,
+                  "y": 200.5,
+                  "bbox": [308.1, 195.0, 325.7, 205.0],
+                  "line_number": 4
+                },
+                "format": "currency",
+                "unit": "dollars",
+                "currency": "USD",
+                "confidence": 0.95,
+                "extraction_method": "regex_pattern",
+                "metadata": {
+                  "font_size": 12,
+                  "font_family": "Arial",
+                  "is_bold": true,
+                  "is_italic": false,
+                  "color": "#000000"
+                }
+              },
+              {
+                "value": 25.5,
+                "original_text": "25.5%",
+                "context": "representing a 25.5% increase over the previous quarter",
+                "position": {
+                  "x": 380.2,
+                  "y": 200.5,
+                  "bbox": [375.8, 195.0, 393.4, 205.0],
+                  "line_number": 4
+                },
+                "format": "percentage",
+                "unit": null,
+                "currency": null,
+                "confidence": 0.98,
+                "extraction_method": "regex_pattern",
+                "metadata": {
+                  "font_size": 12,
+                  "font_family": "Arial",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": "#000000"
+                }
+              }
+            ]
           }
         ]
       }
@@ -486,15 +429,16 @@ A section is considered "llm_ready" when it meets these criteria:
       "total_words": 15420,
       "llm_ready_sections": 67,
       "average_section_length": 97.6,
-      "reading_time_estimate": 77
+      "reading_time_estimate": 77,
+      "total_numbers_found": 47
     }
   }
 }
 ```
 
-## 3. Combined Output Structure
+## 2. Combined Output Structure
 
-When all three extraction types are performed, the complete output structure is:
+When both extraction types are performed, the complete output structure is:
 
 ```json
 {
@@ -504,16 +448,13 @@ When all three extraction types are performed, the complete output structure is:
       "total_pages": "number",
       "processing_timestamp": "string (ISO 8601)",
       "processing_duration": "number (seconds)",
-      "extraction_methods": ["table_extraction", "text_extraction", "number_extraction"]
+      "extraction_methods": ["table_extraction", "text_extraction"]
     },
     "tables": {
       // Table-oriented JSON structure (from existing Excel schema)
     },
-    "numbers_in_text": {
-      // Numbers-in-text JSON structure
-    },
     "text_content": {
-      // Text content JSON structure
+      // Text content JSON structure with embedded numbers
     },
     "processing_summary": {
       "tables_extracted": "number",
@@ -543,7 +484,8 @@ When all three extraction types are performed, the complete output structure is:
     "context_window": 100,
     "confidence_threshold": 0.7,
     "extract_metadata": true,
-    "include_positioning": true
+    "include_positioning": true,
+    "prevent_overlapping_matches": true
   }
 }
 ```
@@ -569,6 +511,10 @@ When all three extraction types are performed, the complete output structure is:
       "font_info": true,
       "positioning": true,
       "relationships": true
+    },
+    "number_extraction": {
+      "enabled": true,
+      "embed_in_sections": true
     }
   }
 }
@@ -581,12 +527,14 @@ When all three extraction types are performed, the complete output structure is:
 - **Completeness**: Percentage of numbers found vs. expected
 - **Context Quality**: Relevance of extracted context
 - **Positioning Accuracy**: Accuracy of spatial positioning
+- **Duplicate Prevention**: Effectiveness of overlapping match prevention
 
 ### Text Extraction Quality
 - **Readability**: Text flow and logical structure
 - **Completeness**: Percentage of text extracted
 - **Section Detection**: Accuracy of section boundaries
 - **LLM Readiness**: Percentage of sections optimized for LLM processing
+- **Number Integration**: Quality of number embedding within sections
 
 ## Error Handling
 
@@ -596,6 +544,7 @@ When all three extraction types are performed, the complete output structure is:
 3. **Font Problems**: Unusual or missing fonts
 4. **Table Detection**: False positives or missed tables
 5. **Number Recognition**: Ambiguous number formats
+6. **Duplicate Numbers**: Overlapping regex matches
 
 ### Error Response Format
 
@@ -615,4 +564,4 @@ When all three extraction types are performed, the complete output structure is:
 }
 ```
 
-This comprehensive schema documentation provides the foundation for implementing robust PDF processing capabilities with detailed extraction of tables, numbers, and text content. 
+This comprehensive schema documentation provides the foundation for implementing robust PDF processing capabilities with detailed extraction of tables and text content with embedded numbers. 
