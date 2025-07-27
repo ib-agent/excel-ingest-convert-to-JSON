@@ -1133,6 +1133,8 @@
             
             // Handle different possible structures
             let numbers = [];
+            
+            // First, try to get numbers from text content (old method)
             if (data?.pdf_processing_result?.numbers_in_text?.numbers_in_text?.pages?.[0]?.sections) {
                 // Flatten all sections to get all numbers
                 const sections = data.pdf_processing_result.numbers_in_text.numbers_in_text.pages[0].sections;
@@ -1147,6 +1149,32 @@
                 numbers = data.pdf_processing_result.numbers_in_text;
             } else if (Array.isArray(data?.pdf_processing_result?.numbers_in_text)) {
                 numbers = data.pdf_processing_result.numbers_in_text;
+            }
+            
+            // If no numbers found in text, try to extract numbers from tables
+            if (numbers.length === 0) {
+                const tables = data?.pdf_processing_result?.tables?.tables || [];
+                tables.forEach(table => {
+                    if (table.rows) {
+                        table.rows.forEach(row => {
+                            if (row.cells) {
+                                Object.values(row.cells).forEach(cell => {
+                                    const value = cell.value;
+                                    // Check if cell contains a number
+                                    if (value && (/\d/.test(value) || value.includes('$'))) {
+                                        numbers.push({
+                                            value: value,
+                                            context: `Table ${table.table_id}, Row ${row.row_index + 1}`,
+                                            format: value.includes('$') ? 'currency' : 'number',
+                                            page_number: table.region?.page_number || 'N/A',
+                                            confidence: 0.9
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
             
             // Ensure numbers is an array
@@ -1211,7 +1239,13 @@
             textCount.textContent = textSections.length;
             
             if (textSections.length === 0) {
-                textDisplay.innerHTML = '<div class="no-data">No text content extracted</div>';
+                // Check if this is a table-only document
+                const tables = data?.pdf_processing_result?.tables?.tables || [];
+                if (tables.length > 0) {
+                    textDisplay.innerHTML = '<div class="no-data">No text content extracted (document contains only table data)</div>';
+                } else {
+                    textDisplay.innerHTML = '<div class="no-data">No text content extracted</div>';
+                }
                 return;
             }
             

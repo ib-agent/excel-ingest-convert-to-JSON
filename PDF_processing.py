@@ -35,6 +35,16 @@ except ImportError:
     PYMUPDF_AVAILABLE = False
     logging.warning("PyMuPDF not available. Install with: pip install PyMuPDF")
 
+# Import additional libraries for enhanced table detection
+try:
+    import re
+    import csv
+    from io import StringIO
+    ENHANCED_TABLE_DETECTION_AVAILABLE = True
+except ImportError:
+    ENHANCED_TABLE_DETECTION_AVAILABLE = False
+    logging.warning("Enhanced table detection dependencies not available")
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -77,7 +87,7 @@ class PDFTableExtractor:
     
     def extract_tables(self, pdf_path: str) -> Dict:
         """
-        Extract tables from PDF using camelot-py
+        Extract tables from PDF using camelot-py with fallback to text-based detection
         
         Args:
             pdf_path: Path to the PDF file
@@ -102,6 +112,7 @@ class PDFTableExtractor:
         }
         
         table_counter = 1
+        camelot_success = False
         
         try:
             # Extract tables using different methods
@@ -120,23 +131,35 @@ class PDFTableExtractor:
                                 row_tolerance=self.row_tolerance,
                                 column_tolerance=self.column_tolerance
                             )
+                            camelot_success = True
                         except Exception as lattice_error:
                             if "Ghostscript is not installed" in str(lattice_error):
                                 logger.info(f"Skipping lattice method (Ghostscript not available), using stream method instead")
+                                continue
+                            elif "PdfFileReader is deprecated" in str(lattice_error):
+                                logger.warning(f"PyPDF2 compatibility issue with {method} method, trying fallback detection")
                                 continue
                             else:
                                 raise lattice_error
                     elif method == 'stream':
                         # Try to detect tables with more specific parameters
-                        tables = camelot.read_pdf(
-                            pdf_path, 
-                            pages='all', 
-                            flavor='stream',
-                            edge_tolerance=self.edge_tolerance,
-                            row_tolerance=self.row_tolerance,
-                            column_tolerance=self.column_tolerance,
-                            strip_text='\n'  # Remove extra newlines
-                        )
+                        try:
+                            tables = camelot.read_pdf(
+                                pdf_path, 
+                                pages='all', 
+                                flavor='stream',
+                                edge_tolerance=self.edge_tolerance,
+                                row_tolerance=self.row_tolerance,
+                                column_tolerance=self.column_tolerance,
+                                strip_text='\n'  # Remove extra newlines
+                            )
+                            camelot_success = True
+                        except Exception as stream_error:
+                            if "PdfFileReader is deprecated" in str(stream_error):
+                                logger.warning(f"PyPDF2 compatibility issue with {method} method, trying fallback detection")
+                                continue
+                            else:
+                                raise stream_error
                     else:
                         logger.warning(f"Unknown extraction method: {method}")
                         continue
@@ -221,6 +244,15 @@ class PDFTableExtractor:
                 except Exception as e:
                     logger.error(f"Error extracting tables with {method} method: {str(e)}")
                     continue
+            
+            # If camelot failed to extract any tables, try fallback text-based detection
+            if not camelot_success and len(tables_data["tables"]) == 0:
+                logger.info("Camelot extraction failed, trying fallback text-based table detection")
+                fallback_tables = self._extract_tables_from_text(pdf_path)
+                if fallback_tables:
+                    tables_data["tables"].extend(fallback_tables)
+                    tables_data["metadata"]["extraction_method"] = "text_based_fallback"
+                    logger.info(f"Fallback detection found {len(fallback_tables)} tables")
             
             # Update total tables found
             tables_data["metadata"]["total_tables_found"] = len(tables_data["tables"])
@@ -415,9 +447,15 @@ class PDFTableExtractor:
             # Check if this row looks like a header (contains typical header words)
             header_keywords = ["item", "april", "may", "june", "january", "february", "march", 
                              "july", "august", "september", "october", "november", "december",
-                             "q1", "q2", "q3", "q4", "total", "sum", "average", "count"]
+                             "q1", "q2", "q3", "q4", "total", "sum", "average", "count", "category"]
             
-            is_header = any(keyword in " ".join(cell_values).lower() for keyword in header_keywords)
+            # Check for date patterns in headers (like 1/1/2025, 2/1/2025, etc.)
+            date_pattern = r'\d{1,2}/\d{1,2}/\d{4}'
+            has_date_pattern = any(re.search(date_pattern, value) for value in cell_values)
+            
+            is_header = (any(keyword in " ".join(cell_values).lower() for keyword in header_keywords) or 
+                        has_date_pattern or 
+                        any("cost" in value.lower() for value in cell_values))
             
             # Check if this row contains numerical data
             has_numbers = any(any(char.isdigit() for char in value) for value in cell_values)
@@ -467,8 +505,9 @@ class PDFTableExtractor:
                     data_found = True
                 filtered_rows.append(row)
         
-        # Only return the table if we found both header and data
-        if header_found and data_found and len(filtered_rows) > 1:
+        # Return the table if we found either headers or data, and have multiple rows
+        # This handles cases like tables with dates as headers and costs as row labels
+        if (header_found or data_found) and len(filtered_rows) > 1:
             filtered_table = table_json.copy()
             filtered_table["rows"] = filtered_rows
             
@@ -564,6 +603,412 @@ class PDFTableExtractor:
                     column["column_label"] = f"Column {chr(65 + col_idx)}"
         
         return table_json
+    
+    def _extract_tables_from_text(self, pdf_path: str) -> List[Dict]:
+        """
+        Fallback method to extract tables from PDF text content when camelot-py fails
+        
+        Args:
+            pdf_path: Path to the PDF file
+            
+        Returns:
+            List of table dictionaries in table-oriented JSON format
+        """
+        logger.info("Starting fallback text-based table detection")
+        
+        if not PYMUPDF_AVAILABLE:
+            logger.warning("PyMuPDF not available for fallback table detection")
+            return []
+        
+        try:
+            # Open PDF and extract text blocks
+            doc = fitz.open(pdf_path)
+            tables = []
+            
+            for page_num in range(len(doc)):
+                page = doc[page_num]
+                text_blocks = self._extract_text_blocks_for_table_detection(page, page_num)
+                
+                # Analyze text blocks for table structure
+                detected_tables = self._analyze_text_blocks_for_tables(text_blocks, page_num)
+                tables.extend(detected_tables)
+            
+            doc.close()
+            return tables
+            
+        except Exception as e:
+            logger.error(f"Error in fallback table detection: {str(e)}")
+            return []
+    
+    def _extract_text_blocks_for_table_detection(self, page: Any, page_num: int) -> List[Dict]:
+        """
+        Extract text blocks from page for table detection analysis
+        
+        Args:
+            page: PyMuPDF page object
+            page_num: Page number (0-based)
+            
+        Returns:
+            List of text block dictionaries with positioning information
+        """
+        text_blocks = []
+        
+        # Get text blocks from page
+        blocks = page.get_text("dict")
+        
+        for block in blocks.get("blocks", []):
+            if "lines" not in block:  # Skip non-text blocks
+                continue
+            
+            # Get block bounding box
+            block_bbox = block.get("bbox", [0, 0, 0, 0])
+            
+            # Extract text and metadata from block
+            block_text = ""
+            block_metadata = {
+                "font_size": None,
+                "font_family": None,
+                "is_bold": False,
+                "is_italic": False,
+                "color": None,
+                "alignment": "left"
+            }
+            
+            for line in block.get("lines", []):
+                line_text = ""
+                for span in line.get("spans", []):
+                    span_text = span.get("text", "").strip()
+                    if span_text:
+                        line_text += span_text + " "
+                        
+                        # Update metadata from first span
+                        if not block_metadata["font_size"]:
+                            block_metadata.update({
+                                "font_size": span.get("size", 12),
+                                "font_family": span.get("font", "Arial"),
+                                "is_bold": "Bold" in span.get("font", ""),
+                                "is_italic": "Italic" in span.get("font", ""),
+                                "color": span.get("color", 0)
+                            })
+                
+                if line_text.strip():
+                    block_text += line_text.strip() + "\n"
+            
+            if block_text.strip():
+                text_blocks.append({
+                    "text": block_text.strip(),
+                    "bbox": block_bbox,
+                    "metadata": block_metadata,
+                    "page_number": page_num + 1
+                })
+        
+        return text_blocks
+    
+    def _analyze_text_blocks_for_tables(self, text_blocks: List[Dict], page_num: int) -> List[Dict]:
+        """
+        Analyze text blocks to detect table structures
+        
+        Args:
+            text_blocks: List of text block dictionaries
+            page_num: Page number (0-based)
+            
+        Returns:
+            List of detected table dictionaries
+        """
+        tables = []
+        
+        if not text_blocks:
+            return tables
+        
+        # Group text blocks by vertical position (rows)
+        rows = self._group_blocks_into_rows(text_blocks)
+        
+        # Analyze if the grouped blocks form a table
+        if self._is_table_structure(rows):
+            table = self._create_table_from_rows(rows, page_num)
+            if table:
+                tables.append(table)
+        
+        return tables
+    
+    def _group_blocks_into_rows(self, text_blocks: List[Dict]) -> List[List[Dict]]:
+        """
+        Group text blocks into rows based on vertical position
+        
+        Args:
+            text_blocks: List of text block dictionaries
+            
+        Returns:
+            List of rows, where each row is a list of text blocks
+        """
+        if not text_blocks:
+            return []
+        
+        # Sort blocks by vertical position (top to bottom)
+        sorted_blocks = sorted(text_blocks, key=lambda x: x["bbox"][1])
+        
+        rows = []
+        current_row = []
+        current_y = None
+        y_tolerance = 5  # Tolerance for grouping blocks in the same row
+        
+        for block in sorted_blocks:
+            block_y = block["bbox"][1]
+            
+            if current_y is None:
+                current_y = block_y
+                current_row = [block]
+            elif abs(block_y - current_y) <= y_tolerance:
+                # Same row
+                current_row.append(block)
+            else:
+                # New row
+                if current_row:
+                    rows.append(current_row)
+                current_row = [block]
+                current_y = block_y
+        
+        # Add the last row
+        if current_row:
+            rows.append(current_row)
+        
+        return rows
+    
+    def _is_table_structure(self, rows: List[List[Dict]]) -> bool:
+        """
+        Determine if the grouped rows form a table structure
+        
+        Args:
+            rows: List of rows, where each row is a list of text blocks
+            
+        Returns:
+            True if the structure looks like a table
+        """
+        if len(rows) < 2:
+            return False
+        
+        # Check for consistent column structure
+        column_counts = []
+        for row in rows:
+            # Count potential columns in this row
+            row_text = " ".join([block["text"] for block in row])
+            # Split by common delimiters and count
+            columns = re.split(r'[\t\n\r\s]{2,}', row_text)
+            column_counts.append(len([col for col in columns if col.strip()]))
+        
+        # Check if we have consistent column structure
+        if len(set(column_counts)) <= 2 and max(column_counts) >= 3:
+            return True
+        
+        # Alternative check: look for numerical patterns
+        numerical_rows = 0
+        for row in rows:
+            row_text = " ".join([block["text"] for block in row])
+            # Check if row contains numbers
+            if re.search(r'\d+', row_text):
+                numerical_rows += 1
+        
+        # If most rows contain numbers, it might be a table
+        if numerical_rows >= len(rows) * 0.7:
+            return True
+        
+        return False
+    
+    def _create_table_from_rows(self, rows: List[List[Dict]], page_num: int) -> Optional[Dict]:
+        """
+        Create a table JSON structure from grouped rows
+        
+        Args:
+            rows: List of rows, where each row is a list of text blocks
+            page_num: Page number (0-based)
+            
+        Returns:
+            Table dictionary in table-oriented JSON format
+        """
+        if not rows:
+            return None
+        
+        # Convert rows to table structure with better column parsing
+        table_data = []
+        for row in rows:
+            # Get all text blocks in this row
+            row_blocks = [block["text"] for block in row]
+            
+            # Try to parse as a table row with multiple columns
+            parsed_columns = self._parse_row_into_columns(row_blocks)
+            if parsed_columns:
+                table_data.append(parsed_columns)
+            else:
+                # Fallback: treat as single column
+                row_text = " ".join(row_blocks)
+                columns = re.split(r'[\t\n\r\s]{2,}', row_text)
+                columns = [col.strip() for col in columns if col.strip()]
+                table_data.append(columns)
+        
+        if not table_data:
+            return None
+        
+        # Create DataFrame-like structure
+        max_cols = max(len(row) for row in table_data)
+        for row in table_data:
+            while len(row) < max_cols:
+                row.append("")
+        
+        # Create table JSON structure
+        table_json = {
+            "table_id": "table_1",
+            "name": "Table 1",
+            "region": {
+                "page_number": page_num + 1,
+                "bbox": self._calculate_table_bbox(rows),
+                "detection_method": "text_based_fallback"
+            },
+            "header_info": {
+                "header_rows": [0] if len(table_data) > 0 else [],
+                "header_columns": [0] if max_cols > 0 else [],
+                "data_start_row": 1,
+                "data_start_col": 1
+            },
+            "columns": [],
+            "rows": [],
+            "metadata": {
+                "detection_method": "text_based_fallback",
+                "quality_score": 0.8,
+                "cell_count": len(table_data) * max_cols,
+                "whitespace": None,
+                "order": None
+            }
+        }
+        
+        # Create columns
+        for col_idx in range(max_cols):
+            column_data = {
+                "column_index": col_idx,
+                "column_label": f"Column {chr(65 + col_idx)}",
+                "is_header_column": col_idx == 0,
+                "cells": {}
+            }
+            
+            # Add cell data for this column
+            for row_idx, row in enumerate(table_data):
+                if col_idx < len(row) and row[col_idx]:
+                    cell_key = f"{chr(65 + col_idx)}{row_idx + 1}"
+                    column_data["cells"][cell_key] = {
+                        "value": str(row[col_idx]),
+                        "row": row_idx + 1,
+                        "column": col_idx + 1
+                    }
+            
+            table_json["columns"].append(column_data)
+        
+        # Create rows
+        for row_idx, row in enumerate(table_data):
+            row_data = {
+                "row_index": row_idx,
+                "row_label": f"Row {row_idx + 1}",
+                "is_header_row": row_idx == 0,
+                "cells": {}
+            }
+            
+            # Add cell data for this row
+            for col_idx, cell_value in enumerate(row):
+                if cell_value:
+                    cell_key = f"{chr(65 + col_idx)}{row_idx + 1}"
+                    row_data["cells"][cell_key] = {
+                        "value": str(cell_value),
+                        "row": row_idx + 1,
+                        "column": col_idx + 1
+                    }
+            
+            table_json["rows"].append(row_data)
+        
+        return table_json
+    
+    def _parse_row_into_columns(self, row_blocks: List[str]) -> Optional[List[str]]:
+        """
+        Parse a row of text blocks into individual columns
+        
+        Args:
+            row_blocks: List of text blocks in a row
+            
+        Returns:
+            List of column values or None if parsing fails
+        """
+        if not row_blocks:
+            return None
+        
+        # If we have multiple blocks, they might represent different columns
+        if len(row_blocks) > 1:
+            # Check if blocks contain different types of content
+            columns = []
+            for block in row_blocks:
+                # Clean up the block text
+                clean_text = block.strip()
+                if clean_text:
+                    columns.append(clean_text)
+            return columns if len(columns) > 1 else None
+        
+        # Single block - try to parse it as a table row
+        row_text = row_blocks[0]
+        
+        # Look for patterns that suggest table structure
+        # Check for date patterns (like 1/1/2025, 2/1/2025, etc.)
+        date_pattern = r'\d{1,2}/\d{1,2}/\d{4}'
+        dates = re.findall(date_pattern, row_text)
+        
+        # Check for currency patterns ($100, $105, etc.)
+        currency_pattern = r'\$\d+'
+        currencies = re.findall(currency_pattern, row_text)
+        
+        # Check for category patterns (First Cost, Second Cost, etc.)
+        category_pattern = r'[A-Za-z]+\s+Cost'
+        categories = re.findall(category_pattern, row_text)
+        
+        # If we find multiple dates or currencies, this is likely a table row
+        if len(dates) > 1 or len(currencies) > 1:
+            # Split by newlines and clean up
+            lines = row_text.split('\n')
+            columns = [line.strip() for line in lines if line.strip()]
+            return columns if len(columns) > 1 else None
+        
+        # If we find a category followed by numbers, this might be a table row
+        if categories and (dates or currencies):
+            lines = row_text.split('\n')
+            columns = [line.strip() for line in lines if line.strip()]
+            return columns if len(columns) > 1 else None
+        
+        return None
+    
+    def _calculate_table_bbox(self, rows: List[List[Dict]]) -> List[float]:
+        """
+        Calculate bounding box for the entire table
+        
+        Args:
+            rows: List of rows, where each row is a list of text blocks
+            
+        Returns:
+            Bounding box coordinates [x1, y1, x2, y2]
+        """
+        if not rows:
+            return [0, 0, 0, 0]
+        
+        all_blocks = []
+        for row in rows:
+            all_blocks.extend(row)
+        
+        if not all_blocks:
+            return [0, 0, 0, 0]
+        
+        # Calculate min/max coordinates
+        x_coords = []
+        y_coords = []
+        
+        for block in all_blocks:
+            bbox = block["bbox"]
+            x_coords.extend([bbox[0], bbox[2]])
+            y_coords.extend([bbox[1], bbox[3]])
+        
+        return [min(x_coords), min(y_coords), max(x_coords), max(y_coords)]
 
 
 class PDFTextProcessor:
