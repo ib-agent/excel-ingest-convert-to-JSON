@@ -49,6 +49,9 @@ except ImportError:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# DEBUG: Add a distinctive log message to verify this module is loaded
+logger.info("DEBUG: PDF_processing module loaded with enhanced table detection")
+
 
 class PDFTableExtractor:
     """
@@ -245,14 +248,17 @@ class PDFTableExtractor:
                     logger.error(f"Error extracting tables with {method} method: {str(e)}")
                     continue
             
-            # If camelot failed to extract any tables, try fallback text-based detection
-            if not camelot_success and len(tables_data["tables"]) == 0:
-                logger.info("Camelot extraction failed, trying fallback text-based table detection")
-                fallback_tables = self._extract_tables_from_text(pdf_path)
-                if fallback_tables:
-                    tables_data["tables"].extend(fallback_tables)
-                    tables_data["metadata"]["extraction_method"] = "text_based_fallback"
-                    logger.info(f"Fallback detection found {len(fallback_tables)} tables")
+            # Always run fallback detection to catch tables that Camelot might miss
+            logger.info("Running fallback text-based table detection")
+            fallback_tables = self._extract_tables_from_text(pdf_path)
+            if fallback_tables:
+                # Add all fallback tables
+                tables_data["tables"].extend(fallback_tables)
+                tables_data["metadata"]["extraction_method"] = "camelot_py_with_fallback"
+                logger.info(f"Fallback detection found {len(fallback_tables)} additional table(s)")
+            
+            # Merge tables that span multiple pages
+            tables_data["tables"] = self._merge_spanning_tables(tables_data["tables"])
             
             # Update total tables found
             tables_data["metadata"]["total_tables_found"] = len(tables_data["tables"])
@@ -449,15 +455,23 @@ class PDFTableExtractor:
             # Check if this row looks like a header (contains typical header words)
             header_keywords = ["item", "april", "may", "june", "january", "february", "march", 
                              "july", "august", "september", "october", "november", "december",
-                             "q1", "q2", "q3", "q4", "total", "sum", "average", "count", "category"]
+                             "q1", "q2", "q3", "q4", "total", "sum", "average", "count", "category",
+                             "metric", "operating", "selected", "unaudited"]
             
             # Check for date patterns in headers (like 1/1/2025, 2/1/2025, etc.)
             date_pattern = r'\d{1,2}/\d{1,2}/\d{4}'
             has_date_pattern = any(re.search(date_pattern, value) for value in cell_values)
             
-            is_header = (any(keyword in " ".join(cell_values).lower() for keyword in header_keywords) or 
+            # Check for table titles and specific patterns
+            combined_text = " ".join(cell_values).lower()
+            is_table_title = any(pattern in combined_text for pattern in [
+                "table", "selected operating metrics", "unaudited", "operating metrics", "metric"
+            ])
+            
+            is_header = (any(keyword in combined_text for keyword in header_keywords) or 
                         has_date_pattern or 
-                        any("cost" in value.lower() for value in cell_values))
+                        any("cost" in value.lower() for value in cell_values) or
+                        is_table_title)
             
             # Check if this row contains numerical data
             has_numbers = any(any(char.isdigit() for char in value) for value in cell_values)
@@ -466,8 +480,8 @@ class PDFTableExtractor:
             is_paragraph = False
             if len(cell_values) > 0:
                 first_cell = cell_values[0]
-                # More aggressive paragraph detection
-                if len(first_cell) > 30 and not has_numbers and not is_header:
+                # Less aggressive paragraph detection - only filter obvious paragraphs
+                if len(first_cell) > 50 and not has_numbers and not is_header:
                     # Check if it looks like paragraph text
                     if ("paragraph" in first_cell.lower() or 
                         "introduction" in first_cell.lower() or
@@ -480,7 +494,7 @@ class PDFTableExtractor:
                         "should" in first_cell.lower() or
                         "ignore" in first_cell.lower()):
                         is_paragraph = True
-                    elif len(first_cell.split()) > 8:  # Long text
+                    elif len(first_cell.split()) > 12:  # Only filter very long text
                         is_paragraph = True
                 
                 # Also check if any cell contains paragraph-like text
@@ -500,6 +514,8 @@ class PDFTableExtractor:
             # 1. It's a header row
             # 2. It contains numerical data
             # 3. It's not paragraph text
+            # 4. It has structured content (for small tables)
+            # 5. It has multiple cells (indicating table structure)
             if is_header or has_numbers or (not is_paragraph and len(cell_values) > 1):
                 if is_header:
                     header_found = True
@@ -509,7 +525,19 @@ class PDFTableExtractor:
         
         # Return the table if we found either headers or data, and have multiple rows
         # This handles cases like tables with dates as headers and costs as row labels
-        if (header_found or data_found) and len(filtered_rows) > 1:
+        # Also be more lenient for tables detected by small table detection
+        detection_method = table_json.get("metadata", {}).get("detection_method", "")
+        is_small_table_detection = detection_method == "small_table_detection"
+        
+        # For small table detection, be more lenient
+        if is_small_table_detection:
+            min_rows = 1  # Allow single row tables
+            min_requirements = len(filtered_rows) >= min_rows
+        else:
+            min_rows = 2  # Standard requirement
+            min_requirements = (header_found or data_found) and len(filtered_rows) > 1
+        
+        if min_requirements:
             filtered_table = table_json.copy()
             filtered_table["rows"] = filtered_rows
             
@@ -731,6 +759,10 @@ class PDFTableExtractor:
             if table:
                 tables.append(table)
         
+        # Additional check for small tables that might be missed
+        small_tables = self._detect_small_tables(text_blocks, page_num)
+        tables.extend(small_tables)
+        
         return tables
     
     def _group_blocks_into_rows(self, text_blocks: List[Dict]) -> List[List[Dict]]:
@@ -752,7 +784,7 @@ class PDFTableExtractor:
         rows = []
         current_row = []
         current_y = None
-        y_tolerance = 5  # Tolerance for grouping blocks in the same row
+        y_tolerance = 3  # Reduced tolerance for more precise row grouping
         
         for block in sorted_blocks:
             block_y = block["bbox"][1]
@@ -776,6 +808,329 @@ class PDFTableExtractor:
         
         return rows
     
+    def _detect_small_tables(self, text_blocks: List[Dict], page_num: int) -> List[Dict]:
+        """
+        Detect small tables that might be missed by the general detection
+        
+        Args:
+            text_blocks: List of text block dictionaries
+            page_num: Page number (0-based)
+            
+        Returns:
+            List of detected small table dictionaries
+        """
+        small_tables = []
+        
+        # Look for specific table patterns
+        table_patterns = [
+            r"Table \d+:\s*Selected Operating Metrics",
+            r"Selected Operating Metrics.*Unaudited",
+            r"Operating Metrics",
+            r"Table \d+:\s*.*Metrics"
+        ]
+        
+        # Group blocks by proximity to find potential table regions
+        sorted_blocks = sorted(text_blocks, key=lambda x: x["bbox"][1])
+        
+        # Look for clusters of blocks that might form a small table
+        current_cluster = []
+        clusters = []
+        
+        for i, block in enumerate(sorted_blocks):
+            if not current_cluster:
+                current_cluster = [block]
+            else:
+                # Check if this block is close to the current cluster
+                last_block = current_cluster[-1]
+                vertical_gap = block["bbox"][1] - last_block["bbox"][3]
+                
+                # More restrictive clustering - only group if gap is very small
+                if vertical_gap <= 15:  # Reduced gap tolerance
+                    current_cluster.append(block)
+                else:
+                    # End current cluster and start new one
+                    if len(current_cluster) >= 2:  # Only keep clusters with multiple blocks
+                        clusters.append(current_cluster)
+                    current_cluster = [block]
+        
+        # Add the last cluster
+        if len(current_cluster) >= 2:
+            clusters.append(current_cluster)
+        
+        # Analyze each cluster for table structure
+        for cluster in clusters:
+            # Check if cluster contains table-like content
+            cluster_text = " ".join([block["text"] for block in cluster]).lower()
+            
+            # Check for table patterns
+            is_table = False
+            for pattern in table_patterns:
+                if re.search(pattern, cluster_text, re.IGNORECASE):
+                    is_table = True
+                    logger.info(f"Found small table with pattern: {pattern}")
+                    break
+            
+            # Also check for structured data patterns
+            if not is_table:
+                has_numbers = any(re.search(r'\d+', block["text"]) for block in cluster)
+                has_structured_text = any(
+                    re.search(r'[A-Z][a-z]+\s*[A-Z][a-z]+', block["text"]) or
+                    re.search(r'\$\d+', block["text"]) or
+                    re.search(r'\d+\.\d+%', block["text"]) or
+                    re.search(r'Q[1-4]\s+\d{4}', block["text"])  # Quarter patterns
+                    for block in cluster
+                )
+                
+                # More restrictive: need both numbers and structured text, and specific patterns
+                has_quarter_patterns = any(re.search(r'Q[1-4]\s+\d{4}', block["text"]) for block in cluster)
+                has_percentage_patterns = any(re.search(r'\d+\.\d+%', block["text"]) for block in cluster)
+                
+                if has_numbers and has_structured_text and (has_quarter_patterns or has_percentage_patterns) and len(cluster) >= 3:
+                    is_table = True
+                    logger.info(f"Found small table with structured data")
+            
+            if is_table:
+                # Create table from cluster
+                table = self._create_table_from_cluster(cluster, page_num)
+                if table:
+                    small_tables.append(table)
+        
+        return small_tables
+    
+    def _create_table_from_cluster(self, cluster: List[Dict], page_num: int) -> Optional[Dict]:
+        """
+        Create a table from a cluster of text blocks
+        
+        Args:
+            cluster: List of text block dictionaries
+            page_num: Page number (0-based)
+            
+        Returns:
+            Table dictionary in table-oriented JSON format
+        """
+        if not cluster:
+            return None
+        
+        # Sort blocks by horizontal position
+        sorted_cluster = sorted(cluster, key=lambda x: x["bbox"][0])
+        
+        # Create table data
+        table_data = []
+        for block in sorted_cluster:
+            # Parse block text into columns
+            text = block["text"]
+            
+            # Check if this looks like a table row with multiple columns
+            # Look for patterns that suggest table structure
+            if re.search(r'Q[1-4]\s+\d{4}', text) or re.search(r'\d+\.\d+%', text) or re.search(r'\$\d+', text):
+                # This might be a table row - try to parse it properly
+                lines = text.split('\n')
+                if len(lines) > 1:
+                    # This is a multi-line block that might represent a table row
+                    # The first line is usually the metric name, subsequent lines are values
+                    metric_name = lines[0].strip()
+                    values = [line.strip() for line in lines[1:] if line.strip()]
+                    
+                    if values:
+                        # Create a proper table row
+                        row_data = [metric_name] + values
+                        table_data.append(row_data)
+                    else:
+                        # Fallback to simple split
+                        columns = re.split(r'[\t\n\r\s]{2,}', text)
+                        columns = [col.strip() for col in columns if col.strip()]
+                        if columns:
+                            table_data.append(columns)
+                else:
+                    # Single line - try to parse as columns
+                    columns = re.split(r'[\t\n\r\s]{2,}', text)
+                    columns = [col.strip() for col in columns if col.strip()]
+                    if columns:
+                        table_data.append(columns)
+            else:
+                # Regular text block - try simple split
+                columns = re.split(r'[\t\n\r\s]{2,}', text)
+                columns = [col.strip() for col in columns if col.strip()]
+                if columns:
+                    table_data.append(columns)
+        
+        if not table_data:
+            return None
+        
+        # Create table JSON structure
+        table_json = {
+            "table_id": "table_1",
+            "name": "Small Table",
+            "region": {
+                "page_number": page_num + 1,
+                "bbox": self._calculate_table_bbox([cluster]),
+                "detection_method": "small_table_detection"
+            },
+            "header_info": {
+                "header_rows": [0] if len(table_data) > 0 else [],
+                "header_columns": [0] if len(table_data[0]) > 0 else [],
+                "data_start_row": 1,
+                "data_start_col": 1
+            },
+            "columns": [],
+            "rows": [],
+            "metadata": {
+                "detection_method": "small_table_detection",
+                "quality_score": 0.7,
+                "confidence": 0.8
+            }
+        }
+        
+        # Add columns
+        max_cols = max(len(row) for row in table_data)
+        for col_idx in range(max_cols):
+            column_data = {
+                "column_index": col_idx,
+                "column_label": f"Column {col_idx + 1}",
+                "is_header_column": col_idx == 0,
+                "cells": {}
+            }
+            table_json["columns"].append(column_data)
+        
+        # Add rows
+        for row_idx, row_data in enumerate(table_data):
+            row = {
+                "row_index": row_idx,
+                "row_label": f"Row {row_idx + 1}",
+                "cells": {}
+            }
+            
+            for col_idx, cell_value in enumerate(row_data):
+                cell = {
+                    "value": cell_value,
+                    "position": {
+                        "row": row_idx,
+                        "column": col_idx
+                    }
+                }
+                row["cells"][str(col_idx)] = cell
+                
+                # Also add to column
+                if col_idx < len(table_json["columns"]):
+                    table_json["columns"][col_idx]["cells"][str(row_idx)] = cell
+            
+            table_json["rows"].append(row)
+        
+        return table_json
+    
+    def _merge_spanning_tables(self, tables: List[Dict]) -> List[Dict]:
+        """
+        Merge tables that span multiple pages into single tables
+        
+        Args:
+            tables: List of table dictionaries
+            
+        Returns:
+            List of merged tables
+        """
+        if len(tables) <= 1:
+            return tables
+        
+        # Group tables by potential spanning criteria
+        table_groups = []
+        used_tables = set()
+        
+        for i, table in enumerate(tables):
+            if i in used_tables:
+                continue
+            
+            # Look for tables that might be continuations
+            group = [table]
+            used_tables.add(i)
+            
+            for j, other_table in enumerate(tables):
+                if j in used_tables or j == i:
+                    continue
+                
+                # Check if tables might be related (same structure, adjacent pages, etc.)
+                if self._are_tables_related(table, other_table):
+                    group.append(other_table)
+                    used_tables.add(j)
+            
+            if len(group) > 1:
+                # Merge the group
+                merged_table = self._merge_table_group(group)
+                table_groups.append(merged_table)
+            else:
+                table_groups.append(table)
+        
+        return table_groups
+    
+    def _are_tables_related(self, table1: Dict, table2: Dict) -> bool:
+        """Check if two tables might be part of the same spanning table"""
+        # Check if they're on adjacent pages
+        page1 = table1.get('region', {}).get('page_number', 0)
+        page2 = table2.get('region', {}).get('page_number', 0)
+        
+        if abs(page1 - page2) > 1:
+            return False
+        
+        # Check if they have similar structure (column count)
+        cols1 = len(table1.get('columns', []))
+        cols2 = len(table2.get('columns', []))
+        
+        if abs(cols1 - cols2) > 1:  # Allow for slight differences
+            return False
+        
+        # Check if they have similar content patterns
+        content1 = self._get_table_content_summary(table1)
+        content2 = self._get_table_content_summary(table2)
+        
+        # Look for common patterns that suggest they're related
+        common_patterns = ['revenue', 'segment', 'region', 'quarter', 'q1', 'q2', 'q3', 'q4']
+        has_common_pattern = any(pattern in content1 and pattern in content2 for pattern in common_patterns)
+        
+        return has_common_pattern
+    
+    def _get_table_content_summary(self, table: Dict) -> str:
+        """Get a summary of table content for comparison"""
+        rows = table.get('rows', [])
+        content = []
+        for row in rows[:3]:  # First 3 rows
+            cells = row.get('cells', {})
+            cell_values = [str(cell.get('value', '')).strip() for cell in cells.values()]
+            content.append(' '.join(cell_values))
+        return ' '.join(content).lower()
+    
+    def _merge_table_group(self, table_group: List[Dict]) -> Dict:
+        """Merge a group of related tables into one table"""
+        if len(table_group) == 1:
+            return table_group[0]
+        
+        # Sort by page number
+        table_group.sort(key=lambda t: t.get('region', {}).get('page_number', 0))
+        
+        # Use the first table as the base
+        merged_table = table_group[0].copy()
+        
+        # Merge rows from all tables
+        all_rows = []
+        for table in table_group:
+            rows = table.get('rows', [])
+            all_rows.extend(rows)
+        
+        merged_table['rows'] = all_rows
+        
+        # Update metadata
+        merged_table['metadata'] = merged_table.get('metadata', {}).copy()
+        merged_table['metadata']['merged_from'] = len(table_group)
+        merged_table['metadata']['original_tables'] = [t.get('region', {}).get('page_number', 0) for t in table_group]
+        
+        # Update region to span all pages
+        pages = [t.get('region', {}).get('page_number', 0) for t in table_group]
+        merged_table['region'] = {
+            'page_number': min(pages),
+            'spans_pages': pages,
+            'detection_method': 'merged_spanning_table'
+        }
+        
+        return merged_table
+    
     def _is_table_structure(self, rows: List[List[Dict]]) -> bool:
         """
         Determine if the grouped rows form a table structure
@@ -786,8 +1141,24 @@ class PDFTableExtractor:
         Returns:
             True if the structure looks like a table
         """
-        if len(rows) < 2:
+        if len(rows) < 2:  # Minimum 2 rows
             return False
+        
+        # Check for table titles in the first few rows - generic patterns
+        table_title_keywords = [
+            "table", "metrics", "operating", "revenue", "segment", "quarter", "fiscal",
+            "selected", "unaudited", "audited", "summary", "data"
+        ]
+        
+        # DEBUG: This should appear in logs if our updated code is loaded
+        logger.info("DEBUG: Using updated _is_table_structure method with enhanced table title detection")
+        
+        # Check first 3 rows for table titles
+        for i in range(min(3, len(rows))):
+            row_text = " ".join([block["text"] for block in rows[i]]).lower()
+            if any(keyword in row_text for keyword in table_title_keywords):
+                logger.info(f"Found table title in row {i+1}: {row_text}")
+                return True
         
         # Check for consistent column structure
         column_counts = []
@@ -798,8 +1169,8 @@ class PDFTableExtractor:
             columns = re.split(r'[\t\n\r\s]{2,}', row_text)
             column_counts.append(len([col for col in columns if col.strip()]))
         
-        # Check if we have consistent column structure
-        if len(set(column_counts)) <= 2 and max(column_counts) >= 3:
+        # Check if we have consistent column structure (more lenient for small tables)
+        if len(set(column_counts)) <= 2 and max(column_counts) >= 2:  # Allow 2+ columns
             return True
         
         # Alternative check: look for numerical patterns
@@ -811,8 +1182,35 @@ class PDFTableExtractor:
                 numerical_rows += 1
         
         # If most rows contain numbers, it might be a table
-        if numerical_rows >= len(rows) * 0.7:
+        if numerical_rows >= len(rows) * 0.5:  # Reduced from 0.7 to 0.5
             return True
+        
+        # Additional check: look for structured data patterns
+        structured_rows = 0
+        for row in rows:
+            row_text = " ".join([block["text"] for block in row])
+            # Check for patterns that suggest table structure
+            if (re.search(r'[A-Z][a-z]+\s*[A-Z][a-z]+', row_text) or  # Title case words
+                re.search(r'\$\d+', row_text) or  # Dollar amounts
+                re.search(r'\d+\.\d+%', row_text) or  # Percentages
+                re.search(r'Q[1-4]', row_text) or  # Quarters
+                re.search(r'FY\d{4}', row_text)):  # Fiscal years
+                structured_rows += 1
+        
+        # If we have structured data, it might be a table
+        if structured_rows >= len(rows) * 0.3:
+            return True
+        
+        # Additional check: ensure we have at least some numerical content
+        numerical_rows = 0
+        for row in rows:
+            row_text = " ".join([block["text"] for block in row])
+            if re.search(r'\d+', row_text):
+                numerical_rows += 1
+        
+        # For small tables, we need at least some numerical content or structured data
+        if numerical_rows < len(rows) * 0.1:  # More lenient threshold
+            return False
         
         return False
     
@@ -962,22 +1360,40 @@ class PDFTableExtractor:
         currency_pattern = r'\$\d+'
         currencies = re.findall(currency_pattern, row_text)
         
+        # Check for quarter patterns (Q1 2024, Q2 2024, etc.)
+        quarter_pattern = r'Q[1-4]\s+\d{4}'
+        quarters = re.findall(quarter_pattern, row_text)
+        
         # Check for category patterns (First Cost, Second Cost, etc.)
         category_pattern = r'[A-Za-z]+\s+Cost'
         categories = re.findall(category_pattern, row_text)
         
-        # If we find multiple dates or currencies, this is likely a table row
-        if len(dates) > 1 or len(currencies) > 1:
+        # Check for percentage patterns (23.1%, 29.2%, etc.)
+        percentage_pattern = r'\d+\.\d+%'
+        percentages = re.findall(percentage_pattern, row_text)
+        
+        # If we find multiple dates, currencies, quarters, or percentages, this is likely a table row
+        if len(dates) > 1 or len(currencies) > 1 or len(quarters) > 1 or len(percentages) > 1:
             # Split by newlines and clean up
             lines = row_text.split('\n')
             columns = [line.strip() for line in lines if line.strip()]
             return columns if len(columns) > 1 else None
         
         # If we find a category followed by numbers, this might be a table row
-        if categories and (dates or currencies):
+        if categories and (dates or currencies or quarters or percentages):
             lines = row_text.split('\n')
             columns = [line.strip() for line in lines if line.strip()]
             return columns if len(columns) > 1 else None
+        
+        # Special case: Check for the specific pattern we're looking for
+        # Look for lines that contain "Metric" followed by quarter patterns
+        if 'metric' in row_text.lower():
+            lines = row_text.split('\n')
+            # Check if we have multiple lines with quarter patterns
+            quarter_lines = [line for line in lines if re.search(r'Q[1-4]\s+\d{4}', line, re.IGNORECASE)]
+            if len(quarter_lines) >= 3:  # At least 3 quarters
+                columns = [line.strip() for line in lines if line.strip()]
+                return columns if len(columns) > 1 else None
         
         return None
     
