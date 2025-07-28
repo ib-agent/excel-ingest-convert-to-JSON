@@ -190,6 +190,18 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 
 **Usage**: `python tests/test_download_functionality.py`
 
+#### `test_table_paragraph_detection.py`
+**Table and paragraph detection improvements for PDF processing**:
+- **Table-only PDFs**: Tests that PDFs with only tables extract tables correctly without text duplication
+- **Text-only PDFs**: Tests that PDFs with only paragraphs extract text sections and numbers correctly
+- **Mixed content handling**: Validates proper separation of table and text content
+- **Exclusion zone creation**: Tests that table regions are properly excluded from text extraction
+- **Duplication prevention**: Ensures table content is not duplicated in text sections
+
+**Tests Detection Variety**: PDFs with tables only, paragraphs only, and mixed content scenarios.
+
+**Usage**: `python tests/test_table_paragraph_detection.py`
+
 ### Excel File Creation and Testing Scripts
 
 #### `create_test_frozen_panes_excel.py`
@@ -379,6 +391,9 @@ python tests/test_error_message_filtering.py
 
 # Download functionality tests
 python tests/test_download_functionality.py
+
+# Table and paragraph detection tests
+python tests/test_table_paragraph_detection.py
 ```
 
 ### Run Excel File Creation and Testing
@@ -412,6 +427,7 @@ The comprehensive test suite covers:
 11. **Error Filtering** - Detection and removal of error messages
 12. **Download Handling** - Large file processing and download URLs
 13. **Real Excel File Testing** - Testing with actual Excel files
+14. **Table and Paragraph Detection** - PDF table and text content separation
 
 ### Expected Results
 

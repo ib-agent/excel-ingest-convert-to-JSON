@@ -334,12 +334,14 @@ class PDFTableExtractor:
                 rows.append(row_data)
             
             # Create table JSON structure
+            bbox = list(table._bbox) if hasattr(table, '_bbox') and table._bbox is not None else None
+            
             table_json = {
                 "table_id": f"table_{table_id}",
                 "name": f"Table {table_id}",
                 "region": {
                     "page_number": table.page,
-                    "bbox": list(table._bbox) if hasattr(table, '_bbox') and table._bbox is not None else None,
+                    "bbox": bbox,
                     "detection_method": f"camelot_{method}"
                 },
                 "header_info": {
@@ -1096,7 +1098,7 @@ class PDFTextProcessor:
         }
         
         try:
-            # Open PDF document
+                        # Open PDF document
             doc = fitz.open(pdf_path)
             text_data["text_content"]["document_metadata"]["total_pages"] = len(doc)
             
@@ -1191,19 +1193,20 @@ class PDFTextProcessor:
                 page_area = page_width * page_height
                 coverage_ratio = table_area / page_area
                 
-                if coverage_ratio > 0.95:
-                    # If table covers almost the entire page, don't exclude anything
-                    # This allows text extraction to proceed normally
-                    logger.info(f"Table on page {page_num + 1} covers {coverage_ratio:.1%} of page - skipping exclusion zone")
-                    continue
+                # Always create exclusion zones for detected tables, regardless of coverage
+                # This prevents table content from being duplicated in text extraction
+                logger.info(f"Table on page {page_num + 1} covers {coverage_ratio:.1%} of page - creating exclusion zone")
                 
                 # Add padding around table region to avoid edge text
-                padding = 10
+                # Use very large padding to include all potential table content
+                padding_x = 10
+                padding_y_top = 400  # Very large padding above to include all headers
+                padding_y_bottom = 400  # Very large padding below to include all headers
                 exclusion_zone = (
-                    bbox[0] - padding,  # x1
-                    bbox[1] - padding,  # y1
-                    bbox[2] + padding,  # x2
-                    bbox[3] + padding   # y2
+                    bbox[0] - padding_x,  # x1
+                    max(0, bbox[1] - padding_y_top),  # y1 (extend upward to include headers)
+                    bbox[2] + padding_x,  # x2
+                    bbox[3] + padding_y_bottom   # y2 (extend downward to include headers)
                 )
                 exclusion_zones[page_num].append(exclusion_zone)
         
@@ -1235,7 +1238,7 @@ class PDFTextProcessor:
             
             # Check if block overlaps with exclusion zones
             if self._is_in_exclusion_zone(block_bbox, exclusion_zones):
-                logger.debug(f"Skipping text block in exclusion zone on page {page_num + 1}")
+                logger.debug(f"Skipping text block in exclusion zone on page {page_num + 1}: bbox={block_bbox}")
                 continue
             
             # Extract text and metadata from block
@@ -1294,6 +1297,7 @@ class PDFTextProcessor:
             # Check for overlap
             if not (bbox[2] < zone[0] or bbox[0] > zone[2] or 
                    bbox[3] < zone[1] or bbox[1] > zone[3]):
+                logger.debug(f"Text block bbox {bbox} overlaps with exclusion zone {zone}")
                 return True
         return False
     
