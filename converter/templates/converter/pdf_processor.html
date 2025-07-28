@@ -826,6 +826,7 @@
                 </div>
                 <p><strong>Size:</strong> <span id="fileSize"></span></p>
                 <p><strong>Pages:</strong> <span id="pageCount"></span></p>
+                <p><strong>Processing Time:</strong> <span id="processingTime"></span></p>
             </div>
 
             <div class="result-section" id="resultSection">
@@ -1001,6 +1002,10 @@
                 hideError();
                 hideSuccess();
                 
+                // Reset processing time
+                processingStartTime = null;
+                document.getElementById('processingTime').textContent = 'Pending...';
+                
                 // Update button text
                 uploadBtn.innerHTML = '<i class="fas fa-cog"></i> Reprocess PDF';
                 uploadBtn.disabled = false;
@@ -1010,6 +1015,7 @@
                 fullFileName.textContent = file.name;
                 fileSize.textContent = formatFileSize(file.size);
                 pageCount.textContent = 'Processing...'; // Will be updated after processing
+                document.getElementById('processingTime').textContent = 'Pending...'; // Will be updated after processing
                 fileInfo.style.display = 'block';
             }
 
@@ -1018,6 +1024,9 @@
                     showError('Please select a file first.');
                     return;
                 }
+
+                // Start timing
+                processingStartTime = Date.now();
 
                 // Show progress
                 progressSection.style.display = 'block';
@@ -1049,6 +1058,10 @@
                         // Update page count
                         const totalPages = data.result.pdf_processing_result?.document_metadata?.total_pages || 'Unknown';
                         pageCount.textContent = totalPages;
+                        
+                        // Update processing time
+                        const processingTime = Date.now() - processingStartTime;
+                        document.getElementById('processingTime').textContent = `${processingTime}ms`;
                         
                         // Update button
                         uploadBtn.innerHTML = '<i class="fas fa-check"></i> Processed';
@@ -1433,6 +1446,7 @@
             function removeFile() {
                 currentFile = null;
                 jsonData = null;
+                processingStartTime = null;
                 fileInfo.style.display = 'none';
                 resultSection.style.display = 'none';
                 fileInput.value = '';

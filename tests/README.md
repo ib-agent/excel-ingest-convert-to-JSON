@@ -98,6 +98,38 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 **Usage**: `python tests/test_frozen_panes_table_detection.py`
 
 #### `test_enhanced_gap_detection.py`
+**Enhanced gap detection tests** for intelligent table separation:
+- **Gap with date content**: Tests that gaps followed by date content start a new table
+- **Gap with numerical content**: Tests that gaps followed by numerical content continue the same table
+- **Gap with text labels**: Tests that gaps followed by text labels start a new table
+- **Mixed content after gap**: Tests that gaps followed by mixed content start new tables
+
+**Tests Gap Detection Variety**: Various content types after gaps, different gap sizes, and mixed content scenarios.
+
+**Usage**: `python tests/test_enhanced_gap_detection.py`
+
+#### `test_decimal_extraction.py`
+**Decimal number extraction tests** for PDF processing:
+- **Decimal with suffixes**: Tests that decimal numbers followed by 'x' (like 1.80x, 2.31x) are extracted correctly
+- **Pattern comparison**: Tests old pattern with word boundaries vs new pattern without word boundaries
+- **Text extraction**: Tests decimal extraction from actual text content
+- **Pattern validation**: Ensures regex patterns work correctly for various decimal formats
+
+**Tests Decimal Extraction Variety**: Numbers with suffixes, standalone decimals, and mixed text content.
+
+**Usage**: `python tests/test_decimal_extraction.py`
+
+#### `test_comprehensive_number_extraction.py`
+**Comprehensive number extraction tests** for PDF processing:
+- **Percentage extraction**: Tests that percentage numbers (like 5.5%) are extracted correctly
+- **Decimal extraction**: Tests that decimal numbers (like 1.08, 87.1, 67.3) are extracted correctly
+- **Decimal with suffixes**: Tests that decimal numbers with suffixes (like 1.80x, 2.31x) are extracted correctly
+- **Confidence thresholds**: Tests that decimal numbers have appropriate confidence scores (>= 0.7)
+- **Overall number count**: Tests that the total number count has improved with fixes
+
+**Tests Number Extraction Variety**: Percentages, decimals, decimals with suffixes, and confidence scoring.
+
+**Usage**: `python tests/test_comprehensive_number_extraction.py`
 **Enhanced gap detection tests** that only start new tables when gaps are followed by non-numerical content:
 - **Numerical content continuation**: Tests that gaps followed by purely numerical data continue the same table
 - **Date content new table**: Tests that gaps followed by date content (Q1 2024, Jan 2024) start new tables

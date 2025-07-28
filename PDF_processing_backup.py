@@ -1655,8 +1655,8 @@ class PDFNumberExtractor:
         return {
             'patterns': {
                 'integer': r'\b\d{1,3}(?:,\d{3})*\b',
-                'decimal': r'\d+\.\d+',
-                'percentage': r'\d+(?:\.\d+)?%',
+                'decimal': r'\b\d+\.\d+\b',
+                'percentage': r'\b\d+(?:\.\d+)?%\b',
                 'currency': r'\$\s*\d+(?:,\d{3})*(?:\.\d{2})?',
                 'scientific_notation': r'\b\d+(?:\.\d+)?[eE][+-]?\d+\b',
                 'fraction': r'\b\d+/\d+\b',
@@ -1963,8 +1963,6 @@ class PDFNumberExtractor:
             confidence += 0.2
         elif format_type == "percentage" and "%" in text:
             confidence += 0.2
-        elif format_type == "decimal":
-            confidence += 0.2  # Give decimals higher confidence
         elif format_type == "scientific_notation" and ("e" in text.lower() or "E" in text):
             confidence += 0.2
         
