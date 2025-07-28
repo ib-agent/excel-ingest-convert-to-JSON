@@ -1,74 +1,109 @@
 #!/usr/bin/env python3
 """
-Debug script to test table detection logic
+Debug script to examine table detection issues in the synthetic financial report PDF
 """
 
-import json
+import os
 import sys
-from converter.table_processor import TableProcessor
+import logging
+import camelot
+import pandas as pd
+from typing import Dict, List, Any
 
-def main():
-    """Main function"""
-    if len(sys.argv) > 1:
-        file_path = sys.argv[1]
-    else:
-        file_path = "/Users/jeffwinner/Desktop/Number Counter tests/EXOS-Total P&L with PT only.xlsx"
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def debug_table_detection(pdf_path: str):
+    """Debug table detection for the specific PDF file"""
     
-    print("Table Detection Debug Tool")
-    print("=" * 60)
+    if not os.path.exists(pdf_path):
+        logger.error(f"PDF file not found: {pdf_path}")
+        return
     
-    # Load the test data
-    with open('test_data.json', 'r') as f:
-        data = json.load(f)
+    logger.info(f"Debugging table detection for: {pdf_path}")
     
-    sheet = data['workbook']['sheets'][0]
-    print(f"Sheet: {sheet.get('name', 'Unknown')}")
-    print(f"Dimensions: {sheet.get('dimensions', {})}")
-    print(f"Cells: {len(sheet.get('cells', {}))}")
-    print(f"Frozen panes: {sheet.get('frozen_panes', {})}")
+    # Try different extraction methods
+    methods = ['lattice', 'stream']
     
-    # Test table detection
-    processor = TableProcessor()
+    for method in methods:
+        logger.info(f"\n=== Testing {method} method ===")
+        
+        try:
+            if method == 'lattice':
+                tables = camelot.read_pdf(
+                    pdf_path, 
+                    pages='1',  # Focus on page 1
+                    flavor='lattice',
+                    edge_tolerance=3,
+                    row_tolerance=3,
+                    column_tolerance=3
+                )
+            else:  # stream
+                tables = camelot.read_pdf(
+                    pdf_path, 
+                    pages='1',  # Focus on page 1
+                    flavor='stream',
+                    edge_tolerance=3,
+                    row_tolerance=3,
+                    column_tolerance=3,
+                    strip_text='\n'
+                )
+            
+            logger.info(f"Found {len(tables)} tables with {method} method")
+            
+            for i, table in enumerate(tables):
+                logger.info(f"\nTable {i+1}:")
+                logger.info(f"  Shape: {table.df.shape}")
+                logger.info(f"  Accuracy: {table.accuracy}")
+                logger.info(f"  Page: {table.page}")
+                
+                if hasattr(table, '_bbox') and table._bbox is not None:
+                    bbox = table._bbox
+                    logger.info(f"  BBox: {bbox}")
+                    
+                    # Calculate coverage
+                    page_width = 612.0
+                    page_height = 792.0
+                    table_area = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1])
+                    page_area = page_width * page_height
+                    coverage_ratio = table_area / page_area
+                    logger.info(f"  Coverage: {coverage_ratio:.1%}")
+                
+                # Show table content
+                logger.info(f"  Content:")
+                print(table.df.to_string())
+                logger.info("  " + "="*50)
+                
+        except Exception as e:
+            logger.error(f"Error with {method} method: {str(e)}")
     
-    # Test structured layout detection
-    cells = sheet.get('cells', {})
-    dimensions = sheet.get('dimensions', {})
-    min_row = dimensions.get('min_row', 1)
-    max_row = dimensions.get('max_row', 1)
-    min_col = dimensions.get('min_col', 1)
-    max_col = dimensions.get('max_col', 1)
+    # Also try with different parameters
+    logger.info(f"\n=== Testing with different parameters ===")
     
-    print(f"\nTesting structured layout detection...")
-    has_structured_layout = processor._detect_structured_table_layout(cells, min_row, max_row, min_col, max_col)
-    print(f"Has structured layout: {has_structured_layout}")
-    
-    # Test table region detection
-    print(f"\nTesting table region detection...")
-    options = {
-        'sheet_data': sheet,
-        'table_detection': {'use_gaps': False}
-    }
-    
-    regions = processor._detect_table_regions(cells, min_row, max_row, min_col, max_col, options)
-    print(f"Detected regions: {len(regions)}")
-    for i, region in enumerate(regions):
-        print(f"  Region {i+1}: {region}")
-    
-    # Test table processing
-    if regions:
-        print(f"\nTesting table processing...")
-        tables = processor._detect_and_process_tables(sheet, options)
-        print(f"Processed tables: {len(tables)}")
+    try:
+        # Try with more lenient parameters
+        tables = camelot.read_pdf(
+            pdf_path, 
+            pages='1',
+            flavor='stream',
+            edge_tolerance=5,  # More lenient
+            row_tolerance=5,
+            column_tolerance=5,
+            strip_text='\n'
+        )
+        
+        logger.info(f"Found {len(tables)} tables with lenient parameters")
+        
         for i, table in enumerate(tables):
-            print(f"  Table {i+1}: {table.get('table_id', 'Unknown')}")
-            print(f"    Region: {table.get('region', {})}")
-            print(f"    Columns: {len(table.get('columns', []))}")
-            print(f"    Rows: {len(table.get('rows', []))}")
-    
-    # Test the full transformation
-    print(f"\nTesting full transformation...")
-    result = processor.transform_to_table_format(data, options)
-    print(f"Result tables: {len(result.get('workbook', {}).get('sheets', [{}])[0].get('tables', []))}")
+            logger.info(f"\nTable {i+1} (lenient):")
+            logger.info(f"  Shape: {table.df.shape}")
+            logger.info(f"  Accuracy: {table.accuracy}")
+            print(table.df.to_string())
+            
+    except Exception as e:
+        logger.error(f"Error with lenient parameters: {str(e)}")
 
 if __name__ == "__main__":
-    main() 
+    pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/test_pdfs/synthetic_financial_report.pdf"
+    debug_table_detection(pdf_path) 

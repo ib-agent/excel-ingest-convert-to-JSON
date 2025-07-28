@@ -94,7 +94,14 @@ def upload_and_convert(request):
         # Check if response would be too large (>10MB)
         LARGE_FILE_THRESHOLD = 10 * 1024 * 1024  # 10MB
         
+        print(f"Debug - File: {uploaded_file.name}")
+        print(f"Debug - JSON data size: {json_data_size / 1024 / 1024:.2f} MB")
+        print(f"Debug - Table data size: {table_data_size / 1024 / 1024:.2f} MB")
+        print(f"Debug - Total size: {total_size / 1024 / 1024:.2f} MB")
+        print(f"Debug - Large file threshold: {LARGE_FILE_THRESHOLD / 1024 / 1024:.2f} MB")
+        
         if total_size > LARGE_FILE_THRESHOLD:
+            print(f"Debug - Processing as large file")
             # For large files, return summary and download links
             summary_data = {
                 'workbook': {
@@ -105,12 +112,22 @@ def upload_and_convert(request):
             }
             
             # Add sheet summaries
-            for sheet in json_data.get('workbook', {}).get('sheets', []):
+            sheets = json_data.get('workbook', {}).get('sheets', [])
+            print(f"Debug - Number of sheets: {len(sheets)}")
+            
+            for i, sheet in enumerate(sheets):
+                print(f"Debug - Processing sheet {i}: {sheet.get('name', 'Unknown')}")
+                print(f"Debug - Sheet keys: {list(sheet.keys())}")
+                
+                # Check if sheet has tables
+                tables = sheet.get('tables', [])
+                print(f"Debug - Sheet {i} has {len(tables)} tables")
+                
                 sheet_summary = {
                     'name': sheet.get('name', 'Unknown'),
-                    'table_count': len(sheet.get('tables', [])),
-                    'total_rows': sum(len(table.get('rows', [])) for table in sheet.get('tables', [])),
-                    'total_columns': sum(len(table.get('columns', [])) for table in sheet.get('tables', []))
+                    'table_count': len(tables),
+                    'total_rows': sum(len(table.get('rows', [])) for table in tables),
+                    'total_columns': sum(len(table.get('columns', [])) for table in tables)
                 }
                 summary_data['workbook']['sheets'].append(sheet_summary)
             
@@ -155,13 +172,20 @@ def upload_and_convert(request):
             # Clean up temporary file
             default_storage.delete(temp_path)
             
-            return Response({
+            response_data = {
                 'success': True,
                 'filename': uploaded_file.name,
                 'large_file': False,
                 'data': json_data,
                 'table_data': enhanced_table_data
-            }, status=status.HTTP_200_OK)
+            }
+            
+            print(f"Debug - Returning small file response")
+            print(f"Debug - Response keys: {list(response_data.keys())}")
+            print(f"Debug - Has data key: {'data' in response_data}")
+            print(f"Debug - Data structure: {type(response_data['data'])}")
+            
+            return Response(response_data, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response(

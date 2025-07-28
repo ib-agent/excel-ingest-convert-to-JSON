@@ -1,0 +1,3545 @@
+{
+  "success": true,
+  "result": {
+    "pdf_processing_result": {
+      "document_metadata": {
+        "filename": "synthetic_financial_report.pdf",
+        "total_pages": 4,
+        "processing_timestamp": "2025-07-28T13:31:00.050141",
+        "processing_duration": 0.025641,
+        "extraction_methods": [
+          "table_extraction",
+          "text_extraction",
+          "number_extraction"
+        ]
+      },
+      "processing_summary": {
+        "tables_extracted": 8,
+        "numbers_found": 0,
+        "text_sections": 0,
+        "overall_quality_score": 0.75,
+        "processing_errors": []
+      },
+      "tables": {
+        "tables": [
+          {
+            "table_id": "table_1",
+            "name": "Table 1",
+            "region": {
+              "page_number": 1,
+              "bbox": [
+                60.0,
+                58.599998474121094,
+                552.0,
+                712.5899658203125
+              ],
+              "detection_method": "text_based_fallback"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column A",
+                "is_header_column": true,
+                "cells": {
+                  "A1": {
+                    "value": "Synthetic Financial Report for Extraction Testing",
+                    "row": 1,
+                    "column": 1
+                  },
+                  "A2": {
+                    "value": "Prepared on July 27, 2025",
+                    "row": 2,
+                    "column": 1
+                  },
+                  "A3": {
+                    "value": "The company recorded consolidated revenue of $386,899,681.88 for the fiscal year ended December 31, 2024,",
+                    "row": 3,
+                    "column": 1
+                  },
+                  "A4": {
+                    "value": "During the year, we invested $27,559,605.22 in capital expenditures, primarily related to capacity expansion in\nour North American manufacturing facilities. Management expects these investments to reduce unit costs by\napproximately 8.6% beginning in Q2 2025.",
+                    "row": 4,
+                    "column": 1
+                  },
+                  "A5": {
+                    "value": "Operating cash flow totaled $108,770,746.70, compared to $102,906,979.55 in the prior year, driven by",
+                    "row": 5,
+                    "column": 1
+                  },
+                  "A6": {
+                    "value": "The Board authorized a share repurchase program of up to $56,032,370.03 through December 31, 2026. No\ndividends were declared during the period.",
+                    "row": 6,
+                    "column": 1
+                  },
+                  "A7": {
+                    "value": "Our debt-to-EBITDA ratio improved to 1.80x from 2.31x, reflecting both higher EBITDA and scheduled\namortization of term debt.",
+                    "row": 7,
+                    "column": 1
+                  },
+                  "A8": {
+                    "value": "We continue to see strong demand in the enterprise segment, while consumer markets remain volatile.\nManagement anticipates continued growth in operational efficiency through process automation and selective\noutsourcing.",
+                    "row": 8,
+                    "column": 1
+                  },
+                  "A9": {
+                    "value": "No single customer represented more than 7.6% of total revenue during the period. Geopolitical risk remains a\nfactor in our EMEA segment, but pricing discipline has helped preserve gross margin.",
+                    "row": 9,
+                    "column": 1
+                  },
+                  "A10": {
+                    "value": "The company\u2019s effective tax rate was 16.6%, impacted by R&D; tax credits and the release of certain valuation\nallowances.",
+                    "row": 10,
+                    "column": 1
+                  },
+                  "A11": {
+                    "value": "Our culture emphasizes transparent communication, disciplined execution, and long-term value creation for all\nstakeholders.",
+                    "row": 11,
+                    "column": 1
+                  },
+                  "A12": {
+                    "value": "Table 1: Selected Operating Metrics (Unaudited)",
+                    "row": 12,
+                    "column": 1
+                  },
+                  "A13": {
+                    "value": "Metric\nQ1 2024\nQ2 2024\nQ3 2024\nQ4 2024",
+                    "row": 13,
+                    "column": 1
+                  },
+                  "A14": {
+                    "value": "Gross Margin %\n23.1%\n29.2%\n40.9%\n54.4%",
+                    "row": 14,
+                    "column": 1
+                  },
+                  "A15": {
+                    "value": "Operating Margin %\n25.6%\n27.7%\n59.8%\n29.2%",
+                    "row": 15,
+                    "column": 1
+                  },
+                  "A16": {
+                    "value": "R&D Spend ($M)\n16.23\n10.45\n11.05\n29.07",
+                    "row": 16,
+                    "column": 1
+                  },
+                  "A17": {
+                    "value": "The table above summarizes a subset of quarterly performance indicators. These figures are presented for\nillustrative purposes only and do not correspond to any actual issuer.",
+                    "row": 17,
+                    "column": 1
+                  },
+                  "A18": {
+                    "value": "Liquidity remains strong, with total availability under our revolving credit facility of $223,475,916.69. The\ncompany remains in compliance with all financial covenants.",
+                    "row": 18,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "column_index": 1,
+                "column_label": "Column B",
+                "is_header_column": false,
+                "cells": {
+                  "B3": {
+                    "value": "reflecting a year-over-year increase of 5.5%. Net income attributable to common shareholders was",
+                    "row": 3,
+                    "column": 2
+                  },
+                  "B5": {
+                    "value": "improvements in working capital and lower inventory days on hand (from 87.1 to 67.3 days).",
+                    "row": 5,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "column_index": 2,
+                "column_label": "Column C",
+                "is_header_column": false,
+                "cells": {
+                  "C3": {
+                    "value": "$49,203,237.61, resulting in diluted EPS of 1.08.",
+                    "row": 3,
+                    "column": 3
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "is_header_row": true,
+                "cells": {
+                  "A1": {
+                    "value": "Synthetic Financial Report for Extraction Testing",
+                    "row": 1,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "is_header_row": false,
+                "cells": {
+                  "A2": {
+                    "value": "Prepared on July 27, 2025",
+                    "row": 2,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "is_header_row": false,
+                "cells": {
+                  "A3": {
+                    "value": "The company recorded consolidated revenue of $386,899,681.88 for the fiscal year ended December 31, 2024,",
+                    "row": 3,
+                    "column": 1
+                  },
+                  "B3": {
+                    "value": "reflecting a year-over-year increase of 5.5%. Net income attributable to common shareholders was",
+                    "row": 3,
+                    "column": 2
+                  },
+                  "C3": {
+                    "value": "$49,203,237.61, resulting in diluted EPS of 1.08.",
+                    "row": 3,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "is_header_row": false,
+                "cells": {
+                  "A4": {
+                    "value": "During the year, we invested $27,559,605.22 in capital expenditures, primarily related to capacity expansion in\nour North American manufacturing facilities. Management expects these investments to reduce unit costs by\napproximately 8.6% beginning in Q2 2025.",
+                    "row": 4,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "is_header_row": false,
+                "cells": {
+                  "A5": {
+                    "value": "Operating cash flow totaled $108,770,746.70, compared to $102,906,979.55 in the prior year, driven by",
+                    "row": 5,
+                    "column": 1
+                  },
+                  "B5": {
+                    "value": "improvements in working capital and lower inventory days on hand (from 87.1 to 67.3 days).",
+                    "row": 5,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "is_header_row": false,
+                "cells": {
+                  "A6": {
+                    "value": "The Board authorized a share repurchase program of up to $56,032,370.03 through December 31, 2026. No\ndividends were declared during the period.",
+                    "row": 6,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "is_header_row": false,
+                "cells": {
+                  "A7": {
+                    "value": "Our debt-to-EBITDA ratio improved to 1.80x from 2.31x, reflecting both higher EBITDA and scheduled\namortization of term debt.",
+                    "row": 7,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 7,
+                "row_label": "Row 8",
+                "is_header_row": false,
+                "cells": {
+                  "A8": {
+                    "value": "We continue to see strong demand in the enterprise segment, while consumer markets remain volatile.\nManagement anticipates continued growth in operational efficiency through process automation and selective\noutsourcing.",
+                    "row": 8,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 8,
+                "row_label": "Row 9",
+                "is_header_row": false,
+                "cells": {
+                  "A9": {
+                    "value": "No single customer represented more than 7.6% of total revenue during the period. Geopolitical risk remains a\nfactor in our EMEA segment, but pricing discipline has helped preserve gross margin.",
+                    "row": 9,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 9,
+                "row_label": "Row 10",
+                "is_header_row": false,
+                "cells": {
+                  "A10": {
+                    "value": "The company\u2019s effective tax rate was 16.6%, impacted by R&D; tax credits and the release of certain valuation\nallowances.",
+                    "row": 10,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 10,
+                "row_label": "Row 11",
+                "is_header_row": false,
+                "cells": {
+                  "A11": {
+                    "value": "Our culture emphasizes transparent communication, disciplined execution, and long-term value creation for all\nstakeholders.",
+                    "row": 11,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 11,
+                "row_label": "Row 12",
+                "is_header_row": false,
+                "cells": {
+                  "A12": {
+                    "value": "Table 1: Selected Operating Metrics (Unaudited)",
+                    "row": 12,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 12,
+                "row_label": "Row 13",
+                "is_header_row": false,
+                "cells": {
+                  "A13": {
+                    "value": "Metric\nQ1 2024\nQ2 2024\nQ3 2024\nQ4 2024",
+                    "row": 13,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 13,
+                "row_label": "Row 14",
+                "is_header_row": false,
+                "cells": {
+                  "A14": {
+                    "value": "Gross Margin %\n23.1%\n29.2%\n40.9%\n54.4%",
+                    "row": 14,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 14,
+                "row_label": "Row 15",
+                "is_header_row": false,
+                "cells": {
+                  "A15": {
+                    "value": "Operating Margin %\n25.6%\n27.7%\n59.8%\n29.2%",
+                    "row": 15,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 15,
+                "row_label": "Row 16",
+                "is_header_row": false,
+                "cells": {
+                  "A16": {
+                    "value": "R&D Spend ($M)\n16.23\n10.45\n11.05\n29.07",
+                    "row": 16,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 16,
+                "row_label": "Row 17",
+                "is_header_row": false,
+                "cells": {
+                  "A17": {
+                    "value": "The table above summarizes a subset of quarterly performance indicators. These figures are presented for\nillustrative purposes only and do not correspond to any actual issuer.",
+                    "row": 17,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 17,
+                "row_label": "Row 18",
+                "is_header_row": false,
+                "cells": {
+                  "A18": {
+                    "value": "Liquidity remains strong, with total availability under our revolving credit facility of $223,475,916.69. The\ncompany remains in compliance with all financial covenants.",
+                    "row": 18,
+                    "column": 1
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "text_based_fallback",
+              "quality_score": 0.8,
+              "cell_count": 54,
+              "whitespace": null,
+              "order": null
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Small Table",
+            "region": {
+              "page_number": 1,
+              "bbox": [
+                60.0,
+                58.599998474121094,
+                552.0,
+                501.78997802734375
+              ],
+              "detection_method": "small_table_detection"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column 1",
+                "is_header_column": true,
+                "cells": {
+                  "0": {
+                    "value": "Prepared on July 27, 2025",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  },
+                  "1": {
+                    "value": "The company recorded consolidated revenue of $386,899,681.88 for the fiscal year ended December 31, 2024,\nreflecting a year-over-year increase of 5.5%. Net income attributable to common shareholders was\n$49,203,237.61, resulting in diluted EPS of 1.08.",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  },
+                  "2": {
+                    "value": "During the year, we invested $27,559,605.22 in capital expenditures, primarily related to capacity expansion in\nour North American manufacturing facilities. Management expects these investments to reduce unit costs by\napproximately 8.6% beginning in Q2 2025.",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  },
+                  "3": {
+                    "value": "Operating cash flow totaled $108,770,746.70, compared to $102,906,979.55 in the prior year, driven by\nimprovements in working capital and lower inventory days on hand (from 87.1 to 67.3 days).",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  },
+                  "4": {
+                    "value": "The Board authorized a share repurchase program of up to $56,032,370.03 through December 31, 2026. No\ndividends were declared during the period.",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  },
+                  "5": {
+                    "value": "Our debt-to-EBITDA ratio improved to 1.80x from 2.31x, reflecting both higher EBITDA and scheduled\namortization of term debt.",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  },
+                  "6": {
+                    "value": "We continue to see strong demand in the enterprise segment, while consumer markets remain volatile.\nManagement anticipates continued growth in operational efficiency through process automation and selective\noutsourcing.",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  },
+                  "7": {
+                    "value": "No single customer represented more than 7.6% of total revenue during the period. Geopolitical risk remains a\nfactor in our EMEA segment, but pricing discipline has helped preserve gross margin.",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    }
+                  },
+                  "8": {
+                    "value": "The company\u2019s effective tax rate was 16.6%, impacted by R&D; tax credits and the release of certain valuation\nallowances.",
+                    "position": {
+                      "row": 8,
+                      "column": 0
+                    }
+                  },
+                  "9": {
+                    "value": "Our culture emphasizes transparent communication, disciplined execution, and long-term value creation for all\nstakeholders.",
+                    "position": {
+                      "row": 9,
+                      "column": 0
+                    }
+                  },
+                  "10": {
+                    "value": "Synthetic Financial Report for Extraction Testing",
+                    "position": {
+                      "row": 10,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "cells": {
+                  "0": {
+                    "value": "Prepared on July 27, 2025",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "cells": {
+                  "0": {
+                    "value": "The company recorded consolidated revenue of $386,899,681.88 for the fiscal year ended December 31, 2024,\nreflecting a year-over-year increase of 5.5%. Net income attributable to common shareholders was\n$49,203,237.61, resulting in diluted EPS of 1.08.",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "cells": {
+                  "0": {
+                    "value": "During the year, we invested $27,559,605.22 in capital expenditures, primarily related to capacity expansion in\nour North American manufacturing facilities. Management expects these investments to reduce unit costs by\napproximately 8.6% beginning in Q2 2025.",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "cells": {
+                  "0": {
+                    "value": "Operating cash flow totaled $108,770,746.70, compared to $102,906,979.55 in the prior year, driven by\nimprovements in working capital and lower inventory days on hand (from 87.1 to 67.3 days).",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "cells": {
+                  "0": {
+                    "value": "The Board authorized a share repurchase program of up to $56,032,370.03 through December 31, 2026. No\ndividends were declared during the period.",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "cells": {
+                  "0": {
+                    "value": "Our debt-to-EBITDA ratio improved to 1.80x from 2.31x, reflecting both higher EBITDA and scheduled\namortization of term debt.",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "cells": {
+                  "0": {
+                    "value": "We continue to see strong demand in the enterprise segment, while consumer markets remain volatile.\nManagement anticipates continued growth in operational efficiency through process automation and selective\noutsourcing.",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 7,
+                "row_label": "Row 8",
+                "cells": {
+                  "0": {
+                    "value": "No single customer represented more than 7.6% of total revenue during the period. Geopolitical risk remains a\nfactor in our EMEA segment, but pricing discipline has helped preserve gross margin.",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 8,
+                "row_label": "Row 9",
+                "cells": {
+                  "0": {
+                    "value": "The company\u2019s effective tax rate was 16.6%, impacted by R&D; tax credits and the release of certain valuation\nallowances.",
+                    "position": {
+                      "row": 8,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 9,
+                "row_label": "Row 10",
+                "cells": {
+                  "0": {
+                    "value": "Our culture emphasizes transparent communication, disciplined execution, and long-term value creation for all\nstakeholders.",
+                    "position": {
+                      "row": 9,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 10,
+                "row_label": "Row 11",
+                "cells": {
+                  "0": {
+                    "value": "Synthetic Financial Report for Extraction Testing",
+                    "position": {
+                      "row": 10,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "small_table_detection",
+              "quality_score": 0.7,
+              "confidence": 0.8
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Small Table",
+            "region": {
+              "page_number": 1,
+              "bbox": [
+                60.0,
+                528.2200317382812,
+                551.9999389648438,
+                712.5899658203125
+              ],
+              "detection_method": "small_table_detection"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column 1",
+                "is_header_column": true,
+                "cells": {
+                  "0": {
+                    "value": "Table 1: Selected Operating Metrics (Unaudited)",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  },
+                  "1": {
+                    "value": "The table above summarizes a subset of quarterly performance indicators. These figures are presented for\nillustrative purposes only and do not correspond to any actual issuer.",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  },
+                  "2": {
+                    "value": "Liquidity remains strong, with total availability under our revolving credit facility of $223,475,916.69. The\ncompany remains in compliance with all financial covenants.",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  },
+                  "3": {
+                    "value": "Metric\nQ1 2024\nQ2 2024\nQ3 2024\nQ4 2024",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  },
+                  "4": {
+                    "value": "Gross Margin %\n23.1%\n29.2%\n40.9%\n54.4%",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  },
+                  "5": {
+                    "value": "Operating Margin %\n25.6%\n27.7%\n59.8%\n29.2%",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  },
+                  "6": {
+                    "value": "R&D Spend ($M)\n16.23\n10.45\n11.05\n29.07",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "cells": {
+                  "0": {
+                    "value": "Table 1: Selected Operating Metrics (Unaudited)",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "cells": {
+                  "0": {
+                    "value": "The table above summarizes a subset of quarterly performance indicators. These figures are presented for\nillustrative purposes only and do not correspond to any actual issuer.",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "cells": {
+                  "0": {
+                    "value": "Liquidity remains strong, with total availability under our revolving credit facility of $223,475,916.69. The\ncompany remains in compliance with all financial covenants.",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "cells": {
+                  "0": {
+                    "value": "Metric\nQ1 2024\nQ2 2024\nQ3 2024\nQ4 2024",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "cells": {
+                  "0": {
+                    "value": "Gross Margin %\n23.1%\n29.2%\n40.9%\n54.4%",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "cells": {
+                  "0": {
+                    "value": "Operating Margin %\n25.6%\n27.7%\n59.8%\n29.2%",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "cells": {
+                  "0": {
+                    "value": "R&D Spend ($M)\n16.23\n10.45\n11.05\n29.07",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "small_table_detection",
+              "quality_score": 0.7,
+              "confidence": 0.8
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Table 1",
+            "region": {
+              "page_number": 2,
+              "bbox": [
+                60.0,
+                59.25,
+                551.9998168945312,
+                125.78998565673828
+              ],
+              "detection_method": "text_based_fallback"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column A",
+                "is_header_column": true,
+                "cells": {
+                  "A1": {
+                    "value": "Management\u2019s base case assumes mid-single-digit revenue growth in 2025, with gross margins stable to\nslightly expanding as supply chain normalization continues.",
+                    "row": 1,
+                    "column": 1
+                  },
+                  "A2": {
+                    "value": "We are evaluating strategic alternatives for our non-core assets to sharpen focus on the highest-return\nopportunities.",
+                    "row": 2,
+                    "column": 1
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "is_header_row": true,
+                "cells": {
+                  "A1": {
+                    "value": "Management\u2019s base case assumes mid-single-digit revenue growth in 2025, with gross margins stable to\nslightly expanding as supply chain normalization continues.",
+                    "row": 1,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "is_header_row": false,
+                "cells": {
+                  "A2": {
+                    "value": "We are evaluating strategic alternatives for our non-core assets to sharpen focus on the highest-return\nopportunities.",
+                    "row": 2,
+                    "column": 1
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "text_based_fallback",
+              "quality_score": 0.8,
+              "cell_count": 2,
+              "whitespace": null,
+              "order": null
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Table 1",
+            "region": {
+              "page_number": 3,
+              "bbox": [
+                60.0,
+                59.02000045776367,
+                547.2000122070312,
+                729.989990234375
+              ],
+              "detection_method": "text_based_fallback"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column A",
+                "is_header_column": true,
+                "cells": {
+                  "A1": {
+                    "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large\nTable Spanning Pages",
+                    "row": 1,
+                    "column": 1
+                  },
+                  "A2": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "row": 2,
+                    "column": 1
+                  },
+                  "A3": {
+                    "value": "Public Sector",
+                    "row": 3,
+                    "column": 1
+                  },
+                  "A4": {
+                    "value": "Enterprise",
+                    "row": 4,
+                    "column": 1
+                  },
+                  "A5": {
+                    "value": "Services",
+                    "row": 5,
+                    "column": 1
+                  },
+                  "A6": {
+                    "value": "Cloud",
+                    "row": 6,
+                    "column": 1
+                  },
+                  "A7": {
+                    "value": "Hardware",
+                    "row": 7,
+                    "column": 1
+                  },
+                  "A8": {
+                    "value": "OEM",
+                    "row": 8,
+                    "column": 1
+                  },
+                  "A9": {
+                    "value": "Services",
+                    "row": 9,
+                    "column": 1
+                  },
+                  "A10": {
+                    "value": "SMB",
+                    "row": 10,
+                    "column": 1
+                  },
+                  "A11": {
+                    "value": "Enterprise",
+                    "row": 11,
+                    "column": 1
+                  },
+                  "A12": {
+                    "value": "Services",
+                    "row": 12,
+                    "column": 1
+                  },
+                  "A13": {
+                    "value": "OEM",
+                    "row": 13,
+                    "column": 1
+                  },
+                  "A14": {
+                    "value": "Hardware",
+                    "row": 14,
+                    "column": 1
+                  },
+                  "A15": {
+                    "value": "Public Sector",
+                    "row": 15,
+                    "column": 1
+                  },
+                  "A16": {
+                    "value": "Services",
+                    "row": 16,
+                    "column": 1
+                  },
+                  "A17": {
+                    "value": "Services",
+                    "row": 17,
+                    "column": 1
+                  },
+                  "A18": {
+                    "value": "OEM",
+                    "row": 18,
+                    "column": 1
+                  },
+                  "A19": {
+                    "value": "OEM",
+                    "row": 19,
+                    "column": 1
+                  },
+                  "A20": {
+                    "value": "Cloud",
+                    "row": 20,
+                    "column": 1
+                  },
+                  "A21": {
+                    "value": "Public Sector",
+                    "row": 21,
+                    "column": 1
+                  },
+                  "A22": {
+                    "value": "Consumer",
+                    "row": 22,
+                    "column": 1
+                  },
+                  "A23": {
+                    "value": "Cloud",
+                    "row": 23,
+                    "column": 1
+                  },
+                  "A24": {
+                    "value": "Hardware",
+                    "row": 24,
+                    "column": 1
+                  },
+                  "A25": {
+                    "value": "SMB",
+                    "row": 25,
+                    "column": 1
+                  },
+                  "A26": {
+                    "value": "Consumer",
+                    "row": 26,
+                    "column": 1
+                  },
+                  "A27": {
+                    "value": "Cloud",
+                    "row": 27,
+                    "column": 1
+                  },
+                  "A28": {
+                    "value": "OEM",
+                    "row": 28,
+                    "column": 1
+                  },
+                  "A29": {
+                    "value": "Consumer",
+                    "row": 29,
+                    "column": 1
+                  },
+                  "A30": {
+                    "value": "Hardware",
+                    "row": 30,
+                    "column": 1
+                  },
+                  "A31": {
+                    "value": "Enterprise",
+                    "row": 31,
+                    "column": 1
+                  },
+                  "A32": {
+                    "value": "Services",
+                    "row": 32,
+                    "column": 1
+                  },
+                  "A33": {
+                    "value": "Consumer",
+                    "row": 33,
+                    "column": 1
+                  },
+                  "A34": {
+                    "value": "Cloud",
+                    "row": 34,
+                    "column": 1
+                  },
+                  "A35": {
+                    "value": "Consumer",
+                    "row": 35,
+                    "column": 1
+                  },
+                  "A36": {
+                    "value": "Public Sector",
+                    "row": 36,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "column_index": 1,
+                "column_label": "Column B",
+                "is_header_column": false,
+                "cells": {
+                  "B3": {
+                    "value": "APAC",
+                    "row": 3,
+                    "column": 2
+                  },
+                  "B4": {
+                    "value": "LATAM",
+                    "row": 4,
+                    "column": 2
+                  },
+                  "B5": {
+                    "value": "APAC",
+                    "row": 5,
+                    "column": 2
+                  },
+                  "B6": {
+                    "value": "NA",
+                    "row": 6,
+                    "column": 2
+                  },
+                  "B7": {
+                    "value": "EMEA",
+                    "row": 7,
+                    "column": 2
+                  },
+                  "B8": {
+                    "value": "APAC",
+                    "row": 8,
+                    "column": 2
+                  },
+                  "B9": {
+                    "value": "EMEA",
+                    "row": 9,
+                    "column": 2
+                  },
+                  "B10": {
+                    "value": "EMEA",
+                    "row": 10,
+                    "column": 2
+                  },
+                  "B11": {
+                    "value": "NA",
+                    "row": 11,
+                    "column": 2
+                  },
+                  "B12": {
+                    "value": "EMEA",
+                    "row": 12,
+                    "column": 2
+                  },
+                  "B13": {
+                    "value": "LATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
+                    "row": 13,
+                    "column": 2
+                  },
+                  "B14": {
+                    "value": "EMEA",
+                    "row": 14,
+                    "column": 2
+                  },
+                  "B15": {
+                    "value": "NA",
+                    "row": 15,
+                    "column": 2
+                  },
+                  "B16": {
+                    "value": "NA",
+                    "row": 16,
+                    "column": 2
+                  },
+                  "B17": {
+                    "value": "NA",
+                    "row": 17,
+                    "column": 2
+                  },
+                  "B18": {
+                    "value": "NA",
+                    "row": 18,
+                    "column": 2
+                  },
+                  "B19": {
+                    "value": "NA",
+                    "row": 19,
+                    "column": 2
+                  },
+                  "B20": {
+                    "value": "EMEA",
+                    "row": 20,
+                    "column": 2
+                  },
+                  "B21": {
+                    "value": "LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "row": 21,
+                    "column": 2
+                  },
+                  "B22": {
+                    "value": "NA",
+                    "row": 22,
+                    "column": 2
+                  },
+                  "B23": {
+                    "value": "APAC",
+                    "row": 23,
+                    "column": 2
+                  },
+                  "B24": {
+                    "value": "APAC",
+                    "row": 24,
+                    "column": 2
+                  },
+                  "B25": {
+                    "value": "LATAM",
+                    "row": 25,
+                    "column": 2
+                  },
+                  "B26": {
+                    "value": "EMEA",
+                    "row": 26,
+                    "column": 2
+                  },
+                  "B27": {
+                    "value": "LATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
+                    "row": 27,
+                    "column": 2
+                  },
+                  "B28": {
+                    "value": "NA",
+                    "row": 28,
+                    "column": 2
+                  },
+                  "B29": {
+                    "value": "LATAM",
+                    "row": 29,
+                    "column": 2
+                  },
+                  "B30": {
+                    "value": "LATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
+                    "row": 30,
+                    "column": 2
+                  },
+                  "B31": {
+                    "value": "EMEA",
+                    "row": 31,
+                    "column": 2
+                  },
+                  "B32": {
+                    "value": "LATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
+                    "row": 32,
+                    "column": 2
+                  },
+                  "B33": {
+                    "value": "EMEA",
+                    "row": 33,
+                    "column": 2
+                  },
+                  "B34": {
+                    "value": "APAC",
+                    "row": 34,
+                    "column": 2
+                  },
+                  "B35": {
+                    "value": "LATAM $16,846,975.87$18,231,722.82$5,444,680.20$5,583,920.92 $46,107,299.81",
+                    "row": 35,
+                    "column": 2
+                  },
+                  "B36": {
+                    "value": "LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "row": 36,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "column_index": 2,
+                "column_label": "Column C",
+                "is_header_column": false,
+                "cells": {
+                  "C3": {
+                    "value": "$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "row": 3,
+                    "column": 3
+                  },
+                  "C4": {
+                    "value": "$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
+                    "row": 4,
+                    "column": 3
+                  },
+                  "C5": {
+                    "value": "$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
+                    "row": 5,
+                    "column": 3
+                  },
+                  "C6": {
+                    "value": "$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
+                    "row": 6,
+                    "column": 3
+                  },
+                  "C7": {
+                    "value": "$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
+                    "row": 7,
+                    "column": 3
+                  },
+                  "C8": {
+                    "value": "$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
+                    "row": 8,
+                    "column": 3
+                  },
+                  "C9": {
+                    "value": "$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
+                    "row": 9,
+                    "column": 3
+                  },
+                  "C10": {
+                    "value": "$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
+                    "row": 10,
+                    "column": 3
+                  },
+                  "C11": {
+                    "value": "$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
+                    "row": 11,
+                    "column": 3
+                  },
+                  "C12": {
+                    "value": "$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
+                    "row": 12,
+                    "column": 3
+                  },
+                  "C14": {
+                    "value": "$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
+                    "row": 14,
+                    "column": 3
+                  },
+                  "C15": {
+                    "value": "$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "row": 15,
+                    "column": 3
+                  },
+                  "C16": {
+                    "value": "$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
+                    "row": 16,
+                    "column": 3
+                  },
+                  "C17": {
+                    "value": "$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
+                    "row": 17,
+                    "column": 3
+                  },
+                  "C18": {
+                    "value": "$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
+                    "row": 18,
+                    "column": 3
+                  },
+                  "C19": {
+                    "value": "$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
+                    "row": 19,
+                    "column": 3
+                  },
+                  "C20": {
+                    "value": "$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
+                    "row": 20,
+                    "column": 3
+                  },
+                  "C22": {
+                    "value": "$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
+                    "row": 22,
+                    "column": 3
+                  },
+                  "C23": {
+                    "value": "$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
+                    "row": 23,
+                    "column": 3
+                  },
+                  "C24": {
+                    "value": "$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
+                    "row": 24,
+                    "column": 3
+                  },
+                  "C25": {
+                    "value": "$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
+                    "row": 25,
+                    "column": 3
+                  },
+                  "C26": {
+                    "value": "$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
+                    "row": 26,
+                    "column": 3
+                  },
+                  "C28": {
+                    "value": "$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
+                    "row": 28,
+                    "column": 3
+                  },
+                  "C29": {
+                    "value": "$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
+                    "row": 29,
+                    "column": 3
+                  },
+                  "C31": {
+                    "value": "$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
+                    "row": 31,
+                    "column": 3
+                  },
+                  "C33": {
+                    "value": "$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
+                    "row": 33,
+                    "column": 3
+                  },
+                  "C34": {
+                    "value": "$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
+                    "row": 34,
+                    "column": 3
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "is_header_row": true,
+                "cells": {
+                  "A1": {
+                    "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large\nTable Spanning Pages",
+                    "row": 1,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "is_header_row": false,
+                "cells": {
+                  "A2": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "row": 2,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "is_header_row": false,
+                "cells": {
+                  "A3": {
+                    "value": "Public Sector",
+                    "row": 3,
+                    "column": 1
+                  },
+                  "B3": {
+                    "value": "APAC",
+                    "row": 3,
+                    "column": 2
+                  },
+                  "C3": {
+                    "value": "$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "row": 3,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "is_header_row": false,
+                "cells": {
+                  "A4": {
+                    "value": "Enterprise",
+                    "row": 4,
+                    "column": 1
+                  },
+                  "B4": {
+                    "value": "LATAM",
+                    "row": 4,
+                    "column": 2
+                  },
+                  "C4": {
+                    "value": "$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
+                    "row": 4,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "is_header_row": false,
+                "cells": {
+                  "A5": {
+                    "value": "Services",
+                    "row": 5,
+                    "column": 1
+                  },
+                  "B5": {
+                    "value": "APAC",
+                    "row": 5,
+                    "column": 2
+                  },
+                  "C5": {
+                    "value": "$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
+                    "row": 5,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "is_header_row": false,
+                "cells": {
+                  "A6": {
+                    "value": "Cloud",
+                    "row": 6,
+                    "column": 1
+                  },
+                  "B6": {
+                    "value": "NA",
+                    "row": 6,
+                    "column": 2
+                  },
+                  "C6": {
+                    "value": "$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
+                    "row": 6,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "is_header_row": false,
+                "cells": {
+                  "A7": {
+                    "value": "Hardware",
+                    "row": 7,
+                    "column": 1
+                  },
+                  "B7": {
+                    "value": "EMEA",
+                    "row": 7,
+                    "column": 2
+                  },
+                  "C7": {
+                    "value": "$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
+                    "row": 7,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 7,
+                "row_label": "Row 8",
+                "is_header_row": false,
+                "cells": {
+                  "A8": {
+                    "value": "OEM",
+                    "row": 8,
+                    "column": 1
+                  },
+                  "B8": {
+                    "value": "APAC",
+                    "row": 8,
+                    "column": 2
+                  },
+                  "C8": {
+                    "value": "$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
+                    "row": 8,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 8,
+                "row_label": "Row 9",
+                "is_header_row": false,
+                "cells": {
+                  "A9": {
+                    "value": "Services",
+                    "row": 9,
+                    "column": 1
+                  },
+                  "B9": {
+                    "value": "EMEA",
+                    "row": 9,
+                    "column": 2
+                  },
+                  "C9": {
+                    "value": "$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
+                    "row": 9,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 9,
+                "row_label": "Row 10",
+                "is_header_row": false,
+                "cells": {
+                  "A10": {
+                    "value": "SMB",
+                    "row": 10,
+                    "column": 1
+                  },
+                  "B10": {
+                    "value": "EMEA",
+                    "row": 10,
+                    "column": 2
+                  },
+                  "C10": {
+                    "value": "$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
+                    "row": 10,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 10,
+                "row_label": "Row 11",
+                "is_header_row": false,
+                "cells": {
+                  "A11": {
+                    "value": "Enterprise",
+                    "row": 11,
+                    "column": 1
+                  },
+                  "B11": {
+                    "value": "NA",
+                    "row": 11,
+                    "column": 2
+                  },
+                  "C11": {
+                    "value": "$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
+                    "row": 11,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 11,
+                "row_label": "Row 12",
+                "is_header_row": false,
+                "cells": {
+                  "A12": {
+                    "value": "Services",
+                    "row": 12,
+                    "column": 1
+                  },
+                  "B12": {
+                    "value": "EMEA",
+                    "row": 12,
+                    "column": 2
+                  },
+                  "C12": {
+                    "value": "$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
+                    "row": 12,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 12,
+                "row_label": "Row 13",
+                "is_header_row": false,
+                "cells": {
+                  "A13": {
+                    "value": "OEM",
+                    "row": 13,
+                    "column": 1
+                  },
+                  "B13": {
+                    "value": "LATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
+                    "row": 13,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 13,
+                "row_label": "Row 14",
+                "is_header_row": false,
+                "cells": {
+                  "A14": {
+                    "value": "Hardware",
+                    "row": 14,
+                    "column": 1
+                  },
+                  "B14": {
+                    "value": "EMEA",
+                    "row": 14,
+                    "column": 2
+                  },
+                  "C14": {
+                    "value": "$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
+                    "row": 14,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 14,
+                "row_label": "Row 15",
+                "is_header_row": false,
+                "cells": {
+                  "A15": {
+                    "value": "Public Sector",
+                    "row": 15,
+                    "column": 1
+                  },
+                  "B15": {
+                    "value": "NA",
+                    "row": 15,
+                    "column": 2
+                  },
+                  "C15": {
+                    "value": "$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "row": 15,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 15,
+                "row_label": "Row 16",
+                "is_header_row": false,
+                "cells": {
+                  "A16": {
+                    "value": "Services",
+                    "row": 16,
+                    "column": 1
+                  },
+                  "B16": {
+                    "value": "NA",
+                    "row": 16,
+                    "column": 2
+                  },
+                  "C16": {
+                    "value": "$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
+                    "row": 16,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 16,
+                "row_label": "Row 17",
+                "is_header_row": false,
+                "cells": {
+                  "A17": {
+                    "value": "Services",
+                    "row": 17,
+                    "column": 1
+                  },
+                  "B17": {
+                    "value": "NA",
+                    "row": 17,
+                    "column": 2
+                  },
+                  "C17": {
+                    "value": "$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
+                    "row": 17,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 17,
+                "row_label": "Row 18",
+                "is_header_row": false,
+                "cells": {
+                  "A18": {
+                    "value": "OEM",
+                    "row": 18,
+                    "column": 1
+                  },
+                  "B18": {
+                    "value": "NA",
+                    "row": 18,
+                    "column": 2
+                  },
+                  "C18": {
+                    "value": "$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
+                    "row": 18,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 18,
+                "row_label": "Row 19",
+                "is_header_row": false,
+                "cells": {
+                  "A19": {
+                    "value": "OEM",
+                    "row": 19,
+                    "column": 1
+                  },
+                  "B19": {
+                    "value": "NA",
+                    "row": 19,
+                    "column": 2
+                  },
+                  "C19": {
+                    "value": "$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
+                    "row": 19,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 19,
+                "row_label": "Row 20",
+                "is_header_row": false,
+                "cells": {
+                  "A20": {
+                    "value": "Cloud",
+                    "row": 20,
+                    "column": 1
+                  },
+                  "B20": {
+                    "value": "EMEA",
+                    "row": 20,
+                    "column": 2
+                  },
+                  "C20": {
+                    "value": "$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
+                    "row": 20,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 20,
+                "row_label": "Row 21",
+                "is_header_row": false,
+                "cells": {
+                  "A21": {
+                    "value": "Public Sector",
+                    "row": 21,
+                    "column": 1
+                  },
+                  "B21": {
+                    "value": "LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "row": 21,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 21,
+                "row_label": "Row 22",
+                "is_header_row": false,
+                "cells": {
+                  "A22": {
+                    "value": "Consumer",
+                    "row": 22,
+                    "column": 1
+                  },
+                  "B22": {
+                    "value": "NA",
+                    "row": 22,
+                    "column": 2
+                  },
+                  "C22": {
+                    "value": "$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
+                    "row": 22,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 22,
+                "row_label": "Row 23",
+                "is_header_row": false,
+                "cells": {
+                  "A23": {
+                    "value": "Cloud",
+                    "row": 23,
+                    "column": 1
+                  },
+                  "B23": {
+                    "value": "APAC",
+                    "row": 23,
+                    "column": 2
+                  },
+                  "C23": {
+                    "value": "$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
+                    "row": 23,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 23,
+                "row_label": "Row 24",
+                "is_header_row": false,
+                "cells": {
+                  "A24": {
+                    "value": "Hardware",
+                    "row": 24,
+                    "column": 1
+                  },
+                  "B24": {
+                    "value": "APAC",
+                    "row": 24,
+                    "column": 2
+                  },
+                  "C24": {
+                    "value": "$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
+                    "row": 24,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 24,
+                "row_label": "Row 25",
+                "is_header_row": false,
+                "cells": {
+                  "A25": {
+                    "value": "SMB",
+                    "row": 25,
+                    "column": 1
+                  },
+                  "B25": {
+                    "value": "LATAM",
+                    "row": 25,
+                    "column": 2
+                  },
+                  "C25": {
+                    "value": "$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
+                    "row": 25,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 25,
+                "row_label": "Row 26",
+                "is_header_row": false,
+                "cells": {
+                  "A26": {
+                    "value": "Consumer",
+                    "row": 26,
+                    "column": 1
+                  },
+                  "B26": {
+                    "value": "EMEA",
+                    "row": 26,
+                    "column": 2
+                  },
+                  "C26": {
+                    "value": "$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
+                    "row": 26,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 26,
+                "row_label": "Row 27",
+                "is_header_row": false,
+                "cells": {
+                  "A27": {
+                    "value": "Cloud",
+                    "row": 27,
+                    "column": 1
+                  },
+                  "B27": {
+                    "value": "LATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
+                    "row": 27,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 27,
+                "row_label": "Row 28",
+                "is_header_row": false,
+                "cells": {
+                  "A28": {
+                    "value": "OEM",
+                    "row": 28,
+                    "column": 1
+                  },
+                  "B28": {
+                    "value": "NA",
+                    "row": 28,
+                    "column": 2
+                  },
+                  "C28": {
+                    "value": "$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
+                    "row": 28,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 28,
+                "row_label": "Row 29",
+                "is_header_row": false,
+                "cells": {
+                  "A29": {
+                    "value": "Consumer",
+                    "row": 29,
+                    "column": 1
+                  },
+                  "B29": {
+                    "value": "LATAM",
+                    "row": 29,
+                    "column": 2
+                  },
+                  "C29": {
+                    "value": "$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
+                    "row": 29,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 29,
+                "row_label": "Row 30",
+                "is_header_row": false,
+                "cells": {
+                  "A30": {
+                    "value": "Hardware",
+                    "row": 30,
+                    "column": 1
+                  },
+                  "B30": {
+                    "value": "LATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
+                    "row": 30,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 30,
+                "row_label": "Row 31",
+                "is_header_row": false,
+                "cells": {
+                  "A31": {
+                    "value": "Enterprise",
+                    "row": 31,
+                    "column": 1
+                  },
+                  "B31": {
+                    "value": "EMEA",
+                    "row": 31,
+                    "column": 2
+                  },
+                  "C31": {
+                    "value": "$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
+                    "row": 31,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 31,
+                "row_label": "Row 32",
+                "is_header_row": false,
+                "cells": {
+                  "A32": {
+                    "value": "Services",
+                    "row": 32,
+                    "column": 1
+                  },
+                  "B32": {
+                    "value": "LATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
+                    "row": 32,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 32,
+                "row_label": "Row 33",
+                "is_header_row": false,
+                "cells": {
+                  "A33": {
+                    "value": "Consumer",
+                    "row": 33,
+                    "column": 1
+                  },
+                  "B33": {
+                    "value": "EMEA",
+                    "row": 33,
+                    "column": 2
+                  },
+                  "C33": {
+                    "value": "$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
+                    "row": 33,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 33,
+                "row_label": "Row 34",
+                "is_header_row": false,
+                "cells": {
+                  "A34": {
+                    "value": "Cloud",
+                    "row": 34,
+                    "column": 1
+                  },
+                  "B34": {
+                    "value": "APAC",
+                    "row": 34,
+                    "column": 2
+                  },
+                  "C34": {
+                    "value": "$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
+                    "row": 34,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 34,
+                "row_label": "Row 35",
+                "is_header_row": false,
+                "cells": {
+                  "A35": {
+                    "value": "Consumer",
+                    "row": 35,
+                    "column": 1
+                  },
+                  "B35": {
+                    "value": "LATAM $16,846,975.87$18,231,722.82$5,444,680.20$5,583,920.92 $46,107,299.81",
+                    "row": 35,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 35,
+                "row_label": "Row 36",
+                "is_header_row": false,
+                "cells": {
+                  "A36": {
+                    "value": "Public Sector",
+                    "row": 36,
+                    "column": 1
+                  },
+                  "B36": {
+                    "value": "LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "row": 36,
+                    "column": 2
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "text_based_fallback",
+              "quality_score": 0.8,
+              "cell_count": 108,
+              "whitespace": null,
+              "order": null
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Small Table",
+            "region": {
+              "page_number": 3,
+              "bbox": [
+                60.0,
+                59.02000045776367,
+                547.2000122070312,
+                729.989990234375
+              ],
+              "detection_method": "small_table_detection"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column 1",
+                "is_header_column": true,
+                "cells": {
+                  "0": {
+                    "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large\nTable Spanning Pages",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  },
+                  "1": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  },
+                  "2": {
+                    "value": "Public Sector\nAPAC\n$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  },
+                  "3": {
+                    "value": "Enterprise\nLATAM\n$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  },
+                  "4": {
+                    "value": "Services\nAPAC\n$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  },
+                  "5": {
+                    "value": "Cloud\nNA\n$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  },
+                  "6": {
+                    "value": "Hardware\nEMEA\n$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  },
+                  "7": {
+                    "value": "OEM\nAPAC\n$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    }
+                  },
+                  "8": {
+                    "value": "Services\nEMEA\n$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
+                    "position": {
+                      "row": 8,
+                      "column": 0
+                    }
+                  },
+                  "9": {
+                    "value": "SMB\nEMEA\n$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
+                    "position": {
+                      "row": 9,
+                      "column": 0
+                    }
+                  },
+                  "10": {
+                    "value": "Enterprise\nNA\n$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
+                    "position": {
+                      "row": 10,
+                      "column": 0
+                    }
+                  },
+                  "11": {
+                    "value": "Services\nEMEA\n$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
+                    "position": {
+                      "row": 11,
+                      "column": 0
+                    }
+                  },
+                  "12": {
+                    "value": "OEM\nLATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
+                    "position": {
+                      "row": 12,
+                      "column": 0
+                    }
+                  },
+                  "13": {
+                    "value": "Hardware\nEMEA\n$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
+                    "position": {
+                      "row": 13,
+                      "column": 0
+                    }
+                  },
+                  "14": {
+                    "value": "Public Sector\nNA\n$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "position": {
+                      "row": 14,
+                      "column": 0
+                    }
+                  },
+                  "15": {
+                    "value": "Services\nNA\n$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
+                    "position": {
+                      "row": 15,
+                      "column": 0
+                    }
+                  },
+                  "16": {
+                    "value": "Services\nNA\n$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
+                    "position": {
+                      "row": 16,
+                      "column": 0
+                    }
+                  },
+                  "17": {
+                    "value": "OEM\nNA\n$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
+                    "position": {
+                      "row": 17,
+                      "column": 0
+                    }
+                  },
+                  "18": {
+                    "value": "OEM\nNA\n$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
+                    "position": {
+                      "row": 18,
+                      "column": 0
+                    }
+                  },
+                  "19": {
+                    "value": "Cloud\nEMEA\n$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
+                    "position": {
+                      "row": 19,
+                      "column": 0
+                    }
+                  },
+                  "20": {
+                    "value": "Public Sector\nLATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "position": {
+                      "row": 20,
+                      "column": 0
+                    }
+                  },
+                  "21": {
+                    "value": "Consumer\nNA\n$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
+                    "position": {
+                      "row": 21,
+                      "column": 0
+                    }
+                  },
+                  "22": {
+                    "value": "Cloud\nAPAC\n$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
+                    "position": {
+                      "row": 22,
+                      "column": 0
+                    }
+                  },
+                  "23": {
+                    "value": "Hardware\nAPAC\n$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
+                    "position": {
+                      "row": 23,
+                      "column": 0
+                    }
+                  },
+                  "24": {
+                    "value": "SMB\nLATAM\n$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
+                    "position": {
+                      "row": 24,
+                      "column": 0
+                    }
+                  },
+                  "25": {
+                    "value": "Consumer\nEMEA\n$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
+                    "position": {
+                      "row": 25,
+                      "column": 0
+                    }
+                  },
+                  "26": {
+                    "value": "Cloud\nLATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
+                    "position": {
+                      "row": 26,
+                      "column": 0
+                    }
+                  },
+                  "27": {
+                    "value": "OEM\nNA\n$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
+                    "position": {
+                      "row": 27,
+                      "column": 0
+                    }
+                  },
+                  "28": {
+                    "value": "Consumer\nLATAM\n$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
+                    "position": {
+                      "row": 28,
+                      "column": 0
+                    }
+                  },
+                  "29": {
+                    "value": "Hardware\nLATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
+                    "position": {
+                      "row": 29,
+                      "column": 0
+                    }
+                  },
+                  "30": {
+                    "value": "Enterprise\nEMEA\n$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
+                    "position": {
+                      "row": 30,
+                      "column": 0
+                    }
+                  },
+                  "31": {
+                    "value": "Services\nLATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
+                    "position": {
+                      "row": 31,
+                      "column": 0
+                    }
+                  },
+                  "32": {
+                    "value": "Consumer\nEMEA\n$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
+                    "position": {
+                      "row": 32,
+                      "column": 0
+                    }
+                  },
+                  "33": {
+                    "value": "Cloud\nAPAC\n$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
+                    "position": {
+                      "row": 33,
+                      "column": 0
+                    }
+                  },
+                  "34": {
+                    "value": "Consumer\nLATAM $16,846,975.87$18,231,722.82$5,444,680.20$5,583,920.92 $46,107,299.81",
+                    "position": {
+                      "row": 34,
+                      "column": 0
+                    }
+                  },
+                  "35": {
+                    "value": "Public Sector\nLATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "position": {
+                      "row": 35,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "cells": {
+                  "0": {
+                    "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large\nTable Spanning Pages",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "cells": {
+                  "0": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "cells": {
+                  "0": {
+                    "value": "Public Sector\nAPAC\n$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "cells": {
+                  "0": {
+                    "value": "Enterprise\nLATAM\n$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "cells": {
+                  "0": {
+                    "value": "Services\nAPAC\n$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "cells": {
+                  "0": {
+                    "value": "Cloud\nNA\n$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nEMEA\n$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 7,
+                "row_label": "Row 8",
+                "cells": {
+                  "0": {
+                    "value": "OEM\nAPAC\n$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 8,
+                "row_label": "Row 9",
+                "cells": {
+                  "0": {
+                    "value": "Services\nEMEA\n$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
+                    "position": {
+                      "row": 8,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 9,
+                "row_label": "Row 10",
+                "cells": {
+                  "0": {
+                    "value": "SMB\nEMEA\n$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
+                    "position": {
+                      "row": 9,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 10,
+                "row_label": "Row 11",
+                "cells": {
+                  "0": {
+                    "value": "Enterprise\nNA\n$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
+                    "position": {
+                      "row": 10,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 11,
+                "row_label": "Row 12",
+                "cells": {
+                  "0": {
+                    "value": "Services\nEMEA\n$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
+                    "position": {
+                      "row": 11,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 12,
+                "row_label": "Row 13",
+                "cells": {
+                  "0": {
+                    "value": "OEM\nLATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
+                    "position": {
+                      "row": 12,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 13,
+                "row_label": "Row 14",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nEMEA\n$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
+                    "position": {
+                      "row": 13,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 14,
+                "row_label": "Row 15",
+                "cells": {
+                  "0": {
+                    "value": "Public Sector\nNA\n$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "position": {
+                      "row": 14,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 15,
+                "row_label": "Row 16",
+                "cells": {
+                  "0": {
+                    "value": "Services\nNA\n$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
+                    "position": {
+                      "row": 15,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 16,
+                "row_label": "Row 17",
+                "cells": {
+                  "0": {
+                    "value": "Services\nNA\n$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
+                    "position": {
+                      "row": 16,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 17,
+                "row_label": "Row 18",
+                "cells": {
+                  "0": {
+                    "value": "OEM\nNA\n$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
+                    "position": {
+                      "row": 17,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 18,
+                "row_label": "Row 19",
+                "cells": {
+                  "0": {
+                    "value": "OEM\nNA\n$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
+                    "position": {
+                      "row": 18,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 19,
+                "row_label": "Row 20",
+                "cells": {
+                  "0": {
+                    "value": "Cloud\nEMEA\n$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
+                    "position": {
+                      "row": 19,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 20,
+                "row_label": "Row 21",
+                "cells": {
+                  "0": {
+                    "value": "Public Sector\nLATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "position": {
+                      "row": 20,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 21,
+                "row_label": "Row 22",
+                "cells": {
+                  "0": {
+                    "value": "Consumer\nNA\n$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
+                    "position": {
+                      "row": 21,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 22,
+                "row_label": "Row 23",
+                "cells": {
+                  "0": {
+                    "value": "Cloud\nAPAC\n$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
+                    "position": {
+                      "row": 22,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 23,
+                "row_label": "Row 24",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nAPAC\n$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
+                    "position": {
+                      "row": 23,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 24,
+                "row_label": "Row 25",
+                "cells": {
+                  "0": {
+                    "value": "SMB\nLATAM\n$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
+                    "position": {
+                      "row": 24,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 25,
+                "row_label": "Row 26",
+                "cells": {
+                  "0": {
+                    "value": "Consumer\nEMEA\n$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
+                    "position": {
+                      "row": 25,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 26,
+                "row_label": "Row 27",
+                "cells": {
+                  "0": {
+                    "value": "Cloud\nLATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
+                    "position": {
+                      "row": 26,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 27,
+                "row_label": "Row 28",
+                "cells": {
+                  "0": {
+                    "value": "OEM\nNA\n$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
+                    "position": {
+                      "row": 27,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 28,
+                "row_label": "Row 29",
+                "cells": {
+                  "0": {
+                    "value": "Consumer\nLATAM\n$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
+                    "position": {
+                      "row": 28,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 29,
+                "row_label": "Row 30",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nLATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
+                    "position": {
+                      "row": 29,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 30,
+                "row_label": "Row 31",
+                "cells": {
+                  "0": {
+                    "value": "Enterprise\nEMEA\n$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
+                    "position": {
+                      "row": 30,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 31,
+                "row_label": "Row 32",
+                "cells": {
+                  "0": {
+                    "value": "Services\nLATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
+                    "position": {
+                      "row": 31,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 32,
+                "row_label": "Row 33",
+                "cells": {
+                  "0": {
+                    "value": "Consumer\nEMEA\n$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
+                    "position": {
+                      "row": 32,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 33,
+                "row_label": "Row 34",
+                "cells": {
+                  "0": {
+                    "value": "Cloud\nAPAC\n$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
+                    "position": {
+                      "row": 33,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 34,
+                "row_label": "Row 35",
+                "cells": {
+                  "0": {
+                    "value": "Consumer\nLATAM $16,846,975.87$18,231,722.82$5,444,680.20$5,583,920.92 $46,107,299.81",
+                    "position": {
+                      "row": 34,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 35,
+                "row_label": "Row 36",
+                "cells": {
+                  "0": {
+                    "value": "Public Sector\nLATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "position": {
+                      "row": 35,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "small_table_detection",
+              "quality_score": 0.7,
+              "confidence": 0.8
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Table 1",
+            "region": {
+              "page_number": 4,
+              "bbox": [
+                60.0,
+                62.29999923706055,
+                551.9998168945312,
+                227.39002990722656
+              ],
+              "detection_method": "text_based_fallback"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column A",
+                "is_header_column": true,
+                "cells": {
+                  "A1": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "row": 1,
+                    "column": 1
+                  },
+                  "A2": {
+                    "value": "OEM",
+                    "row": 2,
+                    "column": 1
+                  },
+                  "A3": {
+                    "value": "Consumer",
+                    "row": 3,
+                    "column": 1
+                  },
+                  "A4": {
+                    "value": "Hardware",
+                    "row": 4,
+                    "column": 1
+                  },
+                  "A5": {
+                    "value": "Hardware",
+                    "row": 5,
+                    "column": 1
+                  },
+                  "A6": {
+                    "value": "Hardware",
+                    "row": 6,
+                    "column": 1
+                  },
+                  "A7": {
+                    "value": "Services",
+                    "row": 7,
+                    "column": 1
+                  },
+                  "A8": {
+                    "value": "Note: All figures in this report are synthetic and generated solely for the purpose of testing PDF extraction\npipelines. They should not be used for investment decisions.",
+                    "row": 8,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "column_index": 1,
+                "column_label": "Column B",
+                "is_header_column": false,
+                "cells": {
+                  "B2": {
+                    "value": "LATAM",
+                    "row": 2,
+                    "column": 2
+                  },
+                  "B3": {
+                    "value": "EMEA",
+                    "row": 3,
+                    "column": 2
+                  },
+                  "B4": {
+                    "value": "EMEA",
+                    "row": 4,
+                    "column": 2
+                  },
+                  "B5": {
+                    "value": "EMEA",
+                    "row": 5,
+                    "column": 2
+                  },
+                  "B6": {
+                    "value": "APAC",
+                    "row": 6,
+                    "column": 2
+                  },
+                  "B7": {
+                    "value": "LATAM $13,918,514.10$19,003,658.09$5,566,725.76$10,322,856.38 $48,811,754.33",
+                    "row": 7,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "column_index": 2,
+                "column_label": "Column C",
+                "is_header_column": false,
+                "cells": {
+                  "C2": {
+                    "value": "$5,826,915.36$4,468,720.54$24,568,337.64$22,272,182.09 $57,136,155.63",
+                    "row": 2,
+                    "column": 3
+                  },
+                  "C3": {
+                    "value": "$14,636,169.18$7,167,891.91$22,236,151.43$19,168,192.99 $63,208,405.50",
+                    "row": 3,
+                    "column": 3
+                  },
+                  "C4": {
+                    "value": "$14,274,279.51$1,154,455.71$21,636,656.79$6,063,640.01 $43,129,032.02",
+                    "row": 4,
+                    "column": 3
+                  },
+                  "C5": {
+                    "value": "$24,082,688.65$21,331,203.23$2,491,025.05$4,862,315.32 $52,767,232.25",
+                    "row": 5,
+                    "column": 3
+                  },
+                  "C6": {
+                    "value": "$20,585,821.36$7,195,273.67$13,786,945.13$7,422,618.39 $48,990,658.55",
+                    "row": 6,
+                    "column": 3
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "is_header_row": true,
+                "cells": {
+                  "A1": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "row": 1,
+                    "column": 1
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "is_header_row": false,
+                "cells": {
+                  "A2": {
+                    "value": "OEM",
+                    "row": 2,
+                    "column": 1
+                  },
+                  "B2": {
+                    "value": "LATAM",
+                    "row": 2,
+                    "column": 2
+                  },
+                  "C2": {
+                    "value": "$5,826,915.36$4,468,720.54$24,568,337.64$22,272,182.09 $57,136,155.63",
+                    "row": 2,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "is_header_row": false,
+                "cells": {
+                  "A3": {
+                    "value": "Consumer",
+                    "row": 3,
+                    "column": 1
+                  },
+                  "B3": {
+                    "value": "EMEA",
+                    "row": 3,
+                    "column": 2
+                  },
+                  "C3": {
+                    "value": "$14,636,169.18$7,167,891.91$22,236,151.43$19,168,192.99 $63,208,405.50",
+                    "row": 3,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "is_header_row": false,
+                "cells": {
+                  "A4": {
+                    "value": "Hardware",
+                    "row": 4,
+                    "column": 1
+                  },
+                  "B4": {
+                    "value": "EMEA",
+                    "row": 4,
+                    "column": 2
+                  },
+                  "C4": {
+                    "value": "$14,274,279.51$1,154,455.71$21,636,656.79$6,063,640.01 $43,129,032.02",
+                    "row": 4,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "is_header_row": false,
+                "cells": {
+                  "A5": {
+                    "value": "Hardware",
+                    "row": 5,
+                    "column": 1
+                  },
+                  "B5": {
+                    "value": "EMEA",
+                    "row": 5,
+                    "column": 2
+                  },
+                  "C5": {
+                    "value": "$24,082,688.65$21,331,203.23$2,491,025.05$4,862,315.32 $52,767,232.25",
+                    "row": 5,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "is_header_row": false,
+                "cells": {
+                  "A6": {
+                    "value": "Hardware",
+                    "row": 6,
+                    "column": 1
+                  },
+                  "B6": {
+                    "value": "APAC",
+                    "row": 6,
+                    "column": 2
+                  },
+                  "C6": {
+                    "value": "$20,585,821.36$7,195,273.67$13,786,945.13$7,422,618.39 $48,990,658.55",
+                    "row": 6,
+                    "column": 3
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "is_header_row": false,
+                "cells": {
+                  "A7": {
+                    "value": "Services",
+                    "row": 7,
+                    "column": 1
+                  },
+                  "B7": {
+                    "value": "LATAM $13,918,514.10$19,003,658.09$5,566,725.76$10,322,856.38 $48,811,754.33",
+                    "row": 7,
+                    "column": 2
+                  }
+                }
+              },
+              {
+                "row_index": 7,
+                "row_label": "Row 8",
+                "is_header_row": false,
+                "cells": {
+                  "A8": {
+                    "value": "Note: All figures in this report are synthetic and generated solely for the purpose of testing PDF extraction\npipelines. They should not be used for investment decisions.",
+                    "row": 8,
+                    "column": 1
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "text_based_fallback",
+              "quality_score": 0.8,
+              "cell_count": 24,
+              "whitespace": null,
+              "order": null
+            }
+          },
+          {
+            "table_id": "table_1",
+            "name": "Small Table",
+            "region": {
+              "page_number": 4,
+              "bbox": [
+                60.0,
+                62.29999923706055,
+                551.9998168945312,
+                227.39002990722656
+              ],
+              "detection_method": "small_table_detection"
+            },
+            "header_info": {
+              "header_rows": [
+                0
+              ],
+              "header_columns": [
+                0
+              ],
+              "data_start_row": 1,
+              "data_start_col": 1
+            },
+            "columns": [
+              {
+                "column_index": 0,
+                "column_label": "Column 1",
+                "is_header_column": true,
+                "cells": {
+                  "0": {
+                    "value": "Note: All figures in this report are synthetic and generated solely for the purpose of testing PDF extraction\npipelines. They should not be used for investment decisions.",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  },
+                  "1": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  },
+                  "2": {
+                    "value": "OEM\nLATAM\n$5,826,915.36$4,468,720.54$24,568,337.64$22,272,182.09 $57,136,155.63",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  },
+                  "3": {
+                    "value": "Consumer\nEMEA\n$14,636,169.18$7,167,891.91$22,236,151.43$19,168,192.99 $63,208,405.50",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  },
+                  "4": {
+                    "value": "Hardware\nEMEA\n$14,274,279.51$1,154,455.71$21,636,656.79$6,063,640.01 $43,129,032.02",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  },
+                  "5": {
+                    "value": "Hardware\nEMEA\n$24,082,688.65$21,331,203.23$2,491,025.05$4,862,315.32 $52,767,232.25",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  },
+                  "6": {
+                    "value": "Hardware\nAPAC\n$20,585,821.36$7,195,273.67$13,786,945.13$7,422,618.39 $48,990,658.55",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  },
+                  "7": {
+                    "value": "Services\nLATAM $13,918,514.10$19,003,658.09$5,566,725.76$10,322,856.38 $48,811,754.33",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "rows": [
+              {
+                "row_index": 0,
+                "row_label": "Row 1",
+                "cells": {
+                  "0": {
+                    "value": "Note: All figures in this report are synthetic and generated solely for the purpose of testing PDF extraction\npipelines. They should not be used for investment decisions.",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 1,
+                "row_label": "Row 2",
+                "cells": {
+                  "0": {
+                    "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 2,
+                "row_label": "Row 3",
+                "cells": {
+                  "0": {
+                    "value": "OEM\nLATAM\n$5,826,915.36$4,468,720.54$24,568,337.64$22,272,182.09 $57,136,155.63",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 3,
+                "row_label": "Row 4",
+                "cells": {
+                  "0": {
+                    "value": "Consumer\nEMEA\n$14,636,169.18$7,167,891.91$22,236,151.43$19,168,192.99 $63,208,405.50",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 4,
+                "row_label": "Row 5",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nEMEA\n$14,274,279.51$1,154,455.71$21,636,656.79$6,063,640.01 $43,129,032.02",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 5,
+                "row_label": "Row 6",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nEMEA\n$24,082,688.65$21,331,203.23$2,491,025.05$4,862,315.32 $52,767,232.25",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 6,
+                "row_label": "Row 7",
+                "cells": {
+                  "0": {
+                    "value": "Hardware\nAPAC\n$20,585,821.36$7,195,273.67$13,786,945.13$7,422,618.39 $48,990,658.55",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    }
+                  }
+                }
+              },
+              {
+                "row_index": 7,
+                "row_label": "Row 8",
+                "cells": {
+                  "0": {
+                    "value": "Services\nLATAM $13,918,514.10$19,003,658.09$5,566,725.76$10,322,856.38 $48,811,754.33",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    }
+                  }
+                }
+              }
+            ],
+            "metadata": {
+              "detection_method": "small_table_detection",
+              "quality_score": 0.7,
+              "confidence": 0.8
+            }
+          }
+        ],
+        "metadata": {
+          "filename": "synthetic_financial_report.pdf",
+          "extraction_timestamp": "2025-07-28T13:31:00.050187",
+          "extraction_method": "text_based_fallback",
+          "total_tables_found": 8,
+          "quality_distribution": {
+            "high": 0,
+            "medium": 0,
+            "low": 0
+          }
+        }
+      },
+      "text_content": {
+        "text_content": {
+          "document_metadata": {
+            "filename": "synthetic_financial_report.pdf",
+            "extraction_timestamp": "2025-07-28T13:31:00.063286",
+            "extraction_method": "pymupdf_enhanced",
+            "total_pages": 4,
+            "total_word_count": 0
+          },
+          "pages": [
+            {
+              "page_number": 1,
+              "page_width": 612.0,
+              "page_height": 792.0,
+              "sections": []
+            },
+            {
+              "page_number": 2,
+              "page_width": 612.0,
+              "page_height": 792.0,
+              "sections": []
+            },
+            {
+              "page_number": 3,
+              "page_width": 612.0,
+              "page_height": 792.0,
+              "sections": []
+            },
+            {
+              "page_number": 4,
+              "page_width": 612.0,
+              "page_height": 792.0,
+              "sections": []
+            }
+          ],
+          "document_structure": {
+            "toc": [],
+            "sections_by_type": {
+              "header": 0,
+              "paragraph": 0,
+              "list": 0,
+              "table_caption": 0,
+              "figure_caption": 0,
+              "footer": 0,
+              "sidebar": 0
+            }
+          },
+          "summary": {
+            "total_sections": 0,
+            "total_words": 0,
+            "llm_ready_sections": 0,
+            "average_section_length": 0,
+            "reading_time_estimate": 0
+          }
+        }
+      }
+    }
+  },
+  "filename": "synthetic_financial_report.pdf"
+}

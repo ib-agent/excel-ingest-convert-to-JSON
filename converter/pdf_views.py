@@ -23,6 +23,11 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from PDF_processing import PDFProcessor
 
+# DEBUG: Add a distinctive log message to verify we're using the right module
+import logging
+logger = logging.getLogger(__name__)
+logger.info("DEBUG: PDF views module loaded - using updated PDF_processing module")
+
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
