@@ -1216,25 +1216,47 @@
                     updateProgress(progress);
                 }, 200);
 
+                console.log('Starting upload for file:', file.name);
+                console.log('File size:', file.size);
+                
                 fetch('/api/upload/', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Fetch response received');
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
                 .then(data => {
                     clearInterval(progressInterval);
                     updateProgress(100);
                     
+                    console.log('Server response:', data);
+                    
                     if (data.success) {
-                        jsonData = data.data;
-                        tableData = data.table_data;
-                        showSuccess();
-                        showFileInfo(file, data.data);
-                        showTableDisplay(data.data);
-                        showMetadata(file, data.data);
-                        showResult(data.data);
-                        showTableResult(data.table_data);
-                        showCellDisplay(data.table_data);
+                        console.log('Large file check:', data.large_file);
+                        if (data.large_file) {
+                            console.log('Handling as large file');
+                            // Handle large file response
+                            showLargeFileWarning(data);
+                            showLargeFileInfo(file, data);
+                            showLargeFileSummary(data.summary);
+                            showDownloadLinks(data.download_urls, data.file_info);
+                            showSuccess();
+                        } else {
+                            console.log('Handling as normal file');
+                            // Handle normal file response
+                            jsonData = data.data;
+                            tableData = data.table_data;
+                            showSuccess();
+                            showFileInfo(file, data.data);
+                            showTableDisplay(data.data);
+                            showMetadata(file, data.data);
+                            showResult(data.data);
+                            showTableResult(data.table_data);
+                            showCellDisplay(data.table_data);
+                        }
                     } else {
                         showError(data.error || 'An error occurred while processing the file.');
                     }
@@ -1289,8 +1311,15 @@
             function showFileInfo(file, data) {
                 fullFileName.textContent = file.name;
                 fileSize.textContent = formatFileSize(file.size);
-                sheetCount.textContent = data.workbook.sheets.length;
-                fileInfo.style.display = 'block';
+                
+                // Defensive check for data structure
+                if (data && data.workbook && data.workbook.sheets) {
+                    sheetCount.textContent = data.workbook.sheets.length;
+                    fileInfo.style.display = 'block';
+                } else {
+                    console.error('Invalid data structure for showFileInfo:', data);
+                    showError('Invalid data structure received from server.');
+                }
             }
 
             function showMetadata(file, data) {
@@ -1346,6 +1375,292 @@
                 if (downloadCellDataBtn) {
                     downloadCellDataBtn.style.display = 'inline-flex';
                 }
+            }
+
+            // Large file handling functions
+            function showLargeFileWarning(data) {
+                // Clear any existing warnings first
+                const existingWarning = document.querySelector('.large-file-warning');
+                if (existingWarning) {
+                    existingWarning.remove();
+                }
+                
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'large-file-warning';
+                warningDiv.innerHTML = `
+                    <div class="warning-content">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Large File Detected</h3>
+                        <p>${data.warning}</p>
+                        <p>The file contains ${data.file_info.sheet_count} sheets with ${data.file_info.total_tables} tables.</p>
+                    </div>
+                `;
+                
+                // Insert warning at the top of the results section
+                const resultsSection = document.querySelector('.result-section');
+                if (resultsSection) {
+                    resultsSection.insertBefore(warningDiv, resultsSection.firstChild);
+                    resultsSection.style.display = 'block'; // Make sure it's visible
+                } else {
+                    // Fallback: append to body
+                    document.body.insertBefore(warningDiv, document.body.firstChild);
+                }
+                
+                // Add CSS for the warning
+                const style = document.createElement('style');
+                style.textContent = `
+                    .large-file-warning {
+                        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+                        color: white;
+                        padding: 1.5rem;
+                        border-radius: 10px;
+                        margin-bottom: 2rem;
+                        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+                    }
+                    .warning-content {
+                        text-align: center;
+                    }
+                    .warning-content i {
+                        font-size: 2rem;
+                        margin-bottom: 1rem;
+                    }
+                    .warning-content h3 {
+                        margin: 0 0 1rem 0;
+                        font-size: 1.5rem;
+                    }
+                    .warning-content p {
+                        margin: 0.5rem 0;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            function showLargeFileInfo(file, data) {
+                fullFileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                sheetCount.textContent = data.file_info.sheet_count;
+                fileInfo.style.display = 'block';
+            }
+
+            function showLargeFileSummary(summary) {
+                // Clear any existing summary first
+                const existingSummary = document.querySelector('.large-file-summary');
+                if (existingSummary) {
+                    existingSummary.remove();
+                }
+                
+                const summaryDiv = document.createElement('div');
+                summaryDiv.className = 'large-file-summary';
+                summaryDiv.innerHTML = `
+                    <h3><i class="fas fa-chart-bar"></i> File Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="label">Sheets:</span>
+                            <span class="value">${summary.workbook.sheets.length}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Total Tables:</span>
+                            <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.table_count, 0)}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Total Rows:</span>
+                            <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_rows, 0)}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Total Columns:</span>
+                            <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_columns, 0)}</span>
+                        </div>
+                    </div>
+                    <div class="sheet-list">
+                        <h4>Sheets:</h4>
+                        <ul>
+                            ${summary.workbook.sheets.map(sheet => `
+                                <li>${sheet.name} (${sheet.table_count} tables, ${sheet.total_rows} rows, ${sheet.total_columns} columns)</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                // Insert summary after the warning
+                const warning = document.querySelector('.large-file-warning');
+                if (warning) {
+                    warning.parentNode.insertBefore(summaryDiv, warning.nextSibling);
+                } else {
+                    // Fallback: append to the first result section
+                    const resultsSection = document.querySelector('.result-section');
+                    if (resultsSection) {
+                        resultsSection.appendChild(summaryDiv);
+                    } else {
+                        document.body.appendChild(summaryDiv);
+                    }
+                }
+                
+                // Add CSS for the summary
+                const style = document.createElement('style');
+                style.textContent = `
+                    .large-file-summary {
+                        background: #f8f9fa;
+                        border: 1px solid #dee2e6;
+                        border-radius: 10px;
+                        padding: 1.5rem;
+                        margin-bottom: 2rem;
+                    }
+                    .large-file-summary h3 {
+                        color: #495057;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+                    .summary-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                        gap: 1rem;
+                        margin-bottom: 1.5rem;
+                    }
+                    .summary-item {
+                        background: white;
+                        padding: 1rem;
+                        border-radius: 8px;
+                        border: 1px solid #dee2e6;
+                        text-align: center;
+                    }
+                    .summary-item .label {
+                        display: block;
+                        font-weight: 600;
+                        color: #6c757d;
+                        margin-bottom: 0.5rem;
+                    }
+                    .summary-item .value {
+                        display: block;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        color: #495057;
+                    }
+                    .sheet-list h4 {
+                        color: #495057;
+                        margin-bottom: 0.5rem;
+                    }
+                    .sheet-list ul {
+                        list-style: none;
+                        padding: 0;
+                    }
+                    .sheet-list li {
+                        padding: 0.5rem;
+                        background: white;
+                        border: 1px solid #dee2e6;
+                        border-radius: 4px;
+                        margin-bottom: 0.25rem;
+                        font-size: 0.9rem;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            function showDownloadLinks(downloadUrls, fileInfo) {
+                // Clear any existing download links
+                const existingLinks = document.querySelector('.download-links');
+                if (existingLinks) {
+                    existingLinks.remove();
+                }
+                
+                const linksDiv = document.createElement('div');
+                linksDiv.className = 'download-links';
+                linksDiv.innerHTML = `
+                    <h3><i class="fas fa-download"></i> Download Options</h3>
+                    <div class="download-grid">
+                        <div class="download-item">
+                            <h4>Full Data</h4>
+                            <p>Complete Excel structure with all metadata</p>
+                            <p><strong>Size:</strong> ${fileInfo.json_data_size_mb.toFixed(1)} MB</p>
+                            <a href="${downloadUrls.full_data}" class="download-btn" download>
+                                <i class="fas fa-download"></i> Download Full Data
+                            </a>
+                        </div>
+                        <div class="download-item">
+                            <h4>Table Data</h4>
+                            <p>Table-oriented format with resolved headers</p>
+                            <p><strong>Size:</strong> ${fileInfo.table_data_size_mb.toFixed(1)} MB</p>
+                            <a href="${downloadUrls.table_data}" class="download-btn" download>
+                                <i class="fas fa-download"></i> Download Table Data
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                // Insert download links after the summary
+                const summary = document.querySelector('.large-file-summary');
+                if (summary) {
+                    summary.parentNode.insertBefore(linksDiv, summary.nextSibling);
+                } else {
+                    // Fallback: append to the first result section
+                    const resultsSection = document.querySelector('.result-section');
+                    if (resultsSection) {
+                        resultsSection.appendChild(linksDiv);
+                    } else {
+                        document.body.appendChild(linksDiv);
+                    }
+                }
+                
+                // Add CSS for the download links
+                const style = document.createElement('style');
+                style.textContent = `
+                    .download-links {
+                        background: #e3f2fd;
+                        border: 1px solid #bbdefb;
+                        border-radius: 10px;
+                        padding: 1.5rem;
+                        margin-bottom: 2rem;
+                    }
+                    .download-links h3 {
+                        color: #1976d2;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+                    .download-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 1.5rem;
+                    }
+                    .download-item {
+                        background: white;
+                        padding: 1.5rem;
+                        border-radius: 8px;
+                        border: 1px solid #bbdefb;
+                        text-align: center;
+                    }
+                    .download-item h4 {
+                        color: #1976d2;
+                        margin-bottom: 0.5rem;
+                    }
+                    .download-item p {
+                        color: #666;
+                        margin-bottom: 0.5rem;
+                        font-size: 0.9rem;
+                    }
+                    .download-item .download-btn {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        background: #1976d2;
+                        color: white;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 6px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        margin-top: 1rem;
+                    }
+                    .download-item .download-btn:hover {
+                        background: #1565c0;
+                        transform: translateY(-2px);
+                        text-decoration: none;
+                        color: white;
+                    }
+                `;
+                document.head.appendChild(style);
             }
 
             // Sheet and table display functions
