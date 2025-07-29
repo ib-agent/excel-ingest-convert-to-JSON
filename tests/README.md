@@ -565,6 +565,27 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 - `test_excel_file.xlsx` - Test Excel file for processing
 - `test_sample.html` - HTML sample for web interface testing
 
+### Test JSON Data Directory
+
+#### `test_JSON/` Subdirectory
+**Centralized location for all JSON test data files used across the test suite**:
+
+##### **Data Processing & Examples**
+- `full_excel_data.json` (11MB) - Complete Excel file processing result containing full JSON representation of a real-world financial P&L spreadsheet
+- `upload_result.json` (2.3MB) - Result of file upload processing through the web interface
+- `api_request.json` (1.1MB) - Example API request payload for Excel processing endpoints
+
+##### **PDF Processing Evolution**
+- `synthetic_financial_report_tables.json` (101KB) - Original PDF processing result (baseline: 0 tables, 4 text sections, 62 numbers)
+- `synthetic_financial_report_tables_fixed.json` (105KB) - First iteration of PDF processing improvements
+- `synthetic_financial_report_tables_fixed_v2.json` (112KB) - Second iteration with enhanced table detection
+- `synthetic_financial_report_tables_fixed_v3.json` (115KB) - Latest version with current PDF processing enhancements
+
+##### **API Testing**
+- `api_response.json` (62B) - Example API error response format
+
+**Usage**: These files serve as development references, testing data, performance benchmarks, API documentation examples, and quality assurance data for testing system performance with real-world data sizes.
+
 ## Header and Column Label Variety Testing
 
 The test suite comprehensively tests a wide variety of header and column labels:
