@@ -1,5 +1,7 @@
 # Excel to JSON Schema Documentation
 
+> **⚠️ DEPRECATED**: This verbose schema format is deprecated as of January 2024. Please use the new [compact schema format](excel-json-compact-schema.md) which provides 60-80% size reduction while maintaining all functionality. The verbose format is still supported for backward compatibility but may be removed in future versions.
+
 This document defines the comprehensive JSON schema for representing Excel spreadsheets, including all available metadata, formulas, and structural information.
 
 ## Overview

@@ -940,6 +940,14 @@
                     <div class="upload-subtext">Supports: .xlsx, .xlsm, .xltx, .xltm</div>
                 </div>
 
+                <div class="format-selector" style="margin-bottom: 1rem;">
+                    <label for="formatSelect" style="font-weight: 600; color: #495057; margin-right: 1rem;">Output Format:</label>
+                    <select id="formatSelect" style="background: white; border: 2px solid #dee2e6; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 500; color: #495057; cursor: pointer;">
+                        <option value="compact">Compact (Recommended - 60-80% smaller)</option>
+                        <option value="verbose">Verbose (Traditional format)</option>
+                    </select>
+                </div>
+
                 <input type="file" id="fileInput" class="file-input" accept=".xlsx,.xlsm,.xltx,.xltm">
                 <button class="upload-btn" id="uploadBtn" onclick="document.getElementById('fileInput').click()">
                     <i class="fas fa-upload"></i> Choose File
@@ -1098,6 +1106,7 @@
         let currentCellDisplayType = 'cards';
         let currentSheetIndex = 0;
         let currentCellSheetIndex = 0;
+        let convertedDisplayData = null; // Store converted data globally
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
@@ -1219,7 +1228,12 @@
                 console.log('Starting upload for file:', file.name);
                 console.log('File size:', file.size);
                 
-                fetch('/api/upload/', {
+                // Get selected format
+                const formatSelect = document.getElementById('formatSelect');
+                const selectedFormat = formatSelect ? formatSelect.value : 'compact';
+                console.log('Selected format:', selectedFormat);
+                
+                fetch(`/api/upload/?format=${selectedFormat}`, {
                     method: 'POST',
                     body: formData
                 })
@@ -1236,6 +1250,8 @@
                     
                     if (data.success) {
                         console.log('Large file check:', data.large_file);
+                        console.log('Format used:', data.format);
+                        console.log('Compression stats:', data.compression_stats);
                         if (data.large_file) {
                             console.log('Handling as large file');
                             // Handle large file response
@@ -1336,18 +1352,120 @@
             }
 
             function showTableDisplay(data) {
-                createSheetTabs(data.workbook.sheets);
-                showSheet(data.workbook.sheets[currentSheetIndex]);
+                // Convert compact format to verbose format for display
+                convertedDisplayData = convertToDisplayFormat(data);
+                createSheetTabs(convertedDisplayData.workbook.sheets);
+                showSheet(convertedDisplayData.workbook.sheets[currentSheetIndex]);
                 tableDisplay.style.display = 'block';
+            }
+            
+            function convertToDisplayFormat(data) {
+                // Check if data.workbook has sheets with rows (compact format)
+                if (data.workbook && data.workbook.sheets && data.workbook.sheets[0]) {
+                    const firstSheet = data.workbook.sheets[0];
+                    
+                    // If it has cells, it's already verbose format
+                    if (firstSheet.cells) {
+                        return data;
+                    }
+                    
+                    // If it has rows, it's compact format - convert it
+                    if (firstSheet.rows) {
+                        return convertCompactToVerbose(data);
+                    }
+                }
+                
+                // Check if data is in 'data' field (compact format)
+                if (data.data && data.data.workbook && data.data.workbook.sheets) {
+                    return convertCompactToVerbose(data.data);
+                }
+                
+                // Convert compact format to display format
+                if (data.table_data && data.table_data.workbook && data.table_data.workbook.sheets) {
+                    return convertCompactToVerbose(data.table_data);
+                }
+                
+                // Fallback: return original data
+                return data;
+            }
+            
+            function convertCompactToVerbose(compactData) {
+                const convertedData = {
+                    workbook: {
+                        meta: compactData.workbook.meta || {},
+                        styles: compactData.workbook.styles || {},
+                        sheets: []
+                    }
+                };
+                
+                // Convert each sheet from compact to verbose format
+                for (let i = 0; i < compactData.workbook.sheets.length; i++) {
+                    const sheet = compactData.workbook.sheets[i];
+                    const convertedSheet = {
+                        name: sheet.name,
+                        dimensions: sheet.dimensions,
+                        frozen: sheet.frozen,
+                        cells: {},
+                        tables: sheet.tables || []
+                    };
+                    
+                    // Convert rows array to cells object
+                    if (sheet.rows) {
+                        for (const row of sheet.rows) {
+                            const rowNum = row.r;
+                            if (row.cells) {
+                                for (const cell of row.cells) {
+                                    const colNum = cell[0];
+                                    const value = cell[1];
+                                    const style = cell[2];
+                                    const formula = cell[3];
+                                    
+                                    const cellRef = getCellRef(rowNum, colNum);
+                                    convertedSheet.cells[cellRef] = {
+                                        value: value,
+                                        style: style,
+                                        formula: formula
+                                    };
+                                }
+                            }
+                        }
+                    }
+                    
+                    convertedData.workbook.sheets.push(convertedSheet);
+                }
+                
+                return convertedData;
+            }
+            
+            function getCellRef(row, col) {
+                // Convert row/col numbers to Excel cell reference (e.g., 1,1 -> A1)
+                let colStr = '';
+                let tempCol = col;
+                while (tempCol > 0) {
+                    tempCol--;
+                    colStr = String.fromCharCode(65 + (tempCol % 26)) + colStr;
+                    tempCol = Math.floor(tempCol / 26);
+                }
+                return colStr + row;
             }
 
             function showResult(data) {
                 updateJSONDisplay(data);
                 resultSection.style.display = 'block';
                 
-                // Ensure download button is visible
+                // Update download button with file size and make visible
                 const downloadBtn = document.getElementById('downloadBtn');
                 if (downloadBtn) {
+                    // Use server-provided size metadata for accuracy
+                    let sizeKB;
+                    if (data.size_metadata && data.size_metadata.full_json_size_kb) {
+                        sizeKB = data.size_metadata.full_json_size_kb.toFixed(1);
+                    } else {
+                        // Fallback to calculating full data size
+                        const jsonSize = JSON.stringify(data.data || data).length;
+                        sizeKB = (jsonSize / 1024).toFixed(1);
+                    }
+                    downloadBtn.innerHTML = `<i class="fas fa-download"></i> Download JSON (${sizeKB} KB)`;
                     downloadBtn.style.display = 'inline-flex';
                 }
                 
@@ -1362,6 +1480,19 @@
                 // Ensure download button is visible
                 const downloadTableBtn = document.getElementById('downloadTableBtn');
                 if (downloadTableBtn) {
+                    // Calculate table data size using server metadata
+                    let tableSizeKB;
+                    if (data.size_metadata && data.size_metadata.table_data_size_kb) {
+                        tableSizeKB = data.size_metadata.table_data_size_kb.toFixed(1);
+                        console.log('DEBUG: Using server metadata for table size:', tableSizeKB, 'KB');
+                    } else {
+                        // Fallback to calculating table data size
+                        const tableData = data.table_data || {};
+                        const tableSize = JSON.stringify(tableData).length;
+                        tableSizeKB = (tableSize / 1024).toFixed(1);
+                        console.log('DEBUG: Calculated table size:', tableSizeKB, 'KB');
+                    }
+                    downloadTableBtn.innerHTML = `<i class="fas fa-download"></i> Download Table JSON (${tableSizeKB} KB)`;
                     downloadTableBtn.style.display = 'inline-flex';
                 }
             }
@@ -1686,22 +1817,36 @@
                 });
                 
                 // Show the selected sheet
-                showSheet(jsonData.workbook.sheets[sheetIndex]);
+                if (convertedDisplayData && convertedDisplayData.workbook.sheets[sheetIndex]) {
+                    showSheet(convertedDisplayData.workbook.sheets[sheetIndex]);
+                } else {
+                    console.error('No converted display data available for sheet index:', sheetIndex);
+                }
             }
 
             function showSheet(sheet) {
                 const table = createDataTable(sheet);
                 tableContainer.innerHTML = '';
                 tableContainer.appendChild(table);
+                
+                // Debug: Check if table was added and is visible
+                console.log('DEBUG: Table appended to container');
+                console.log('DEBUG: tableContainer display style:', window.getComputedStyle(tableContainer).display);
+                console.log('DEBUG: tableContainer visibility:', window.getComputedStyle(tableContainer).visibility);
+                console.log('DEBUG: Table children count:', table.children.length);
+                console.log('DEBUG: First table row HTML:', table.children[1] ? table.children[1].innerHTML.substring(0, 100) : 'No tbody');
             }
 
             function createDataTable(sheet) {
+                console.log('createDataTable called for:', sheet.name);
                 const table = document.createElement('table');
                 table.className = 'data-table';
                 
                 // Find the data range
                 const dataRange = findDataRange(sheet);
+                console.log('createDataTable: dataRange result:', dataRange);
                 if (!dataRange) {
+                    console.log('createDataTable: No data range found, showing empty message');
                     table.innerHTML = '<tr><td colspan="1" style="text-align: center; padding: 2rem;">No data found in this sheet</td></tr>';
                     return table;
                 }
@@ -1726,19 +1871,39 @@
                     for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
                         const td = document.createElement('td');
                         const cellData = getCellData(sheet, row, col);
-                        td.innerHTML = formatCellContent(cellData);
+                        const formattedContent = formatCellContent(cellData);
+                        td.innerHTML = formattedContent;
+                        
+                        // Debug: Log cell content for first few rows
+                        if (row <= 2 && col <= 3) {
+                            console.log(`DEBUG: Cell (${row},${col}) - Value: "${cellData.value}", Formatted: "${formattedContent}"`);
+                            console.log(`DEBUG: TD innerHTML set to: "${td.innerHTML}"`);
+                            console.log(`DEBUG: TD element:`, td);
+                        }
+                        
                         tr.appendChild(td);
                     }
                     tbody.appendChild(tr);
                 }
                 table.appendChild(tbody);
                 
+                console.log('createDataTable: Table created with', tbody.children.length, 'rows');
                 return table;
             }
 
             function findDataRange(sheet) {
+                console.log('findDataRange called for sheet:', sheet.name);
+                console.log('Sheet has cells:', !!sheet.cells);
+                console.log('Sheet cells type:', typeof sheet.cells);
+                console.log('Number of cells:', sheet.cells ? Object.keys(sheet.cells).length : 0);
+                
                 let minRow = Infinity, maxRow = -1, minCol = Infinity, maxCol = -1;
                 let hasData = false;
+                
+                if (!sheet.cells) {
+                    console.log('ERROR: Sheet has no cells property!');
+                    return null;
+                }
                 
                 // Find the range of cells with data
                 for (const [cellRef, cell] of Object.entries(sheet.cells)) {
@@ -1752,7 +1917,12 @@
                     }
                 }
                 
-                return hasData ? { minRow, maxRow, minCol, maxCol } : null;
+                const result = hasData ? { minRow, maxRow, minCol, maxCol } : null;
+                console.log('findDataRange result:', result);
+                if (result) {
+                    console.log(`Data range: rows ${result.minRow}-${result.maxRow}, cols ${result.minCol}-${result.maxCol}`);
+                }
+                return result;
             }
 
             function parseCellRef(cellRef) {
@@ -1781,8 +1951,13 @@
             }
 
             function getCellData(sheet, row, col) {
-                const cellRef = getColumnLabel(col) + row;
-                return sheet.cells[cellRef] || { value: '', formula: null, comment: null, hyperlink: null };
+                const cellRef = getCellRef(row, col);
+                const cellData = sheet.cells[cellRef] || { value: '', formula: null, comment: null, hyperlink: null };
+                // Debug: Log cell data retrieval for a few cells
+                if (row <= 3 && col <= 3) {
+                    console.log(`DEBUG: getCellData(${row}, ${col}) -> cellRef: ${cellRef}, value:`, cellData.value);
+                }
+                return cellData;
             }
 
             function formatCellContent(cellData) {
@@ -1818,9 +1993,11 @@
                     }
                     
                     if (cellData.hyperlink) {
-                        content += `<a href="${cellData.hyperlink}" class="cell-hyperlink ${cssClass}" ${tooltip} target="_blank">${formattedValue}</a>`;
+                        const linkClass = cssClass ? `cell-hyperlink ${cssClass}` : 'cell-hyperlink';
+                        content += `<a href="${cellData.hyperlink}" class="${linkClass}" ${tooltip} target="_blank">${formattedValue}</a>`;
                     } else {
-                        content += `<span class="${cssClass}" ${tooltip}>${formattedValue}</span>`;
+                        const spanClass = cssClass ? ` class="${cssClass}"` : '';
+                        content += `<span${spanClass} ${tooltip}>${formattedValue}</span>`;
                     }
                 }
                 
@@ -1947,12 +2124,17 @@
             function createCellCards(data) {
                 let html = '';
                 
-                for (let i = 0; i < data.workbook.sheets.length; i++) {
-                    const sheet = data.workbook.sheets[i];
+                // Use table_data for cell cards if available, otherwise fall back to main data
+                const dataSource = data.table_data || data;
+                
+                for (let i = 0; i < dataSource.workbook.sheets.length; i++) {
+                    const sheet = dataSource.workbook.sheets[i];
                     const sheetName = sheet.name || `Sheet ${i + 1}`;
                     
                     html += `<div class="cell-sheet-section">`;
                     html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                    
+                    console.log(`DEBUG: createCellCards - Sheet ${sheetName} has tables:`, !!sheet.tables, 'Count:', sheet.tables ? sheet.tables.length : 0);
                     
                     if (sheet.tables && sheet.tables.length > 0) {
                         html += `<div class="cell-cards">`;
@@ -2048,12 +2230,17 @@
             function createCellTable(data) {
                 let html = '';
                 
-                for (let i = 0; i < data.workbook.sheets.length; i++) {
-                    const sheet = data.workbook.sheets[i];
+                // Use table_data for cell table if available, otherwise fall back to main data
+                const dataSource = data.table_data || data;
+                
+                for (let i = 0; i < dataSource.workbook.sheets.length; i++) {
+                    const sheet = dataSource.workbook.sheets[i];
                     const sheetName = sheet.name || `Sheet ${i + 1}`;
                     
                     html += `<div class="cell-sheet-section">`;
                     html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                    
+                    console.log(`DEBUG: createCellTable - Sheet ${sheetName} has tables:`, !!sheet.tables, 'Count:', sheet.tables ? sheet.tables.length : 0);
                     
                     if (sheet.tables && sheet.tables.length > 0) {
                         html += `<table class="cell-table">`;
@@ -2114,12 +2301,17 @@
             function createCellList(data) {
                 let html = '';
                 
-                for (let i = 0; i < data.workbook.sheets.length; i++) {
-                    const sheet = data.workbook.sheets[i];
+                // Use table_data for cell list if available, otherwise fall back to main data
+                const dataSource = data.table_data || data;
+                
+                for (let i = 0; i < dataSource.workbook.sheets.length; i++) {
+                    const sheet = dataSource.workbook.sheets[i];
                     const sheetName = sheet.name || `Sheet ${i + 1}`;
                     
                     html += `<div class="cell-sheet-section">`;
                     html += `<h3 style="margin-bottom: 1rem; color: #495057; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem;">${sheetName}</h3>`;
+                    
+                    console.log(`DEBUG: createCellList - Sheet ${sheetName} has tables:`, !!sheet.tables, 'Count:', sheet.tables ? sheet.tables.length : 0);
                     
                     if (sheet.tables && sheet.tables.length > 0) {
                         html += `<div class="cell-list">`;

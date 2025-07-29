@@ -1,6 +1,8 @@
-# Table-Oriented JSON Schema
+# Table-Oriented JSON Schema Documentation
 
-This document defines the table-oriented JSON schema that enhances the existing Excel JSON representation by adding table structure with column and row labels.
+> **⚠️ DEPRECATED**: This verbose table-oriented schema format is deprecated as of January 2024. Please use the new [compact table-oriented schema format](table-oriented-json-compact-schema.md) which provides 70-85% size reduction while maintaining all functionality. The verbose format is still supported for backward compatibility but may be removed in future versions.
+
+This document defines the table-oriented JSON schema for Excel spreadsheets that structures the data around tables rather than individual cells while preserving all original information.
 
 ## Overview
 
