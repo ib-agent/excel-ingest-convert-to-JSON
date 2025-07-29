@@ -1270,7 +1270,7 @@
                             showTableDisplay(data.data);
                             showMetadata(file, data.data);
                             showResult(data.data);
-                            showTableResult(data.table_data);
+                            showTableResult(data);
                             showCellDisplay(data.table_data);
                         }
                     } else {
@@ -1482,15 +1482,33 @@
                 if (downloadTableBtn) {
                     // Calculate table data size using server metadata
                     let tableSizeKB;
+                    
+                    // Debug: Log the full response structure
+                    console.log('DEBUG: showTableResult received keys:', Object.keys(data));
+                    
                     if (data.size_metadata && data.size_metadata.table_data_size_kb) {
                         tableSizeKB = data.size_metadata.table_data_size_kb.toFixed(1);
                         console.log('DEBUG: Using server metadata for table size:', tableSizeKB, 'KB');
-                    } else {
-                        // Fallback to calculating table data size
-                        const tableData = data.table_data || {};
-                        const tableSize = JSON.stringify(tableData).length;
+                    } else if (data.table_data) {
+                        // Fallback to calculating table data size only if table_data exists
+                        const tableSize = JSON.stringify(data.table_data).length;
                         tableSizeKB = (tableSize / 1024).toFixed(1);
-                        console.log('DEBUG: Calculated table size:', tableSizeKB, 'KB');
+                        console.log('DEBUG: Calculated table size from table_data:', tableSizeKB, 'KB');
+                    } else {
+                        // Check if this is the verbose format issue where table_data is missing
+                        console.log('DEBUG: No table_data or size_metadata found');
+                        console.log('DEBUG: Full response structure:', JSON.stringify(data, null, 2).substring(0, 500) + '...');
+                        
+                        // For verbose format, try to estimate from data size
+                        if (data.data && data.data.workbook) {
+                            // Estimate based on workbook size - rough approximation
+                            const workbookSize = JSON.stringify(data.data.workbook).length;
+                            tableSizeKB = (workbookSize / 1024 * 0.6).toFixed(1); // Table data is typically ~60% of workbook
+                            console.log('DEBUG: Estimated table size from workbook size:', tableSizeKB, 'KB');
+                        } else {
+                            tableSizeKB = '0.0';
+                            console.log('DEBUG: No data available for size calculation');
+                        }
                     }
                     downloadTableBtn.innerHTML = `<i class="fas fa-download"></i> Download Table JSON (${tableSizeKB} KB)`;
                     downloadTableBtn.style.display = 'inline-flex';
