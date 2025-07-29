@@ -20,10 +20,10 @@ def debug_table_regions():
     
     # Load the full Excel data
     try:
-        with open('full_excel_data.json', 'r') as f:
+        with open('tests/test_JSON/full_excel_data.json', 'r') as f:
             excel_data = json.load(f)
     except FileNotFoundError:
-        print("ERROR: full_excel_data.json not found")
+        print("ERROR: tests/test_JSON/full_excel_data.json not found")
         return
     
     workbook = excel_data.get('workbook', {})

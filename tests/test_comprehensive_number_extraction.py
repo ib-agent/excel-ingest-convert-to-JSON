@@ -7,7 +7,7 @@ import json
 import unittest
 import os
 import sys
-sys.path.append('..')
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from PDF_processing import PDFProcessor
 
 class TestComprehensiveNumberExtraction(unittest.TestCase):
@@ -34,7 +34,7 @@ class TestComprehensiveNumberExtraction(unittest.TestCase):
         self.processor = PDFProcessor()
         
         # Process the test file if result doesn't exist
-        self.result_file = 'synthetic_financial_report_tables_fixed_v3.json'
+        self.result_file = 'tests/test_JSON/synthetic_financial_report_tables_fixed_v3.json'
         if not os.path.exists(self.result_file):
             result = self.processor.process_file(
                 self.test_file, 
