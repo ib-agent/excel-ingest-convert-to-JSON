@@ -18,11 +18,11 @@
         },
         "cells": {
           "A1": {
+            "value": "Region",
+            "data_type": "string",
             "coordinate": "A1",
             "row": 1,
             "column": 1,
-            "value": "Region",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -30,11 +30,11 @@
             }
           },
           "B1": {
+            "value": "Sales",
+            "data_type": "string",
             "coordinate": "B1",
             "row": 1,
             "column": 2,
-            "value": "Sales",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -42,11 +42,11 @@
             }
           },
           "C1": {
+            "value": "Sales",
+            "data_type": "string",
             "coordinate": "C1",
             "row": 1,
             "column": 3,
-            "value": "Sales",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -54,11 +54,11 @@
             }
           },
           "D1": {
+            "value": "Expenses",
+            "data_type": "string",
             "coordinate": "D1",
             "row": 1,
             "column": 4,
-            "value": "Expenses",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -66,11 +66,11 @@
             }
           },
           "E1": {
+            "value": "Expenses",
+            "data_type": "string",
             "coordinate": "E1",
             "row": 1,
             "column": 5,
-            "value": "Expenses",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -78,11 +78,11 @@
             }
           },
           "F1": {
+            "value": "Summary",
+            "data_type": "string",
             "coordinate": "F1",
             "row": 1,
             "column": 6,
-            "value": "Summary",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -90,18 +90,17 @@
             }
           },
           "A2": {
+            "data_type": "null",
             "coordinate": "A2",
             "row": 2,
-            "column": 1,
-            "value": null,
-            "data_type": "null"
+            "column": 1
           },
           "B2": {
+            "value": "Q1",
+            "data_type": "string",
             "coordinate": "B2",
             "row": 2,
             "column": 2,
-            "value": "Q1",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -109,11 +108,11 @@
             }
           },
           "C2": {
+            "value": "Q2",
+            "data_type": "string",
             "coordinate": "C2",
             "row": 2,
             "column": 3,
-            "value": "Q2",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -121,11 +120,11 @@
             }
           },
           "D2": {
+            "value": "Q1",
+            "data_type": "string",
             "coordinate": "D2",
             "row": 2,
             "column": 4,
-            "value": "Q1",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -133,35 +132,30 @@
             }
           },
           "E2": {
-            "coordinate": "E2",
-            "row": 2,
-            "column": 5,
             "value": "Q2",
             "data_type": "string",
-            "style": {
-              "bold": true
-            }
+            "coordinate": "E2",
+            "row": 2,
+            "column": 5
           },
           "F2": {
+            "data_type": "null",
             "coordinate": "F2",
             "row": 2,
-            "column": 6,
-            "value": null,
-            "data_type": "null"
+            "column": 6
           },
           "A3": {
+            "data_type": "null",
             "coordinate": "A3",
             "row": 3,
-            "column": 1,
-            "value": null,
-            "data_type": "null"
+            "column": 1
           },
           "B3": {
+            "value": "Jan",
+            "data_type": "string",
             "coordinate": "B3",
             "row": 3,
             "column": 2,
-            "value": "Jan",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -169,11 +163,11 @@
             }
           },
           "C3": {
+            "value": "Apr",
+            "data_type": "string",
             "coordinate": "C3",
             "row": 3,
             "column": 3,
-            "value": "Apr",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -181,11 +175,11 @@
             }
           },
           "D3": {
+            "value": "Jan",
+            "data_type": "string",
             "coordinate": "D3",
             "row": 3,
             "column": 4,
-            "value": "Jan",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -193,11 +187,11 @@
             }
           },
           "E3": {
+            "value": "Apr",
+            "data_type": "string",
             "coordinate": "E3",
             "row": 3,
             "column": 5,
-            "value": "Apr",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -205,11 +199,11 @@
             }
           },
           "F3": {
+            "value": "Net",
+            "data_type": "string",
             "coordinate": "F3",
             "row": 3,
             "column": 6,
-            "value": "Net",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -217,11 +211,11 @@
             }
           },
           "A4": {
+            "value": "North",
+            "data_type": "string",
             "coordinate": "A4",
             "row": 4,
             "column": 1,
-            "value": "North",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -229,351 +223,46 @@
             }
           },
           "B4": {
-            "coordinate": "B4",
-            "row": 4,
-            "column": 2,
             "value": 1500,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Sales",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "North",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Sales"
-              ],
-              "full_row_path": [
-                "North"
-              ],
-              "header_summary": {
-                "primary_column_header": "Sales",
-                "primary_row_header": "North",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "B4",
+            "row": 4,
+            "column": 2
           },
           "C4": {
-            "coordinate": "C4",
-            "row": 4,
-            "column": 3,
             "value": 1600,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Sales",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "North",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Sales"
-              ],
-              "full_row_path": [
-                "North"
-              ],
-              "header_summary": {
-                "primary_column_header": "Sales",
-                "primary_row_header": "North",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "C4",
+            "row": 4,
+            "column": 3
           },
           "D4": {
-            "coordinate": "D4",
-            "row": 4,
-            "column": 4,
             "value": 500,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Expenses",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "North",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Expenses"
-              ],
-              "full_row_path": [
-                "North"
-              ],
-              "header_summary": {
-                "primary_column_header": "Expenses",
-                "primary_row_header": "North",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "D4",
+            "row": 4,
+            "column": 4
           },
           "E4": {
-            "coordinate": "E4",
-            "row": 4,
-            "column": 5,
             "value": 600,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Expenses",
-                  "coordinate": "E1",
-                  "row": 1,
-                  "column": 5,
-                  "column_letter": "E",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 5,
-                    "end_col": 5
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "North",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Expenses"
-              ],
-              "full_row_path": [
-                "North"
-              ],
-              "header_summary": {
-                "primary_column_header": "Expenses",
-                "primary_row_header": "North",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "E4",
+            "row": 4,
+            "column": 5
           },
           "F4": {
-            "coordinate": "F4",
-            "row": 4,
-            "column": 6,
             "value": 2000,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Summary",
-                  "coordinate": "F1",
-                  "row": 1,
-                  "column": 6,
-                  "column_letter": "F",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 6,
-                    "end_col": 6
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "North",
-                  "coordinate": "A4",
-                  "row": 4,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 4,
-                    "end_row": 4,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Summary"
-              ],
-              "full_row_path": [
-                "North"
-              ],
-              "header_summary": {
-                "primary_column_header": "Summary",
-                "primary_row_header": "North",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "F4",
+            "row": 4,
+            "column": 6
           },
           "A5": {
+            "value": "South",
+            "data_type": "string",
             "coordinate": "A5",
             "row": 5,
             "column": 1,
-            "value": "South",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -581,351 +270,46 @@
             }
           },
           "B5": {
-            "coordinate": "B5",
-            "row": 5,
-            "column": 2,
             "value": 2200,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Sales",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "South",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Sales"
-              ],
-              "full_row_path": [
-                "South"
-              ],
-              "header_summary": {
-                "primary_column_header": "Sales",
-                "primary_row_header": "South",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "B5",
+            "row": 5,
+            "column": 2
           },
           "C5": {
-            "coordinate": "C5",
-            "row": 5,
-            "column": 3,
             "value": 2300,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Sales",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "South",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Sales"
-              ],
-              "full_row_path": [
-                "South"
-              ],
-              "header_summary": {
-                "primary_column_header": "Sales",
-                "primary_row_header": "South",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "C5",
+            "row": 5,
+            "column": 3
           },
           "D5": {
-            "coordinate": "D5",
-            "row": 5,
-            "column": 4,
             "value": 800,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Expenses",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "South",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Expenses"
-              ],
-              "full_row_path": [
-                "South"
-              ],
-              "header_summary": {
-                "primary_column_header": "Expenses",
-                "primary_row_header": "South",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "D5",
+            "row": 5,
+            "column": 4
           },
           "E5": {
-            "coordinate": "E5",
-            "row": 5,
-            "column": 5,
             "value": 900,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Expenses",
-                  "coordinate": "E1",
-                  "row": 1,
-                  "column": 5,
-                  "column_letter": "E",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 5,
-                    "end_col": 5
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "South",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Expenses"
-              ],
-              "full_row_path": [
-                "South"
-              ],
-              "header_summary": {
-                "primary_column_header": "Expenses",
-                "primary_row_header": "South",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "E5",
+            "row": 5,
+            "column": 5
           },
           "F5": {
-            "coordinate": "F5",
-            "row": 5,
-            "column": 6,
             "value": 2800,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Summary",
-                  "coordinate": "F1",
-                  "row": 1,
-                  "column": 6,
-                  "column_letter": "F",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 6,
-                    "end_col": 6
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "South",
-                  "coordinate": "A5",
-                  "row": 5,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 5,
-                    "end_row": 5,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Summary"
-              ],
-              "full_row_path": [
-                "South"
-              ],
-              "header_summary": {
-                "primary_column_header": "Summary",
-                "primary_row_header": "South",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "F5",
+            "row": 5,
+            "column": 6
           },
           "A6": {
+            "value": "East",
+            "data_type": "string",
             "coordinate": "A6",
             "row": 6,
             "column": 1,
-            "value": "East",
-            "data_type": "string",
             "style": {
               "font": {
                 "bold": true
@@ -933,344 +317,39 @@
             }
           },
           "B6": {
-            "coordinate": "B6",
-            "row": 6,
-            "column": 2,
             "value": 1800,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Sales",
-                  "coordinate": "B1",
-                  "row": 1,
-                  "column": 2,
-                  "column_letter": "B",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 2,
-                    "end_col": 2
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "East",
-                  "coordinate": "A6",
-                  "row": 6,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 6,
-                    "end_row": 6,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Sales"
-              ],
-              "full_row_path": [
-                "East"
-              ],
-              "header_summary": {
-                "primary_column_header": "Sales",
-                "primary_row_header": "East",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "B6",
+            "row": 6,
+            "column": 2
           },
           "C6": {
-            "coordinate": "C6",
-            "row": 6,
-            "column": 3,
             "value": 1900,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Sales",
-                  "coordinate": "C1",
-                  "row": 1,
-                  "column": 3,
-                  "column_letter": "C",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 3,
-                    "end_col": 3
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "East",
-                  "coordinate": "A6",
-                  "row": 6,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 6,
-                    "end_row": 6,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Sales"
-              ],
-              "full_row_path": [
-                "East"
-              ],
-              "header_summary": {
-                "primary_column_header": "Sales",
-                "primary_row_header": "East",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "C6",
+            "row": 6,
+            "column": 3
           },
           "D6": {
-            "coordinate": "D6",
-            "row": 6,
-            "column": 4,
             "value": 700,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Expenses",
-                  "coordinate": "D1",
-                  "row": 1,
-                  "column": 4,
-                  "column_letter": "D",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 4,
-                    "end_col": 4
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "East",
-                  "coordinate": "A6",
-                  "row": 6,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 6,
-                    "end_row": 6,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Expenses"
-              ],
-              "full_row_path": [
-                "East"
-              ],
-              "header_summary": {
-                "primary_column_header": "Expenses",
-                "primary_row_header": "East",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "D6",
+            "row": 6,
+            "column": 4
           },
           "E6": {
-            "coordinate": "E6",
-            "row": 6,
-            "column": 5,
             "value": 750,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Expenses",
-                  "coordinate": "E1",
-                  "row": 1,
-                  "column": 5,
-                  "column_letter": "E",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 5,
-                    "end_col": 5
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "East",
-                  "coordinate": "A6",
-                  "row": 6,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 6,
-                    "end_row": 6,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Expenses"
-              ],
-              "full_row_path": [
-                "East"
-              ],
-              "header_summary": {
-                "primary_column_header": "Expenses",
-                "primary_row_header": "East",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "E6",
+            "row": 6,
+            "column": 5
           },
           "F6": {
-            "coordinate": "F6",
-            "row": 6,
-            "column": 6,
             "value": 2250,
             "data_type": "number",
-            "headers": {
-              "column_headers": [
-                {
-                  "level": 1,
-                  "value": "Summary",
-                  "coordinate": "F1",
-                  "row": 1,
-                  "column": 6,
-                  "column_letter": "F",
-                  "span": {
-                    "start_row": 1,
-                    "end_row": 1,
-                    "start_col": 6,
-                    "end_col": 6
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "is_merged": false
-                }
-              ],
-              "row_headers": [
-                {
-                  "level": 1,
-                  "value": "East",
-                  "coordinate": "A6",
-                  "row": 6,
-                  "column": 1,
-                  "column_letter": "A",
-                  "span": {
-                    "start_row": 6,
-                    "end_row": 6,
-                    "start_col": 1,
-                    "end_col": 1
-                  },
-                  "style": {
-                    "font": {
-                      "bold": true
-                    }
-                  },
-                  "indent_level": 0,
-                  "is_merged": false
-                }
-              ],
-              "full_column_path": [
-                "Summary"
-              ],
-              "full_row_path": [
-                "East"
-              ],
-              "header_summary": {
-                "primary_column_header": "Summary",
-                "primary_row_header": "East",
-                "column_header_levels": 1,
-                "row_header_levels": 1,
-                "has_merged_headers": false,
-                "max_indent_level": 0
-              }
-            }
+            "coordinate": "F6",
+            "row": 6,
+            "column": 6
           }
         },
         "merged_cells": [
@@ -1302,16 +381,19 @@
               "end_row": 6,
               "start_col": 1,
               "end_col": 6,
-              "detection_method": "gaps+formatting+formatting+formatting+formatting+formatting"
+              "detection_method": "structured_layout",
+              "has_structured_layout": true
             },
             "header_info": {
               "header_rows": [
-                1
+                1,
+                2,
+                3
               ],
               "header_columns": [
                 1
               ],
-              "data_start_row": 2,
+              "data_start_row": 4,
               "data_start_col": 2
             },
             "columns": [
@@ -1320,15 +402,13 @@
                 "column_letter": "A",
                 "column_label": "Region",
                 "is_header_column": true,
-                "width": null,
-                "hidden": false,
                 "cells": {
                   "A1": {
+                    "value": "Region",
+                    "data_type": "string",
                     "coordinate": "A1",
                     "row": 1,
                     "column": 1,
-                    "value": "Region",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1336,25 +416,23 @@
                     }
                   },
                   "A2": {
+                    "data_type": "null",
                     "coordinate": "A2",
                     "row": 2,
-                    "column": 1,
-                    "value": null,
-                    "data_type": "null"
+                    "column": 1
                   },
                   "A3": {
+                    "data_type": "null",
                     "coordinate": "A3",
                     "row": 3,
-                    "column": 1,
-                    "value": null,
-                    "data_type": "null"
+                    "column": 1
                   },
                   "A4": {
+                    "value": "North",
+                    "data_type": "string",
                     "coordinate": "A4",
                     "row": 4,
                     "column": 1,
-                    "value": "North",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1362,11 +440,11 @@
                     }
                   },
                   "A5": {
+                    "value": "South",
+                    "data_type": "string",
                     "coordinate": "A5",
                     "row": 5,
                     "column": 1,
-                    "value": "South",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1374,11 +452,11 @@
                     }
                   },
                   "A6": {
+                    "value": "East",
+                    "data_type": "string",
                     "coordinate": "A6",
                     "row": 6,
                     "column": 1,
-                    "value": "East",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1390,17 +468,14 @@
               {
                 "column_index": 2,
                 "column_letter": "B",
-                "column_label": "Sales",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
+                "column_label": "Jan Q1 Sales",
                 "cells": {
                   "B1": {
+                    "value": "Sales",
+                    "data_type": "string",
                     "coordinate": "B1",
                     "row": 1,
                     "column": 2,
-                    "value": "Sales",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1408,11 +483,11 @@
                     }
                   },
                   "B2": {
+                    "value": "Q1",
+                    "data_type": "string",
                     "coordinate": "B2",
                     "row": 2,
                     "column": 2,
-                    "value": "Q1",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1420,11 +495,11 @@
                     }
                   },
                   "B3": {
+                    "value": "Jan",
+                    "data_type": "string",
                     "coordinate": "B3",
                     "row": 3,
                     "column": 2,
-                    "value": "Jan",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1432,11 +507,11 @@
                     }
                   },
                   "B4": {
+                    "value": 1500,
+                    "data_type": "number",
                     "coordinate": "B4",
                     "row": 4,
                     "column": 2,
-                    "value": 1500,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1449,6 +524,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q1",
+                          "coordinate": "B2",
+                          "row": 2,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Jan",
+                          "coordinate": "B3",
+                          "row": 3,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 2,
                             "end_col": 2
                           },
@@ -1484,7 +599,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Sales"
+                        "Sales",
+                        "Q1",
+                        "Jan"
                       ],
                       "full_row_path": [
                         "North"
@@ -1492,7 +609,7 @@
                       "header_summary": {
                         "primary_column_header": "Sales",
                         "primary_row_header": "North",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -1500,11 +617,11 @@
                     }
                   },
                   "B5": {
+                    "value": 2200,
+                    "data_type": "number",
                     "coordinate": "B5",
                     "row": 5,
                     "column": 2,
-                    "value": 2200,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1517,6 +634,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q1",
+                          "coordinate": "B2",
+                          "row": 2,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Jan",
+                          "coordinate": "B3",
+                          "row": 3,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 2,
                             "end_col": 2
                           },
@@ -1552,7 +709,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Sales"
+                        "Sales",
+                        "Q1",
+                        "Jan"
                       ],
                       "full_row_path": [
                         "South"
@@ -1560,7 +719,7 @@
                       "header_summary": {
                         "primary_column_header": "Sales",
                         "primary_row_header": "South",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -1568,11 +727,11 @@
                     }
                   },
                   "B6": {
+                    "value": 1800,
+                    "data_type": "number",
                     "coordinate": "B6",
                     "row": 6,
                     "column": 2,
-                    "value": 1800,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1585,6 +744,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q1",
+                          "coordinate": "B2",
+                          "row": 2,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 2,
+                            "end_col": 2
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Jan",
+                          "coordinate": "B3",
+                          "row": 3,
+                          "column": 2,
+                          "column_letter": "B",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 2,
                             "end_col": 2
                           },
@@ -1620,7 +819,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Sales"
+                        "Sales",
+                        "Q1",
+                        "Jan"
                       ],
                       "full_row_path": [
                         "East"
@@ -1628,7 +829,7 @@
                       "header_summary": {
                         "primary_column_header": "Sales",
                         "primary_row_header": "East",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -1640,17 +841,14 @@
               {
                 "column_index": 3,
                 "column_letter": "C",
-                "column_label": "Sales",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
+                "column_label": "Apr Q2 Sales",
                 "cells": {
                   "C1": {
+                    "value": "Sales",
+                    "data_type": "string",
                     "coordinate": "C1",
                     "row": 1,
                     "column": 3,
-                    "value": "Sales",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1658,11 +856,11 @@
                     }
                   },
                   "C2": {
+                    "value": "Q2",
+                    "data_type": "string",
                     "coordinate": "C2",
                     "row": 2,
                     "column": 3,
-                    "value": "Q2",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1670,11 +868,11 @@
                     }
                   },
                   "C3": {
+                    "value": "Apr",
+                    "data_type": "string",
                     "coordinate": "C3",
                     "row": 3,
                     "column": 3,
-                    "value": "Apr",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1682,11 +880,11 @@
                     }
                   },
                   "C4": {
+                    "value": 1600,
+                    "data_type": "number",
                     "coordinate": "C4",
                     "row": 4,
                     "column": 3,
-                    "value": 1600,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1699,6 +897,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q2",
+                          "coordinate": "C2",
+                          "row": 2,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Apr",
+                          "coordinate": "C3",
+                          "row": 3,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 3,
                             "end_col": 3
                           },
@@ -1734,7 +972,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Sales"
+                        "Sales",
+                        "Q2",
+                        "Apr"
                       ],
                       "full_row_path": [
                         "North"
@@ -1742,7 +982,7 @@
                       "header_summary": {
                         "primary_column_header": "Sales",
                         "primary_row_header": "North",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -1750,11 +990,11 @@
                     }
                   },
                   "C5": {
+                    "value": 2300,
+                    "data_type": "number",
                     "coordinate": "C5",
                     "row": 5,
                     "column": 3,
-                    "value": 2300,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1767,6 +1007,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q2",
+                          "coordinate": "C2",
+                          "row": 2,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Apr",
+                          "coordinate": "C3",
+                          "row": 3,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 3,
                             "end_col": 3
                           },
@@ -1802,7 +1082,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Sales"
+                        "Sales",
+                        "Q2",
+                        "Apr"
                       ],
                       "full_row_path": [
                         "South"
@@ -1810,7 +1092,7 @@
                       "header_summary": {
                         "primary_column_header": "Sales",
                         "primary_row_header": "South",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -1818,11 +1100,11 @@
                     }
                   },
                   "C6": {
+                    "value": 1900,
+                    "data_type": "number",
                     "coordinate": "C6",
                     "row": 6,
                     "column": 3,
-                    "value": 1900,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1835,6 +1117,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q2",
+                          "coordinate": "C2",
+                          "row": 2,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 3,
+                            "end_col": 3
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Apr",
+                          "coordinate": "C3",
+                          "row": 3,
+                          "column": 3,
+                          "column_letter": "C",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 3,
                             "end_col": 3
                           },
@@ -1870,7 +1192,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Sales"
+                        "Sales",
+                        "Q2",
+                        "Apr"
                       ],
                       "full_row_path": [
                         "East"
@@ -1878,7 +1202,7 @@
                       "header_summary": {
                         "primary_column_header": "Sales",
                         "primary_row_header": "East",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -1890,17 +1214,14 @@
               {
                 "column_index": 4,
                 "column_letter": "D",
-                "column_label": "Expenses",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
+                "column_label": "Jan Q1 Expenses",
                 "cells": {
                   "D1": {
+                    "value": "Expenses",
+                    "data_type": "string",
                     "coordinate": "D1",
                     "row": 1,
                     "column": 4,
-                    "value": "Expenses",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1908,11 +1229,11 @@
                     }
                   },
                   "D2": {
+                    "value": "Q1",
+                    "data_type": "string",
                     "coordinate": "D2",
                     "row": 2,
                     "column": 4,
-                    "value": "Q1",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1920,11 +1241,11 @@
                     }
                   },
                   "D3": {
+                    "value": "Jan",
+                    "data_type": "string",
                     "coordinate": "D3",
                     "row": 3,
                     "column": 4,
-                    "value": "Jan",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -1932,11 +1253,11 @@
                     }
                   },
                   "D4": {
+                    "value": 500,
+                    "data_type": "number",
                     "coordinate": "D4",
                     "row": 4,
                     "column": 4,
-                    "value": 500,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -1949,6 +1270,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 4,
+                            "end_col": 4
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q1",
+                          "coordinate": "D2",
+                          "row": 2,
+                          "column": 4,
+                          "column_letter": "D",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 4,
+                            "end_col": 4
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Jan",
+                          "coordinate": "D3",
+                          "row": 3,
+                          "column": 4,
+                          "column_letter": "D",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 4,
                             "end_col": 4
                           },
@@ -1984,7 +1345,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Expenses"
+                        "Expenses",
+                        "Q1",
+                        "Jan"
                       ],
                       "full_row_path": [
                         "North"
@@ -1992,7 +1355,7 @@
                       "header_summary": {
                         "primary_column_header": "Expenses",
                         "primary_row_header": "North",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2000,11 +1363,11 @@
                     }
                   },
                   "D5": {
+                    "value": 800,
+                    "data_type": "number",
                     "coordinate": "D5",
                     "row": 5,
                     "column": 4,
-                    "value": 800,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2017,6 +1380,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 4,
+                            "end_col": 4
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q1",
+                          "coordinate": "D2",
+                          "row": 2,
+                          "column": 4,
+                          "column_letter": "D",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 4,
+                            "end_col": 4
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Jan",
+                          "coordinate": "D3",
+                          "row": 3,
+                          "column": 4,
+                          "column_letter": "D",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 4,
                             "end_col": 4
                           },
@@ -2052,7 +1455,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Expenses"
+                        "Expenses",
+                        "Q1",
+                        "Jan"
                       ],
                       "full_row_path": [
                         "South"
@@ -2060,7 +1465,7 @@
                       "header_summary": {
                         "primary_column_header": "Expenses",
                         "primary_row_header": "South",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2068,11 +1473,11 @@
                     }
                   },
                   "D6": {
+                    "value": 700,
+                    "data_type": "number",
                     "coordinate": "D6",
                     "row": 6,
                     "column": 4,
-                    "value": 700,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2085,6 +1490,46 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 4,
+                            "end_col": 4
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q1",
+                          "coordinate": "D2",
+                          "row": 2,
+                          "column": 4,
+                          "column_letter": "D",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 4,
+                            "end_col": 4
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Jan",
+                          "coordinate": "D3",
+                          "row": 3,
+                          "column": 4,
+                          "column_letter": "D",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 4,
                             "end_col": 4
                           },
@@ -2120,7 +1565,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Expenses"
+                        "Expenses",
+                        "Q1",
+                        "Jan"
                       ],
                       "full_row_path": [
                         "East"
@@ -2128,7 +1575,7 @@
                       "header_summary": {
                         "primary_column_header": "Expenses",
                         "primary_row_header": "East",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2140,17 +1587,14 @@
               {
                 "column_index": 5,
                 "column_letter": "E",
-                "column_label": "Expenses",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
+                "column_label": "Apr Q2 Expenses",
                 "cells": {
                   "E1": {
+                    "value": "Expenses",
+                    "data_type": "string",
                     "coordinate": "E1",
                     "row": 1,
                     "column": 5,
-                    "value": "Expenses",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2158,21 +1602,18 @@
                     }
                   },
                   "E2": {
-                    "coordinate": "E2",
-                    "row": 2,
-                    "column": 5,
                     "value": "Q2",
                     "data_type": "string",
-                    "style": {
-                      "bold": true
-                    }
+                    "coordinate": "E2",
+                    "row": 2,
+                    "column": 5
                   },
                   "E3": {
+                    "value": "Apr",
+                    "data_type": "string",
                     "coordinate": "E3",
                     "row": 3,
                     "column": 5,
-                    "value": "Apr",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2180,11 +1621,11 @@
                     }
                   },
                   "E4": {
+                    "value": 600,
+                    "data_type": "number",
                     "coordinate": "E4",
                     "row": 4,
                     "column": 5,
-                    "value": 600,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2197,6 +1638,42 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 5,
+                            "end_col": 5
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q2",
+                          "coordinate": "E2",
+                          "row": 2,
+                          "column": 5,
+                          "column_letter": "E",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 5,
+                            "end_col": 5
+                          },
+                          "style": {},
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Apr",
+                          "coordinate": "E3",
+                          "row": 3,
+                          "column": 5,
+                          "column_letter": "E",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 5,
                             "end_col": 5
                           },
@@ -2232,7 +1709,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Expenses"
+                        "Expenses",
+                        "Q2",
+                        "Apr"
                       ],
                       "full_row_path": [
                         "North"
@@ -2240,7 +1719,7 @@
                       "header_summary": {
                         "primary_column_header": "Expenses",
                         "primary_row_header": "North",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2248,11 +1727,11 @@
                     }
                   },
                   "E5": {
+                    "value": 900,
+                    "data_type": "number",
                     "coordinate": "E5",
                     "row": 5,
                     "column": 5,
-                    "value": 900,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2265,6 +1744,42 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 5,
+                            "end_col": 5
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q2",
+                          "coordinate": "E2",
+                          "row": 2,
+                          "column": 5,
+                          "column_letter": "E",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 5,
+                            "end_col": 5
+                          },
+                          "style": {},
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Apr",
+                          "coordinate": "E3",
+                          "row": 3,
+                          "column": 5,
+                          "column_letter": "E",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 5,
                             "end_col": 5
                           },
@@ -2300,7 +1815,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Expenses"
+                        "Expenses",
+                        "Q2",
+                        "Apr"
                       ],
                       "full_row_path": [
                         "South"
@@ -2308,7 +1825,7 @@
                       "header_summary": {
                         "primary_column_header": "Expenses",
                         "primary_row_header": "South",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2316,11 +1833,11 @@
                     }
                   },
                   "E6": {
+                    "value": 750,
+                    "data_type": "number",
                     "coordinate": "E6",
                     "row": 6,
                     "column": 5,
-                    "value": 750,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2333,6 +1850,42 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 5,
+                            "end_col": 5
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": "Q2",
+                          "coordinate": "E2",
+                          "row": 2,
+                          "column": 5,
+                          "column_letter": "E",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 5,
+                            "end_col": 5
+                          },
+                          "style": {},
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Apr",
+                          "coordinate": "E3",
+                          "row": 3,
+                          "column": 5,
+                          "column_letter": "E",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 5,
                             "end_col": 5
                           },
@@ -2368,7 +1921,9 @@
                         }
                       ],
                       "full_column_path": [
-                        "Expenses"
+                        "Expenses",
+                        "Q2",
+                        "Apr"
                       ],
                       "full_row_path": [
                         "East"
@@ -2376,7 +1931,7 @@
                       "header_summary": {
                         "primary_column_header": "Expenses",
                         "primary_row_header": "East",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2388,17 +1943,14 @@
               {
                 "column_index": 6,
                 "column_letter": "F",
-                "column_label": "Summary",
-                "is_header_column": false,
-                "width": null,
-                "hidden": false,
+                "column_label": "Net Summary",
                 "cells": {
                   "F1": {
+                    "value": "Summary",
+                    "data_type": "string",
                     "coordinate": "F1",
                     "row": 1,
                     "column": 6,
-                    "value": "Summary",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2406,18 +1958,17 @@
                     }
                   },
                   "F2": {
+                    "data_type": "null",
                     "coordinate": "F2",
                     "row": 2,
-                    "column": 6,
-                    "value": null,
-                    "data_type": "null"
+                    "column": 6
                   },
                   "F3": {
+                    "value": "Net",
+                    "data_type": "string",
                     "coordinate": "F3",
                     "row": 3,
                     "column": 6,
-                    "value": "Net",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2425,11 +1976,11 @@
                     }
                   },
                   "F4": {
+                    "value": 2000,
+                    "data_type": "number",
                     "coordinate": "F4",
                     "row": 4,
                     "column": 6,
-                    "value": 2000,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2442,6 +1993,42 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 6,
+                            "end_col": 6
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": null,
+                          "coordinate": "F2",
+                          "row": 2,
+                          "column": 6,
+                          "column_letter": "F",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 6,
+                            "end_col": 6
+                          },
+                          "style": {},
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Net",
+                          "coordinate": "F3",
+                          "row": 3,
+                          "column": 6,
+                          "column_letter": "F",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 6,
                             "end_col": 6
                           },
@@ -2477,7 +2064,8 @@
                         }
                       ],
                       "full_column_path": [
-                        "Summary"
+                        "Summary",
+                        "Net"
                       ],
                       "full_row_path": [
                         "North"
@@ -2485,7 +2073,7 @@
                       "header_summary": {
                         "primary_column_header": "Summary",
                         "primary_row_header": "North",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2493,11 +2081,11 @@
                     }
                   },
                   "F5": {
+                    "value": 2800,
+                    "data_type": "number",
                     "coordinate": "F5",
                     "row": 5,
                     "column": 6,
-                    "value": 2800,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2510,6 +2098,42 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 6,
+                            "end_col": 6
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": null,
+                          "coordinate": "F2",
+                          "row": 2,
+                          "column": 6,
+                          "column_letter": "F",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 6,
+                            "end_col": 6
+                          },
+                          "style": {},
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Net",
+                          "coordinate": "F3",
+                          "row": 3,
+                          "column": 6,
+                          "column_letter": "F",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 6,
                             "end_col": 6
                           },
@@ -2545,7 +2169,8 @@
                         }
                       ],
                       "full_column_path": [
-                        "Summary"
+                        "Summary",
+                        "Net"
                       ],
                       "full_row_path": [
                         "South"
@@ -2553,7 +2178,7 @@
                       "header_summary": {
                         "primary_column_header": "Summary",
                         "primary_row_header": "South",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2561,11 +2186,11 @@
                     }
                   },
                   "F6": {
+                    "value": 2250,
+                    "data_type": "number",
                     "coordinate": "F6",
                     "row": 6,
                     "column": 6,
-                    "value": 2250,
-                    "data_type": "number",
                     "headers": {
                       "column_headers": [
                         {
@@ -2578,6 +2203,42 @@
                           "span": {
                             "start_row": 1,
                             "end_row": 1,
+                            "start_col": 6,
+                            "end_col": 6
+                          },
+                          "style": {
+                            "font": {
+                              "bold": true
+                            }
+                          },
+                          "is_merged": false
+                        },
+                        {
+                          "level": 2,
+                          "value": null,
+                          "coordinate": "F2",
+                          "row": 2,
+                          "column": 6,
+                          "column_letter": "F",
+                          "span": {
+                            "start_row": 2,
+                            "end_row": 2,
+                            "start_col": 6,
+                            "end_col": 6
+                          },
+                          "style": {},
+                          "is_merged": false
+                        },
+                        {
+                          "level": 3,
+                          "value": "Net",
+                          "coordinate": "F3",
+                          "row": 3,
+                          "column": 6,
+                          "column_letter": "F",
+                          "span": {
+                            "start_row": 3,
+                            "end_row": 3,
                             "start_col": 6,
                             "end_col": 6
                           },
@@ -2613,7 +2274,8 @@
                         }
                       ],
                       "full_column_path": [
-                        "Summary"
+                        "Summary",
+                        "Net"
                       ],
                       "full_row_path": [
                         "East"
@@ -2621,7 +2283,7 @@
                       "header_summary": {
                         "primary_column_header": "Summary",
                         "primary_row_header": "East",
-                        "column_header_levels": 1,
+                        "column_header_levels": 3,
                         "row_header_levels": 1,
                         "has_merged_headers": false,
                         "max_indent_level": 0
@@ -2636,15 +2298,13 @@
                 "row_index": 1,
                 "row_label": "Region",
                 "is_header_row": true,
-                "height": null,
-                "hidden": false,
                 "cells": {
                   "A1": {
+                    "value": "Region",
+                    "data_type": "string",
                     "coordinate": "A1",
                     "row": 1,
                     "column": 1,
-                    "value": "Region",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2652,11 +2312,11 @@
                     }
                   },
                   "B1": {
+                    "value": "Sales",
+                    "data_type": "string",
                     "coordinate": "B1",
                     "row": 1,
                     "column": 2,
-                    "value": "Sales",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2664,11 +2324,11 @@
                     }
                   },
                   "C1": {
+                    "value": "Sales",
+                    "data_type": "string",
                     "coordinate": "C1",
                     "row": 1,
                     "column": 3,
-                    "value": "Sales",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2676,11 +2336,11 @@
                     }
                   },
                   "D1": {
+                    "value": "Expenses",
+                    "data_type": "string",
                     "coordinate": "D1",
                     "row": 1,
                     "column": 4,
-                    "value": "Expenses",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2688,11 +2348,11 @@
                     }
                   },
                   "E1": {
+                    "value": "Expenses",
+                    "data_type": "string",
                     "coordinate": "E1",
                     "row": 1,
                     "column": 5,
-                    "value": "Expenses",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2700,11 +2360,11 @@
                     }
                   },
                   "F1": {
+                    "value": "Summary",
+                    "data_type": "string",
                     "coordinate": "F1",
                     "row": 1,
                     "column": 6,
-                    "value": "Summary",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2715,24 +2375,21 @@
               },
               {
                 "row_index": 2,
-                "row_label": "Row 2",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Region",
+                "is_header_row": true,
                 "cells": {
                   "A2": {
+                    "data_type": "null",
                     "coordinate": "A2",
                     "row": 2,
-                    "column": 1,
-                    "value": null,
-                    "data_type": "null"
+                    "column": 1
                   },
                   "B2": {
+                    "value": "Q1",
+                    "data_type": "string",
                     "coordinate": "B2",
                     "row": 2,
                     "column": 2,
-                    "value": "Q1",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2740,11 +2397,11 @@
                     }
                   },
                   "C2": {
+                    "value": "Q2",
+                    "data_type": "string",
                     "coordinate": "C2",
                     "row": 2,
                     "column": 3,
-                    "value": "Q2",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2752,11 +2409,11 @@
                     }
                   },
                   "D2": {
+                    "value": "Q1",
+                    "data_type": "string",
                     "coordinate": "D2",
                     "row": 2,
                     "column": 4,
-                    "value": "Q1",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2764,44 +2421,37 @@
                     }
                   },
                   "E2": {
-                    "coordinate": "E2",
-                    "row": 2,
-                    "column": 5,
                     "value": "Q2",
                     "data_type": "string",
-                    "style": {
-                      "bold": true
-                    }
+                    "coordinate": "E2",
+                    "row": 2,
+                    "column": 5
                   },
                   "F2": {
+                    "data_type": "null",
                     "coordinate": "F2",
                     "row": 2,
-                    "column": 6,
-                    "value": null,
-                    "data_type": "null"
+                    "column": 6
                   }
                 }
               },
               {
                 "row_index": 3,
-                "row_label": "Row 3",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Region",
+                "is_header_row": true,
                 "cells": {
                   "A3": {
+                    "data_type": "null",
                     "coordinate": "A3",
                     "row": 3,
-                    "column": 1,
-                    "value": null,
-                    "data_type": "null"
+                    "column": 1
                   },
                   "B3": {
+                    "value": "Jan",
+                    "data_type": "string",
                     "coordinate": "B3",
                     "row": 3,
                     "column": 2,
-                    "value": "Jan",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2809,11 +2459,11 @@
                     }
                   },
                   "C3": {
+                    "value": "Apr",
+                    "data_type": "string",
                     "coordinate": "C3",
                     "row": 3,
                     "column": 3,
-                    "value": "Apr",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2821,11 +2471,11 @@
                     }
                   },
                   "D3": {
+                    "value": "Jan",
+                    "data_type": "string",
                     "coordinate": "D3",
                     "row": 3,
                     "column": 4,
-                    "value": "Jan",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2833,11 +2483,11 @@
                     }
                   },
                   "E3": {
+                    "value": "Apr",
+                    "data_type": "string",
                     "coordinate": "E3",
                     "row": 3,
                     "column": 5,
-                    "value": "Apr",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2845,11 +2495,11 @@
                     }
                   },
                   "F3": {
+                    "value": "Net",
+                    "data_type": "string",
                     "coordinate": "F3",
                     "row": 3,
                     "column": 6,
-                    "value": "Net",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2860,17 +2510,14 @@
               },
               {
                 "row_index": 4,
-                "row_label": "North",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Region",
                 "cells": {
                   "A4": {
+                    "value": "North",
+                    "data_type": "string",
                     "coordinate": "A4",
                     "row": 4,
                     "column": 1,
-                    "value": "North",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -2878,360 +2525,52 @@
                     }
                   },
                   "B4": {
-                    "coordinate": "B4",
-                    "row": 4,
-                    "column": 2,
                     "value": 1500,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Sales",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "North",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Sales"
-                      ],
-                      "full_row_path": [
-                        "North"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Sales",
-                        "primary_row_header": "North",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "B4",
+                    "row": 4,
+                    "column": 2
                   },
                   "C4": {
-                    "coordinate": "C4",
-                    "row": 4,
-                    "column": 3,
                     "value": 1600,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Sales",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "North",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Sales"
-                      ],
-                      "full_row_path": [
-                        "North"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Sales",
-                        "primary_row_header": "North",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "C4",
+                    "row": 4,
+                    "column": 3
                   },
                   "D4": {
-                    "coordinate": "D4",
-                    "row": 4,
-                    "column": 4,
                     "value": 500,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Expenses",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "North",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Expenses"
-                      ],
-                      "full_row_path": [
-                        "North"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Expenses",
-                        "primary_row_header": "North",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "D4",
+                    "row": 4,
+                    "column": 4
                   },
                   "E4": {
-                    "coordinate": "E4",
-                    "row": 4,
-                    "column": 5,
                     "value": 600,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Expenses",
-                          "coordinate": "E1",
-                          "row": 1,
-                          "column": 5,
-                          "column_letter": "E",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 5,
-                            "end_col": 5
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "North",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Expenses"
-                      ],
-                      "full_row_path": [
-                        "North"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Expenses",
-                        "primary_row_header": "North",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "E4",
+                    "row": 4,
+                    "column": 5
                   },
                   "F4": {
-                    "coordinate": "F4",
-                    "row": 4,
-                    "column": 6,
                     "value": 2000,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Summary",
-                          "coordinate": "F1",
-                          "row": 1,
-                          "column": 6,
-                          "column_letter": "F",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 6,
-                            "end_col": 6
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "North",
-                          "coordinate": "A4",
-                          "row": 4,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 4,
-                            "end_row": 4,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Summary"
-                      ],
-                      "full_row_path": [
-                        "North"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Summary",
-                        "primary_row_header": "North",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "F4",
+                    "row": 4,
+                    "column": 6
                   }
                 }
               },
               {
                 "row_index": 5,
-                "row_label": "South",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Region",
                 "cells": {
                   "A5": {
+                    "value": "South",
+                    "data_type": "string",
                     "coordinate": "A5",
                     "row": 5,
                     "column": 1,
-                    "value": "South",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -3239,360 +2578,52 @@
                     }
                   },
                   "B5": {
-                    "coordinate": "B5",
-                    "row": 5,
-                    "column": 2,
                     "value": 2200,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Sales",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "South",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Sales"
-                      ],
-                      "full_row_path": [
-                        "South"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Sales",
-                        "primary_row_header": "South",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "B5",
+                    "row": 5,
+                    "column": 2
                   },
                   "C5": {
-                    "coordinate": "C5",
-                    "row": 5,
-                    "column": 3,
                     "value": 2300,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Sales",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "South",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Sales"
-                      ],
-                      "full_row_path": [
-                        "South"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Sales",
-                        "primary_row_header": "South",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "C5",
+                    "row": 5,
+                    "column": 3
                   },
                   "D5": {
-                    "coordinate": "D5",
-                    "row": 5,
-                    "column": 4,
                     "value": 800,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Expenses",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "South",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Expenses"
-                      ],
-                      "full_row_path": [
-                        "South"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Expenses",
-                        "primary_row_header": "South",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "D5",
+                    "row": 5,
+                    "column": 4
                   },
                   "E5": {
-                    "coordinate": "E5",
-                    "row": 5,
-                    "column": 5,
                     "value": 900,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Expenses",
-                          "coordinate": "E1",
-                          "row": 1,
-                          "column": 5,
-                          "column_letter": "E",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 5,
-                            "end_col": 5
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "South",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Expenses"
-                      ],
-                      "full_row_path": [
-                        "South"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Expenses",
-                        "primary_row_header": "South",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "E5",
+                    "row": 5,
+                    "column": 5
                   },
                   "F5": {
-                    "coordinate": "F5",
-                    "row": 5,
-                    "column": 6,
                     "value": 2800,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Summary",
-                          "coordinate": "F1",
-                          "row": 1,
-                          "column": 6,
-                          "column_letter": "F",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 6,
-                            "end_col": 6
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "South",
-                          "coordinate": "A5",
-                          "row": 5,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 5,
-                            "end_row": 5,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Summary"
-                      ],
-                      "full_row_path": [
-                        "South"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Summary",
-                        "primary_row_header": "South",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "F5",
+                    "row": 5,
+                    "column": 6
                   }
                 }
               },
               {
                 "row_index": 6,
-                "row_label": "East",
-                "is_header_row": false,
-                "height": null,
-                "hidden": false,
+                "row_label": "Region",
                 "cells": {
                   "A6": {
+                    "value": "East",
+                    "data_type": "string",
                     "coordinate": "A6",
                     "row": 6,
                     "column": 1,
-                    "value": "East",
-                    "data_type": "string",
                     "style": {
                       "font": {
                         "bold": true
@@ -3600,357 +2631,51 @@
                     }
                   },
                   "B6": {
-                    "coordinate": "B6",
-                    "row": 6,
-                    "column": 2,
                     "value": 1800,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Sales",
-                          "coordinate": "B1",
-                          "row": 1,
-                          "column": 2,
-                          "column_letter": "B",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 2,
-                            "end_col": 2
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "East",
-                          "coordinate": "A6",
-                          "row": 6,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 6,
-                            "end_row": 6,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Sales"
-                      ],
-                      "full_row_path": [
-                        "East"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Sales",
-                        "primary_row_header": "East",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "B6",
+                    "row": 6,
+                    "column": 2
                   },
                   "C6": {
-                    "coordinate": "C6",
-                    "row": 6,
-                    "column": 3,
                     "value": 1900,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Sales",
-                          "coordinate": "C1",
-                          "row": 1,
-                          "column": 3,
-                          "column_letter": "C",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 3,
-                            "end_col": 3
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "East",
-                          "coordinate": "A6",
-                          "row": 6,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 6,
-                            "end_row": 6,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Sales"
-                      ],
-                      "full_row_path": [
-                        "East"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Sales",
-                        "primary_row_header": "East",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "C6",
+                    "row": 6,
+                    "column": 3
                   },
                   "D6": {
-                    "coordinate": "D6",
-                    "row": 6,
-                    "column": 4,
                     "value": 700,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Expenses",
-                          "coordinate": "D1",
-                          "row": 1,
-                          "column": 4,
-                          "column_letter": "D",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 4,
-                            "end_col": 4
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "East",
-                          "coordinate": "A6",
-                          "row": 6,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 6,
-                            "end_row": 6,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Expenses"
-                      ],
-                      "full_row_path": [
-                        "East"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Expenses",
-                        "primary_row_header": "East",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "D6",
+                    "row": 6,
+                    "column": 4
                   },
                   "E6": {
-                    "coordinate": "E6",
-                    "row": 6,
-                    "column": 5,
                     "value": 750,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Expenses",
-                          "coordinate": "E1",
-                          "row": 1,
-                          "column": 5,
-                          "column_letter": "E",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 5,
-                            "end_col": 5
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "East",
-                          "coordinate": "A6",
-                          "row": 6,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 6,
-                            "end_row": 6,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Expenses"
-                      ],
-                      "full_row_path": [
-                        "East"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Expenses",
-                        "primary_row_header": "East",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "E6",
+                    "row": 6,
+                    "column": 5
                   },
                   "F6": {
-                    "coordinate": "F6",
-                    "row": 6,
-                    "column": 6,
                     "value": 2250,
                     "data_type": "number",
-                    "headers": {
-                      "column_headers": [
-                        {
-                          "level": 1,
-                          "value": "Summary",
-                          "coordinate": "F1",
-                          "row": 1,
-                          "column": 6,
-                          "column_letter": "F",
-                          "span": {
-                            "start_row": 1,
-                            "end_row": 1,
-                            "start_col": 6,
-                            "end_col": 6
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "is_merged": false
-                        }
-                      ],
-                      "row_headers": [
-                        {
-                          "level": 1,
-                          "value": "East",
-                          "coordinate": "A6",
-                          "row": 6,
-                          "column": 1,
-                          "column_letter": "A",
-                          "span": {
-                            "start_row": 6,
-                            "end_row": 6,
-                            "start_col": 1,
-                            "end_col": 1
-                          },
-                          "style": {
-                            "font": {
-                              "bold": true
-                            }
-                          },
-                          "indent_level": 0,
-                          "is_merged": false
-                        }
-                      ],
-                      "full_column_path": [
-                        "Summary"
-                      ],
-                      "full_row_path": [
-                        "East"
-                      ],
-                      "header_summary": {
-                        "primary_column_header": "Summary",
-                        "primary_row_header": "East",
-                        "column_header_levels": 1,
-                        "row_header_levels": 1,
-                        "has_merged_headers": false,
-                        "max_indent_level": 0
-                      }
-                    }
+                    "coordinate": "F6",
+                    "row": 6,
+                    "column": 6
                   }
                 }
               }
             ],
             "metadata": {
-              "detection_method": "gaps+formatting+formatting+formatting+formatting+formatting",
+              "detection_method": "structured_layout",
               "cell_count": 36,
               "has_merged_cells": true
             }
           }
         ]
       }
-    ],
-    "properties": {}
+    ]
   }
 }

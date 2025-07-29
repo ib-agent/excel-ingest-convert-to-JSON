@@ -1,6 +1,6 @@
 # Test Suite Documentation
 
-This directory contains comprehensive test suites for the Excel to JSON converter with header resolution functionality. The test suite ensures robust testing of a large variety of header and column labels, multiple table detection, and various edge cases.
+This directory contains comprehensive test suites for the Excel to JSON converter with header resolution functionality and PDF processing capabilities. The test suite ensures robust testing of a large variety of header and column labels, multiple table detection, various edge cases, and PDF processing workflows.
 
 ## Test Files
 
@@ -130,16 +130,6 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 **Tests Number Extraction Variety**: Percentages, decimals, decimals with suffixes, and confidence scoring.
 
 **Usage**: `python tests/test_comprehensive_number_extraction.py`
-**Enhanced gap detection tests** that only start new tables when gaps are followed by non-numerical content:
-- **Numerical content continuation**: Tests that gaps followed by purely numerical data continue the same table
-- **Date content new table**: Tests that gaps followed by date content (Q1 2024, Jan 2024) start new tables
-- **Text label new table**: Tests that gaps followed by text labels (Revenue Summary, Performance Metrics) start new tables
-- **Mixed content new table**: Tests that gaps followed by mixed content (dates + numbers) start new tables
-- **Smart table separation**: Validates intelligent table separation based on content type after gaps
-
-**Tests Enhanced Gap Detection Variety**: Purely numerical data, date ranges, text labels, mixed content, and various gap scenarios.
-
-**Usage**: `python tests/test_enhanced_gap_detection.py`
 
 #### `test_multiple_frozen_rows.py`
 **Multiple frozen rows handling for row labels**:
@@ -201,6 +191,291 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 **Tests Detection Variety**: PDFs with tables only, paragraphs only, and mixed content scenarios.
 
 **Usage**: `python tests/test_table_paragraph_detection.py`
+
+### PDF Processing Tests
+
+#### `test_pdf_processing.py`
+**Core PDF processing functionality tests**:
+- **Table extraction**: Tests PDF table detection and extraction using multiple methods
+- **Text content extraction**: Validates paragraph and text section extraction from PDFs
+- **Number extraction**: Tests numerical data extraction from PDF content
+- **Multi-method processing**: Validates fallback between different extraction methods
+- **Error handling**: Tests robust error handling for various PDF formats
+- **Integration testing**: Tests full PDF processing pipeline
+
+**Tests PDF Variety**: Different PDF layouts, table structures, text formats, and content types.
+
+**Usage**: `python tests/test_pdf_processing.py`
+
+#### `test_financial_table_detection.py`
+**Financial table specific detection tests**:
+- **Financial data patterns**: Tests detection of financial tables with monetary values
+- **Multi-column layouts**: Validates detection of financial statements and reports
+- **Currency handling**: Tests proper handling of currency symbols and formats
+- **Calculation preservation**: Ensures financial calculations are properly extracted
+- **Format recognition**: Tests recognition of standard financial report formats
+
+**Tests Financial Variety**: Income statements, balance sheets, financial summaries, and budget reports.
+
+**Usage**: `python tests/test_financial_table_detection.py`
+
+#### `test_specific_table_detection.py`
+**Specific table pattern detection tests**:
+- **Custom table patterns**: Tests detection of specific table layouts and structures
+- **Edge case tables**: Validates detection of unusual or non-standard table formats
+- **Content-based detection**: Tests table detection based on content patterns
+- **Layout variation handling**: Tests adaptation to different table layouts
+- **Precision testing**: Validates accurate detection of specific table types
+
+**Tests Table Variety**: Custom layouts, unusual structures, content-based patterns, and layout variations.
+
+**Usage**: `python tests/test_specific_table_detection.py`
+
+#### `test_table_content.py`
+**Table content processing and validation tests**:
+- **Content extraction**: Tests accurate extraction of table cell content
+- **Data type preservation**: Validates preservation of different data types (numbers, text, dates)
+- **Formatting preservation**: Tests maintenance of cell formatting and styles
+- **Content validation**: Ensures extracted content matches source data
+- **Quality assessment**: Tests content quality and accuracy metrics
+
+**Tests Content Variety**: Mixed data types, formatted content, special characters, and complex data structures.
+
+**Usage**: `python tests/test_table_content.py`
+
+#### `test_table_100_numbers.py`
+**Large table number extraction tests**:
+- **High volume processing**: Tests extraction from tables with 100+ numerical values
+- **Performance validation**: Ensures efficient processing of large numerical datasets
+- **Accuracy testing**: Validates accuracy of number extraction at scale
+- **Memory management**: Tests memory efficiency with large data volumes
+- **Scaling verification**: Ensures system scales properly with data size
+
+**Tests Large Scale Variety**: Tables with extensive numerical data, performance benchmarks, and scaling scenarios.
+
+**Usage**: `python tests/test_table_100_numbers.py`
+
+#### `test_paragraph_extraction.py`
+**Paragraph and text content extraction tests**:
+- **Text section detection**: Tests identification of paragraph sections in PDFs
+- **Content separation**: Validates separation of text from table content
+- **Paragraph structure**: Tests preservation of paragraph organization and flow
+- **Text quality**: Ensures high-quality text extraction with proper formatting
+- **Context preservation**: Validates preservation of text context and meaning
+
+**Tests Text Variety**: Paragraphs, sections, formatted text, and mixed content documents.
+
+**Usage**: `python tests/test_paragraph_extraction.py`
+
+#### `test_decimal_with_suffix.py`
+**Decimal number with suffix extraction tests**:
+- **Suffix pattern recognition**: Tests detection of numbers with suffixes (1.5x, 2.3k, etc.)
+- **Pattern accuracy**: Validates accurate extraction of decimal-suffix combinations
+- **Context preservation**: Ensures suffix meaning is preserved in extraction
+- **Format variety**: Tests different suffix formats and patterns
+- **Integration testing**: Tests suffix handling within the full processing pipeline
+
+**Tests Suffix Variety**: Multiplier suffixes, unit suffixes, ratio indicators, and scaling factors.
+
+**Usage**: `python tests/test_decimal_with_suffix.py`
+
+### Web Interface Tests
+
+#### `test_current_web_behavior.py`
+**Current web interface behavior tests**:
+- **Interface functionality**: Tests current web interface features and capabilities
+- **User interaction**: Validates user interaction patterns and responses
+- **Response validation**: Tests proper response formats and structures
+- **Integration testing**: Validates integration between frontend and backend
+- **Behavior consistency**: Ensures consistent behavior across different scenarios
+
+**Tests Web Interface Variety**: User interactions, response formats, integration patterns, and behavior scenarios.
+
+**Usage**: `python tests/test_current_web_behavior.py`
+
+#### `test_web_interface_display.py`
+**Web interface display and rendering tests**:
+- **Display formatting**: Tests proper formatting and display of processed data
+- **Visual presentation**: Validates visual presentation of tables and content
+- **Responsive design**: Tests interface responsiveness across different screen sizes
+- **Data visualization**: Validates proper visualization of extracted data
+- **User experience**: Tests overall user experience and interface usability
+
+**Tests Display Variety**: Data formatting, visual layouts, responsive design, and user experience elements.
+
+**Usage**: `python tests/test_web_interface_display.py`
+
+#### `test_web_interface_exact.py`
+**Exact web interface functionality tests**:
+- **Precise functionality**: Tests exact functionality requirements and specifications
+- **Accuracy validation**: Validates precise accuracy of interface operations
+- **Specification compliance**: Tests compliance with exact interface specifications
+- **Edge case handling**: Validates handling of exact edge cases and scenarios
+- **Quality assurance**: Ensures exact quality standards are met
+
+**Tests Exact Variety**: Precise specifications, accuracy requirements, compliance standards, and quality metrics.
+
+**Usage**: `python tests/test_web_interface_exact.py`
+
+#### `test_web_interface_simulation.py`
+**Web interface simulation and testing**:
+- **Simulation scenarios**: Tests various simulation scenarios and use cases
+- **Mock interactions**: Validates behavior with simulated user interactions
+- **Testing automation**: Tests automated testing capabilities and scenarios
+- **Scenario coverage**: Ensures comprehensive coverage of interaction scenarios
+- **Simulation accuracy**: Validates accuracy of simulation results
+
+**Tests Simulation Variety**: User scenarios, mock interactions, automated testing, and simulation accuracy.
+
+**Usage**: `python tests/test_web_interface_simulation.py`
+
+### Debug and Analysis Scripts
+
+#### `debug_excel_file.py`
+**Excel file debugging and analysis**:
+- **File structure analysis**: Analyzes Excel file structure and organization
+- **Data inspection**: Provides detailed inspection of Excel data and formatting
+- **Issue identification**: Identifies potential issues with Excel file processing
+- **Debug information**: Generates detailed debug information for troubleshooting
+- **Processing validation**: Validates Excel file processing steps
+
+**Debug Capabilities**: File structure, data content, formatting, processing steps, and issue identification.
+
+**Usage**: `python tests/debug_excel_file.py`
+
+#### `debug_simple_gap.py`
+**Simple gap detection debugging**:
+- **Gap analysis**: Analyzes gap detection logic and behavior
+- **Detection validation**: Validates gap detection accuracy and performance
+- **Debug output**: Provides detailed debug output for gap detection
+- **Issue troubleshooting**: Helps troubleshoot gap detection issues
+- **Algorithm testing**: Tests gap detection algorithm variations
+
+**Debug Capabilities**: Gap detection logic, validation testing, debug output, and algorithm analysis.
+
+**Usage**: `python tests/debug_simple_gap.py`
+
+#### `debug_specific_table.py`
+**Specific table debugging and analysis**:
+- **Table structure analysis**: Analyzes specific table structures and layouts
+- **Detection debugging**: Debugs table detection for specific scenarios
+- **Processing validation**: Validates processing of specific table types
+- **Issue identification**: Identifies issues with specific table processing
+- **Detailed inspection**: Provides detailed inspection of table processing steps
+
+**Debug Capabilities**: Table structure, detection logic, processing validation, and detailed inspection.
+
+**Usage**: `python tests/debug_specific_table.py`
+
+#### `debug_table_detection.py`
+**Table detection debugging and optimization**:
+- **Detection algorithm analysis**: Analyzes table detection algorithm performance
+- **Method comparison**: Compares different table detection methods
+- **Performance optimization**: Identifies optimization opportunities for detection
+- **Accuracy validation**: Validates detection accuracy across scenarios
+- **Algorithm tuning**: Helps tune detection algorithm parameters
+
+**Debug Capabilities**: Algorithm analysis, method comparison, performance optimization, and accuracy validation.
+
+**Usage**: `python tests/debug_table_detection.py`
+
+#### `debug_table_regions.py`
+**Table region debugging and validation**:
+- **Region boundary analysis**: Analyzes table region boundary detection
+- **Region validation**: Validates accuracy of detected table regions
+- **Boundary optimization**: Optimizes table boundary detection logic
+- **Region overlap detection**: Identifies and resolves region overlap issues
+- **Spatial analysis**: Provides spatial analysis of table regions
+
+**Debug Capabilities**: Boundary analysis, region validation, optimization, overlap detection, and spatial analysis.
+
+**Usage**: `python tests/debug_table_regions.py`
+
+#### `debug_test_data.py`
+**Test data debugging and validation**:
+- **Data structure analysis**: Analyzes test data structure and organization
+- **Data validation**: Validates test data quality and consistency
+- **Issue identification**: Identifies issues with test data
+- **Data optimization**: Optimizes test data for better testing
+- **Quality assurance**: Ensures test data quality standards
+
+**Debug Capabilities**: Data structure, validation, issue identification, optimization, and quality assurance.
+
+**Usage**: `python tests/debug_test_data.py`
+
+#### `analyze_fixed_results.py`
+**Fixed results analysis and comparison**:
+- **Results comparison**: Compares results before and after fixes
+- **Improvement analysis**: Analyzes improvements from fixes and optimizations
+- **Performance metrics**: Provides performance metrics and comparisons
+- **Quality assessment**: Assesses quality improvements from fixes
+- **Impact analysis**: Analyzes impact of fixes on overall system performance
+
+**Analysis Capabilities**: Results comparison, improvement analysis, performance metrics, and impact assessment.
+
+**Usage**: `python tests/analyze_fixed_results.py`
+
+#### `analyze_problem_sheet.py`
+**Problem sheet analysis and diagnosis**:
+- **Problem identification**: Identifies problems with specific sheets or scenarios
+- **Root cause analysis**: Performs root cause analysis of identified problems
+- **Solution recommendation**: Recommends solutions for identified problems
+- **Impact assessment**: Assesses impact of problems on processing
+- **Fix validation**: Validates effectiveness of applied fixes
+
+**Analysis Capabilities**: Problem identification, root cause analysis, solution recommendation, and fix validation.
+
+**Usage**: `python tests/analyze_problem_sheet.py`
+
+### Utility and Helper Scripts
+
+#### `check_frozen_panes.py`
+**Frozen panes checking and validation**:
+- **Frozen pane detection**: Detects frozen panes in Excel files
+- **Configuration validation**: Validates frozen pane configuration
+- **Coordinate conversion**: Converts frozen pane coordinates between formats
+- **Integration testing**: Tests frozen pane integration with processing pipeline
+- **Validation reporting**: Provides validation reports for frozen pane handling
+
+**Utility Capabilities**: Detection, validation, coordinate conversion, integration testing, and reporting.
+
+**Usage**: `python tests/check_frozen_panes.py`
+
+#### `create_test_excel.py`
+**Test Excel file creation utility**:
+- **Test file generation**: Creates Excel files for testing scenarios
+- **Data population**: Populates test files with various data patterns
+- **Format configuration**: Configures Excel file formats and structures
+- **Scenario setup**: Sets up specific testing scenarios in Excel files
+- **Validation preparation**: Prepares Excel files for validation testing
+
+**Creation Capabilities**: File generation, data population, format configuration, and scenario setup.
+
+**Usage**: `python tests/create_test_excel.py`
+
+#### `create_simple_test_pdf.py`
+**Simple test PDF creation utility**:
+- **PDF generation**: Creates simple PDF files for testing
+- **Content setup**: Sets up PDF content for various testing scenarios
+- **Table inclusion**: Includes tables in generated PDF files
+- **Text content**: Adds text content for text extraction testing
+- **Format configuration**: Configures PDF format and structure
+
+**Creation Capabilities**: PDF generation, content setup, table inclusion, and format configuration.
+
+**Usage**: `python tests/create_simple_test_pdf.py`
+
+#### `create_test_pdf.py`
+**Test PDF creation utility**:
+- **Complex PDF generation**: Creates complex PDF files for comprehensive testing
+- **Multi-content PDFs**: Generates PDFs with tables, text, and mixed content
+- **Layout variety**: Creates PDFs with various layouts and structures
+- **Content scenarios**: Sets up specific content scenarios for testing
+- **Format validation**: Validates generated PDF formats and structures
+
+**Creation Capabilities**: Complex PDF generation, multi-content setup, layout variety, and format validation.
+
+**Usage**: `python tests/create_test_pdf.py`
 
 ### Excel File Creation and Testing Scripts
 
@@ -270,6 +545,25 @@ This directory contains comprehensive test suites for the Excel to JSON converte
 
 #### Complex Table Results
 - `test_complex_transformation_result.json` - Complex table transformation results
+- `test_complete_pipeline_result.json` - Complete pipeline processing results
+
+#### PDF Processing Results
+- `Test_PDF_Table_100_numbers_tables.json` - Large PDF table extraction results
+- `Test_PDF_Table_9_numbers_with_before_and_after_paragraphs_tables.json` - PDF with mixed content results
+- `Test_PDF_with_3_numbers_in_large_paragraphs_tables.json` - PDF text extraction results
+- `test_table_100_numbers_tables.json` - Large table processing results
+
+#### Web Interface Results
+- `current_web_behavior_result.json` - Current web interface behavior results
+- `web_interface_result.json` - Web interface processing results
+- `web_interface_test.json` - Web interface test results
+
+#### Data Files
+- `test_data.json` - Test data for various scenarios
+- `debug_excel_data.json` - Debug Excel data for analysis
+- `target_table_output.json` - Target output format examples
+- `test_excel_file.xlsx` - Test Excel file for processing
+- `test_sample.html` - HTML sample for web interface testing
 
 ## Header and Column Label Variety Testing
 
