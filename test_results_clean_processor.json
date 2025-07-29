@@ -1,0 +1,177 @@
+{
+  "test_summary": {
+    "total_tests": 4,
+    "passed": 0,
+    "failed": 3,
+    "warnings": 1
+  },
+  "test_details": [
+    {
+      "test_name": "Test_PDF_Table_100_numbers",
+      "status": "WARNING",
+      "score": 5,
+      "issues": [
+        "Table dimensions mismatch: expected [(10, 10)], got [(11, 11)]"
+      ],
+      "expected": {
+        "tables": 1,
+        "table_dimensions": [
+          [
+            10,
+            10
+          ]
+        ],
+        "text_sections": 2,
+        "numbers": 0,
+        "min_paragraphs_page1": 0,
+        "min_paragraphs_page2": 0
+      },
+      "actual": {
+        "tables": 1,
+        "table_dimensions": [
+          [
+            11,
+            11
+          ]
+        ],
+        "text_sections": 1,
+        "numbers": 0,
+        "paragraphs_by_page": {
+          "1": 1
+        }
+      },
+      "detailed_results": {
+        "tables_found": 1,
+        "text_sections_found": 1,
+        "numbers_extracted": 0
+      }
+    },
+    {
+      "test_name": "Test_PDF_with_3_numbers_in_large_paragraphs",
+      "status": "FAILED",
+      "score": 4,
+      "issues": [
+        "Text sections count outside tolerance: expected 5±3, got 1",
+        "Page 1 paragraphs below minimum: expected ≥3, got 1"
+      ],
+      "expected": {
+        "tables": 0,
+        "table_dimensions": [],
+        "text_sections": 5,
+        "numbers": 3,
+        "min_paragraphs_page1": 3,
+        "min_paragraphs_page2": 0
+      },
+      "actual": {
+        "tables": 0,
+        "table_dimensions": [],
+        "text_sections": 1,
+        "numbers": 0,
+        "paragraphs_by_page": {
+          "1": 1
+        }
+      },
+      "detailed_results": {
+        "tables_found": 0,
+        "text_sections_found": 1,
+        "numbers_extracted": 0
+      }
+    },
+    {
+      "test_name": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs",
+      "status": "FAILED",
+      "score": 3,
+      "issues": [
+        "Table dimensions mismatch: expected [(3, 3)], got [(8, 7)]",
+        "Text sections count outside tolerance: expected 6±3, got 2",
+        "Page 1 paragraphs below minimum: expected ≥4, got 2"
+      ],
+      "expected": {
+        "tables": 1,
+        "table_dimensions": [
+          [
+            3,
+            3
+          ]
+        ],
+        "text_sections": 6,
+        "numbers": 5,
+        "min_paragraphs_page1": 4,
+        "min_paragraphs_page2": 0
+      },
+      "actual": {
+        "tables": 1,
+        "table_dimensions": [
+          [
+            8,
+            7
+          ]
+        ],
+        "text_sections": 2,
+        "numbers": 0,
+        "paragraphs_by_page": {
+          "1": 2
+        }
+      },
+      "detailed_results": {
+        "tables_found": 1,
+        "text_sections_found": 2,
+        "numbers_extracted": 0
+      }
+    },
+    {
+      "test_name": "synthetic_financial_report",
+      "status": "FAILED",
+      "score": 1,
+      "issues": [
+        "Table dimensions mismatch: expected [(4, 5), (41, 7)], got [(44, 7), (3, 5)]",
+        "Text sections count outside tolerance: expected 13±3, got 5",
+        "Numbers count outside tolerance: expected 25±5, got 3",
+        "Page 1 paragraphs below minimum: expected ≥11, got 2",
+        "Page 2 paragraphs below minimum: expected ≥2, got 1"
+      ],
+      "expected": {
+        "tables": 2,
+        "table_dimensions": [
+          [
+            4,
+            5
+          ],
+          [
+            41,
+            7
+          ]
+        ],
+        "text_sections": 13,
+        "numbers": 25,
+        "min_paragraphs_page1": 11,
+        "min_paragraphs_page2": 2
+      },
+      "actual": {
+        "tables": 2,
+        "table_dimensions": [
+          [
+            44,
+            7
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        "text_sections": 5,
+        "numbers": 3,
+        "paragraphs_by_page": {
+          "1": 2,
+          "2": 1,
+          "4": 2
+        }
+      },
+      "detailed_results": {
+        "tables_found": 2,
+        "text_sections_found": 5,
+        "numbers_extracted": 3
+      }
+    }
+  ]
+}
