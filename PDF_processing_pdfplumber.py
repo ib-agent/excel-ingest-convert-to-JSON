@@ -154,32 +154,8 @@ class PDFTableExtractor:
                         row_data.append(cell_value)
                     data_matrix.append(row_data)
                 
-                # Create transformed table
-                transformed_table = {
-                    "table_id": table["table_id"],
-                    "page_number": table["region"]["page_number"],
-                    "bbox": {
-                        "x0": table["region"]["bbox"][0],
-                        "y0": table["region"]["bbox"][1],
-                        "x1": table["region"]["bbox"][2],
-                        "y1": table["region"]["bbox"][3]
-                    },
-                    "dimensions": {
-                        "rows": len(rows_data),
-                        "columns": len(columns_data)
-                    },
-                    "data": {
-                        "headers": column_labels,
-                        "rows": data_matrix,
-                        "records": self._create_records_format(data_matrix, column_labels)
-                    },
-                    "metadata": {
-                        "extraction_method": "pdfplumber",
-                        "confidence": table["metadata"]["confidence"],
-                        "quality_score": table["metadata"]["quality_score"],
-                        "cell_count": table["metadata"]["cell_count"]
-                    }
-                }
+                # Create transformed table using new UI-compatible format
+                transformed_table = self._transform_table_to_ui_format(table)
                 
                 transformed_tables.append(transformed_table)
                 
@@ -195,9 +171,78 @@ class PDFTableExtractor:
         for row in data_matrix:
             record = {}
             for i, header in enumerate(headers):
-                record[header] = row[i] if i < len(row) else ""
+                if i < len(row):
+                    record[header] = row[i]
+                else:
+                    record[header] = ""
             records.append(record)
         return records
+
+    def _transform_table_to_ui_format(self, table: Dict) -> Dict:
+        """
+        Transform table data to format expected by UI JavaScript
+        
+        Args:
+            table: Table data from PDFPlumber processor
+            
+        Returns:
+            Table data in UI-compatible format
+        """
+        # Convert PDFPlumber table format to UI format
+        rows_data = table.get("rows", [])
+        columns_data = table.get("columns", [])
+        
+        if not rows_data or not columns_data:
+            # Fallback: no valid table structure
+            return {
+                "table_id": table.get("table_id", "unknown"),
+                "region": table.get("region", {}),
+                "rows": [],
+                "columns": [],
+                "metadata": table.get("metadata", {})
+            }
+        
+        # Create UI-compatible rows with cells structure
+        ui_rows = []
+        
+        for row_idx, row in enumerate(rows_data):
+            # Create cells dictionary for this row
+            cells = {}
+            row_cells = row.get("cells", {})
+            
+            for cell_key, cell_data in row_cells.items():
+                cells[cell_key] = {
+                    "value": cell_data.get("value", ""),
+                    "column": cell_data.get("column", 1),
+                    "row": cell_data.get("row", row_idx + 1)
+                }
+            
+            ui_row = {
+                "row_index": row_idx,
+                "row_label": row.get("row_label", f"Row {row_idx + 1}"),
+                "is_header_row": row.get("is_header_row", False),
+                "cells": cells
+            }
+            
+            ui_rows.append(ui_row)
+        
+        # Create UI-compatible columns
+        ui_columns = []
+        for col in columns_data:
+            ui_columns.append({
+                "column_index": col.get("column_index", 0),
+                "column_label": col.get("column_label", ""),
+                "data_type": col.get("data_type", "text")
+            })
+        
+        return {
+            "table_id": table.get("table_id", "unknown"),
+            "region": table.get("region", {}),
+            "rows": ui_rows,
+            "columns": ui_columns,
+            "metadata": table.get("metadata", {}),
+            "name": table.get("name", f"Table {table.get('table_id', 'unknown')}")
+        }
     
     def _calculate_overall_confidence(self, tables: List[Dict]) -> float:
         """Calculate overall confidence score"""

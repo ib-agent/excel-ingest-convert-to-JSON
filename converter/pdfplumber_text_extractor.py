@@ -52,7 +52,7 @@ class PDFPlumberTextExtractor:
                 'max_section_size': 1000,
                 'use_headers': True,
                 'detect_lists': True,
-                'min_words_per_section': 10,
+                'min_words_per_section': 3,  # Reduced from 10 to 3 for better extraction
                 'max_words_per_section': 500
             },
             'extract_metadata': True,
