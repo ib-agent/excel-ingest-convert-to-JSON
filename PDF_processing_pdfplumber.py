@@ -485,6 +485,30 @@ class PDFProcessor:
         
         logger.info("PDFProcessor initialized with PDFPlumber backend")
     
+    def process_file(self, pdf_path: str, extract_tables: bool = True, 
+                    extract_text: bool = True, extract_numbers: bool = True) -> Dict[str, Any]:
+        """
+        Process PDF file - API compatibility method for Django views
+        
+        Args:
+            pdf_path: Path to the PDF file
+            extract_tables: Whether to extract tables (default: True)
+            extract_text: Whether to extract text (default: True)  
+            extract_numbers: Whether to extract numbers (default: True)
+            
+        Returns:
+            Dictionary containing extraction results in expected format
+        """
+        logger.info(f"Processing PDF file: {pdf_path} (tables={extract_tables}, text={extract_text}, numbers={extract_numbers})")
+        
+        # Call the main processing method
+        result = self.process_pdf(pdf_path)
+        
+        # Wrap result in expected Django format
+        return {
+            "pdf_processing_result": result
+        }
+    
     def _get_default_config(self) -> Dict:
         """Get default configuration for PDF processing"""
         return {

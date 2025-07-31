@@ -20,13 +20,13 @@ from rest_framework import status
 
 # Import our PDF processing module
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from PDF_processing import PDFProcessor
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from PDF_processing_pdfplumber import PDFProcessor
 
 # DEBUG: Add a distinctive log message to verify we're using the right module
 import logging
 logger = logging.getLogger(__name__)
-logger.info("DEBUG: PDF views module loaded - using updated PDF_processing module")
+logger.info("DEBUG: PDF views module loaded - using ENHANCED PDFPlumber implementation")
 
 
 @api_view(['POST'])
