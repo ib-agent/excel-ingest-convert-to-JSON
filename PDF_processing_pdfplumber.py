@@ -676,7 +676,17 @@ class PDFProcessor:
                     exclude_regions = None
                     if (self.config.get('processing_options', {}).get('exclude_table_regions_from_text', True)
                         and result.get("tables", {}).get("tables")):
-                        exclude_regions = result["tables"]["tables"]
+                        # Extract bounding box coordinates from table dictionaries
+                        exclude_regions = []
+                        for table in result["tables"]["tables"]:
+                            if "region" in table and "bbox" in table["region"]:
+                                bbox = table["region"]["bbox"]
+                                page_num = table["region"].get("page_number", 1)
+                                # Convert to the format expected by text extractor
+                                exclude_regions.append({
+                                    "page": page_num,
+                                    "bbox": bbox  # [x0, y0, x1, y1]
+                                })
                     
                     text_result = self.text_processor.extract_text(pdf_path, exclude_regions)
                     result["text_content"] = text_result

@@ -348,22 +348,33 @@ class PDFPlumberTextExtractor:
         Returns:
             True if word should be merged with block
         """
-        # Check vertical distance
-        vertical_gap = abs(word['top'] - block['bottom'])
-        if vertical_gap > 20:  # Too far vertically
-            return False
+        # Check if words are on the same line (compare tops)
+        same_line_threshold = 5
+        top_diff = abs(word['top'] - block['top'])
         
-        # Check horizontal alignment for same line
-        if vertical_gap <= 5:  # Same line
+        if top_diff <= same_line_threshold:  # Same line
             horizontal_gap = word['x0'] - block['x1']
-            if horizontal_gap <= 20:  # Close enough horizontally
+            if horizontal_gap <= 50:  # Reasonable horizontal gap for same line
                 return True
         
-        # Check for paragraph continuation
-        if vertical_gap <= 15:  # Next line
+        # Check for next line in same paragraph
+        line_height = block['bottom'] - block['top']
+        expected_next_line_top = block['bottom'] + 2  # Small gap between lines
+        
+        # Allow some flexibility in line height
+        if (word['top'] >= expected_next_line_top - 5 and 
+            word['top'] <= expected_next_line_top + line_height):
             # Check if left margin is similar (paragraph continuation)
             left_margin_diff = abs(word['x0'] - block['x0'])
-            if left_margin_diff <= 10:
+            if left_margin_diff <= 20:  # Allow some indent variation
+                return True
+        
+        # Check for close vertical proximity (relaxed)
+        vertical_gap = abs(word['top'] - block['bottom'])
+        if vertical_gap <= 30:  # More generous vertical gap
+            horizontal_gap = word['x0'] - block['x1']
+            # If horizontally close, likely same content block
+            if horizontal_gap <= 100:  # Very generous horizontal gap
                 return True
         
         return False
