@@ -71,11 +71,14 @@ class PDFPlumberTableExtractor:
                 'y_tolerance': 3,
                 'layout': True
             },
-            'quality_threshold': 0.8,
+            'quality_threshold': 0.90,  # Increased from 0.8 to reduce false positives
             'min_table_size': 2,
             'max_tables_per_page': 10,
             'min_rows': 2,
-            'min_cols': 2
+            'min_cols': 2,
+            'max_cols': 15,  # Reject tables with >15 columns (likely text parsing errors)
+            'min_cell_content_ratio': 0.4,  # At least 40% of cells should have meaningful content
+            'enable_spanning_detection': True  # Enable cross-page table merging
         }
     
     def extract_tables(self, pdf_path: str) -> Dict:
@@ -464,7 +467,7 @@ class PDFPlumberTableExtractor:
     
     def _is_valid_table(self, table_region: TableRegion) -> bool:
         """
-        Validate if a table region represents a valid table
+        Validate if a table region represents a valid table with enhanced filtering
         
         Args:
             table_region: TableRegion object to validate
@@ -477,34 +480,163 @@ class PDFPlumberTableExtractor:
         if not table_data or len(table_data) < self.config.get('min_rows', 2):
             return False
         
-        # Check minimum columns
+        # Check minimum and maximum columns
         max_cols = max(len(row) for row in table_data)
         if max_cols < self.config.get('min_cols', 2):
+            return False
+        
+        # NEW: Reject tables with too many columns (likely text parsing errors)
+        if max_cols > self.config.get('max_cols', 15):
+            logger.debug(f"Rejecting table with {max_cols} columns (exceeds max_cols limit)")
             return False
         
         # Check for reasonable content
         non_empty_cells = 0
         total_cells = 0
+        meaningful_cells = 0
         
         for row in table_data:
             for cell in row:
                 total_cells += 1
                 if cell and cell.strip():
                     non_empty_cells += 1
+                    # NEW: Check for meaningful content (not just single characters/words)
+                    if self._is_meaningful_cell_content(cell.strip()):
+                        meaningful_cells += 1
         
         if total_cells == 0:
             return False
         
-        # At least 30% of cells should have content
+        # Check content ratio with configurable threshold
+        min_content_ratio = self.config.get('min_cell_content_ratio', 0.4)
         content_ratio = non_empty_cells / total_cells
-        if content_ratio < 0.3:
+        meaningful_ratio = meaningful_cells / total_cells if total_cells > 0 else 0
+        
+        if content_ratio < min_content_ratio:
+            logger.debug(f"Rejecting table with low content ratio: {content_ratio:.2f} < {min_content_ratio}")
             return False
         
-        # Check confidence threshold
+        # NEW: Additional check for meaningful content
+        if meaningful_ratio < 0.25:  # At least 25% should be meaningful content
+            logger.debug(f"Rejecting table with low meaningful content ratio: {meaningful_ratio:.2f}")
+            return False
+        
+        # Check confidence threshold (now stricter)
         if table_region.confidence < self.quality_threshold:
+            logger.debug(f"Rejecting table with low confidence: {table_region.confidence:.2f} < {self.quality_threshold}")
+            return False
+        
+        # NEW: Check for text-like patterns that shouldn't be tables
+        if self._looks_like_text_not_table(table_data):
+            logger.debug("Rejecting table that looks like parsed text")
             return False
         
         return True
+    
+    def _is_meaningful_cell_content(self, cell_content: str) -> bool:
+        """
+        Check if cell content represents meaningful table data (not text fragments)
+        
+        Args:
+            cell_content: Cell content to validate
+            
+        Returns:
+            True if content appears to be meaningful table data
+        """
+        if not cell_content:
+            return False
+        
+        # Single characters are usually not meaningful table content
+        if len(cell_content) == 1:
+            return False
+        
+        # Very short content (2-3 chars) is suspicious unless it's numbers/codes
+        if len(cell_content) <= 3:
+            # Allow numbers, currency symbols, percentages, codes
+            if any(char.isdigit() for char in cell_content) or cell_content in ['$', '%', 'N/A', 'TBD']:
+                return True
+            return False
+        
+        # Long content is usually meaningful
+        if len(cell_content) > 20:
+            return True
+        
+        # Check for common table patterns
+        table_patterns = [
+            r'^\d+$',  # Pure numbers
+            r'^\d+\.\d+$',  # Decimals
+            r'^\$\d+',  # Currency
+            r'\d+%$',  # Percentages
+            r'^Q[1-4]',  # Quarters
+            r'20\d{2}',  # Years
+            r'^[A-Z]{2,}$',  # Codes/abbreviations
+        ]
+        
+        import re
+        for pattern in table_patterns:
+            if re.search(pattern, cell_content):
+                return True
+        
+        # Content with mixed alphanumeric is usually meaningful
+        has_alpha = any(c.isalpha() for c in cell_content)
+        has_digit = any(c.isdigit() for c in cell_content)
+        
+        if has_alpha and has_digit:
+            return True
+        
+        # Multi-word content is usually meaningful
+        if len(cell_content.split()) >= 2:
+            return True
+        
+        return True  # Default to meaningful for other cases
+    
+    def _looks_like_text_not_table(self, table_data: List[List[str]]) -> bool:
+        """
+        Check if the detected table looks like parsed text rather than actual table
+        
+        Args:
+            table_data: Table data to analyze
+            
+        Returns:
+            True if this looks like text parsed as a table
+        """
+        if not table_data:
+            return True
+        
+        # Calculate column count variability
+        col_counts = [len(row) for row in table_data]
+        if len(set(col_counts)) > len(col_counts) * 0.5:  # High variability in column counts
+            return True
+        
+        # Check for sentence-like patterns
+        text_indicators = 0
+        total_cells = 0
+        
+        for row in table_data:
+            for cell in row:
+                if cell and cell.strip():
+                    total_cells += 1
+                    cell_content = cell.strip().lower()
+                    
+                    # Check for common sentence words/patterns
+                    sentence_words = ['the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by']
+                    if any(word in cell_content for word in sentence_words):
+                        text_indicators += 1
+                    
+                    # Check for sentence fragments (very short content)
+                    if len(cell_content) <= 3 and cell_content.isalpha():
+                        text_indicators += 1
+                    
+                    # Check for incomplete words (common in text parsing)
+                    if cell_content.endswith('...') or len(cell_content) == 1:
+                        text_indicators += 1
+        
+        if total_cells == 0:
+            return True
+        
+        # If more than 40% of cells look like text fragments, reject as table
+        text_ratio = text_indicators / total_cells
+        return text_ratio > 0.4
     
     def _convert_to_schema(self, table_region: TableRegion, table_id: int) -> Optional[Dict]:
         """
@@ -658,7 +790,7 @@ class PDFPlumberTableExtractor:
     
     def _post_process_tables(self, tables: List[Dict]) -> List[Dict]:
         """
-        Apply post-processing to extracted tables
+        Apply post-processing to extracted tables including spanning detection
         
         Args:
             tables: List of table dictionaries
@@ -678,7 +810,181 @@ class PDFPlumberTableExtractor:
             else:
                 logger.debug(f"Removed duplicate table: {table['table_id']}")
         
+        # Apply table spanning detection if enabled
+        if self.config.get('enable_spanning_detection', True):
+            unique_tables = self._merge_spanning_tables(unique_tables)
+        
         return unique_tables
+    
+    def _merge_spanning_tables(self, tables: List[Dict]) -> List[Dict]:
+        """
+        Merge tables that span across consecutive pages
+        
+        Args:
+            tables: List of table dictionaries
+            
+        Returns:
+            List of tables with spanning tables merged
+        """
+        if len(tables) <= 1:
+            return tables
+        
+        # Sort tables by page number
+        sorted_tables = sorted(tables, key=lambda t: t['region']['page_number'])
+        
+        merged_tables = []
+        current_group = [sorted_tables[0]]
+        
+        for i in range(1, len(sorted_tables)):
+            current_table = sorted_tables[i]
+            previous_table = current_group[-1]
+            
+            # Check if this table should be merged with the previous group
+            if self._should_merge_spanning_tables(previous_table, current_table):
+                current_group.append(current_table)
+                logger.debug(f"Grouping table on page {current_table['region']['page_number']} with spanning table")
+            else:
+                # Finalize current group
+                if len(current_group) > 1:
+                    merged_table = self._merge_table_group(current_group)
+                    merged_tables.append(merged_table)
+                    logger.info(f"Merged spanning table across {len(current_group)} pages: {[t['region']['page_number'] for t in current_group]}")
+                else:
+                    merged_tables.append(current_group[0])
+                
+                # Start new group
+                current_group = [current_table]
+        
+        # Handle the last group
+        if len(current_group) > 1:
+            merged_table = self._merge_table_group(current_group)
+            merged_tables.append(merged_table)
+            logger.info(f"Merged spanning table across {len(current_group)} pages: {[t['region']['page_number'] for t in current_group]}")
+        else:
+            merged_tables.append(current_group[0])
+        
+        return merged_tables
+    
+    def _should_merge_spanning_tables(self, table1: Dict, table2: Dict) -> bool:
+        """
+        Determine if two tables should be merged as spanning tables
+        
+        Args:
+            table1: First table
+            table2: Second table
+            
+        Returns:
+            True if tables should be merged
+        """
+        # Check if tables are on consecutive pages
+        page1 = table1['region']['page_number']
+        page2 = table2['region']['page_number']
+        
+        if page2 != page1 + 1:
+            return False
+        
+        # Check if tables have same number of columns
+        cols1 = len(table1['columns'])
+        cols2 = len(table2['columns'])
+        
+        if cols1 != cols2:
+            return False
+        
+        # Check if column headers match (allowing for some variation)
+        headers1 = [col['column_label'] for col in table1['columns']]
+        headers2 = [col['column_label'] for col in table2['columns']]
+        
+        # Calculate header similarity
+        matching_headers = sum(1 for h1, h2 in zip(headers1, headers2) if h1.lower() == h2.lower())
+        header_similarity = matching_headers / len(headers1) if headers1 else 0
+        
+        # Require at least 70% header similarity for spanning tables
+        if header_similarity < 0.7:
+            logger.debug(f"Header similarity too low for spanning: {header_similarity:.2f}")
+            return False
+        
+        # Check if tables are reasonably aligned horizontally
+        bbox1 = table1['region']['bbox']
+        bbox2 = table2['region']['bbox']
+        
+        # Check x-alignment (left and right edges should be similar)
+        left_diff = abs(bbox1[0] - bbox2[0])
+        right_diff = abs(bbox1[2] - bbox2[2])
+        
+        if left_diff > 20 or right_diff > 20:  # Allow 20 point tolerance
+            logger.debug(f"Tables not aligned for spanning: left_diff={left_diff}, right_diff={right_diff}")
+            return False
+        
+        logger.debug(f"Tables on pages {page1}-{page2} qualify for spanning merge")
+        return True
+    
+    def _merge_table_group(self, table_group: List[Dict]) -> Dict:
+        """
+        Merge a group of spanning tables into a single table
+        
+        Args:
+            table_group: List of tables to merge
+            
+        Returns:
+            Merged table dictionary
+        """
+        if len(table_group) == 1:
+            return table_group[0]
+        
+        # Use the first table as the base
+        merged_table = table_group[0].copy()
+        
+        # Update table ID to reflect spanning
+        page_range = f"{table_group[0]['region']['page_number']}-{table_group[-1]['region']['page_number']}"
+        merged_table['table_id'] = f"table_spanning_pages_{page_range}"
+        merged_table['name'] = f"Table spanning pages {page_range}"
+        
+        # Merge rows from all tables
+        all_rows = []
+        row_offset = 0
+        
+        for i, table in enumerate(table_group):
+            table_rows = table['rows']
+            
+            for row in table_rows:
+                # Skip header row in subsequent tables
+                if i > 0 and row.get('is_header_row', False):
+                    continue
+                
+                # Update row index to be sequential
+                merged_row = row.copy()
+                merged_row['row_index'] = row_offset
+                
+                # Update cell row references
+                for cell_key, cell_data in merged_row['cells'].items():
+                    cell_data = cell_data.copy()
+                    cell_data['row'] = row_offset + 1
+                    merged_row['cells'][cell_key] = cell_data
+                
+                all_rows.append(merged_row)
+                row_offset += 1
+        
+        merged_table['rows'] = all_rows
+        
+        # Update metadata
+        merged_table['metadata']['cell_count'] = sum(len(row['cells']) for row in all_rows)
+        merged_table['metadata']['detection_method'] = 'pdfplumber_spanning'
+        
+        # Update region to span all pages
+        merged_table['region']['page_number'] = f"{table_group[0]['region']['page_number']}-{table_group[-1]['region']['page_number']}"
+        
+        # Calculate combined bounding box
+        all_bboxes = [table['region']['bbox'] for table in table_group]
+        merged_bbox = [
+            min(bbox[0] for bbox in all_bboxes),  # min x0
+            min(bbox[1] for bbox in all_bboxes),  # min y0  
+            max(bbox[2] for bbox in all_bboxes),  # max x1
+            max(bbox[3] for bbox in all_bboxes)   # max y1
+        ]
+        merged_table['region']['bbox'] = merged_bbox
+        
+        logger.debug(f"Successfully merged {len(table_group)} tables into spanning table")
+        return merged_table
     
     def _get_table_signature(self, table: Dict) -> str:
         """

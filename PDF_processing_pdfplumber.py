@@ -503,11 +503,14 @@ class PDFProcessor:
                     'intersection_x_tolerance': 3,
                     'intersection_y_tolerance': 3
                 },
-                'quality_threshold': 0.8,
+                'quality_threshold': 0.90,  # Increased for better filtering
                 'min_table_size': 2,
                 'max_tables_per_page': 10,
                 'min_rows': 2,
-                'min_cols': 2
+                'min_cols': 2,
+                'max_cols': 15,  # Reject tables with >15 columns
+                'min_cell_content_ratio': 0.4,  # At least 40% meaningful content
+                'enable_spanning_detection': True  # Enable cross-page table merging
             },
             'text_extraction': {
                 'text_settings': {
