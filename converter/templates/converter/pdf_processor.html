@@ -436,33 +436,231 @@
             margin-bottom: 2rem;
         }
 
-        .coming-soon h3 {
-            color: #856404;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+        .benefits-banner {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border: 1px solid #9ae6b4;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: none;
         }
 
-        .coming-soon p {
-            color: #856404;
-            margin-bottom: 1rem;
+        .benefits-banner.show {
+            display: block;
         }
 
-        .features-list {
+        .benefits-title {
+            color: #22543d;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .benefits-list {
             list-style: none;
             padding: 0;
-            margin: 1rem 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
         }
 
-        .features-list li {
-            padding: 0.5rem 0;
-            color: #856404;
+        .benefits-list li {
+            color: #2f855a;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .features-list li::before {
+        .benefits-list li::before {
+            content: '🛡️';
+            font-size: 0.9rem;
+        }
+
+        .benefits-list li.highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .benefits-list li.highlight::before {
+            color: #667eea;
+        }
+
+        /* Processing Mode Selector */
+        .processing-mode-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .processing-mode-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mode-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-option {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mode-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .mode-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f2ff 0%, #e8f4fd 100%);
+        }
+
+        .mode-option input[type="radio"] {
+            display: none;
+        }
+
+        .mode-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .mode-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mode-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .mode-badge.new {
+            background: #28a745;
+        }
+
+        .mode-description {
+            color: #718096;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+
+        .mode-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mode-features li {
+            color: #4a5568;
+            font-size: 0.85rem;
+            padding: 0.2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mode-features li::before {
             content: '✓';
             color: #28a745;
             font-weight: bold;
-            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .mode-features li.highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .mode-features li.highlight::before {
+            color: #667eea;
+        }
+
+        /* Enhanced Results Display */
+        .processing-info {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .processing-info.table-removal {
+            background: linear-gradient(135deg, #f0fff4 0%, #e8f5e8 100%);
+            border-color: #9ae6b4;
+        }
+
+        .processing-info h4 {
+            color: #2b6cb0;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .processing-info.table-removal h4 {
+            color: #22543d;
+        }
+
+        .processing-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2d3748;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 0.2rem;
         }
 
         /* Results Tabs */
@@ -775,12 +973,61 @@
 
         <div class="header">
             <h1><i class="fas fa-file-pdf"></i> PDF to JSON Converter</h1>
-            <p>Extract tables from PDF documents and convert them to structured JSON format</p>
+            <p>Extract tables and text from PDF documents with advanced duplicate prevention</p>
         </div>
 
         <div class="main-content">
 
             <div class="upload-section">
+                <!-- Processing Mode Selection -->
+                <div class="processing-mode-section">
+                    <div class="processing-mode-title">
+                        <i class="fas fa-cogs"></i> Choose Processing Mode
+                    </div>
+                    <div class="mode-options">
+                        <!-- Traditional Mode -->
+                        <label class="mode-option selected" for="mode-traditional">
+                            <input type="radio" id="mode-traditional" name="processing-mode" value="traditional" checked>
+                            <div class="mode-header">
+                                <div class="mode-title">
+                                    <i class="fas fa-list-alt"></i> Traditional Processing
+                                </div>
+                                <div class="mode-badge">Standard</div>
+                            </div>
+                            <div class="mode-description">
+                                Standard PDF processing with area exclusion to minimize content overlap.
+                            </div>
+                            <ul class="mode-features">
+                                <li>Table detection & extraction</li>
+                                <li>Text content extraction</li>
+                                <li>Area exclusion zones</li>
+                                <li>Number extraction</li>
+                            </ul>
+                        </label>
+
+                        <!-- Table Removal Mode -->
+                        <label class="mode-option" for="mode-table-removal">
+                            <input type="radio" id="mode-table-removal" name="processing-mode" value="table_removal">
+                            <div class="mode-header">
+                                <div class="mode-title">
+                                    <i class="fas fa-shield-alt"></i> Table Removal Processing
+                                </div>
+                                <div class="mode-badge new">NEW</div>
+                            </div>
+                            <div class="mode-description">
+                                Innovative approach that physically removes tables before text extraction to eliminate duplicates.
+                            </div>
+                            <ul class="mode-features">
+                                <li class="highlight">Guaranteed duplicate prevention</li>
+                                <li class="highlight">Physical table separation</li>
+                                <li>Enhanced text extraction</li>
+                                <li>Premium quality scoring</li>
+                                <li>Schema-compliant output</li>
+                            </ul>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -794,6 +1041,19 @@
                 <button class="upload-btn" id="uploadBtn">
                     <i class="fas fa-upload"></i> Process PDF
                 </button>
+
+                <!-- Benefits Banner for Table Removal -->
+                <div class="benefits-banner" id="benefitsBanner">
+                    <div class="benefits-title">
+                        <i class="fas fa-shield-alt"></i> Table Removal Benefits
+                    </div>
+                    <ul class="benefits-list">
+                        <li>Eliminates duplicate content detection</li>
+                        <li>Guarantees table/text separation</li>
+                        <li>Improves extraction quality</li>
+                        <li>Schema-compliant output</li>
+                    </ul>
+                </div>
 
                 <div class="progress-section" id="progressSection">
                     <div class="progress-bar">
@@ -827,6 +1087,15 @@
                 <p><strong>Size:</strong> <span id="fileSize"></span></p>
                 <p><strong>Pages:</strong> <span id="pageCount"></span></p>
                 <p><strong>Processing Time:</strong> <span id="processingTime"></span></p>
+                <p><strong>Processing Mode:</strong> <span id="processingMode">Traditional</span></p>
+            </div>
+
+            <!-- Processing Info Banner -->
+            <div class="processing-info" id="processingInfo">
+                <h4><i class="fas fa-info-circle"></i> Processing Summary</h4>
+                <div class="processing-metrics" id="processingMetrics">
+                    <!-- Metrics will be populated by JavaScript -->
+                </div>
             </div>
 
             <div class="result-section" id="resultSection">
@@ -897,6 +1166,7 @@
         let jsonData = null;
         let processingStartTime = null;
         let currentDisplayType = 'formatted';
+        let selectedProcessingMode = 'traditional';
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
@@ -1041,7 +1311,15 @@
                 formData.append('extract_text', 'true');
                 formData.append('extract_numbers', 'true');
 
-                fetch('/api/pdf/upload/?t=' + Date.now(), {
+                // Choose endpoint based on processing mode
+                let endpoint = '/api/pdf/upload/';
+                if (selectedProcessingMode === 'table_removal') {
+                    endpoint = '/api/pdf/table-removal/';
+                } else {
+                    endpoint += '?mode=' + selectedProcessingMode;
+                }
+
+                fetch(endpoint + (endpoint.includes('?') ? '&' : '?') + 't=' + Date.now(), {
                     method: 'POST',
                     body: formData
                 })
@@ -1052,16 +1330,11 @@
                     
                     if (data.success) {
                         jsonData = data.result;
-                        showResult(data.result);
+                        showResult(data.result, data);
                         showSuccess();
                         
-                        // Update page count
-                        const totalPages = data.result.pdf_processing_result?.document_metadata?.total_pages || 'Unknown';
-                        pageCount.textContent = totalPages;
-                        
-                        // Update processing time
-                        const processingTime = Date.now() - processingStartTime;
-                        document.getElementById('processingTime').textContent = `${processingTime}ms`;
+                        // Update file info with processing mode
+                        updateFileInfo(data);
                         
                         // Update button
                         uploadBtn.innerHTML = '<i class="fas fa-check"></i> Processed';
@@ -1085,219 +1358,360 @@
                 });
             }
 
-                    function showResult(data) {
-            updateAllDisplays(data);
-            resultSection.style.display = 'block';
-            
-            // Ensure download button is visible
-            const downloadBtn = document.getElementById('downloadBtn');
-            if (downloadBtn) {
-                downloadBtn.style.display = 'inline-flex';
-            }
-            
-            // Scroll to result
-            resultSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function updateAllDisplays(data) {
-            console.log('Full data structure:', data);
-            console.log('Text structure:', data?.pdf_processing_result?.text_content);
-            console.log('Text sections count:', data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections?.length || 0);
-            console.log('Processing summary:', data?.pdf_processing_result?.processing_summary);
-            updateTablesDisplay(data);
-            updateTextDisplay(data);
-            updateJSONDisplay(data);
-        }
-
-        function updateTablesDisplay(data) {
-            const tablesDisplay = document.getElementById('tablesDisplay');
-            const tablesCount = document.getElementById('tablesCount');
-            
-            const tables = data?.pdf_processing_result?.tables?.tables || [];
-            tablesCount.textContent = tables.length;
-            
-            if (tables.length === 0) {
-                tablesDisplay.innerHTML = '<div class="no-data">No tables found in the document</div>';
-                return;
-            }
-            
-            let html = '';
-            tables.forEach((table, index) => {
-                html += `
-                    <div class="table-item">
-                        <div class="table-header">
-                            <div class="table-title">Table ${index + 1}</div>
-                            <div class="table-meta">
-                                <span>Page ${table.region?.page_number || 'N/A'}</span>
-                                <span>Quality: ${(table.metadata?.quality_score * 100).toFixed(1)}%</span>
-                                <span>${table.metadata?.cell_count || 0} cells</span>
-                            </div>
-                        </div>
-                        <div class="table-content">
-                            ${generateTableHTML(table)}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            tablesDisplay.innerHTML = html;
-        }
-
-        function generateTableHTML(table) {
-            if (!table.rows || table.rows.length === 0) {
-                return '<p>No table data available</p>';
-            }
-            
-            let html = '<table>';
-            
-            // Add header row if exists
-            const headerRow = table.rows.find(row => row.is_header_row);
-            if (headerRow && headerRow.cells) {
-                html += '<thead><tr>';
-                Object.values(headerRow.cells).forEach(cell => {
-                    html += `<th>${cell.value || ''}</th>`;
-                });
-                html += '</tr></thead>';
-            }
-            
-            // Add data rows
-            html += '<tbody>';
-            table.rows.forEach(row => {
-                if (!row.is_header_row && row.cells) {
-                    html += '<tr>';
-                    Object.values(row.cells).forEach(cell => {
-                        html += `<td>${cell.value || ''}</td>`;
-                    });
-                    html += '</tr>';
-                }
-            });
-            html += '</tbody></table>';
-            
-            return html;
-        }
-
-
-
-        function updateTextDisplay(data) {
-            const textDisplay = document.getElementById('textDisplay');
-            const textCount = document.getElementById('textCount');
-            
-            console.log('updateTextDisplay called with data:', data);
-            
-            // Handle different possible structures
-            let textSections = [];
-            if (data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections) {
-                textSections = data.pdf_processing_result.text_content.text_content.pages[0].sections;
-                console.log('Found text sections in pages[0].sections:', textSections);
-            } else if (data?.pdf_processing_result?.text_content?.text_content) {
-                textSections = data.pdf_processing_result.text_content.text_content;
-                console.log('Found text sections in text_content:', textSections);
-            } else if (data?.pdf_processing_result?.text_content) {
-                textSections = data.pdf_processing_result.text_content;
-                console.log('Found text sections in text_content (direct):', textSections);
-            } else if (Array.isArray(data?.pdf_processing_result?.text_content)) {
-                textSections = data.pdf_processing_result.text_content;
-                console.log('Found text sections as array:', textSections);
-            }
-            
-            // Ensure textSections is an array
-            if (!Array.isArray(textSections)) {
-                textSections = [];
-                console.log('textSections is not an array, setting to empty array');
-            }
-            
-            console.log('Final textSections:', textSections);
-            textCount.textContent = textSections.length;
-            
-            if (textSections.length === 0) {
-                // Check if this is a table-only document
-                const tables = data?.pdf_processing_result?.tables?.tables || [];
-                if (tables.length > 0) {
-                    textDisplay.innerHTML = '<div class="no-data">No text content extracted (document contains only table data)</div>';
-                } else {
-                    textDisplay.innerHTML = '<div class="no-data">No text content extracted</div>';
-                }
-                return;
-            }
-            
-            let html = '';
-            textSections.forEach((section, index) => {
-                console.log('Processing section:', section);
+            function updateFileInfo(responseData) {
+                // Update processing mode display
+                const processingModeElement = document.getElementById('processingMode');
+                const mode = responseData.processing_mode || selectedProcessingMode;
+                processingModeElement.textContent = mode === 'table_removal' ? 'Table Removal' : 'Traditional';
                 
-                // Check if section has numbers
-                const numbers = section.numbers || [];
-                let numbersHtml = '';
-                if (numbers.length > 0) {
-                    numbersHtml = `
-                        <div class="section-numbers">
-                            <div class="numbers-header">
-                                <i class="fas fa-hashtag"></i> Numbers found in this section (${numbers.length}):
+                // Update page count and processing time
+                const totalPages = responseData.result?.pdf_processing_result?.document_metadata?.total_pages || 'Unknown';
+                document.getElementById('pageCount').textContent = totalPages;
+                
+                const processingTime = Date.now() - processingStartTime;
+                document.getElementById('processingTime').textContent = `${processingTime}ms`;
+            }
+
+            function showResult(data, responseData) {
+                updateAllDisplays(data);
+                updateProcessingInfo(responseData);
+                resultSection.style.display = 'block';
+                
+                // Ensure download button is visible
+                const downloadBtn = document.getElementById('downloadBtn');
+                if (downloadBtn) {
+                    downloadBtn.style.display = 'inline-flex';
+                }
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function updateProcessingInfo(responseData) {
+                const processingInfo = document.getElementById('processingInfo');
+                const processingMetrics = document.getElementById('processingMetrics');
+                
+                // Show processing info
+                processingInfo.style.display = 'block';
+                
+                // Add table removal styling if applicable
+                if (responseData.processing_mode === 'table_removal') {
+                    processingInfo.classList.add('table-removal');
+                    processingInfo.querySelector('h4').innerHTML = '<i class="fas fa-shield-alt"></i> Table Removal Processing Summary';
+                }
+                
+                // Debug logging
+                console.log('updateProcessingInfo responseData:', responseData);
+                console.log('processing_summary:', responseData.result?.pdf_processing_result?.processing_summary);
+                
+                // Create metrics
+                let metricsHtml = '';
+                
+                // First check for table_removal_metrics (dedicated endpoint)
+                if (responseData.table_removal_metrics) {
+                    const metrics = responseData.table_removal_metrics;
+                    metricsHtml = `
+                        <div class="metric-item">
+                            <div class="metric-value">${metrics.tables_extracted}</div>
+                            <div class="metric-label">Tables Extracted</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${metrics.tables_removed_from_pdf}</div>
+                            <div class="metric-label">Tables Removed</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${metrics.text_sections}</div>
+                            <div class="metric-label">Text Sections</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${metrics.numbers_found}</div>
+                            <div class="metric-label">Numbers Found</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${(metrics.quality_score * 100).toFixed(1)}%</div>
+                            <div class="metric-label">Quality Score</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${(metrics.processing_duration * 1000).toFixed(0)}ms</div>
+                            <div class="metric-label">Processing Time</div>
+                        </div>
+                    `;
+                } 
+                // Then check processing summary from result (most common case)
+                else if (responseData.result?.pdf_processing_result?.processing_summary) {
+                    const summary = responseData.result.pdf_processing_result.processing_summary;
+                    
+                    // Calculate text sections count from actual data if not in summary
+                    let textSectionsCount = summary.text_sections_extracted || summary.text_sections || 0;
+                    if (textSectionsCount === 0) {
+                        // Fallback: count from actual text content structure
+                        const textContent = responseData.result?.pdf_processing_result?.text_content;
+                        if (textContent?.text_content?.pages) {
+                            textSectionsCount = textContent.text_content.pages.reduce((total, page) => {
+                                return total + (page.sections ? page.sections.length : 0);
+                            }, 0);
+                        } else if (textContent?.pages) {
+                            textSectionsCount = textContent.pages.reduce((total, page) => {
+                                return total + (page.sections ? page.sections.length : 0);
+                            }, 0);
+                        }
+                    }
+                    
+                    console.log('Calculated textSectionsCount:', textSectionsCount);
+                    
+                    // For table removal mode, show enhanced metrics
+                    if (responseData.processing_mode === 'table_removal') {
+                        metricsHtml = `
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.tables_extracted || 0}</div>
+                                <div class="metric-label">Tables Extracted</div>
                             </div>
-                            <div class="numbers-list">
-                                ${numbers.map(number => `
-                                    <div class="number-item">
-                                        <span class="number-value">${number.original_text || number.value}</span>
-                                        <span class="number-format">(${number.format})</span>
-                                        <span class="number-confidence">${(number.confidence * 100).toFixed(1)}% confidence</span>
-                                    </div>
-                                `).join('')}
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.tables_removed_from_pdf || summary.tables_extracted || 0}</div>
+                                <div class="metric-label">Tables Removed</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${textSectionsCount}</div>
+                                <div class="metric-label">Text Sections</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.numbers_extracted || summary.numbers_found || 0}</div>
+                                <div class="metric-label">Numbers Found</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.overall_success ? '100.0' : '0.0'}%</div>
+                                <div class="metric-label">Quality Score</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.duplicate_prevention === 'table_removal_applied' ? 'ACTIVE' : 'INACTIVE'}</div>
+                                <div class="metric-label">Duplicate Prevention</div>
+                            </div>
+                        `;
+                    } else {
+                        // Traditional mode metrics
+                        metricsHtml = `
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.tables_extracted || 0}</div>
+                                <div class="metric-label">Tables Found</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${textSectionsCount}</div>
+                                <div class="metric-label">Text Sections</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.numbers_extracted || summary.numbers_found || 0}</div>
+                                <div class="metric-label">Numbers Found</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${summary.overall_success ? '100.0' : '0.0'}%</div>
+                                <div class="metric-label">Quality Score</div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                processingMetrics.innerHTML = metricsHtml;
+            }
+
+            function updateAllDisplays(data) {
+                console.log('Full data structure:', data);
+                console.log('Text structure:', data?.pdf_processing_result?.text_content);
+                console.log('Text sections count:', data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections?.length || 0);
+                console.log('Processing summary:', data?.pdf_processing_result?.processing_summary);
+                updateTablesDisplay(data);
+                updateTextDisplay(data);
+                updateJSONDisplay(data);
+            }
+
+            function updateTablesDisplay(data) {
+                const tablesDisplay = document.getElementById('tablesDisplay');
+                const tablesCount = document.getElementById('tablesCount');
+                
+                const tables = data?.pdf_processing_result?.tables?.tables || [];
+                tablesCount.textContent = tables.length;
+                
+                if (tables.length === 0) {
+                    tablesDisplay.innerHTML = '<div class="no-data">No tables found in the document</div>';
+                    return;
+                }
+                
+                let html = '';
+                tables.forEach((table, index) => {
+                    html += `
+                        <div class="table-item">
+                            <div class="table-header">
+                                <div class="table-title">Table ${index + 1}</div>
+                                <div class="table-meta">
+                                    <span>Page ${table.region?.page_number || 'N/A'}</span>
+                                    <span>Quality: ${(table.metadata?.quality_score * 100).toFixed(1)}%</span>
+                                    <span>${table.metadata?.cell_count || 0} cells</span>
+                                </div>
+                            </div>
+                            <div class="table-content">
+                                ${generateTableHTML(table)}
                             </div>
                         </div>
                     `;
+                });
+                
+                tablesDisplay.innerHTML = html;
+            }
+
+            function generateTableHTML(table) {
+                if (!table.rows || table.rows.length === 0) {
+                    return '<p>No table data available</p>';
                 }
                 
-                html += `
-                    <div class="text-item">
-                        <div class="text-title">Section ${index + 1} - ${section.section_type || 'Text'}</div>
-                        <div class="text-content">${section.content || 'No content available'}</div>
-                        ${numbersHtml}
-                        <div class="text-meta">
-                            <span>Page: ${section.page_number || 'N/A'}</span>
-                            <span>Words: ${section.word_count || 0}</span>
-                            <span>LLM Ready: ${section.llm_ready ? 'Yes' : 'No'}</span>
-                            ${numbers.length > 0 ? `<span>Numbers: ${numbers.length}</span>` : ''}
+                let html = '<table>';
+                
+                // Add header row if exists
+                const headerRow = table.rows.find(row => row.is_header_row);
+                if (headerRow && headerRow.cells) {
+                    html += '<thead><tr>';
+                    Object.values(headerRow.cells).forEach(cell => {
+                        html += `<th>${cell.value || ''}</th>`;
+                    });
+                    html += '</tr></thead>';
+                }
+                
+                // Add data rows
+                html += '<tbody>';
+                table.rows.forEach(row => {
+                    if (!row.is_header_row && row.cells) {
+                        html += '<tr>';
+                        Object.values(row.cells).forEach(cell => {
+                            html += `<td>${cell.value || ''}</td>`;
+                        });
+                        html += '</tr>';
+                    }
+                });
+                html += '</tbody></table>';
+                
+                return html;
+            }
+
+
+
+            function updateTextDisplay(data) {
+                const textDisplay = document.getElementById('textDisplay');
+                const textCount = document.getElementById('textCount');
+                
+                console.log('updateTextDisplay called with data:', data);
+                
+                // Handle different possible structures
+                let textSections = [];
+                if (data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections) {
+                    textSections = data.pdf_processing_result.text_content.text_content.pages[0].sections;
+                    console.log('Found text sections in pages[0].sections:', textSections);
+                } else if (data?.pdf_processing_result?.text_content?.text_content) {
+                    textSections = data.pdf_processing_result.text_content.text_content;
+                    console.log('Found text sections in text_content:', textSections);
+                } else if (data?.pdf_processing_result?.text_content) {
+                    textSections = data.pdf_processing_result.text_content;
+                    console.log('Found text sections in text_content (direct):', textSections);
+                } else if (Array.isArray(data?.pdf_processing_result?.text_content)) {
+                    textSections = data.pdf_processing_result.text_content;
+                    console.log('Found text sections as array:', textSections);
+                }
+                
+                // Ensure textSections is an array
+                if (!Array.isArray(textSections)) {
+                    textSections = [];
+                    console.log('textSections is not an array, setting to empty array');
+                }
+                
+                console.log('Final textSections:', textSections);
+                textCount.textContent = textSections.length;
+                
+                if (textSections.length === 0) {
+                    // Check if this is a table-only document
+                    const tables = data?.pdf_processing_result?.tables?.tables || [];
+                    if (tables.length > 0) {
+                        textDisplay.innerHTML = '<div class="no-data">No text content extracted (document contains only table data)</div>';
+                    } else {
+                        textDisplay.innerHTML = '<div class="no-data">No text content extracted</div>';
+                    }
+                    return;
+                }
+                
+                let html = '';
+                textSections.forEach((section, index) => {
+                    console.log('Processing section:', section);
+                    
+                    // Check if section has numbers
+                    const numbers = section.numbers || [];
+                    let numbersHtml = '';
+                    if (numbers.length > 0) {
+                        numbersHtml = `
+                            <div class="section-numbers">
+                                <div class="numbers-header">
+                                    <i class="fas fa-hashtag"></i> Numbers found in this section (${numbers.length}):
+                                </div>
+                                <div class="numbers-list">
+                                    ${numbers.map(number => `
+                                        <div class="number-item">
+                                            <span class="number-value">${number.original_text || number.value}</span>
+                                            <span class="number-format">(${number.format})</span>
+                                            <span class="number-confidence">${(number.confidence * 100).toFixed(1)}% confidence</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    html += `
+                        <div class="text-item">
+                            <div class="text-title">Section ${index + 1} - ${section.section_type || 'Text'}</div>
+                            <div class="text-content">${section.content || 'No content available'}</div>
+                            ${numbersHtml}
+                            <div class="text-meta">
+                                <span>Page: ${section.page_number || 'N/A'}</span>
+                                <span>Words: ${section.word_count || 0}</span>
+                                <span>LLM Ready: ${section.llm_ready ? 'Yes' : 'No'}</span>
+                                ${numbers.length > 0 ? `<span>Numbers: ${numbers.length}</span>` : ''}
+                            </div>
                         </div>
-                    </div>
-                `;
-            });
-            
-            console.log('Setting textDisplay.innerHTML with:', html);
-            textDisplay.innerHTML = html;
-            console.log('textDisplay element after setting innerHTML:', textDisplay);
-            console.log('textDisplay.innerHTML length:', textDisplay.innerHTML.length);
-        }
+                    `;
+                });
+                
+                console.log('Setting textDisplay.innerHTML with:', html);
+                textDisplay.innerHTML = html;
+                console.log('textDisplay element after setting innerHTML:', textDisplay);
+                console.log('textDisplay.innerHTML length:', textDisplay.innerHTML.length);
+            }
 
             window.showTab = function(tabName) {
-            console.log('showTab called with:', tabName);
-            
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            // Remove active class from all tab buttons
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Show selected tab content
-            const selectedContent = document.getElementById(tabName + 'Panel');
-            console.log('Looking for element with id:', tabName + 'Panel');
-            console.log('Found selectedContent:', selectedContent);
-            if (selectedContent) {
-                selectedContent.classList.add('active');
-                console.log('Added active class to selectedContent');
+                console.log('showTab called with:', tabName);
+                
+                // Hide all tab contents
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Remove active class from all tab buttons
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Show selected tab content
+                const selectedContent = document.getElementById(tabName + 'Panel');
+                console.log('Looking for element with id:', tabName + 'Panel');
+                console.log('Found selectedContent:', selectedContent);
+                if (selectedContent) {
+                    selectedContent.classList.add('active');
+                    console.log('Added active class to selectedContent');
+                }
+                
+                // Add active class to selected tab button
+                const selectedButton = document.getElementById(tabName + 'Tab');
+                console.log('Looking for button with id:', tabName + 'Tab');
+                console.log('Found selectedButton:', selectedButton);
+                if (selectedButton) {
+                    selectedButton.classList.add('active');
+                    console.log('Added active class to selectedButton');
+                }
             }
-            
-            // Add active class to selected tab button
-            const selectedButton = document.getElementById(tabName + 'Tab');
-            console.log('Looking for button with id:', tabName + 'Tab');
-            console.log('Found selectedButton:', selectedButton);
-            if (selectedButton) {
-                selectedButton.classList.add('active');
-                console.log('Added active class to selectedButton');
-            }
-        }
 
-        function updateJSONDisplay(data) {
+            function updateJSONDisplay(data) {
                 switch (currentDisplayType) {
                     case 'formatted':
                         jsonDisplay.innerHTML = formatJSON(data);
@@ -1456,6 +1870,35 @@
                 // Reset button state
                 uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Process PDF';
                 uploadBtn.disabled = true;
+            }
+
+            function initializeProcessingModeSelection() {
+                const modeOptions = document.querySelectorAll('.mode-option');
+                const benefitsBanner = document.getElementById('benefitsBanner');
+                
+                modeOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Remove selected class from all options
+                        modeOptions.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // Add selected class to clicked option
+                        this.classList.add('selected');
+                        
+                        // Update selected mode
+                        const radio = this.querySelector('input[type="radio"]');
+                        radio.checked = true;
+                        selectedProcessingMode = radio.value;
+                        
+                        // Show/hide benefits banner
+                        if (selectedProcessingMode === 'table_removal') {
+                            benefitsBanner.classList.add('show');
+                        } else {
+                            benefitsBanner.classList.remove('show');
+                        }
+                        
+                        console.log('Selected processing mode:', selectedProcessingMode);
+                    });
+                });
             }
 
             // Make functions globally accessible

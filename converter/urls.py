@@ -15,5 +15,7 @@ urlpatterns = [
     path('api/pdf/upload/', pdf_views.upload_and_process_pdf, name='upload_and_process_pdf'),
     path('api/pdf/process/', pdf_views.process_pdf_with_options, name='process_pdf_with_options'),
     path('api/pdf/status/', pdf_views.get_processing_status, name='get_pdf_processing_status'),
+    # New table removal endpoint
+    path('api/pdf/table-removal/', pdf_views.upload_and_process_pdf_with_table_removal, name='upload_and_process_pdf_table_removal'),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico'), name='favicon'),
 ] 

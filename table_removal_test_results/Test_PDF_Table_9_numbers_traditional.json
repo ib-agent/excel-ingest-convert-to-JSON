@@ -1,0 +1,62 @@
+{
+  "processing_metadata": {
+    "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers.pdf",
+    "extraction_method": "pdfplumber_clean_pipeline",
+    "tables_found": 1,
+    "text_sections_found": 0,
+    "numbers_found": 0
+  },
+  "tables": [
+    {
+      "page_number": 1,
+      "bbox": {
+        "x0": 77.25,
+        "y0": 94.19519035547842,
+        "x1": 494.3321422290381,
+        "y1": 183.9451856054784
+      },
+      "rows": 4,
+      "cols": 4,
+      "accuracy": 0.95,
+      "method": "pdfplumber",
+      "data": [
+        {
+          "Item": "Item",
+          "April": "April",
+          "May": "May",
+          "June": "June"
+        },
+        {
+          "Item": "Item-One",
+          "April": "101",
+          "May": "201",
+          "June": "301"
+        },
+        {
+          "Item": "Item-Two",
+          "April": "102",
+          "May": "202",
+          "June": "302"
+        },
+        {
+          "Item": "Item-Three",
+          "April": "103",
+          "May": "203",
+          "June": "303"
+        }
+      ]
+    }
+  ],
+  "text_sections": [],
+  "numbers": [],
+  "exclusion_zones": {
+    "1": [
+      {
+        "x0": 67.25,
+        "y0": 84.19519035547842,
+        "x1": 504.3321422290381,
+        "y1": 193.9451856054784
+      }
+    ]
+  }
+}

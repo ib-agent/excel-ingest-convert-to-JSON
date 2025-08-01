@@ -1,0 +1,4878 @@
+{
+  "pdf_processing_result": {
+    "document_metadata": {
+      "filename": "Test_PDF_Table_100_numbers.pdf",
+      "total_pages": 1,
+      "processing_timestamp": "2025-08-01T16:31:38.920777",
+      "processing_duration": 0.097219,
+      "extraction_methods": [
+        "table_extraction",
+        "text_extraction_table_free"
+      ],
+      "table_removal_applied": true
+    },
+    "tables": {
+      "tables": [
+        {
+          "table_id": "table_1",
+          "name": "Table 1",
+          "region": {
+            "page_number": 1,
+            "bbox": [
+              48.507914137553925,
+              52.09244555717828,
+              744.730326514066,
+              200.7053939819263
+            ],
+            "detection_method": "pdfplumber"
+          },
+          "header_info": {
+            "header_rows": [
+              0
+            ],
+            "header_columns": [
+              0
+            ],
+            "data_start_row": 1,
+            "data_start_col": 1
+          },
+          "columns": [
+            {
+              "column_index": 0,
+              "column_label": "Category",
+              "is_header_column": true,
+              "cells": {
+                "A1": {
+                  "value": "Category",
+                  "row": 1,
+                  "column": 1
+                },
+                "A2": {
+                  "value": "First Cost",
+                  "row": 2,
+                  "column": 1
+                },
+                "A3": {
+                  "value": "Second Cost",
+                  "row": 3,
+                  "column": 1
+                },
+                "A4": {
+                  "value": "Third Cost",
+                  "row": 4,
+                  "column": 1
+                },
+                "A5": {
+                  "value": "Fourth Cost",
+                  "row": 5,
+                  "column": 1
+                },
+                "A6": {
+                  "value": "Fifth Cost",
+                  "row": 6,
+                  "column": 1
+                },
+                "A7": {
+                  "value": "Sixth Cost",
+                  "row": 7,
+                  "column": 1
+                },
+                "A8": {
+                  "value": "Seventh Cost",
+                  "row": 8,
+                  "column": 1
+                },
+                "A9": {
+                  "value": "Eighth Cost",
+                  "row": 9,
+                  "column": 1
+                },
+                "A10": {
+                  "value": "Ninth Cost",
+                  "row": 10,
+                  "column": 1
+                },
+                "A11": {
+                  "value": "Tenth Cost",
+                  "row": 11,
+                  "column": 1
+                }
+              }
+            },
+            {
+              "column_index": 1,
+              "column_label": "1/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "B1": {
+                  "value": "1/1/2025",
+                  "row": 1,
+                  "column": 2
+                },
+                "B2": {
+                  "value": "$100",
+                  "row": 2,
+                  "column": 2
+                },
+                "B3": {
+                  "value": "$105",
+                  "row": 3,
+                  "column": 2
+                },
+                "B4": {
+                  "value": "$110",
+                  "row": 4,
+                  "column": 2
+                },
+                "B5": {
+                  "value": "$115",
+                  "row": 5,
+                  "column": 2
+                },
+                "B6": {
+                  "value": "$120",
+                  "row": 6,
+                  "column": 2
+                },
+                "B7": {
+                  "value": "$125",
+                  "row": 7,
+                  "column": 2
+                },
+                "B8": {
+                  "value": "$130",
+                  "row": 8,
+                  "column": 2
+                },
+                "B9": {
+                  "value": "$135",
+                  "row": 9,
+                  "column": 2
+                },
+                "B10": {
+                  "value": "$140",
+                  "row": 10,
+                  "column": 2
+                },
+                "B11": {
+                  "value": "$145",
+                  "row": 11,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "column_index": 2,
+              "column_label": "2/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "C1": {
+                  "value": "2/1/2025",
+                  "row": 1,
+                  "column": 3
+                },
+                "C2": {
+                  "value": "$105",
+                  "row": 2,
+                  "column": 3
+                },
+                "C3": {
+                  "value": "$110",
+                  "row": 3,
+                  "column": 3
+                },
+                "C4": {
+                  "value": "$115",
+                  "row": 4,
+                  "column": 3
+                },
+                "C5": {
+                  "value": "$120",
+                  "row": 5,
+                  "column": 3
+                },
+                "C6": {
+                  "value": "$125",
+                  "row": 6,
+                  "column": 3
+                },
+                "C7": {
+                  "value": "$130",
+                  "row": 7,
+                  "column": 3
+                },
+                "C8": {
+                  "value": "$135",
+                  "row": 8,
+                  "column": 3
+                },
+                "C9": {
+                  "value": "$140",
+                  "row": 9,
+                  "column": 3
+                },
+                "C10": {
+                  "value": "$145",
+                  "row": 10,
+                  "column": 3
+                },
+                "C11": {
+                  "value": "$150",
+                  "row": 11,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "column_index": 3,
+              "column_label": "3/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "D1": {
+                  "value": "3/1/2025",
+                  "row": 1,
+                  "column": 4
+                },
+                "D2": {
+                  "value": "$110",
+                  "row": 2,
+                  "column": 4
+                },
+                "D3": {
+                  "value": "$115",
+                  "row": 3,
+                  "column": 4
+                },
+                "D4": {
+                  "value": "$120",
+                  "row": 4,
+                  "column": 4
+                },
+                "D5": {
+                  "value": "$125",
+                  "row": 5,
+                  "column": 4
+                },
+                "D6": {
+                  "value": "$130",
+                  "row": 6,
+                  "column": 4
+                },
+                "D7": {
+                  "value": "$135",
+                  "row": 7,
+                  "column": 4
+                },
+                "D8": {
+                  "value": "$140",
+                  "row": 8,
+                  "column": 4
+                },
+                "D9": {
+                  "value": "$145",
+                  "row": 9,
+                  "column": 4
+                },
+                "D10": {
+                  "value": "$150",
+                  "row": 10,
+                  "column": 4
+                },
+                "D11": {
+                  "value": "$155",
+                  "row": 11,
+                  "column": 4
+                }
+              }
+            },
+            {
+              "column_index": 4,
+              "column_label": "4/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "E1": {
+                  "value": "4/1/2025",
+                  "row": 1,
+                  "column": 5
+                },
+                "E2": {
+                  "value": "$115",
+                  "row": 2,
+                  "column": 5
+                },
+                "E3": {
+                  "value": "$120",
+                  "row": 3,
+                  "column": 5
+                },
+                "E4": {
+                  "value": "$125",
+                  "row": 4,
+                  "column": 5
+                },
+                "E5": {
+                  "value": "$130",
+                  "row": 5,
+                  "column": 5
+                },
+                "E6": {
+                  "value": "$135",
+                  "row": 6,
+                  "column": 5
+                },
+                "E7": {
+                  "value": "$140",
+                  "row": 7,
+                  "column": 5
+                },
+                "E8": {
+                  "value": "$145",
+                  "row": 8,
+                  "column": 5
+                },
+                "E9": {
+                  "value": "$150",
+                  "row": 9,
+                  "column": 5
+                },
+                "E10": {
+                  "value": "$155",
+                  "row": 10,
+                  "column": 5
+                },
+                "E11": {
+                  "value": "$160",
+                  "row": 11,
+                  "column": 5
+                }
+              }
+            },
+            {
+              "column_index": 5,
+              "column_label": "5/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "F1": {
+                  "value": "5/1/2025",
+                  "row": 1,
+                  "column": 6
+                },
+                "F2": {
+                  "value": "$120",
+                  "row": 2,
+                  "column": 6
+                },
+                "F3": {
+                  "value": "$125",
+                  "row": 3,
+                  "column": 6
+                },
+                "F4": {
+                  "value": "$130",
+                  "row": 4,
+                  "column": 6
+                },
+                "F5": {
+                  "value": "$135",
+                  "row": 5,
+                  "column": 6
+                },
+                "F6": {
+                  "value": "$140",
+                  "row": 6,
+                  "column": 6
+                },
+                "F7": {
+                  "value": "$145",
+                  "row": 7,
+                  "column": 6
+                },
+                "F8": {
+                  "value": "$150",
+                  "row": 8,
+                  "column": 6
+                },
+                "F9": {
+                  "value": "$155",
+                  "row": 9,
+                  "column": 6
+                },
+                "F10": {
+                  "value": "$160",
+                  "row": 10,
+                  "column": 6
+                },
+                "F11": {
+                  "value": "$165",
+                  "row": 11,
+                  "column": 6
+                }
+              }
+            },
+            {
+              "column_index": 6,
+              "column_label": "6/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "G1": {
+                  "value": "6/1/2025",
+                  "row": 1,
+                  "column": 7
+                },
+                "G2": {
+                  "value": "$125",
+                  "row": 2,
+                  "column": 7
+                },
+                "G3": {
+                  "value": "$130",
+                  "row": 3,
+                  "column": 7
+                },
+                "G4": {
+                  "value": "$135",
+                  "row": 4,
+                  "column": 7
+                },
+                "G5": {
+                  "value": "$140",
+                  "row": 5,
+                  "column": 7
+                },
+                "G6": {
+                  "value": "$145",
+                  "row": 6,
+                  "column": 7
+                },
+                "G7": {
+                  "value": "$150",
+                  "row": 7,
+                  "column": 7
+                },
+                "G8": {
+                  "value": "$155",
+                  "row": 8,
+                  "column": 7
+                },
+                "G9": {
+                  "value": "$160",
+                  "row": 9,
+                  "column": 7
+                },
+                "G10": {
+                  "value": "$165",
+                  "row": 10,
+                  "column": 7
+                },
+                "G11": {
+                  "value": "$170",
+                  "row": 11,
+                  "column": 7
+                }
+              }
+            },
+            {
+              "column_index": 7,
+              "column_label": "7/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "H1": {
+                  "value": "7/1/2025",
+                  "row": 1,
+                  "column": 8
+                },
+                "H2": {
+                  "value": "$130",
+                  "row": 2,
+                  "column": 8
+                },
+                "H3": {
+                  "value": "$135",
+                  "row": 3,
+                  "column": 8
+                },
+                "H4": {
+                  "value": "$140",
+                  "row": 4,
+                  "column": 8
+                },
+                "H5": {
+                  "value": "$145",
+                  "row": 5,
+                  "column": 8
+                },
+                "H6": {
+                  "value": "$150",
+                  "row": 6,
+                  "column": 8
+                },
+                "H7": {
+                  "value": "$155",
+                  "row": 7,
+                  "column": 8
+                },
+                "H8": {
+                  "value": "$160",
+                  "row": 8,
+                  "column": 8
+                },
+                "H9": {
+                  "value": "$165",
+                  "row": 9,
+                  "column": 8
+                },
+                "H10": {
+                  "value": "$170",
+                  "row": 10,
+                  "column": 8
+                },
+                "H11": {
+                  "value": "$175",
+                  "row": 11,
+                  "column": 8
+                }
+              }
+            },
+            {
+              "column_index": 8,
+              "column_label": "8/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "I1": {
+                  "value": "8/1/2025",
+                  "row": 1,
+                  "column": 9
+                },
+                "I2": {
+                  "value": "$135",
+                  "row": 2,
+                  "column": 9
+                },
+                "I3": {
+                  "value": "$140",
+                  "row": 3,
+                  "column": 9
+                },
+                "I4": {
+                  "value": "$145",
+                  "row": 4,
+                  "column": 9
+                },
+                "I5": {
+                  "value": "$150",
+                  "row": 5,
+                  "column": 9
+                },
+                "I6": {
+                  "value": "$155",
+                  "row": 6,
+                  "column": 9
+                },
+                "I7": {
+                  "value": "$160",
+                  "row": 7,
+                  "column": 9
+                },
+                "I8": {
+                  "value": "$165",
+                  "row": 8,
+                  "column": 9
+                },
+                "I9": {
+                  "value": "$170",
+                  "row": 9,
+                  "column": 9
+                },
+                "I10": {
+                  "value": "$175",
+                  "row": 10,
+                  "column": 9
+                },
+                "I11": {
+                  "value": "$180",
+                  "row": 11,
+                  "column": 9
+                }
+              }
+            },
+            {
+              "column_index": 9,
+              "column_label": "9/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "J1": {
+                  "value": "9/1/2025",
+                  "row": 1,
+                  "column": 10
+                },
+                "J2": {
+                  "value": "$140",
+                  "row": 2,
+                  "column": 10
+                },
+                "J3": {
+                  "value": "$145",
+                  "row": 3,
+                  "column": 10
+                },
+                "J4": {
+                  "value": "$150",
+                  "row": 4,
+                  "column": 10
+                },
+                "J5": {
+                  "value": "$155",
+                  "row": 5,
+                  "column": 10
+                },
+                "J6": {
+                  "value": "$160",
+                  "row": 6,
+                  "column": 10
+                },
+                "J7": {
+                  "value": "$165",
+                  "row": 7,
+                  "column": 10
+                },
+                "J8": {
+                  "value": "$170",
+                  "row": 8,
+                  "column": 10
+                },
+                "J9": {
+                  "value": "$175",
+                  "row": 9,
+                  "column": 10
+                },
+                "J10": {
+                  "value": "$180",
+                  "row": 10,
+                  "column": 10
+                },
+                "J11": {
+                  "value": "$185",
+                  "row": 11,
+                  "column": 10
+                }
+              }
+            },
+            {
+              "column_index": 10,
+              "column_label": "10/1/2025",
+              "is_header_column": false,
+              "cells": {
+                "K1": {
+                  "value": "10/1/2025",
+                  "row": 1,
+                  "column": 11
+                },
+                "K2": {
+                  "value": "$145",
+                  "row": 2,
+                  "column": 11
+                },
+                "K3": {
+                  "value": "$150",
+                  "row": 3,
+                  "column": 11
+                },
+                "K4": {
+                  "value": "$155",
+                  "row": 4,
+                  "column": 11
+                },
+                "K5": {
+                  "value": "$160",
+                  "row": 5,
+                  "column": 11
+                },
+                "K6": {
+                  "value": "$165",
+                  "row": 6,
+                  "column": 11
+                },
+                "K7": {
+                  "value": "$170",
+                  "row": 7,
+                  "column": 11
+                },
+                "K8": {
+                  "value": "$175",
+                  "row": 8,
+                  "column": 11
+                },
+                "K9": {
+                  "value": "$180",
+                  "row": 9,
+                  "column": 11
+                },
+                "K10": {
+                  "value": "$185",
+                  "row": 10,
+                  "column": 11
+                },
+                "K11": {
+                  "value": "$190",
+                  "row": 11,
+                  "column": 11
+                }
+              }
+            }
+          ],
+          "rows": [
+            {
+              "row_index": 0,
+              "row_label": "Category",
+              "is_header_row": true,
+              "cells": {
+                "A1": {
+                  "value": "Category",
+                  "row": 1,
+                  "column": 1
+                },
+                "B1": {
+                  "value": "1/1/2025",
+                  "row": 1,
+                  "column": 2
+                },
+                "C1": {
+                  "value": "2/1/2025",
+                  "row": 1,
+                  "column": 3
+                },
+                "D1": {
+                  "value": "3/1/2025",
+                  "row": 1,
+                  "column": 4
+                },
+                "E1": {
+                  "value": "4/1/2025",
+                  "row": 1,
+                  "column": 5
+                },
+                "F1": {
+                  "value": "5/1/2025",
+                  "row": 1,
+                  "column": 6
+                },
+                "G1": {
+                  "value": "6/1/2025",
+                  "row": 1,
+                  "column": 7
+                },
+                "H1": {
+                  "value": "7/1/2025",
+                  "row": 1,
+                  "column": 8
+                },
+                "I1": {
+                  "value": "8/1/2025",
+                  "row": 1,
+                  "column": 9
+                },
+                "J1": {
+                  "value": "9/1/2025",
+                  "row": 1,
+                  "column": 10
+                },
+                "K1": {
+                  "value": "10/1/2025",
+                  "row": 1,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 1,
+              "row_label": "First Cost",
+              "is_header_row": false,
+              "cells": {
+                "A2": {
+                  "value": "First Cost",
+                  "row": 2,
+                  "column": 1
+                },
+                "B2": {
+                  "value": "$100",
+                  "row": 2,
+                  "column": 2
+                },
+                "C2": {
+                  "value": "$105",
+                  "row": 2,
+                  "column": 3
+                },
+                "D2": {
+                  "value": "$110",
+                  "row": 2,
+                  "column": 4
+                },
+                "E2": {
+                  "value": "$115",
+                  "row": 2,
+                  "column": 5
+                },
+                "F2": {
+                  "value": "$120",
+                  "row": 2,
+                  "column": 6
+                },
+                "G2": {
+                  "value": "$125",
+                  "row": 2,
+                  "column": 7
+                },
+                "H2": {
+                  "value": "$130",
+                  "row": 2,
+                  "column": 8
+                },
+                "I2": {
+                  "value": "$135",
+                  "row": 2,
+                  "column": 9
+                },
+                "J2": {
+                  "value": "$140",
+                  "row": 2,
+                  "column": 10
+                },
+                "K2": {
+                  "value": "$145",
+                  "row": 2,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 2,
+              "row_label": "Second Cost",
+              "is_header_row": false,
+              "cells": {
+                "A3": {
+                  "value": "Second Cost",
+                  "row": 3,
+                  "column": 1
+                },
+                "B3": {
+                  "value": "$105",
+                  "row": 3,
+                  "column": 2
+                },
+                "C3": {
+                  "value": "$110",
+                  "row": 3,
+                  "column": 3
+                },
+                "D3": {
+                  "value": "$115",
+                  "row": 3,
+                  "column": 4
+                },
+                "E3": {
+                  "value": "$120",
+                  "row": 3,
+                  "column": 5
+                },
+                "F3": {
+                  "value": "$125",
+                  "row": 3,
+                  "column": 6
+                },
+                "G3": {
+                  "value": "$130",
+                  "row": 3,
+                  "column": 7
+                },
+                "H3": {
+                  "value": "$135",
+                  "row": 3,
+                  "column": 8
+                },
+                "I3": {
+                  "value": "$140",
+                  "row": 3,
+                  "column": 9
+                },
+                "J3": {
+                  "value": "$145",
+                  "row": 3,
+                  "column": 10
+                },
+                "K3": {
+                  "value": "$150",
+                  "row": 3,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 3,
+              "row_label": "Third Cost",
+              "is_header_row": false,
+              "cells": {
+                "A4": {
+                  "value": "Third Cost",
+                  "row": 4,
+                  "column": 1
+                },
+                "B4": {
+                  "value": "$110",
+                  "row": 4,
+                  "column": 2
+                },
+                "C4": {
+                  "value": "$115",
+                  "row": 4,
+                  "column": 3
+                },
+                "D4": {
+                  "value": "$120",
+                  "row": 4,
+                  "column": 4
+                },
+                "E4": {
+                  "value": "$125",
+                  "row": 4,
+                  "column": 5
+                },
+                "F4": {
+                  "value": "$130",
+                  "row": 4,
+                  "column": 6
+                },
+                "G4": {
+                  "value": "$135",
+                  "row": 4,
+                  "column": 7
+                },
+                "H4": {
+                  "value": "$140",
+                  "row": 4,
+                  "column": 8
+                },
+                "I4": {
+                  "value": "$145",
+                  "row": 4,
+                  "column": 9
+                },
+                "J4": {
+                  "value": "$150",
+                  "row": 4,
+                  "column": 10
+                },
+                "K4": {
+                  "value": "$155",
+                  "row": 4,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 4,
+              "row_label": "Fourth Cost",
+              "is_header_row": false,
+              "cells": {
+                "A5": {
+                  "value": "Fourth Cost",
+                  "row": 5,
+                  "column": 1
+                },
+                "B5": {
+                  "value": "$115",
+                  "row": 5,
+                  "column": 2
+                },
+                "C5": {
+                  "value": "$120",
+                  "row": 5,
+                  "column": 3
+                },
+                "D5": {
+                  "value": "$125",
+                  "row": 5,
+                  "column": 4
+                },
+                "E5": {
+                  "value": "$130",
+                  "row": 5,
+                  "column": 5
+                },
+                "F5": {
+                  "value": "$135",
+                  "row": 5,
+                  "column": 6
+                },
+                "G5": {
+                  "value": "$140",
+                  "row": 5,
+                  "column": 7
+                },
+                "H5": {
+                  "value": "$145",
+                  "row": 5,
+                  "column": 8
+                },
+                "I5": {
+                  "value": "$150",
+                  "row": 5,
+                  "column": 9
+                },
+                "J5": {
+                  "value": "$155",
+                  "row": 5,
+                  "column": 10
+                },
+                "K5": {
+                  "value": "$160",
+                  "row": 5,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 5,
+              "row_label": "Fifth Cost",
+              "is_header_row": false,
+              "cells": {
+                "A6": {
+                  "value": "Fifth Cost",
+                  "row": 6,
+                  "column": 1
+                },
+                "B6": {
+                  "value": "$120",
+                  "row": 6,
+                  "column": 2
+                },
+                "C6": {
+                  "value": "$125",
+                  "row": 6,
+                  "column": 3
+                },
+                "D6": {
+                  "value": "$130",
+                  "row": 6,
+                  "column": 4
+                },
+                "E6": {
+                  "value": "$135",
+                  "row": 6,
+                  "column": 5
+                },
+                "F6": {
+                  "value": "$140",
+                  "row": 6,
+                  "column": 6
+                },
+                "G6": {
+                  "value": "$145",
+                  "row": 6,
+                  "column": 7
+                },
+                "H6": {
+                  "value": "$150",
+                  "row": 6,
+                  "column": 8
+                },
+                "I6": {
+                  "value": "$155",
+                  "row": 6,
+                  "column": 9
+                },
+                "J6": {
+                  "value": "$160",
+                  "row": 6,
+                  "column": 10
+                },
+                "K6": {
+                  "value": "$165",
+                  "row": 6,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 6,
+              "row_label": "Sixth Cost",
+              "is_header_row": false,
+              "cells": {
+                "A7": {
+                  "value": "Sixth Cost",
+                  "row": 7,
+                  "column": 1
+                },
+                "B7": {
+                  "value": "$125",
+                  "row": 7,
+                  "column": 2
+                },
+                "C7": {
+                  "value": "$130",
+                  "row": 7,
+                  "column": 3
+                },
+                "D7": {
+                  "value": "$135",
+                  "row": 7,
+                  "column": 4
+                },
+                "E7": {
+                  "value": "$140",
+                  "row": 7,
+                  "column": 5
+                },
+                "F7": {
+                  "value": "$145",
+                  "row": 7,
+                  "column": 6
+                },
+                "G7": {
+                  "value": "$150",
+                  "row": 7,
+                  "column": 7
+                },
+                "H7": {
+                  "value": "$155",
+                  "row": 7,
+                  "column": 8
+                },
+                "I7": {
+                  "value": "$160",
+                  "row": 7,
+                  "column": 9
+                },
+                "J7": {
+                  "value": "$165",
+                  "row": 7,
+                  "column": 10
+                },
+                "K7": {
+                  "value": "$170",
+                  "row": 7,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 7,
+              "row_label": "Seventh Cost",
+              "is_header_row": false,
+              "cells": {
+                "A8": {
+                  "value": "Seventh Cost",
+                  "row": 8,
+                  "column": 1
+                },
+                "B8": {
+                  "value": "$130",
+                  "row": 8,
+                  "column": 2
+                },
+                "C8": {
+                  "value": "$135",
+                  "row": 8,
+                  "column": 3
+                },
+                "D8": {
+                  "value": "$140",
+                  "row": 8,
+                  "column": 4
+                },
+                "E8": {
+                  "value": "$145",
+                  "row": 8,
+                  "column": 5
+                },
+                "F8": {
+                  "value": "$150",
+                  "row": 8,
+                  "column": 6
+                },
+                "G8": {
+                  "value": "$155",
+                  "row": 8,
+                  "column": 7
+                },
+                "H8": {
+                  "value": "$160",
+                  "row": 8,
+                  "column": 8
+                },
+                "I8": {
+                  "value": "$165",
+                  "row": 8,
+                  "column": 9
+                },
+                "J8": {
+                  "value": "$170",
+                  "row": 8,
+                  "column": 10
+                },
+                "K8": {
+                  "value": "$175",
+                  "row": 8,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 8,
+              "row_label": "Eighth Cost",
+              "is_header_row": false,
+              "cells": {
+                "A9": {
+                  "value": "Eighth Cost",
+                  "row": 9,
+                  "column": 1
+                },
+                "B9": {
+                  "value": "$135",
+                  "row": 9,
+                  "column": 2
+                },
+                "C9": {
+                  "value": "$140",
+                  "row": 9,
+                  "column": 3
+                },
+                "D9": {
+                  "value": "$145",
+                  "row": 9,
+                  "column": 4
+                },
+                "E9": {
+                  "value": "$150",
+                  "row": 9,
+                  "column": 5
+                },
+                "F9": {
+                  "value": "$155",
+                  "row": 9,
+                  "column": 6
+                },
+                "G9": {
+                  "value": "$160",
+                  "row": 9,
+                  "column": 7
+                },
+                "H9": {
+                  "value": "$165",
+                  "row": 9,
+                  "column": 8
+                },
+                "I9": {
+                  "value": "$170",
+                  "row": 9,
+                  "column": 9
+                },
+                "J9": {
+                  "value": "$175",
+                  "row": 9,
+                  "column": 10
+                },
+                "K9": {
+                  "value": "$180",
+                  "row": 9,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 9,
+              "row_label": "Ninth Cost",
+              "is_header_row": false,
+              "cells": {
+                "A10": {
+                  "value": "Ninth Cost",
+                  "row": 10,
+                  "column": 1
+                },
+                "B10": {
+                  "value": "$140",
+                  "row": 10,
+                  "column": 2
+                },
+                "C10": {
+                  "value": "$145",
+                  "row": 10,
+                  "column": 3
+                },
+                "D10": {
+                  "value": "$150",
+                  "row": 10,
+                  "column": 4
+                },
+                "E10": {
+                  "value": "$155",
+                  "row": 10,
+                  "column": 5
+                },
+                "F10": {
+                  "value": "$160",
+                  "row": 10,
+                  "column": 6
+                },
+                "G10": {
+                  "value": "$165",
+                  "row": 10,
+                  "column": 7
+                },
+                "H10": {
+                  "value": "$170",
+                  "row": 10,
+                  "column": 8
+                },
+                "I10": {
+                  "value": "$175",
+                  "row": 10,
+                  "column": 9
+                },
+                "J10": {
+                  "value": "$180",
+                  "row": 10,
+                  "column": 10
+                },
+                "K10": {
+                  "value": "$185",
+                  "row": 10,
+                  "column": 11
+                }
+              }
+            },
+            {
+              "row_index": 10,
+              "row_label": "Tenth Cost",
+              "is_header_row": false,
+              "cells": {
+                "A11": {
+                  "value": "Tenth Cost",
+                  "row": 11,
+                  "column": 1
+                },
+                "B11": {
+                  "value": "$145",
+                  "row": 11,
+                  "column": 2
+                },
+                "C11": {
+                  "value": "$150",
+                  "row": 11,
+                  "column": 3
+                },
+                "D11": {
+                  "value": "$155",
+                  "row": 11,
+                  "column": 4
+                },
+                "E11": {
+                  "value": "$160",
+                  "row": 11,
+                  "column": 5
+                },
+                "F11": {
+                  "value": "$165",
+                  "row": 11,
+                  "column": 6
+                },
+                "G11": {
+                  "value": "$170",
+                  "row": 11,
+                  "column": 7
+                },
+                "H11": {
+                  "value": "$175",
+                  "row": 11,
+                  "column": 8
+                },
+                "I11": {
+                  "value": "$180",
+                  "row": 11,
+                  "column": 9
+                },
+                "J11": {
+                  "value": "$185",
+                  "row": 11,
+                  "column": 10
+                },
+                "K11": {
+                  "value": "$190",
+                  "row": 11,
+                  "column": 11
+                }
+              }
+            }
+          ],
+          "metadata": {
+            "detection_method": "pdfplumber",
+            "quality_score": 0.95,
+            "cell_count": 121,
+            "confidence": 0.95
+          }
+        }
+      ],
+      "metadata": {
+        "filename": "Test_PDF_Table_100_numbers.pdf",
+        "extraction_timestamp": "2025-08-01T16:31:38.823603",
+        "extraction_method": "pdfplumber",
+        "total_tables_found": 1,
+        "quality_distribution": {
+          "high": 1,
+          "medium": 0,
+          "low": 0
+        }
+      }
+    },
+    "text_content": {
+      "document_metadata": {
+        "filename": "table_free_hjv6z2xy.pdf",
+        "extraction_timestamp": "2025-08-01T16:31:38.875246",
+        "extraction_method": "pdfplumber_enhanced",
+        "total_pages": 1,
+        "total_word_count": 131
+      },
+      "pages": [
+        {
+          "page_number": 1,
+          "page_width": 792,
+          "page_height": 612,
+          "sections": [
+            {
+              "section_id": "page_1_section_1",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+              "word_count": 131,
+              "character_count": 714,
+              "llm_ready": false,
+              "position": {
+                "start_y": 57.09244555717828,
+                "end_y": 195.7053939819263,
+                "bbox": [
+                  53.507914137553925,
+                  57.09244555717828,
+                  739.730326514066,
+                  195.7053939819263
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": [
+                {
+                  "value": 1.0,
+                  "original_text": "1/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $",
+                  "position": {
+                    "x": 107.50791413755393,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      107.50791413755393,
+                      69.09244555717828,
+                      125.50791413755393,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $",
+                  "position": {
+                    "x": 131.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      131.50791413755394,
+                      69.09244555717828,
+                      155.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2.0,
+                  "original_text": "2/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105",
+                  "position": {
+                    "x": 161.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      161.50791413755394,
+                      69.09244555717828,
+                      179.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110",
+                  "position": {
+                    "x": 185.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      185.50791413755394,
+                      69.09244555717828,
+                      209.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 3.0,
+                  "original_text": "3/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115",
+                  "position": {
+                    "x": 215.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      215.50791413755394,
+                      69.09244555717828,
+                      233.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120",
+                  "position": {
+                    "x": 239.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      239.50791413755394,
+                      69.09244555717828,
+                      263.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 4.0,
+                  "original_text": "4/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $12",
+                  "position": {
+                    "x": 269.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      269.50791413755394,
+                      69.09244555717828,
+                      287.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $13",
+                  "position": {
+                    "x": 293.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      293.50791413755394,
+                      69.09244555717828,
+                      317.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 5.0,
+                  "original_text": "5/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $1",
+                  "position": {
+                    "x": 323.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      323.50791413755394,
+                      69.09244555717828,
+                      341.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $1",
+                  "position": {
+                    "x": 347.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      347.50791413755394,
+                      69.09244555717828,
+                      371.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 6.0,
+                  "original_text": "6/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $",
+                  "position": {
+                    "x": 377.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      377.50791413755394,
+                      69.09244555717828,
+                      395.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 S",
+                  "position": {
+                    "x": 401.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      401.50791413755394,
+                      69.09244555717828,
+                      425.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 7.0,
+                  "original_text": "7/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Secon",
+                  "position": {
+                    "x": 431.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      431.50791413755394,
+                      69.09244555717828,
+                      449.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cos",
+                  "position": {
+                    "x": 455.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      455.50791413755394,
+                      69.09244555717828,
+                      479.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 8.0,
+                  "original_text": "8/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $1",
+                  "position": {
+                    "x": 485.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      485.50791413755394,
+                      69.09244555717828,
+                      503.50791413755394,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $1",
+                  "position": {
+                    "x": 509.50791413755394,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      509.50791413755394,
+                      69.09244555717828,
+                      533.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 9.0,
+                  "original_text": "9/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $",
+                  "position": {
+                    "x": 539.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      539.5079141375539,
+                      69.09244555717828,
+                      557.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $",
+                  "position": {
+                    "x": 563.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      563.5079141375539,
+                      69.09244555717828,
+                      587.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 10.0,
+                  "original_text": "10/1",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $",
+                  "position": {
+                    "x": 593.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      593.5079141375539,
+                      69.09244555717828,
+                      617.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "fraction",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 2025.0,
+                  "original_text": "2025",
+                  "context": "Category 1/1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $",
+                  "position": {
+                    "x": 623.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      623.5079141375539,
+                      69.09244555717828,
+                      647.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "date_number",
+                  "unit": "seconds",
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 100.0,
+                  "original_text": "$100",
+                  "context": "1/2025 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $1",
+                  "position": {
+                    "x": 719.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      719.5079141375539,
+                      69.09244555717828,
+                      743.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 105.0,
+                  "original_text": "$105",
+                  "context": "5 2/1/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $1",
+                  "position": {
+                    "x": 749.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      749.5079141375539,
+                      69.09244555717828,
+                      773.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 110.0,
+                  "original_text": "$110",
+                  "context": "/2025 3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Th",
+                  "position": {
+                    "x": 779.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      779.5079141375539,
+                      69.09244555717828,
+                      803.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 115.0,
+                  "original_text": "$115",
+                  "context": "3/1/2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third C",
+                  "position": {
+                    "x": 809.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      809.5079141375539,
+                      69.09244555717828,
+                      833.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 120.0,
+                  "original_text": "$120",
+                  "context": "2025 4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $",
+                  "position": {
+                    "x": 839.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      839.5079141375539,
+                      69.09244555717828,
+                      863.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 125.0,
+                  "original_text": "$125",
+                  "context": "4/1/2025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $",
+                  "position": {
+                    "x": 869.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      869.5079141375539,
+                      69.09244555717828,
+                      893.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "025 5/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $",
+                  "position": {
+                    "x": 899.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      899.5079141375539,
+                      69.09244555717828,
+                      923.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "/1/2025 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $",
+                  "position": {
+                    "x": 929.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      929.5079141375539,
+                      69.09244555717828,
+                      953.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "25 6/1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $",
+                  "position": {
+                    "x": 959.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      959.5079141375539,
+                      69.09244555717828,
+                      983.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "1/2025 7/1/2025 8/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $",
+                  "position": {
+                    "x": 989.5079141375539,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      989.5079141375539,
+                      69.09244555717828,
+                      1013.5079141375539,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 105.0,
+                  "original_text": "$105",
+                  "context": "/1/2025 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $15",
+                  "position": {
+                    "x": 1091.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1091.5079141375538,
+                      69.09244555717828,
+                      1115.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 110.0,
+                  "original_text": "$110",
+                  "context": "25 9/1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $15",
+                  "position": {
+                    "x": 1121.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1121.5079141375538,
+                      69.09244555717828,
+                      1145.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 115.0,
+                  "original_text": "$115",
+                  "context": "1/2025 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fou",
+                  "position": {
+                    "x": 1151.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1151.5079141375538,
+                      69.09244555717828,
+                      1175.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 120.0,
+                  "original_text": "$120",
+                  "context": "5 10/1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth C",
+                  "position": {
+                    "x": 1181.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1181.5079141375538,
+                      69.09244555717828,
+                      1205.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 125.0,
+                  "original_text": "$125",
+                  "context": "1/2025 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $",
+                  "position": {
+                    "x": 1211.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1211.5079141375538,
+                      69.09244555717828,
+                      1235.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "5 First Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $",
+                  "position": {
+                    "x": 1241.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1241.5079141375538,
+                      69.09244555717828,
+                      1265.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "st Cost $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $",
+                  "position": {
+                    "x": 1271.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1271.5079141375538,
+                      69.09244555717828,
+                      1295.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "st $100 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $",
+                  "position": {
+                    "x": 1301.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1301.5079141375538,
+                      69.09244555717828,
+                      1325.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "00 $105 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $",
+                  "position": {
+                    "x": 1331.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1331.5079141375538,
+                      69.09244555717828,
+                      1355.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "05 $110 $115 $120 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $",
+                  "position": {
+                    "x": 1361.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1361.5079141375538,
+                      69.09244555717828,
+                      1385.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 110.0,
+                  "original_text": "$110",
+                  "context": "0 $125 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $1",
+                  "position": {
+                    "x": 1457.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1457.5079141375538,
+                      69.09244555717828,
+                      1481.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 115.0,
+                  "original_text": "$115",
+                  "context": "5 $130 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $1",
+                  "position": {
+                    "x": 1487.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1487.5079141375538,
+                      69.09244555717828,
+                      1511.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 120.0,
+                  "original_text": "$120",
+                  "context": "0 $135 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fi",
+                  "position": {
+                    "x": 1517.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1517.5079141375538,
+                      69.09244555717828,
+                      1541.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 125.0,
+                  "original_text": "$125",
+                  "context": "5 $140 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth C",
+                  "position": {
+                    "x": 1547.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1547.5079141375538,
+                      69.09244555717828,
+                      1571.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "0 $145 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $",
+                  "position": {
+                    "x": 1577.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1577.5079141375538,
+                      69.09244555717828,
+                      1601.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "5 Second Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $",
+                  "position": {
+                    "x": 1607.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1607.5079141375538,
+                      69.09244555717828,
+                      1631.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "ond Cost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $",
+                  "position": {
+                    "x": 1637.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1637.5079141375538,
+                      69.09244555717828,
+                      1661.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "ost $105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $",
+                  "position": {
+                    "x": 1667.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1667.5079141375538,
+                      69.09244555717828,
+                      1691.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "105 $110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $",
+                  "position": {
+                    "x": 1697.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1697.5079141375538,
+                      69.09244555717828,
+                      1721.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "110 $115 $120 $125 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $",
+                  "position": {
+                    "x": 1727.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1727.5079141375538,
+                      69.09244555717828,
+                      1751.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 115.0,
+                  "original_text": "$115",
+                  "context": "5 $130 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $16",
+                  "position": {
+                    "x": 1829.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1829.5079141375538,
+                      69.09244555717828,
+                      1853.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 120.0,
+                  "original_text": "$120",
+                  "context": "0 $135 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $16",
+                  "position": {
+                    "x": 1859.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1859.5079141375538,
+                      69.09244555717828,
+                      1883.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 125.0,
+                  "original_text": "$125",
+                  "context": "5 $140 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Six",
+                  "position": {
+                    "x": 1889.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1889.5079141375538,
+                      69.09244555717828,
+                      1913.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "0 $145 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Co",
+                  "position": {
+                    "x": 1919.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1919.5079141375538,
+                      69.09244555717828,
+                      1943.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "5 $150 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $1",
+                  "position": {
+                    "x": 1949.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1949.5079141375538,
+                      69.09244555717828,
+                      1973.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "0 Third Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $1",
+                  "position": {
+                    "x": 1979.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      1979.5079141375538,
+                      69.09244555717828,
+                      2003.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "rd Cost $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $1",
+                  "position": {
+                    "x": 2009.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2009.5079141375538,
+                      69.09244555717828,
+                      2033.5079141375538,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "st $110 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $1",
+                  "position": {
+                    "x": 2039.5079141375538,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2039.5079141375538,
+                      69.09244555717828,
+                      2063.5079141375536,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "10 $115 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $1",
+                  "position": {
+                    "x": 2069.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2069.507914137554,
+                      69.09244555717828,
+                      2093.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "15 $120 $125 $130 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $1",
+                  "position": {
+                    "x": 2099.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2099.507914137554,
+                      69.09244555717828,
+                      2123.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 120.0,
+                  "original_text": "$120",
+                  "context": "0 $135 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $16",
+                  "position": {
+                    "x": 2195.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2195.507914137554,
+                      69.09244555717828,
+                      2219.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 125.0,
+                  "original_text": "$125",
+                  "context": "5 $140 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $17",
+                  "position": {
+                    "x": 2225.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2225.507914137554,
+                      69.09244555717828,
+                      2249.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "0 $145 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Sev",
+                  "position": {
+                    "x": 2255.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2255.507914137554,
+                      69.09244555717828,
+                      2279.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "5 $150 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh",
+                  "position": {
+                    "x": 2285.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2285.507914137554,
+                      69.09244555717828,
+                      2309.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "0 $155 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost",
+                  "position": {
+                    "x": 2315.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2315.507914137554,
+                      69.09244555717828,
+                      2339.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "5 Fourth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130",
+                  "position": {
+                    "x": 2345.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2345.507914137554,
+                      69.09244555717828,
+                      2369.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "rth Cost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135",
+                  "position": {
+                    "x": 2375.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2375.507914137554,
+                      69.09244555717828,
+                      2399.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "ost $115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140",
+                  "position": {
+                    "x": 2405.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2405.507914137554,
+                      69.09244555717828,
+                      2429.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "115 $120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145",
+                  "position": {
+                    "x": 2435.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2435.507914137554,
+                      69.09244555717828,
+                      2459.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 165.0,
+                  "original_text": "$165",
+                  "context": "120 $125 $130 $135 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150",
+                  "position": {
+                    "x": 2465.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2465.507914137554,
+                      69.09244555717828,
+                      2489.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 125.0,
+                  "original_text": "$125",
+                  "context": "35 $140 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $",
+                  "position": {
+                    "x": 2561.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2561.507914137554,
+                      69.09244555717828,
+                      2585.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "40 $145 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $",
+                  "position": {
+                    "x": 2591.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2591.507914137554,
+                      69.09244555717828,
+                      2615.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "45 $150 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 E",
+                  "position": {
+                    "x": 2621.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2621.507914137554,
+                      69.09244555717828,
+                      2645.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "50 $155 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth",
+                  "position": {
+                    "x": 2651.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2651.507914137554,
+                      69.09244555717828,
+                      2675.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "55 $160 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost",
+                  "position": {
+                    "x": 2681.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2681.507914137554,
+                      69.09244555717828,
+                      2705.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "60 Fifth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135",
+                  "position": {
+                    "x": 2711.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2711.507914137554,
+                      69.09244555717828,
+                      2735.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "fth Cost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140",
+                  "position": {
+                    "x": 2741.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2741.507914137554,
+                      69.09244555717828,
+                      2765.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "ost $120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145",
+                  "position": {
+                    "x": 2771.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2771.507914137554,
+                      69.09244555717828,
+                      2795.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 165.0,
+                  "original_text": "$165",
+                  "context": "120 $125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150",
+                  "position": {
+                    "x": 2801.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2801.507914137554,
+                      69.09244555717828,
+                      2825.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 170.0,
+                  "original_text": "$170",
+                  "context": "125 $130 $135 $140 $145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155",
+                  "position": {
+                    "x": 2831.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2831.507914137554,
+                      69.09244555717828,
+                      2855.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 130.0,
+                  "original_text": "$130",
+                  "context": "$145 $150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $1",
+                  "position": {
+                    "x": 2939.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2939.507914137554,
+                      69.09244555717828,
+                      2963.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "$150 $155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $1",
+                  "position": {
+                    "x": 2969.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2969.507914137554,
+                      69.09244555717828,
+                      2993.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "$155 $160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ni",
+                  "position": {
+                    "x": 2999.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      2999.507914137554,
+                      69.09244555717828,
+                      3023.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "$160 $165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth C",
+                  "position": {
+                    "x": 3029.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3029.507914137554,
+                      69.09244555717828,
+                      3053.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "$165 Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $",
+                  "position": {
+                    "x": 3059.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3059.507914137554,
+                      69.09244555717828,
+                      3083.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "Sixth Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $",
+                  "position": {
+                    "x": 3089.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3089.507914137554,
+                      69.09244555717828,
+                      3113.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "h Cost $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $",
+                  "position": {
+                    "x": 3119.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3119.507914137554,
+                      69.09244555717828,
+                      3143.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 165.0,
+                  "original_text": "$165",
+                  "context": "t $125 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $",
+                  "position": {
+                    "x": 3149.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3149.507914137554,
+                      69.09244555717828,
+                      3173.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 170.0,
+                  "original_text": "$170",
+                  "context": "5 $130 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $",
+                  "position": {
+                    "x": 3179.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3179.507914137554,
+                      69.09244555717828,
+                      3203.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 175.0,
+                  "original_text": "$175",
+                  "context": "0 $135 $140 $145 $150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $",
+                  "position": {
+                    "x": 3209.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3209.507914137554,
+                      69.09244555717828,
+                      3233.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 135.0,
+                  "original_text": "$135",
+                  "context": "$150 $155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $18",
+                  "position": {
+                    "x": 3311.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3311.507914137554,
+                      69.09244555717828,
+                      3335.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "$155 $160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $18",
+                  "position": {
+                    "x": 3341.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3341.507914137554,
+                      69.09244555717828,
+                      3365.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "$160 $165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Ten",
+                  "position": {
+                    "x": 3371.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3371.507914137554,
+                      69.09244555717828,
+                      3395.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "$165 $170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Co",
+                  "position": {
+                    "x": 3401.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3401.507914137554,
+                      69.09244555717828,
+                      3425.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "$170 Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $1",
+                  "position": {
+                    "x": 3431.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3431.507914137554,
+                      69.09244555717828,
+                      3455.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "Seventh Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $1",
+                  "position": {
+                    "x": 3461.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3461.507914137554,
+                      69.09244555717828,
+                      3485.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 165.0,
+                  "original_text": "$165",
+                  "context": "th Cost $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $1",
+                  "position": {
+                    "x": 3491.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3491.507914137554,
+                      69.09244555717828,
+                      3515.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 170.0,
+                  "original_text": "$170",
+                  "context": "st $130 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $1",
+                  "position": {
+                    "x": 3521.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3521.507914137554,
+                      69.09244555717828,
+                      3545.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 175.0,
+                  "original_text": "$175",
+                  "context": "30 $135 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $1",
+                  "position": {
+                    "x": 3551.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3551.507914137554,
+                      69.09244555717828,
+                      3575.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 180.0,
+                  "original_text": "$180",
+                  "context": "35 $140 $145 $150 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $1",
+                  "position": {
+                    "x": 3581.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3581.507914137554,
+                      69.09244555717828,
+                      3605.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 140.0,
+                  "original_text": "$140",
+                  "context": "0 $155 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $18",
+                  "position": {
+                    "x": 3677.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3677.507914137554,
+                      69.09244555717828,
+                      3701.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "5 $160 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $19",
+                  "position": {
+                    "x": 3707.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3707.507914137554,
+                      69.09244555717828,
+                      3731.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "0 $165 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3737.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3737.507914137554,
+                      69.09244555717828,
+                      3761.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "5 $170 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3767.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3767.507914137554,
+                      69.09244555717828,
+                      3791.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "0 $175 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3797.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3797.507914137554,
+                      69.09244555717828,
+                      3821.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 165.0,
+                  "original_text": "$165",
+                  "context": "5 Eighth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3827.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3827.507914137554,
+                      69.09244555717828,
+                      3851.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 170.0,
+                  "original_text": "$170",
+                  "context": "hth Cost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3857.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3857.507914137554,
+                      69.09244555717828,
+                      3881.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 175.0,
+                  "original_text": "$175",
+                  "context": "ost $135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3887.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3887.507914137554,
+                      69.09244555717828,
+                      3911.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 180.0,
+                  "original_text": "$180",
+                  "context": "135 $140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3917.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3917.507914137554,
+                      69.09244555717828,
+                      3941.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 185.0,
+                  "original_text": "$185",
+                  "context": "140 $145 $150 $155 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 3947.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      3947.507914137554,
+                      69.09244555717828,
+                      3971.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 145.0,
+                  "original_text": "$145",
+                  "context": "55 $160 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4043.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4043.507914137554,
+                      69.09244555717828,
+                      4067.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 150.0,
+                  "original_text": "$150",
+                  "context": "60 $165 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4073.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4073.507914137554,
+                      69.09244555717828,
+                      4097.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 155.0,
+                  "original_text": "$155",
+                  "context": "65 $170 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4103.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4103.507914137554,
+                      69.09244555717828,
+                      4127.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 160.0,
+                  "original_text": "$160",
+                  "context": "70 $175 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4133.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4133.507914137554,
+                      69.09244555717828,
+                      4157.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 165.0,
+                  "original_text": "$165",
+                  "context": "75 $180 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4163.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4163.507914137554,
+                      69.09244555717828,
+                      4187.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 170.0,
+                  "original_text": "$170",
+                  "context": "80 Ninth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4193.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4193.507914137554,
+                      69.09244555717828,
+                      4217.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 175.0,
+                  "original_text": "$175",
+                  "context": "nth Cost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4223.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4223.507914137554,
+                      69.09244555717828,
+                      4247.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 180.0,
+                  "original_text": "$180",
+                  "context": "ost $140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4253.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4253.507914137554,
+                      69.09244555717828,
+                      4277.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 185.0,
+                  "original_text": "$185",
+                  "context": "140 $145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4283.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4283.507914137554,
+                      69.09244555717828,
+                      4307.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                },
+                {
+                  "value": 190.0,
+                  "original_text": "$190",
+                  "context": "145 $150 $155 $160 $165 $170 $175 $180 $185 Tenth Cost $145 $150 $155 $160 $165 $170 $175 $180 $185 $190",
+                  "position": {
+                    "x": 4313.507914137554,
+                    "y": 69.09244555717828,
+                    "bbox": [
+                      4313.507914137554,
+                      69.09244555717828,
+                      4337.507914137554,
+                      81.09244555717828
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": null,
+                  "currency": "USD",
+                  "confidence": 0.9999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "document_structure": {
+        "toc": [],
+        "sections_by_type": {
+          "header": 0,
+          "paragraph": 1,
+          "list": 0,
+          "table_caption": 0,
+          "figure_caption": 0,
+          "footer": 0,
+          "sidebar": 0
+        }
+      },
+      "summary": {
+        "total_sections": 1,
+        "total_words": 131,
+        "llm_ready_sections": 0,
+        "average_section_length": 131.0,
+        "reading_time_estimate": 0.655,
+        "total_numbers_found": 120
+      }
+    },
+    "processing_summary": {
+      "tables_extracted": 1,
+      "tables_removed_from_pdf": 1,
+      "numbers_found": 120,
+      "text_sections": 1,
+      "duplicate_prevention": "table_removal_applied",
+      "overall_quality_score": 1.0,
+      "processing_errors": []
+    }
+  }
+}

@@ -1,0 +1,457 @@
+{
+  "pdf_processing_result": {
+    "document_metadata": {
+      "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+      "total_pages": 1,
+      "processing_timestamp": "2025-08-01T16:31:38.675409",
+      "processing_duration": 0.10351,
+      "extraction_methods": [
+        "table_extraction",
+        "text_extraction_table_free"
+      ],
+      "table_removal_applied": true
+    },
+    "tables": {
+      "tables": [],
+      "metadata": {
+        "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+        "extraction_timestamp": "2025-08-01T16:31:38.571954",
+        "extraction_method": "pdfplumber",
+        "total_tables_found": 0,
+        "quality_distribution": {
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        }
+      }
+    },
+    "text_content": {
+      "document_metadata": {
+        "filename": "table_free_mxh13c7z.pdf",
+        "extraction_timestamp": "2025-08-01T16:31:38.629093",
+        "extraction_method": "pdfplumber_enhanced",
+        "total_pages": 1,
+        "total_word_count": 105
+      },
+      "pages": [
+        {
+          "page_number": 1,
+          "page_width": 612,
+          "page_height": 792,
+          "sections": [
+            {
+              "section_id": "page_1_section_1",
+              "section_type": "figure_caption",
+              "title": null,
+              "content": "For the first paragraph I want to say that I have 10 fingers",
+              "word_count": 13,
+              "character_count": 60,
+              "llm_ready": false,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": [
+                {
+                  "value": 10.0,
+                  "original_text": "10",
+                  "context": "For the first paragraph I want to say that I have 10 fingers",
+                  "position": {
+                    "x": 372.0,
+                    "y": 85.64892546547844,
+                    "bbox": [
+                      372.0,
+                      85.64892546547844,
+                      384.0,
+                      97.64892546547844
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "integer",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                }
+              ]
+            },
+            {
+              "section_id": "page_1_section_2",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "That is just a simple integer number with no commas and no units so it should be easier to detect",
+              "word_count": 20,
+              "character_count": 97,
+              "llm_ready": false,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": []
+            },
+            {
+              "section_id": "page_1_section_3",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "For the second paragraph I want to say that I have a crisp new $50 bill in my wallet",
+              "word_count": 19,
+              "character_count": 84,
+              "llm_ready": false,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": [
+                {
+                  "value": 50.0,
+                  "original_text": "$50",
+                  "context": "For the second paragraph I want to say that I have a crisp new $50 bill in my wallet",
+                  "position": {
+                    "x": 450.0,
+                    "y": 85.64892546547844,
+                    "bbox": [
+                      450.0,
+                      85.64892546547844,
+                      468.0,
+                      97.64892546547844
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "currency",
+                  "unit": "seconds",
+                  "currency": "USD",
+                  "confidence": 0.8999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                }
+              ]
+            },
+            {
+              "section_id": "page_1_section_4",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "This number contains a symbol that should make it clear it is currency",
+              "word_count": 13,
+              "character_count": 70,
+              "llm_ready": false,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": []
+            },
+            {
+              "section_id": "page_1_section_5",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "For the third paragraph I want to test the parsing of a very large number so I am including a number that has a comma in it",
+              "word_count": 27,
+              "character_count": 123,
+              "llm_ready": false,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": []
+            },
+            {
+              "section_id": "page_1_section_6",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "That number is 10,000",
+              "word_count": 4,
+              "character_count": 21,
+              "llm_ready": false,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": [
+                {
+                  "value": 10000.0,
+                  "original_text": "10,000",
+                  "context": "That number is 10,000",
+                  "position": {
+                    "x": 162.0,
+                    "y": 85.64892546547844,
+                    "bbox": [
+                      162.0,
+                      85.64892546547844,
+                      198.0,
+                      97.64892546547844
+                    ],
+                    "line_number": 1
+                  },
+                  "format": "integer",
+                  "unit": null,
+                  "currency": null,
+                  "confidence": 0.7999999999999999,
+                  "extraction_method": "regex_pattern",
+                  "metadata": {
+                    "font_size": 12,
+                    "font_family": "Arial",
+                    "is_bold": false,
+                    "is_italic": false,
+                    "color": null
+                  }
+                }
+              ]
+            },
+            {
+              "section_id": "page_1_section_7",
+              "section_type": "paragraph",
+              "title": null,
+              "content": "This is a test of large numbers with commas.",
+              "word_count": 9,
+              "character_count": 44,
+              "llm_ready": true,
+              "position": {
+                "start_y": 73.64892546547844,
+                "end_y": 201.01904311547855,
+                "bbox": [
+                  72.0,
+                  73.64892546547844,
+                  531.4578275332518,
+                  201.01904311547855
+                ],
+                "column_index": 0
+              },
+              "metadata": {
+                "font_size": 12,
+                "font_family": "Arial",
+                "is_bold": false,
+                "is_italic": false,
+                "color": null,
+                "alignment": "left",
+                "line_spacing": null
+              },
+              "structure": {
+                "heading_level": 4,
+                "list_type": null,
+                "list_level": null,
+                "is_continuation": false
+              },
+              "relationships": {
+                "parent_section": null,
+                "child_sections": [],
+                "related_tables": [],
+                "related_figures": []
+              },
+              "numbers": []
+            }
+          ]
+        }
+      ],
+      "document_structure": {
+        "toc": [],
+        "sections_by_type": {
+          "header": 0,
+          "paragraph": 6,
+          "list": 0,
+          "table_caption": 0,
+          "figure_caption": 1,
+          "footer": 0,
+          "sidebar": 0
+        }
+      },
+      "summary": {
+        "total_sections": 7,
+        "total_words": 105,
+        "llm_ready_sections": 1,
+        "average_section_length": 15.0,
+        "reading_time_estimate": 0.525,
+        "total_numbers_found": 3
+      }
+    },
+    "processing_summary": {
+      "tables_extracted": 0,
+      "tables_removed_from_pdf": 0,
+      "numbers_found": 3,
+      "text_sections": 7,
+      "duplicate_prevention": "table_removal_applied",
+      "overall_quality_score": 0.85,
+      "processing_errors": []
+    }
+  }
+}

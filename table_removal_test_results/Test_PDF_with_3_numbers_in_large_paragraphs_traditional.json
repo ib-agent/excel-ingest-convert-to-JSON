@@ -1,0 +1,98 @@
+{
+  "processing_metadata": {
+    "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+    "extraction_method": "pdfplumber_clean_pipeline",
+    "tables_found": 0,
+    "text_sections_found": 5,
+    "numbers_found": 3
+  },
+  "tables": [],
+  "text_sections": [
+    {
+      "page_number": 1,
+      "content": "For the first paragraph I want to say that I have 10 fingers",
+      "bbox": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    },
+    {
+      "page_number": 1,
+      "content": "That is just a simple integer number with no commas and no units so it should be easier to detect",
+      "bbox": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    },
+    {
+      "page_number": 1,
+      "content": "For the second paragraph I want to say that I have a crisp new $50 bill in my wallet",
+      "bbox": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    },
+    {
+      "page_number": 1,
+      "content": "This number contains a symbol that should make it clear it is currency",
+      "bbox": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    },
+    {
+      "page_number": 1,
+      "content": "For the third paragraph I want to test the parsing of a very large number so I am including a number that has a comma in it",
+      "bbox": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    }
+  ],
+  "numbers": [
+    {
+      "value": "10",
+      "type": "integer",
+      "context": "For the first paragraph I want to say that I have 10 fingers",
+      "position": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    },
+    {
+      "value": "$50",
+      "type": "currency",
+      "context": "d paragraph I want to say that I have a crisp new $50 bill in my wallet",
+      "position": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    },
+    {
+      "value": "50",
+      "type": "integer",
+      "context": "paragraph I want to say that I have a crisp new $50 bill in my wallet",
+      "position": {
+        "x0": 72.0,
+        "y0": 73.64892535547847,
+        "x1": 531.4578276432518,
+        "y1": 201.01904300547847
+      }
+    }
+  ],
+  "exclusion_zones": {}
+}
