@@ -1,6 +1,5 @@
 # Running Small LLMs Locally for PDF Processing with Ollama
 
-*July 31, 2025*
 
 ## Background
 
