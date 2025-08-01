@@ -489,7 +489,7 @@
             color: #667eea;
         }
 
-        /* Processing Mode Selector */
+        /* Processing Features Display */
         .processing-mode-section {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -518,27 +518,16 @@
             flex: 1;
             min-width: 250px;
             background: white;
-            border: 2px solid #e9ecef;
+            border: 1px solid #e9ecef;
             border-radius: 8px;
             padding: 1rem;
-            cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-        }
-
-        .mode-option:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
         }
 
         .mode-option.selected {
             border-color: #667eea;
             background: linear-gradient(135deg, #f0f2ff 0%, #e8f4fd 100%);
-        }
-
-        .mode-option input[type="radio"] {
-            display: none;
         }
 
         .mode-header {
@@ -973,58 +962,36 @@
 
         <div class="header">
             <h1><i class="fas fa-file-pdf"></i> PDF to JSON Converter</h1>
-            <p>Extract tables and text from PDF documents with advanced duplicate prevention</p>
+            <p>Extract tables and text from PDF documents with guaranteed duplicate prevention</p>
         </div>
 
         <div class="main-content">
 
             <div class="upload-section">
-                <!-- Processing Mode Selection -->
+                <!-- Processing Features Info -->
                 <div class="processing-mode-section">
                     <div class="processing-mode-title">
-                        <i class="fas fa-cogs"></i> Choose Processing Mode
+                        <i class="fas fa-cogs"></i> Processing Features
                     </div>
                     <div class="mode-options">
-                        <!-- Traditional Mode -->
-                        <label class="mode-option selected" for="mode-traditional">
-                            <input type="radio" id="mode-traditional" name="processing-mode" value="traditional" checked>
+                        <div class="mode-option selected">
                             <div class="mode-header">
                                 <div class="mode-title">
-                                    <i class="fas fa-list-alt"></i> Traditional Processing
+                                    <i class="fas fa-magic"></i> Intelligent PDF Processing
                                 </div>
-                                <div class="mode-badge">Standard</div>
                             </div>
                             <div class="mode-description">
-                                Standard PDF processing with area exclusion to minimize content overlap.
+                                Advanced PDF analysis with guaranteed duplicate prevention and high-quality data extraction.
                             </div>
                             <ul class="mode-features">
-                                <li>Table detection & extraction</li>
-                                <li>Text content extraction</li>
-                                <li>Area exclusion zones</li>
-                                <li>Number extraction</li>
+                                <li class="highlight">📊 Table detection & extraction</li>
+                                <li class="highlight">📝 Text content extraction</li>
+                                <li class="highlight">🔢 Number identification</li>
+                                <li class="highlight">🚫 Duplicate prevention</li>
+                                <li class="highlight">⚡ Fast processing</li>
+                                <li class="highlight">📋 Schema-compliant output</li>
                             </ul>
-                        </label>
-
-                        <!-- Table Removal Mode -->
-                        <label class="mode-option" for="mode-table-removal">
-                            <input type="radio" id="mode-table-removal" name="processing-mode" value="table_removal">
-                            <div class="mode-header">
-                                <div class="mode-title">
-                                    <i class="fas fa-shield-alt"></i> Table Removal Processing
-                                </div>
-                                <div class="mode-badge new">NEW</div>
-                            </div>
-                            <div class="mode-description">
-                                Innovative approach that physically removes tables before text extraction to eliminate duplicates.
-                            </div>
-                            <ul class="mode-features">
-                                <li class="highlight">Guaranteed duplicate prevention</li>
-                                <li class="highlight">Physical table separation</li>
-                                <li>Enhanced text extraction</li>
-                                <li>Premium quality scoring</li>
-                                <li>Schema-compliant output</li>
-                            </ul>
-                        </label>
+                        </div>
                     </div>
                 </div>
 
@@ -1041,19 +1008,6 @@
                 <button class="upload-btn" id="uploadBtn">
                     <i class="fas fa-upload"></i> Process PDF
                 </button>
-
-                <!-- Benefits Banner for Table Removal -->
-                <div class="benefits-banner" id="benefitsBanner">
-                    <div class="benefits-title">
-                        <i class="fas fa-shield-alt"></i> Table Removal Benefits
-                    </div>
-                    <ul class="benefits-list">
-                        <li>Eliminates duplicate content detection</li>
-                        <li>Guarantees table/text separation</li>
-                        <li>Improves extraction quality</li>
-                        <li>Schema-compliant output</li>
-                    </ul>
-                </div>
 
                 <div class="progress-section" id="progressSection">
                     <div class="progress-bar">
@@ -1087,7 +1041,7 @@
                 <p><strong>Size:</strong> <span id="fileSize"></span></p>
                 <p><strong>Pages:</strong> <span id="pageCount"></span></p>
                 <p><strong>Processing Time:</strong> <span id="processingTime"></span></p>
-                <p><strong>Processing Mode:</strong> <span id="processingMode">Traditional</span></p>
+                <p><strong>Processing Mode:</strong> <span>Intelligent Processing</span></p>
             </div>
 
             <!-- Processing Info Banner -->
@@ -1166,7 +1120,7 @@
         let jsonData = null;
         let processingStartTime = null;
         let currentDisplayType = 'formatted';
-        let selectedProcessingMode = 'traditional';
+        let selectedProcessingMode = 'table_removal'; // Always use table removal mode
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
@@ -1311,15 +1265,10 @@
                 formData.append('extract_text', 'true');
                 formData.append('extract_numbers', 'true');
 
-                // Choose endpoint based on processing mode
-                let endpoint = '/api/pdf/upload/';
-                if (selectedProcessingMode === 'table_removal') {
-                    endpoint = '/api/pdf/table-removal/';
-                } else {
-                    endpoint += '?mode=' + selectedProcessingMode;
-                }
+                // Always use table removal endpoint
+                let endpoint = '/api/pdf/table-removal/';
 
-                fetch(endpoint + (endpoint.includes('?') ? '&' : '?') + 't=' + Date.now(), {
+                fetch(endpoint + '?t=' + Date.now(), {
                     method: 'POST',
                     body: formData
                 })
@@ -1359,11 +1308,6 @@
             }
 
             function updateFileInfo(responseData) {
-                // Update processing mode display
-                const processingModeElement = document.getElementById('processingMode');
-                const mode = responseData.processing_mode || selectedProcessingMode;
-                processingModeElement.textContent = mode === 'table_removal' ? 'Table Removal' : 'Traditional';
-                
                 // Update page count and processing time
                 const totalPages = responseData.result?.pdf_processing_result?.document_metadata?.total_pages || 'Unknown';
                 document.getElementById('pageCount').textContent = totalPages;
@@ -1394,11 +1338,9 @@
                 // Show processing info
                 processingInfo.style.display = 'block';
                 
-                // Add table removal styling if applicable
-                if (responseData.processing_mode === 'table_removal') {
-                    processingInfo.classList.add('table-removal');
-                    processingInfo.querySelector('h4').innerHTML = '<i class="fas fa-shield-alt"></i> Table Removal Processing Summary';
-                }
+                // Add processing styling
+                processingInfo.classList.add('table-removal');
+                processingInfo.querySelector('h4').innerHTML = '<i class="fas fa-chart-bar"></i> Processing Summary';
                 
                 // Debug logging
                 console.log('updateProcessingInfo responseData:', responseData);
@@ -1459,55 +1401,33 @@
                     
                     console.log('Calculated textSectionsCount:', textSectionsCount);
                     
-                    // For table removal mode, show enhanced metrics
-                    if (responseData.processing_mode === 'table_removal') {
-                        metricsHtml = `
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.tables_extracted || 0}</div>
-                                <div class="metric-label">Tables Extracted</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.tables_removed_from_pdf || summary.tables_extracted || 0}</div>
-                                <div class="metric-label">Tables Removed</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${textSectionsCount}</div>
-                                <div class="metric-label">Text Sections</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.numbers_extracted || summary.numbers_found || 0}</div>
-                                <div class="metric-label">Numbers Found</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.overall_success ? '100.0' : '0.0'}%</div>
-                                <div class="metric-label">Quality Score</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.duplicate_prevention === 'table_removal_applied' ? 'ACTIVE' : 'INACTIVE'}</div>
-                                <div class="metric-label">Duplicate Prevention</div>
-                            </div>
-                        `;
-                    } else {
-                        // Traditional mode metrics
-                        metricsHtml = `
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.tables_extracted || 0}</div>
-                                <div class="metric-label">Tables Found</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${textSectionsCount}</div>
-                                <div class="metric-label">Text Sections</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.numbers_extracted || summary.numbers_found || 0}</div>
-                                <div class="metric-label">Numbers Found</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">${summary.overall_success ? '100.0' : '0.0'}%</div>
-                                <div class="metric-label">Quality Score</div>
-                            </div>
-                        `;
-                    }
+                    // Always show enhanced table removal metrics
+                    metricsHtml = `
+                        <div class="metric-item">
+                            <div class="metric-value">${summary.tables_extracted || 0}</div>
+                            <div class="metric-label">Tables Extracted</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${summary.tables_removed_from_pdf || summary.tables_extracted || 0}</div>
+                            <div class="metric-label">Tables Removed</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${textSectionsCount}</div>
+                            <div class="metric-label">Text Sections</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${summary.numbers_extracted || summary.numbers_found || 0}</div>
+                            <div class="metric-label">Numbers Found</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${summary.overall_success ? '100.0' : '0.0'}%</div>
+                            <div class="metric-label">Quality Score</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">${Date.now() - processingStartTime}ms</div>
+                            <div class="metric-label">Processing Time</div>
+                        </div>
+                    `;
                 }
                 
                 processingMetrics.innerHTML = metricsHtml;
@@ -1600,18 +1520,21 @@
                 
                 // Handle different possible structures
                 let textSections = [];
-                if (data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections) {
-                    textSections = data.pdf_processing_result.text_content.text_content.pages[0].sections;
+                if (data?.pdf_processing_result?.text_content?.pages?.[0]?.sections) {
+                    textSections = data.pdf_processing_result.text_content.pages[0].sections;
                     console.log('Found text sections in pages[0].sections:', textSections);
-                } else if (data?.pdf_processing_result?.text_content?.text_content) {
-                    textSections = data.pdf_processing_result.text_content.text_content;
-                    console.log('Found text sections in text_content:', textSections);
-                } else if (data?.pdf_processing_result?.text_content) {
-                    textSections = data.pdf_processing_result.text_content;
-                    console.log('Found text sections in text_content (direct):', textSections);
-                } else if (Array.isArray(data?.pdf_processing_result?.text_content)) {
-                    textSections = data.pdf_processing_result.text_content;
-                    console.log('Found text sections as array:', textSections);
+                } else if (data?.pdf_processing_result?.text_content?.pages) {
+                    // Try to get sections from all pages
+                    textSections = [];
+                    data.pdf_processing_result.text_content.pages.forEach(page => {
+                        if (page.sections && Array.isArray(page.sections)) {
+                            textSections = textSections.concat(page.sections);
+                        }
+                    });
+                    console.log('Found text sections across all pages:', textSections);
+                } else if (data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections) {
+                    textSections = data.pdf_processing_result.text_content.text_content.pages[0].sections;
+                    console.log('Found text sections in nested structure:', textSections);
                 }
                 
                 // Ensure textSections is an array
@@ -1872,34 +1795,7 @@
                 uploadBtn.disabled = true;
             }
 
-            function initializeProcessingModeSelection() {
-                const modeOptions = document.querySelectorAll('.mode-option');
-                const benefitsBanner = document.getElementById('benefitsBanner');
-                
-                modeOptions.forEach(option => {
-                    option.addEventListener('click', function() {
-                        // Remove selected class from all options
-                        modeOptions.forEach(opt => opt.classList.remove('selected'));
-                        
-                        // Add selected class to clicked option
-                        this.classList.add('selected');
-                        
-                        // Update selected mode
-                        const radio = this.querySelector('input[type="radio"]');
-                        radio.checked = true;
-                        selectedProcessingMode = radio.value;
-                        
-                        // Show/hide benefits banner
-                        if (selectedProcessingMode === 'table_removal') {
-                            benefitsBanner.classList.add('show');
-                        } else {
-                            benefitsBanner.classList.remove('show');
-                        }
-                        
-                        console.log('Selected processing mode:', selectedProcessingMode);
-                    });
-                });
-            }
+
 
             // Make functions globally accessible
             window.changeDisplayType = changeDisplayType;

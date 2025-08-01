@@ -53,9 +53,9 @@ def upload_and_process_pdf(request):
         format_type = request.GET.get('format', 'verbose').lower()
         use_compact = format_type == 'compact'
         
-        # Check processing mode parameter
-        processing_mode = request.GET.get('mode', 'traditional').lower()
-        use_table_removal = processing_mode == 'table_removal'
+        # Always use table removal mode (traditional mode deprecated)
+        processing_mode = 'table_removal'
+        use_table_removal = True
         
         # Validate file type
         if not uploaded_file.name.lower().endswith('.pdf'):
