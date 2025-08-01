@@ -1,0 +1,3914 @@
+{
+  "migration_validation": {
+    "api_compatibility": {
+      "passed": 6,
+      "failed": 0,
+      "tests": []
+    },
+    "functionality": {
+      "passed": 6,
+      "failed": 0,
+      "tests": []
+    },
+    "performance": {
+      "passed": 2,
+      "failed": 0,
+      "tests": []
+    },
+    "quality": {
+      "passed": 2,
+      "failed": 0,
+      "tests": []
+    }
+  },
+  "test_files": [
+    "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+    "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+    "tests/test_pdfs/Test_PDF_Table_9_numbers.pdf",
+    "tests/test_pdfs/Test_PDF_Table_100_numbers.pdf",
+    "tests/test_pdfs/synthetic_financial_report.pdf"
+  ],
+  "detailed_results": {
+    "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf": {
+      "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+      "tests": [
+        {
+          "name": "Core PDFPlumber Processor",
+          "status": "PASSED",
+          "processing_time": 0.06359195709228516,
+          "details": "Successfully processed with 1 tables"
+        },
+        {
+          "name": "Clean PDF Processor",
+          "status": "PASSED",
+          "processing_time": 0.06354188919067383,
+          "details": "Successfully processed with 1 tables"
+        },
+        {
+          "name": "Main PDF Processor",
+          "status": "PASSED",
+          "processing_time": 0.060623884201049805,
+          "details": "Successfully processed with 1 tables"
+        },
+        {
+          "name": "Performance Validation",
+          "status": "PASSED",
+          "details": "All processing times under 30.0s"
+        },
+        {
+          "name": "Quality Validation",
+          "status": "PASSED",
+          "details": "Extracted 3 tables and 0 text sections"
+        }
+      ],
+      "processing_times": {
+        "core_processor": 0.06359195709228516,
+        "clean_processor": 0.06354188919067383,
+        "main_processor": 0.060623884201049805
+      },
+      "extraction_results": {
+        "core_processor": {
+          "pdf_processing_result": {
+            "document_metadata": {
+              "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+              "processing_timestamp": "2025-07-31T16:50:21.438150",
+              "processing_duration": 0.063451,
+              "extraction_methods": [
+                "pdfplumber_table_extraction",
+                "pdfplumber_text_extraction"
+              ]
+            },
+            "tables": {
+              "tables": [
+                {
+                  "table_id": "table_1",
+                  "name": "Table 1",
+                  "region": {
+                    "page_number": 1,
+                    "bbox": [
+                      77.25,
+                      73.64892535547847,
+                      494.3321422290381,
+                      263.1302456054784
+                    ],
+                    "detection_method": "pdfplumber"
+                  },
+                  "header_info": {
+                    "header_rows": [
+                      0
+                    ],
+                    "header_columns": [
+                      0
+                    ],
+                    "data_start_row": 1,
+                    "data_start_col": 1
+                  },
+                  "columns": [
+                    {
+                      "column_index": 0,
+                      "column_label": "Item",
+                      "is_header_column": true,
+                      "cells": {
+                        "A1": {
+                          "value": "Item",
+                          "row": 1,
+                          "column": 1
+                        },
+                        "A2": {
+                          "value": "Item-One",
+                          "row": 2,
+                          "column": 1
+                        },
+                        "A3": {
+                          "value": "Item-Two",
+                          "row": 3,
+                          "column": 1
+                        },
+                        "A4": {
+                          "value": "Item-Three",
+                          "row": 4,
+                          "column": 1
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 1,
+                      "column_label": "April",
+                      "is_header_column": false,
+                      "cells": {
+                        "B1": {
+                          "value": "April",
+                          "row": 1,
+                          "column": 2
+                        },
+                        "B2": {
+                          "value": "101",
+                          "row": 2,
+                          "column": 2
+                        },
+                        "B3": {
+                          "value": "102",
+                          "row": 3,
+                          "column": 2
+                        },
+                        "B4": {
+                          "value": "103",
+                          "row": 4,
+                          "column": 2
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 2,
+                      "column_label": "May",
+                      "is_header_column": false,
+                      "cells": {
+                        "C1": {
+                          "value": "May",
+                          "row": 1,
+                          "column": 3
+                        },
+                        "C2": {
+                          "value": "201",
+                          "row": 2,
+                          "column": 3
+                        },
+                        "C3": {
+                          "value": "202",
+                          "row": 3,
+                          "column": 3
+                        },
+                        "C4": {
+                          "value": "203",
+                          "row": 4,
+                          "column": 3
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 3,
+                      "column_label": "June",
+                      "is_header_column": false,
+                      "cells": {
+                        "D1": {
+                          "value": "June",
+                          "row": 1,
+                          "column": 4
+                        },
+                        "D2": {
+                          "value": "301",
+                          "row": 2,
+                          "column": 4
+                        },
+                        "D3": {
+                          "value": "302",
+                          "row": 3,
+                          "column": 4
+                        },
+                        "D4": {
+                          "value": "303",
+                          "row": 4,
+                          "column": 4
+                        }
+                      }
+                    }
+                  ],
+                  "rows": [
+                    {
+                      "row_index": 0,
+                      "row_label": "Item",
+                      "is_header_row": true,
+                      "cells": {
+                        "A1": {
+                          "value": "Item",
+                          "row": 1,
+                          "column": 1
+                        },
+                        "B1": {
+                          "value": "April",
+                          "row": 1,
+                          "column": 2
+                        },
+                        "C1": {
+                          "value": "May",
+                          "row": 1,
+                          "column": 3
+                        },
+                        "D1": {
+                          "value": "June",
+                          "row": 1,
+                          "column": 4
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 1,
+                      "row_label": "Item-One",
+                      "is_header_row": false,
+                      "cells": {
+                        "A2": {
+                          "value": "Item-One",
+                          "row": 2,
+                          "column": 1
+                        },
+                        "B2": {
+                          "value": "101",
+                          "row": 2,
+                          "column": 2
+                        },
+                        "C2": {
+                          "value": "201",
+                          "row": 2,
+                          "column": 3
+                        },
+                        "D2": {
+                          "value": "301",
+                          "row": 2,
+                          "column": 4
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 2,
+                      "row_label": "Item-Two",
+                      "is_header_row": false,
+                      "cells": {
+                        "A3": {
+                          "value": "Item-Two",
+                          "row": 3,
+                          "column": 1
+                        },
+                        "B3": {
+                          "value": "102",
+                          "row": 3,
+                          "column": 2
+                        },
+                        "C3": {
+                          "value": "202",
+                          "row": 3,
+                          "column": 3
+                        },
+                        "D3": {
+                          "value": "302",
+                          "row": 3,
+                          "column": 4
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 3,
+                      "row_label": "Item-Three",
+                      "is_header_row": false,
+                      "cells": {
+                        "A4": {
+                          "value": "Item-Three",
+                          "row": 4,
+                          "column": 1
+                        },
+                        "B4": {
+                          "value": "103",
+                          "row": 4,
+                          "column": 2
+                        },
+                        "C4": {
+                          "value": "203",
+                          "row": 4,
+                          "column": 3
+                        },
+                        "D4": {
+                          "value": "303",
+                          "row": 4,
+                          "column": 4
+                        }
+                      }
+                    }
+                  ],
+                  "metadata": {
+                    "detection_method": "pdfplumber",
+                    "quality_score": 0.95,
+                    "cell_count": 16,
+                    "confidence": 0.95
+                  }
+                }
+              ],
+              "metadata": {
+                "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+                "extraction_timestamp": "2025-07-31T16:50:21.438647",
+                "extraction_method": "pdfplumber",
+                "total_tables_found": 1,
+                "quality_distribution": {
+                  "high": 1,
+                  "medium": 0,
+                  "low": 0
+                }
+              }
+            },
+            "text_content": {
+              "document_metadata": {
+                "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+                "extraction_timestamp": "2025-07-31T16:50:21.471454",
+                "extraction_method": "pdfplumber_enhanced",
+                "total_pages": 1,
+                "total_word_count": 0
+              },
+              "pages": [
+                {
+                  "page_number": 1,
+                  "page_width": 612,
+                  "page_height": 792,
+                  "sections": []
+                }
+              ],
+              "document_structure": {
+                "toc": [],
+                "sections_by_type": {
+                  "header": 0,
+                  "paragraph": 0,
+                  "list": 0,
+                  "table_caption": 0,
+                  "figure_caption": 0,
+                  "footer": 0,
+                  "sidebar": 0
+                }
+              },
+              "summary": {
+                "total_sections": 0,
+                "total_words": 0,
+                "llm_ready_sections": 0,
+                "average_section_length": 0,
+                "reading_time_estimate": 0,
+                "total_numbers_found": 0
+              }
+            },
+            "processing_summary": {
+              "tables_extracted": 1,
+              "numbers_found": 0,
+              "text_sections": 0,
+              "overall_quality_score": 0.475,
+              "processing_errors": []
+            }
+          }
+        },
+        "clean_processor": {
+          "processing_metadata": {
+            "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+            "extraction_method": "pdfplumber_clean_pipeline",
+            "tables_found": 1,
+            "text_sections_found": 0,
+            "numbers_found": 0
+          },
+          "tables": [
+            {
+              "page_number": 1,
+              "bbox": {
+                "x0": 77.25,
+                "y0": 73.64892535547847,
+                "x1": 494.3321422290381,
+                "y1": 263.1302456054784
+              },
+              "rows": 4,
+              "cols": 4,
+              "accuracy": 0.95,
+              "method": "pdfplumber",
+              "data": [
+                {
+                  "Item": "Item",
+                  "April": "April",
+                  "May": "May",
+                  "June": "June"
+                },
+                {
+                  "Item": "Item-One",
+                  "April": "101",
+                  "May": "201",
+                  "June": "301"
+                },
+                {
+                  "Item": "Item-Two",
+                  "April": "102",
+                  "May": "202",
+                  "June": "302"
+                },
+                {
+                  "Item": "Item-Three",
+                  "April": "103",
+                  "May": "203",
+                  "June": "303"
+                }
+              ]
+            }
+          ],
+          "text_sections": [],
+          "numbers": [],
+          "exclusion_zones": {
+            "1": [
+              {
+                "x0": 67.25,
+                "y0": 63.64892535547847,
+                "x1": 504.3321422290381,
+                "y1": 273.1302456054784
+              }
+            ]
+          }
+        },
+        "main_processor": {
+          "document_metadata": {
+            "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+            "processing_timestamp": "2025-07-31T16:50:21.565426",
+            "processing_duration": 0.060412,
+            "extraction_method": "pdfplumber_comprehensive"
+          },
+          "tables": {
+            "extraction_metadata": {
+              "method": "pdfplumber",
+              "total_tables": 1,
+              "extraction_timestamp": "2025-07-31T16:50:21.595628",
+              "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf"
+            },
+            "tables": [
+              {
+                "table_id": "table_1",
+                "page_number": 1,
+                "bbox": {
+                  "x0": 77.25,
+                  "y0": 73.64892535547847,
+                  "x1": 494.3321422290381,
+                  "y1": 263.1302456054784
+                },
+                "dimensions": {
+                  "rows": 4,
+                  "columns": 4
+                },
+                "data": {
+                  "headers": [
+                    "Item",
+                    "April",
+                    "May",
+                    "June"
+                  ],
+                  "rows": [
+                    [
+                      "Item",
+                      "April",
+                      "May",
+                      "June"
+                    ],
+                    [
+                      "Item-One",
+                      "101",
+                      "201",
+                      "301"
+                    ],
+                    [
+                      "Item-Two",
+                      "102",
+                      "202",
+                      "302"
+                    ],
+                    [
+                      "Item-Three",
+                      "103",
+                      "203",
+                      "303"
+                    ]
+                  ],
+                  "records": [
+                    {
+                      "Item": "Item",
+                      "April": "April",
+                      "May": "May",
+                      "June": "June"
+                    },
+                    {
+                      "Item": "Item-One",
+                      "April": "101",
+                      "May": "201",
+                      "June": "301"
+                    },
+                    {
+                      "Item": "Item-Two",
+                      "April": "102",
+                      "May": "202",
+                      "June": "302"
+                    },
+                    {
+                      "Item": "Item-Three",
+                      "April": "103",
+                      "May": "203",
+                      "June": "303"
+                    }
+                  ]
+                },
+                "metadata": {
+                  "extraction_method": "pdfplumber",
+                  "confidence": 0.95,
+                  "quality_score": 0.95,
+                  "cell_count": 16
+                }
+              }
+            ],
+            "quality_metrics": {
+              "overall_confidence": 0.95,
+              "extraction_success": true
+            }
+          },
+          "text_content": {
+            "extraction_metadata": {
+              "method": "pdfplumber",
+              "total_sections": 0,
+              "total_words": 0,
+              "extraction_timestamp": "2025-07-31T16:50:21.625771",
+              "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf"
+            },
+            "text_content": {
+              "document_metadata": {
+                "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
+                "extraction_timestamp": "2025-07-31T16:50:21.595750",
+                "extraction_method": "pdfplumber_enhanced",
+                "total_pages": 1,
+                "total_word_count": 0
+              },
+              "pages": [
+                {
+                  "page_number": 1,
+                  "page_width": 612,
+                  "page_height": 792,
+                  "sections": []
+                }
+              ],
+              "document_structure": {
+                "toc": [],
+                "sections_by_type": {
+                  "header": 0,
+                  "paragraph": 0,
+                  "list": 0,
+                  "table_caption": 0,
+                  "figure_caption": 0,
+                  "footer": 0,
+                  "sidebar": 0
+                }
+              },
+              "summary": {
+                "total_sections": 0,
+                "total_words": 0,
+                "llm_ready_sections": 0,
+                "average_section_length": 0,
+                "reading_time_estimate": 0,
+                "total_numbers_found": 0
+              }
+            },
+            "quality_metrics": {
+              "llm_ready_sections": 0,
+              "extraction_success": true
+            }
+          },
+          "numbers": {
+            "extraction_metadata": {
+              "method": "pdfplumber_enhanced",
+              "total_numbers": 0,
+              "extraction_timestamp": "2025-07-31T16:50:21.625820"
+            },
+            "numbers": [],
+            "summary": {
+              "by_type": {},
+              "by_page": {},
+              "confidence_distribution": {
+                "high": 0,
+                "medium": 0,
+                "low": 0
+              }
+            }
+          },
+          "processing_summary": {
+            "tables_extracted": 1,
+            "text_sections_extracted": 0,
+            "numbers_extracted": 0,
+            "overall_success": true,
+            "errors": []
+          }
+        }
+      }
+    },
+    "Test_PDF_with_3_numbers_in_large_paragraphs.pdf": {
+      "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+      "tests": [
+        {
+          "name": "Core PDFPlumber Processor",
+          "status": "PASSED",
+          "processing_time": 0.0907142162322998,
+          "details": "Successfully processed with 1 tables"
+        },
+        {
+          "name": "Clean PDF Processor",
+          "status": "PASSED",
+          "processing_time": 0.09133410453796387,
+          "details": "Successfully processed with 1 tables"
+        },
+        {
+          "name": "Main PDF Processor",
+          "status": "PASSED",
+          "processing_time": 0.0902700424194336,
+          "details": "Successfully processed with 1 tables"
+        },
+        {
+          "name": "Performance Validation",
+          "status": "PASSED",
+          "details": "All processing times under 30.0s"
+        },
+        {
+          "name": "Quality Validation",
+          "status": "PASSED",
+          "details": "Extracted 3 tables and 0 text sections"
+        }
+      ],
+      "processing_times": {
+        "core_processor": 0.0907142162322998,
+        "clean_processor": 0.09133410453796387,
+        "main_processor": 0.0902700424194336
+      },
+      "extraction_results": {
+        "core_processor": {
+          "pdf_processing_result": {
+            "document_metadata": {
+              "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+              "processing_timestamp": "2025-07-31T16:50:21.625994",
+              "processing_duration": 0.090587,
+              "extraction_methods": [
+                "pdfplumber_table_extraction",
+                "pdfplumber_text_extraction"
+              ]
+            },
+            "tables": {
+              "tables": [
+                {
+                  "table_id": "table_1",
+                  "name": "Table 1",
+                  "region": {
+                    "page_number": 1,
+                    "bbox": [
+                      72.0,
+                      73.64892535547847,
+                      531.4578276432518,
+                      201.01904300547847
+                    ],
+                    "detection_method": "pdfplumber"
+                  },
+                  "header_info": {
+                    "header_rows": [
+                      0
+                    ],
+                    "header_columns": [
+                      0
+                    ],
+                    "data_start_row": 1,
+                    "data_start_col": 1
+                  },
+                  "columns": [
+                    {
+                      "column_index": 0,
+                      "column_label": "For the first",
+                      "is_header_column": true,
+                      "cells": {
+                        "A1": {
+                          "value": "For the first",
+                          "row": 1,
+                          "column": 1
+                        },
+                        "A3": {
+                          "value": "with no com",
+                          "row": 3,
+                          "column": 1
+                        },
+                        "A5": {
+                          "value": "For the seco",
+                          "row": 5,
+                          "column": 1
+                        },
+                        "A7": {
+                          "value": "number con",
+                          "row": 7,
+                          "column": 1
+                        },
+                        "A9": {
+                          "value": "For the third",
+                          "row": 9,
+                          "column": 1
+                        },
+                        "A11": {
+                          "value": "number that",
+                          "row": 11,
+                          "column": 1
+                        },
+                        "A13": {
+                          "value": "commas.",
+                          "row": 13,
+                          "column": 1
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 1,
+                      "column_label": "p",
+                      "is_header_column": false,
+                      "cells": {
+                        "B1": {
+                          "value": "p",
+                          "row": 1,
+                          "column": 2
+                        },
+                        "B7": {
+                          "value": "t",
+                          "row": 7,
+                          "column": 2
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 2,
+                      "column_label": "ara",
+                      "is_header_column": false,
+                      "cells": {
+                        "C1": {
+                          "value": "ara",
+                          "row": 1,
+                          "column": 3
+                        },
+                        "C3": {
+                          "value": "mas",
+                          "row": 3,
+                          "column": 3
+                        },
+                        "C5": {
+                          "value": "nd p",
+                          "row": 5,
+                          "column": 3
+                        },
+                        "C7": {
+                          "value": "ains",
+                          "row": 7,
+                          "column": 3
+                        },
+                        "C9": {
+                          "value": "para",
+                          "row": 9,
+                          "column": 3
+                        },
+                        "C11": {
+                          "value": "has",
+                          "row": 11,
+                          "column": 3
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 3,
+                      "column_label": "gr",
+                      "is_header_column": false,
+                      "cells": {
+                        "D1": {
+                          "value": "gr",
+                          "row": 1,
+                          "column": 4
+                        },
+                        "D3": {
+                          "value": "an",
+                          "row": 3,
+                          "column": 4
+                        },
+                        "D5": {
+                          "value": "ar",
+                          "row": 5,
+                          "column": 4
+                        },
+                        "D7": {
+                          "value": "a",
+                          "row": 7,
+                          "column": 4
+                        },
+                        "D9": {
+                          "value": "g",
+                          "row": 9,
+                          "column": 4
+                        },
+                        "D11": {
+                          "value": "a",
+                          "row": 11,
+                          "column": 4
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 4,
+                      "column_label": "aph",
+                      "is_header_column": false,
+                      "cells": {
+                        "E1": {
+                          "value": "aph",
+                          "row": 1,
+                          "column": 5
+                        },
+                        "E3": {
+                          "value": "d n",
+                          "row": 3,
+                          "column": 5
+                        },
+                        "E5": {
+                          "value": "agra",
+                          "row": 5,
+                          "column": 5
+                        },
+                        "E7": {
+                          "value": "sym",
+                          "row": 7,
+                          "column": 5
+                        },
+                        "E9": {
+                          "value": "raph",
+                          "row": 9,
+                          "column": 5
+                        },
+                        "E11": {
+                          "value": "com",
+                          "row": 11,
+                          "column": 5
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 5,
+                      "column_label": "I",
+                      "is_header_column": false,
+                      "cells": {
+                        "F1": {
+                          "value": "I",
+                          "row": 1,
+                          "column": 6
+                        },
+                        "F3": {
+                          "value": "o",
+                          "row": 3,
+                          "column": 6
+                        },
+                        "F5": {
+                          "value": "p",
+                          "row": 5,
+                          "column": 6
+                        },
+                        "F7": {
+                          "value": "b",
+                          "row": 7,
+                          "column": 6
+                        },
+                        "F9": {
+                          "value": "I",
+                          "row": 9,
+                          "column": 6
+                        },
+                        "F11": {
+                          "value": "m",
+                          "row": 11,
+                          "column": 6
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 6,
+                      "column_label": "wa",
+                      "is_header_column": false,
+                      "cells": {
+                        "G1": {
+                          "value": "wa",
+                          "row": 1,
+                          "column": 7
+                        },
+                        "G3": {
+                          "value": "un",
+                          "row": 3,
+                          "column": 7
+                        },
+                        "G5": {
+                          "value": "h",
+                          "row": 5,
+                          "column": 7
+                        },
+                        "G7": {
+                          "value": "ol",
+                          "row": 7,
+                          "column": 7
+                        },
+                        "G9": {
+                          "value": "w",
+                          "row": 9,
+                          "column": 7
+                        },
+                        "G11": {
+                          "value": "a",
+                          "row": 11,
+                          "column": 7
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 7,
+                      "column_label": "n",
+                      "is_header_column": false,
+                      "cells": {
+                        "H1": {
+                          "value": "n",
+                          "row": 1,
+                          "column": 8
+                        },
+                        "H3": {
+                          "value": "it",
+                          "row": 3,
+                          "column": 8
+                        },
+                        "H5": {
+                          "value": "I",
+                          "row": 5,
+                          "column": 8
+                        },
+                        "H7": {
+                          "value": "t",
+                          "row": 7,
+                          "column": 8
+                        },
+                        "H9": {
+                          "value": "a",
+                          "row": 9,
+                          "column": 8
+                        },
+                        "H11": {
+                          "value": "i",
+                          "row": 11,
+                          "column": 8
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 8,
+                      "column_label": "t",
+                      "is_header_column": false,
+                      "cells": {
+                        "I1": {
+                          "value": "t",
+                          "row": 1,
+                          "column": 9
+                        },
+                        "I3": {
+                          "value": "s",
+                          "row": 3,
+                          "column": 9
+                        },
+                        "I5": {
+                          "value": "w",
+                          "row": 5,
+                          "column": 9
+                        },
+                        "I7": {
+                          "value": "ha",
+                          "row": 7,
+                          "column": 9
+                        },
+                        "I9": {
+                          "value": "nt",
+                          "row": 9,
+                          "column": 9
+                        },
+                        "I11": {
+                          "value": "n i",
+                          "row": 11,
+                          "column": 9
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 9,
+                      "column_label": "to",
+                      "is_header_column": false,
+                      "cells": {
+                        "J1": {
+                          "value": "to",
+                          "row": 1,
+                          "column": 10
+                        },
+                        "J3": {
+                          "value": "so",
+                          "row": 3,
+                          "column": 10
+                        },
+                        "J5": {
+                          "value": "an",
+                          "row": 5,
+                          "column": 10
+                        },
+                        "J7": {
+                          "value": "t",
+                          "row": 7,
+                          "column": 10
+                        },
+                        "J9": {
+                          "value": "to",
+                          "row": 9,
+                          "column": 10
+                        },
+                        "J11": {
+                          "value": "t.",
+                          "row": 11,
+                          "column": 10
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 10,
+                      "column_label": "s",
+                      "is_header_column": false,
+                      "cells": {
+                        "K1": {
+                          "value": "s",
+                          "row": 1,
+                          "column": 11
+                        },
+                        "K5": {
+                          "value": "t",
+                          "row": 5,
+                          "column": 11
+                        },
+                        "K7": {
+                          "value": "s",
+                          "row": 7,
+                          "column": 11
+                        },
+                        "K11": {
+                          "value": "T",
+                          "row": 11,
+                          "column": 11
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 11,
+                      "column_label": "ay t",
+                      "is_header_column": false,
+                      "cells": {
+                        "L1": {
+                          "value": "ay t",
+                          "row": 1,
+                          "column": 12
+                        },
+                        "L3": {
+                          "value": "it sh",
+                          "row": 3,
+                          "column": 12
+                        },
+                        "L5": {
+                          "value": "to s",
+                          "row": 5,
+                          "column": 12
+                        },
+                        "L7": {
+                          "value": "houl",
+                          "row": 7,
+                          "column": 12
+                        },
+                        "L9": {
+                          "value": "test",
+                          "row": 9,
+                          "column": 12
+                        },
+                        "L11": {
+                          "value": "hat",
+                          "row": 11,
+                          "column": 12
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 12,
+                      "column_label": "hat",
+                      "is_header_column": false,
+                      "cells": {
+                        "M1": {
+                          "value": "hat",
+                          "row": 1,
+                          "column": 13
+                        },
+                        "M3": {
+                          "value": "ould",
+                          "row": 3,
+                          "column": 13
+                        },
+                        "M5": {
+                          "value": "ay t",
+                          "row": 5,
+                          "column": 13
+                        },
+                        "M7": {
+                          "value": "d m",
+                          "row": 7,
+                          "column": 13
+                        },
+                        "M9": {
+                          "value": "the",
+                          "row": 9,
+                          "column": 13
+                        },
+                        "M11": {
+                          "value": "num",
+                          "row": 11,
+                          "column": 13
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 13,
+                      "column_label": "I",
+                      "is_header_column": false,
+                      "cells": {
+                        "N1": {
+                          "value": "I",
+                          "row": 1,
+                          "column": 14
+                        },
+                        "N5": {
+                          "value": "h",
+                          "row": 5,
+                          "column": 14
+                        },
+                        "N7": {
+                          "value": "a",
+                          "row": 7,
+                          "column": 14
+                        },
+                        "N9": {
+                          "value": "p",
+                          "row": 9,
+                          "column": 14
+                        },
+                        "N11": {
+                          "value": "b",
+                          "row": 11,
+                          "column": 14
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 14,
+                      "column_label": "hav",
+                      "is_header_column": false,
+                      "cells": {
+                        "O1": {
+                          "value": "hav",
+                          "row": 1,
+                          "column": 15
+                        },
+                        "O3": {
+                          "value": "be",
+                          "row": 3,
+                          "column": 15
+                        },
+                        "O5": {
+                          "value": "at I",
+                          "row": 5,
+                          "column": 15
+                        },
+                        "O7": {
+                          "value": "ke",
+                          "row": 7,
+                          "column": 15
+                        },
+                        "O9": {
+                          "value": "ars",
+                          "row": 9,
+                          "column": 15
+                        },
+                        "O11": {
+                          "value": "er",
+                          "row": 11,
+                          "column": 15
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 15,
+                      "column_label": "e",
+                      "is_header_column": false,
+                      "cells": {
+                        "P1": {
+                          "value": "e",
+                          "row": 1,
+                          "column": 16
+                        },
+                        "P3": {
+                          "value": "ea",
+                          "row": 3,
+                          "column": 16
+                        },
+                        "P5": {
+                          "value": "h",
+                          "row": 5,
+                          "column": 16
+                        },
+                        "P7": {
+                          "value": "it c",
+                          "row": 7,
+                          "column": 16
+                        },
+                        "P9": {
+                          "value": "in",
+                          "row": 9,
+                          "column": 16
+                        },
+                        "P11": {
+                          "value": "is",
+                          "row": 11,
+                          "column": 16
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 16,
+                      "column_label": "1",
+                      "is_header_column": false,
+                      "cells": {
+                        "Q1": {
+                          "value": "1",
+                          "row": 1,
+                          "column": 17
+                        },
+                        "Q3": {
+                          "value": "s",
+                          "row": 3,
+                          "column": 17
+                        },
+                        "Q5": {
+                          "value": "av",
+                          "row": 5,
+                          "column": 17
+                        },
+                        "Q7": {
+                          "value": "le",
+                          "row": 7,
+                          "column": 17
+                        },
+                        "Q9": {
+                          "value": "g",
+                          "row": 9,
+                          "column": 17
+                        },
+                        "Q11": {
+                          "value": "1",
+                          "row": 11,
+                          "column": 17
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 17,
+                      "column_label": "0 f",
+                      "is_header_column": false,
+                      "cells": {
+                        "R1": {
+                          "value": "0 f",
+                          "row": 1,
+                          "column": 18
+                        },
+                        "R3": {
+                          "value": "ier",
+                          "row": 3,
+                          "column": 18
+                        },
+                        "R5": {
+                          "value": "e",
+                          "row": 5,
+                          "column": 18
+                        },
+                        "R7": {
+                          "value": "ar",
+                          "row": 7,
+                          "column": 18
+                        },
+                        "R9": {
+                          "value": "of",
+                          "row": 9,
+                          "column": 18
+                        },
+                        "R11": {
+                          "value": "0,0",
+                          "row": 11,
+                          "column": 18
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 18,
+                      "column_label": "in",
+                      "is_header_column": false,
+                      "cells": {
+                        "S1": {
+                          "value": "in",
+                          "row": 1,
+                          "column": 19
+                        },
+                        "S3": {
+                          "value": "t",
+                          "row": 3,
+                          "column": 19
+                        },
+                        "S5": {
+                          "value": "a",
+                          "row": 5,
+                          "column": 19
+                        },
+                        "S7": {
+                          "value": "it",
+                          "row": 7,
+                          "column": 19
+                        },
+                        "S9": {
+                          "value": "a",
+                          "row": 9,
+                          "column": 19
+                        },
+                        "S11": {
+                          "value": "0",
+                          "row": 11,
+                          "column": 19
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 19,
+                      "column_label": "g",
+                      "is_header_column": false,
+                      "cells": {
+                        "T1": {
+                          "value": "g",
+                          "row": 1,
+                          "column": 20
+                        },
+                        "T3": {
+                          "value": "o",
+                          "row": 3,
+                          "column": 20
+                        },
+                        "T5": {
+                          "value": "c",
+                          "row": 5,
+                          "column": 20
+                        },
+                        "T7": {
+                          "value": "i",
+                          "row": 7,
+                          "column": 20
+                        },
+                        "T9": {
+                          "value": "v",
+                          "row": 9,
+                          "column": 20
+                        },
+                        "T11": {
+                          "value": "0",
+                          "row": 11,
+                          "column": 20
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 20,
+                      "column_label": "ers.",
+                      "is_header_column": false,
+                      "cells": {
+                        "U1": {
+                          "value": "ers.",
+                          "row": 1,
+                          "column": 21
+                        },
+                        "U3": {
+                          "value": "dete",
+                          "row": 3,
+                          "column": 21
+                        },
+                        "U5": {
+                          "value": "risp",
+                          "row": 5,
+                          "column": 21
+                        },
+                        "U7": {
+                          "value": "s cu",
+                          "row": 7,
+                          "column": 21
+                        },
+                        "U9": {
+                          "value": "ery",
+                          "row": 9,
+                          "column": 21
+                        },
+                        "U11": {
+                          "value": ". Th",
+                          "row": 11,
+                          "column": 21
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 21,
+                      "column_label": "Th",
+                      "is_header_column": false,
+                      "cells": {
+                        "V1": {
+                          "value": "Th",
+                          "row": 1,
+                          "column": 22
+                        },
+                        "V3": {
+                          "value": "ct.",
+                          "row": 3,
+                          "column": 22
+                        },
+                        "V5": {
+                          "value": "ne",
+                          "row": 5,
+                          "column": 22
+                        },
+                        "V7": {
+                          "value": "rre",
+                          "row": 7,
+                          "column": 22
+                        },
+                        "V9": {
+                          "value": "lar",
+                          "row": 9,
+                          "column": 22
+                        },
+                        "V11": {
+                          "value": "is",
+                          "row": 11,
+                          "column": 22
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 22,
+                      "column_label": "at",
+                      "is_header_column": false,
+                      "cells": {
+                        "W1": {
+                          "value": "at",
+                          "row": 1,
+                          "column": 23
+                        },
+                        "W5": {
+                          "value": "w $",
+                          "row": 5,
+                          "column": 23
+                        },
+                        "W7": {
+                          "value": "nc",
+                          "row": 7,
+                          "column": 23
+                        },
+                        "W9": {
+                          "value": "ge",
+                          "row": 9,
+                          "column": 23
+                        },
+                        "W11": {
+                          "value": "is a",
+                          "row": 11,
+                          "column": 23
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 23,
+                      "column_label": "is just a",
+                      "is_header_column": false,
+                      "cells": {
+                        "X1": {
+                          "value": "is just a",
+                          "row": 1,
+                          "column": 24
+                        },
+                        "X5": {
+                          "value": "50 bill i",
+                          "row": 5,
+                          "column": 24
+                        },
+                        "X7": {
+                          "value": "y.",
+                          "row": 7,
+                          "column": 24
+                        },
+                        "X9": {
+                          "value": "number",
+                          "row": 9,
+                          "column": 24
+                        },
+                        "X11": {
+                          "value": "test of",
+                          "row": 11,
+                          "column": 24
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 24,
+                      "column_label": "simple",
+                      "is_header_column": false,
+                      "cells": {
+                        "Y1": {
+                          "value": "simple",
+                          "row": 1,
+                          "column": 25
+                        },
+                        "Y5": {
+                          "value": "n my w",
+                          "row": 5,
+                          "column": 25
+                        },
+                        "Y9": {
+                          "value": "so I am",
+                          "row": 9,
+                          "column": 25
+                        },
+                        "Y11": {
+                          "value": "large n",
+                          "row": 11,
+                          "column": 25
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 25,
+                      "column_label": "integ",
+                      "is_header_column": false,
+                      "cells": {
+                        "Z1": {
+                          "value": "integ",
+                          "row": 1,
+                          "column": 26
+                        },
+                        "Z5": {
+                          "value": "allet.",
+                          "row": 5,
+                          "column": 26
+                        },
+                        "Z9": {
+                          "value": "incl",
+                          "row": 9,
+                          "column": 26
+                        },
+                        "Z11": {
+                          "value": "umbe",
+                          "row": 11,
+                          "column": 26
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 26,
+                      "column_label": "er",
+                      "is_header_column": false,
+                      "cells": {
+                        "[1": {
+                          "value": "er",
+                          "row": 1,
+                          "column": 27
+                        },
+                        "[5": {
+                          "value": "Th",
+                          "row": 5,
+                          "column": 27
+                        },
+                        "[9": {
+                          "value": "udi",
+                          "row": 9,
+                          "column": 27
+                        },
+                        "[11": {
+                          "value": "rs",
+                          "row": 11,
+                          "column": 27
+                        }
+                      }
+                    },
+                    {
+                      "column_index": 27,
+                      "column_label": "number",
+                      "is_header_column": false,
+                      "cells": {
+                        "\\1": {
+                          "value": "number",
+                          "row": 1,
+                          "column": 28
+                        },
+                        "\\5": {
+                          "value": "is",
+                          "row": 5,
+                          "column": 28
+                        },
+                        "\\9": {
+                          "value": "ng a",
+                          "row": 9,
+                          "column": 28
+                        },
+                        "\\11": {
+                          "value": "with",
+                          "row": 11,
+                          "column": 28
+                        }
+                      }
+                    }
+                  ],
+                  "rows": [
+                    {
+                      "row_index": 0,
+                      "row_label": "For the first",
+                      "is_header_row": true,
+                      "cells": {
+                        "A1": {
+                          "value": "For the first",
+                          "row": 1,
+                          "column": 1
+                        },
+                        "B1": {
+                          "value": "p",
+                          "row": 1,
+                          "column": 2
+                        },
+                        "C1": {
+                          "value": "ara",
+                          "row": 1,
+                          "column": 3
+                        },
+                        "D1": {
+                          "value": "gr",
+                          "row": 1,
+                          "column": 4
+                        },
+                        "E1": {
+                          "value": "aph",
+                          "row": 1,
+                          "column": 5
+                        },
+                        "F1": {
+                          "value": "I",
+                          "row": 1,
+                          "column": 6
+                        },
+                        "G1": {
+                          "value": "wa",
+                          "row": 1,
+                          "column": 7
+                        },
+                        "H1": {
+                          "value": "n",
+                          "row": 1,
+                          "column": 8
+                        },
+                        "I1": {
+                          "value": "t",
+                          "row": 1,
+                          "column": 9
+                        },
+                        "J1": {
+                          "value": "to",
+                          "row": 1,
+                          "column": 10
+                        },
+                        "K1": {
+                          "value": "s",
+                          "row": 1,
+                          "column": 11
+                        },
+                        "L1": {
+                          "value": "ay t",
+                          "row": 1,
+                          "column": 12
+                        },
+                        "M1": {
+                          "value": "hat",
+                          "row": 1,
+                          "column": 13
+                        },
+                        "N1": {
+                          "value": "I",
+                          "row": 1,
+                          "column": 14
+                        },
+                        "O1": {
+                          "value": "hav",
+                          "row": 1,
+                          "column": 15
+                        },
+                        "P1": {
+                          "value": "e",
+                          "row": 1,
+                          "column": 16
+                        },
+                        "Q1": {
+                          "value": "1",
+                          "row": 1,
+                          "column": 17
+                        },
+                        "R1": {
+                          "value": "0 f",
+                          "row": 1,
+                          "column": 18
+                        },
+                        "S1": {
+                          "value": "in",
+                          "row": 1,
+                          "column": 19
+                        },
+                        "T1": {
+                          "value": "g",
+                          "row": 1,
+                          "column": 20
+                        },
+                        "U1": {
+                          "value": "ers.",
+                          "row": 1,
+                          "column": 21
+                        },
+                        "V1": {
+                          "value": "Th",
+                          "row": 1,
+                          "column": 22
+                        },
+                        "W1": {
+                          "value": "at",
+                          "row": 1,
+                          "column": 23
+                        },
+                        "X1": {
+                          "value": "is just a",
+                          "row": 1,
+                          "column": 24
+                        },
+                        "Y1": {
+                          "value": "simple",
+                          "row": 1,
+                          "column": 25
+                        },
+                        "Z1": {
+                          "value": "integ",
+                          "row": 1,
+                          "column": 26
+                        },
+                        "[1": {
+                          "value": "er",
+                          "row": 1,
+                          "column": 27
+                        },
+                        "\\1": {
+                          "value": "number",
+                          "row": 1,
+                          "column": 28
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 1,
+                      "row_label": "Row 2",
+                      "is_header_row": false,
+                      "cells": {}
+                    },
+                    {
+                      "row_index": 2,
+                      "row_label": "with no com",
+                      "is_header_row": false,
+                      "cells": {
+                        "A3": {
+                          "value": "with no com",
+                          "row": 3,
+                          "column": 1
+                        },
+                        "C3": {
+                          "value": "mas",
+                          "row": 3,
+                          "column": 3
+                        },
+                        "D3": {
+                          "value": "an",
+                          "row": 3,
+                          "column": 4
+                        },
+                        "E3": {
+                          "value": "d n",
+                          "row": 3,
+                          "column": 5
+                        },
+                        "F3": {
+                          "value": "o",
+                          "row": 3,
+                          "column": 6
+                        },
+                        "G3": {
+                          "value": "un",
+                          "row": 3,
+                          "column": 7
+                        },
+                        "H3": {
+                          "value": "it",
+                          "row": 3,
+                          "column": 8
+                        },
+                        "I3": {
+                          "value": "s",
+                          "row": 3,
+                          "column": 9
+                        },
+                        "J3": {
+                          "value": "so",
+                          "row": 3,
+                          "column": 10
+                        },
+                        "L3": {
+                          "value": "it sh",
+                          "row": 3,
+                          "column": 12
+                        },
+                        "M3": {
+                          "value": "ould",
+                          "row": 3,
+                          "column": 13
+                        },
+                        "O3": {
+                          "value": "be",
+                          "row": 3,
+                          "column": 15
+                        },
+                        "P3": {
+                          "value": "ea",
+                          "row": 3,
+                          "column": 16
+                        },
+                        "Q3": {
+                          "value": "s",
+                          "row": 3,
+                          "column": 17
+                        },
+                        "R3": {
+                          "value": "ier",
+                          "row": 3,
+                          "column": 18
+                        },
+                        "S3": {
+                          "value": "t",
+                          "row": 3,
+                          "column": 19
+                        },
+                        "T3": {
+                          "value": "o",
+                          "row": 3,
+                          "column": 20
+                        },
+                        "U3": {
+                          "value": "dete",
+                          "row": 3,
+                          "column": 21
+                        },
+                        "V3": {
+                          "value": "ct.",
+                          "row": 3,
+                          "column": 22
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 3,
+                      "row_label": "Row 4",
+                      "is_header_row": false,
+                      "cells": {}
+                    },
+                    {
+                      "row_index": 4,
+                      "row_label": "For the seco",
+                      "is_header_row": false,
+                      "cells": {
+                        "A5": {
+                          "value": "For the seco",
+                          "row": 5,
+                          "column": 1
+                        },
+                        "C5": {
+                          "value": "nd p",
+                          "row": 5,
+                          "column": 3
+                        },
+                        "D5": {
+                          "value": "ar",
+                          "row": 5,
+                          "column": 4
+                        },
+                        "E5": {
+                          "value": "agra",
+                          "row": 5,
+                          "column": 5
+                        },
+                        "F5": {
+                          "value": "p",
+                          "row": 5,
+                          "column": 6
+                        },
+                        "G5": {
+                          "value": "h",
+                          "row": 5,
+                          "column": 7
+                        },
+                        "H5": {
+                          "value": "I",
+                          "row": 5,
+                          "column": 8
+                        },
+                        "I5": {
+                          "value": "w",
+                          "row": 5,
+                          "column": 9
+                        },
+                        "J5": {
+                          "value": "an",
+                          "row": 5,
+                          "column": 10
+                        },
+                        "K5": {
+                          "value": "t",
+                          "row": 5,
+                          "column": 11
+                        },
+                        "L5": {
+                          "value": "to s",
+                          "row": 5,
+                          "column": 12
+                        },
+                        "M5": {
+                          "value": "ay t",
+                          "row": 5,
+                          "column": 13
+                        },
+                        "N5": {
+                          "value": "h",
+                          "row": 5,
+                          "column": 14
+                        },
+                        "O5": {
+                          "value": "at I",
+                          "row": 5,
+                          "column": 15
+                        },
+                        "P5": {
+                          "value": "h",
+                          "row": 5,
+                          "column": 16
+                        },
+                        "Q5": {
+                          "value": "av",
+                          "row": 5,
+                          "column": 17
+                        },
+                        "R5": {
+                          "value": "e",
+                          "row": 5,
+                          "column": 18
+                        },
+                        "S5": {
+                          "value": "a",
+                          "row": 5,
+                          "column": 19
+                        },
+                        "T5": {
+                          "value": "c",
+                          "row": 5,
+                          "column": 20
+                        },
+                        "U5": {
+                          "value": "risp",
+                          "row": 5,
+                          "column": 21
+                        },
+                        "V5": {
+                          "value": "ne",
+                          "row": 5,
+                          "column": 22
+                        },
+                        "W5": {
+                          "value": "w $",
+                          "row": 5,
+                          "column": 23
+                        },
+                        "X5": {
+                          "value": "50 bill i",
+                          "row": 5,
+                          "column": 24
+                        },
+                        "Y5": {
+                          "value": "n my w",
+                          "row": 5,
+                          "column": 25
+                        },
+                        "Z5": {
+                          "value": "allet.",
+                          "row": 5,
+                          "column": 26
+                        },
+                        "[5": {
+                          "value": "Th",
+                          "row": 5,
+                          "column": 27
+                        },
+                        "\\5": {
+                          "value": "is",
+                          "row": 5,
+                          "column": 28
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 5,
+                      "row_label": "Row 6",
+                      "is_header_row": false,
+                      "cells": {}
+                    },
+                    {
+                      "row_index": 6,
+                      "row_label": "number con",
+                      "is_header_row": false,
+                      "cells": {
+                        "A7": {
+                          "value": "number con",
+                          "row": 7,
+                          "column": 1
+                        },
+                        "B7": {
+                          "value": "t",
+                          "row": 7,
+                          "column": 2
+                        },
+                        "C7": {
+                          "value": "ains",
+                          "row": 7,
+                          "column": 3
+                        },
+                        "D7": {
+                          "value": "a",
+                          "row": 7,
+                          "column": 4
+                        },
+                        "E7": {
+                          "value": "sym",
+                          "row": 7,
+                          "column": 5
+                        },
+                        "F7": {
+                          "value": "b",
+                          "row": 7,
+                          "column": 6
+                        },
+                        "G7": {
+                          "value": "ol",
+                          "row": 7,
+                          "column": 7
+                        },
+                        "H7": {
+                          "value": "t",
+                          "row": 7,
+                          "column": 8
+                        },
+                        "I7": {
+                          "value": "ha",
+                          "row": 7,
+                          "column": 9
+                        },
+                        "J7": {
+                          "value": "t",
+                          "row": 7,
+                          "column": 10
+                        },
+                        "K7": {
+                          "value": "s",
+                          "row": 7,
+                          "column": 11
+                        },
+                        "L7": {
+                          "value": "houl",
+                          "row": 7,
+                          "column": 12
+                        },
+                        "M7": {
+                          "value": "d m",
+                          "row": 7,
+                          "column": 13
+                        },
+                        "N7": {
+                          "value": "a",
+                          "row": 7,
+                          "column": 14
+                        },
+                        "O7": {
+                          "value": "ke",
+                          "row": 7,
+                          "column": 15
+                        },
+                        "P7": {
+                          "value": "it c",
+                          "row": 7,
+                          "column": 16
+                        },
+                        "Q7": {
+                          "value": "le",
+                          "row": 7,
+                          "column": 17
+                        },
+                        "R7": {
+                          "value": "ar",
+                          "row": 7,
+                          "column": 18
+                        },
+                        "S7": {
+                          "value": "it",
+                          "row": 7,
+                          "column": 19
+                        },
+                        "T7": {
+                          "value": "i",
+                          "row": 7,
+                          "column": 20
+                        },
+                        "U7": {
+                          "value": "s cu",
+                          "row": 7,
+                          "column": 21
+                        },
+                        "V7": {
+                          "value": "rre",
+                          "row": 7,
+                          "column": 22
+                        },
+                        "W7": {
+                          "value": "nc",
+                          "row": 7,
+                          "column": 23
+                        },
+                        "X7": {
+                          "value": "y.",
+                          "row": 7,
+                          "column": 24
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 7,
+                      "row_label": "Row 8",
+                      "is_header_row": false,
+                      "cells": {}
+                    },
+                    {
+                      "row_index": 8,
+                      "row_label": "For the third",
+                      "is_header_row": false,
+                      "cells": {
+                        "A9": {
+                          "value": "For the third",
+                          "row": 9,
+                          "column": 1
+                        },
+                        "C9": {
+                          "value": "para",
+                          "row": 9,
+                          "column": 3
+                        },
+                        "D9": {
+                          "value": "g",
+                          "row": 9,
+                          "column": 4
+                        },
+                        "E9": {
+                          "value": "raph",
+                          "row": 9,
+                          "column": 5
+                        },
+                        "F9": {
+                          "value": "I",
+                          "row": 9,
+                          "column": 6
+                        },
+                        "G9": {
+                          "value": "w",
+                          "row": 9,
+                          "column": 7
+                        },
+                        "H9": {
+                          "value": "a",
+                          "row": 9,
+                          "column": 8
+                        },
+                        "I9": {
+                          "value": "nt",
+                          "row": 9,
+                          "column": 9
+                        },
+                        "J9": {
+                          "value": "to",
+                          "row": 9,
+                          "column": 10
+                        },
+                        "L9": {
+                          "value": "test",
+                          "row": 9,
+                          "column": 12
+                        },
+                        "M9": {
+                          "value": "the",
+                          "row": 9,
+                          "column": 13
+                        },
+                        "N9": {
+                          "value": "p",
+                          "row": 9,
+                          "column": 14
+                        },
+                        "O9": {
+                          "value": "ars",
+                          "row": 9,
+                          "column": 15
+                        },
+                        "P9": {
+                          "value": "in",
+                          "row": 9,
+                          "column": 16
+                        },
+                        "Q9": {
+                          "value": "g",
+                          "row": 9,
+                          "column": 17
+                        },
+                        "R9": {
+                          "value": "of",
+                          "row": 9,
+                          "column": 18
+                        },
+                        "S9": {
+                          "value": "a",
+                          "row": 9,
+                          "column": 19
+                        },
+                        "T9": {
+                          "value": "v",
+                          "row": 9,
+                          "column": 20
+                        },
+                        "U9": {
+                          "value": "ery",
+                          "row": 9,
+                          "column": 21
+                        },
+                        "V9": {
+                          "value": "lar",
+                          "row": 9,
+                          "column": 22
+                        },
+                        "W9": {
+                          "value": "ge",
+                          "row": 9,
+                          "column": 23
+                        },
+                        "X9": {
+                          "value": "number",
+                          "row": 9,
+                          "column": 24
+                        },
+                        "Y9": {
+                          "value": "so I am",
+                          "row": 9,
+                          "column": 25
+                        },
+                        "Z9": {
+                          "value": "incl",
+                          "row": 9,
+                          "column": 26
+                        },
+                        "[9": {
+                          "value": "udi",
+                          "row": 9,
+                          "column": 27
+                        },
+                        "\\9": {
+                          "value": "ng a",
+                          "row": 9,
+                          "column": 28
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 9,
+                      "row_label": "Row 10",
+                      "is_header_row": false,
+                      "cells": {}
+                    },
+                    {
+                      "row_index": 10,
+                      "row_label": "number that",
+                      "is_header_row": false,
+                      "cells": {
+                        "A11": {
+                          "value": "number that",
+                          "row": 11,
+                          "column": 1
+                        },
+                        "C11": {
+                          "value": "has",
+                          "row": 11,
+                          "column": 3
+                        },
+                        "D11": {
+                          "value": "a",
+                          "row": 11,
+                          "column": 4
+                        },
+                        "E11": {
+                          "value": "com",
+                          "row": 11,
+                          "column": 5
+                        },
+                        "F11": {
+                          "value": "m",
+                          "row": 11,
+                          "column": 6
+                        },
+                        "G11": {
+                          "value": "a",
+                          "row": 11,
+                          "column": 7
+                        },
+                        "H11": {
+                          "value": "i",
+                          "row": 11,
+                          "column": 8
+                        },
+                        "I11": {
+                          "value": "n i",
+                          "row": 11,
+                          "column": 9
+                        },
+                        "J11": {
+                          "value": "t.",
+                          "row": 11,
+                          "column": 10
+                        },
+                        "K11": {
+                          "value": "T",
+                          "row": 11,
+                          "column": 11
+                        },
+                        "L11": {
+                          "value": "hat",
+                          "row": 11,
+                          "column": 12
+                        },
+                        "M11": {
+                          "value": "num",
+                          "row": 11,
+                          "column": 13
+                        },
+                        "N11": {
+                          "value": "b",
+                          "row": 11,
+                          "column": 14
+                        },
+                        "O11": {
+                          "value": "er",
+                          "row": 11,
+                          "column": 15
+                        },
+                        "P11": {
+                          "value": "is",
+                          "row": 11,
+                          "column": 16
+                        },
+                        "Q11": {
+                          "value": "1",
+                          "row": 11,
+                          "column": 17
+                        },
+                        "R11": {
+                          "value": "0,0",
+                          "row": 11,
+                          "column": 18
+                        },
+                        "S11": {
+                          "value": "0",
+                          "row": 11,
+                          "column": 19
+                        },
+                        "T11": {
+                          "value": "0",
+                          "row": 11,
+                          "column": 20
+                        },
+                        "U11": {
+                          "value": ". Th",
+                          "row": 11,
+                          "column": 21
+                        },
+                        "V11": {
+                          "value": "is",
+                          "row": 11,
+                          "column": 22
+                        },
+                        "W11": {
+                          "value": "is a",
+                          "row": 11,
+                          "column": 23
+                        },
+                        "X11": {
+                          "value": "test of",
+                          "row": 11,
+                          "column": 24
+                        },
+                        "Y11": {
+                          "value": "large n",
+                          "row": 11,
+                          "column": 25
+                        },
+                        "Z11": {
+                          "value": "umbe",
+                          "row": 11,
+                          "column": 26
+                        },
+                        "[11": {
+                          "value": "rs",
+                          "row": 11,
+                          "column": 27
+                        },
+                        "\\11": {
+                          "value": "with",
+                          "row": 11,
+                          "column": 28
+                        }
+                      }
+                    },
+                    {
+                      "row_index": 11,
+                      "row_label": "Row 12",
+                      "is_header_row": false,
+                      "cells": {}
+                    },
+                    {
+                      "row_index": 12,
+                      "row_label": "commas.",
+                      "is_header_row": false,
+                      "cells": {
+                        "A13": {
+                          "value": "commas.",
+                          "row": 13,
+                          "column": 1
+                        }
+                      }
+                    }
+                  ],
+                  "metadata": {
+                    "detection_method": "pdfplumber",
+                    "quality_score": 0.85,
+                    "cell_count": 364,
+                    "confidence": 0.85
+                  }
+                }
+              ],
+              "metadata": {
+                "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+                "extraction_timestamp": "2025-07-31T16:50:21.626023",
+                "extraction_method": "pdfplumber",
+                "total_tables_found": 1,
+                "quality_distribution": {
+                  "high": 0,
+                  "medium": 1,
+                  "low": 0
+                }
+              }
+            },
+            "text_content": {
+              "document_metadata": {
+                "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+                "extraction_timestamp": "2025-07-31T16:50:21.681482",
+                "extraction_method": "pdfplumber_enhanced",
+                "total_pages": 1,
+                "total_word_count": 0
+              },
+              "pages": [
+                {
+                  "page_number": 1,
+                  "page_width": 612,
+                  "page_height": 792,
+                  "sections": []
+                }
+              ],
+              "document_structure": {
+                "toc": [],
+                "sections_by_type": {
+                  "header": 0,
+                  "paragraph": 0,
+                  "list": 0,
+                  "table_caption": 0,
+                  "figure_caption": 0,
+                  "footer": 0,
+                  "sidebar": 0
+                }
+              },
+              "summary": {
+                "total_sections": 0,
+                "total_words": 0,
+                "llm_ready_sections": 0,
+                "average_section_length": 0,
+                "reading_time_estimate": 0,
+                "total_numbers_found": 0
+              }
+            },
+            "processing_summary": {
+              "tables_extracted": 1,
+              "numbers_found": 0,
+              "text_sections": 0,
+              "overall_quality_score": 0.425,
+              "processing_errors": []
+            }
+          }
+        },
+        "clean_processor": {
+          "processing_metadata": {
+            "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+            "extraction_method": "pdfplumber_clean_pipeline",
+            "tables_found": 1,
+            "text_sections_found": 0,
+            "numbers_found": 0
+          },
+          "tables": [
+            {
+              "page_number": 1,
+              "bbox": {
+                "x0": 72.0,
+                "y0": 73.64892535547847,
+                "x1": 531.4578276432518,
+                "y1": 201.01904300547847
+              },
+              "rows": 13,
+              "cols": 28,
+              "accuracy": 0.85,
+              "method": "pdfplumber",
+              "data": [
+                {
+                  "For the first": "For the first",
+                  "p": "p",
+                  "ara": "ara",
+                  "gr": "gr",
+                  "aph": "aph",
+                  "I": "I",
+                  "wa": "wa",
+                  "n": "n",
+                  "t": "t",
+                  "to": "to",
+                  "s": "s",
+                  "ay t": "ay t",
+                  "hat": "hat",
+                  "hav": "hav",
+                  "e": "e",
+                  "1": "1",
+                  "0 f": "0 f",
+                  "in": "in",
+                  "g": "g",
+                  "ers.": "ers.",
+                  "Th": "Th",
+                  "at": "at",
+                  "is just a": "is just a",
+                  "simple": "simple",
+                  "integ": "integ",
+                  "er": "er",
+                  "number": "number"
+                },
+                {
+                  "For the first": "",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "with no com",
+                  "p": "",
+                  "ara": "mas",
+                  "gr": "an",
+                  "aph": "d n",
+                  "I": "",
+                  "wa": "un",
+                  "n": "it",
+                  "t": "s",
+                  "to": "so",
+                  "s": "",
+                  "ay t": "it sh",
+                  "hat": "ould",
+                  "hav": "be",
+                  "e": "ea",
+                  "1": "s",
+                  "0 f": "ier",
+                  "in": "t",
+                  "g": "o",
+                  "ers.": "dete",
+                  "Th": "ct.",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "For the seco",
+                  "p": "",
+                  "ara": "nd p",
+                  "gr": "ar",
+                  "aph": "agra",
+                  "I": "h",
+                  "wa": "h",
+                  "n": "I",
+                  "t": "w",
+                  "to": "an",
+                  "s": "t",
+                  "ay t": "to s",
+                  "hat": "ay t",
+                  "hav": "at I",
+                  "e": "h",
+                  "1": "av",
+                  "0 f": "e",
+                  "in": "a",
+                  "g": "c",
+                  "ers.": "risp",
+                  "Th": "ne",
+                  "at": "w $",
+                  "is just a": "50 bill i",
+                  "simple": "n my w",
+                  "integ": "allet.",
+                  "er": "Th",
+                  "number": "is"
+                },
+                {
+                  "For the first": "",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "number con",
+                  "p": "t",
+                  "ara": "ains",
+                  "gr": "a",
+                  "aph": "sym",
+                  "I": "a",
+                  "wa": "ol",
+                  "n": "t",
+                  "t": "ha",
+                  "to": "t",
+                  "s": "s",
+                  "ay t": "houl",
+                  "hat": "d m",
+                  "hav": "ke",
+                  "e": "it c",
+                  "1": "le",
+                  "0 f": "ar",
+                  "in": "it",
+                  "g": "i",
+                  "ers.": "s cu",
+                  "Th": "rre",
+                  "at": "nc",
+                  "is just a": "y.",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "For the third",
+                  "p": "",
+                  "ara": "para",
+                  "gr": "g",
+                  "aph": "raph",
+                  "I": "p",
+                  "wa": "w",
+                  "n": "a",
+                  "t": "nt",
+                  "to": "to",
+                  "s": "",
+                  "ay t": "test",
+                  "hat": "the",
+                  "hav": "ars",
+                  "e": "in",
+                  "1": "g",
+                  "0 f": "of",
+                  "in": "a",
+                  "g": "v",
+                  "ers.": "ery",
+                  "Th": "lar",
+                  "at": "ge",
+                  "is just a": "number",
+                  "simple": "so I am",
+                  "integ": "incl",
+                  "er": "udi",
+                  "number": "ng a"
+                },
+                {
+                  "For the first": "",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "number that",
+                  "p": "",
+                  "ara": "has",
+                  "gr": "a",
+                  "aph": "com",
+                  "I": "b",
+                  "wa": "a",
+                  "n": "i",
+                  "t": "n i",
+                  "to": "t.",
+                  "s": "T",
+                  "ay t": "hat",
+                  "hat": "num",
+                  "hav": "er",
+                  "e": "is",
+                  "1": "1",
+                  "0 f": "0,0",
+                  "in": "0",
+                  "g": "0",
+                  "ers.": ". Th",
+                  "Th": "is",
+                  "at": "is a",
+                  "is just a": "test of",
+                  "simple": "large n",
+                  "integ": "umbe",
+                  "er": "rs",
+                  "number": "with"
+                },
+                {
+                  "For the first": "",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                },
+                {
+                  "For the first": "commas.",
+                  "p": "",
+                  "ara": "",
+                  "gr": "",
+                  "aph": "",
+                  "I": "",
+                  "wa": "",
+                  "n": "",
+                  "t": "",
+                  "to": "",
+                  "s": "",
+                  "ay t": "",
+                  "hat": "",
+                  "hav": "",
+                  "e": "",
+                  "1": "",
+                  "0 f": "",
+                  "in": "",
+                  "g": "",
+                  "ers.": "",
+                  "Th": "",
+                  "at": "",
+                  "is just a": "",
+                  "simple": "",
+                  "integ": "",
+                  "er": "",
+                  "number": ""
+                }
+              ]
+            }
+          ],
+          "text_sections": [],
+          "numbers": [],
+          "exclusion_zones": {
+            "1": [
+              {
+                "x0": 62.0,
+                "y0": 63.64892535547847,
+                "x1": 541.4578276432518,
+                "y1": 211.01904300547847
+              }
+            ]
+          }
+        },
+        "main_processor": {
+          "document_metadata": {
+            "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+            "processing_timestamp": "2025-07-31T16:50:21.808193",
+            "processing_duration": 0.090035,
+            "extraction_method": "pdfplumber_comprehensive"
+          },
+          "tables": {
+            "extraction_metadata": {
+              "method": "pdfplumber",
+              "total_tables": 1,
+              "extraction_timestamp": "2025-07-31T16:50:21.862096",
+              "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf"
+            },
+            "tables": [
+              {
+                "table_id": "table_1",
+                "page_number": 1,
+                "bbox": {
+                  "x0": 72.0,
+                  "y0": 73.64892535547847,
+                  "x1": 531.4578276432518,
+                  "y1": 201.01904300547847
+                },
+                "dimensions": {
+                  "rows": 13,
+                  "columns": 28
+                },
+                "data": {
+                  "headers": [
+                    "For the first",
+                    "p",
+                    "ara",
+                    "gr",
+                    "aph",
+                    "I",
+                    "wa",
+                    "n",
+                    "t",
+                    "to",
+                    "s",
+                    "ay t",
+                    "hat",
+                    "I",
+                    "hav",
+                    "e",
+                    "1",
+                    "0 f",
+                    "in",
+                    "g",
+                    "ers.",
+                    "Th",
+                    "at",
+                    "is just a",
+                    "simple",
+                    "integ",
+                    "er",
+                    "number"
+                  ],
+                  "rows": [
+                    [
+                      "For the first",
+                      "p",
+                      "ara",
+                      "gr",
+                      "aph",
+                      "I",
+                      "wa",
+                      "n",
+                      "t",
+                      "to",
+                      "s",
+                      "ay t",
+                      "hat",
+                      "I",
+                      "hav",
+                      "e",
+                      "1",
+                      "0 f",
+                      "in",
+                      "g",
+                      "ers.",
+                      "Th",
+                      "at",
+                      "is just a",
+                      "simple",
+                      "integ",
+                      "er",
+                      "number"
+                    ],
+                    [
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "with no com",
+                      "",
+                      "mas",
+                      "an",
+                      "d n",
+                      "o",
+                      "un",
+                      "it",
+                      "s",
+                      "so",
+                      "",
+                      "it sh",
+                      "ould",
+                      "",
+                      "be",
+                      "ea",
+                      "s",
+                      "ier",
+                      "t",
+                      "o",
+                      "dete",
+                      "ct.",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "For the seco",
+                      "",
+                      "nd p",
+                      "ar",
+                      "agra",
+                      "p",
+                      "h",
+                      "I",
+                      "w",
+                      "an",
+                      "t",
+                      "to s",
+                      "ay t",
+                      "h",
+                      "at I",
+                      "h",
+                      "av",
+                      "e",
+                      "a",
+                      "c",
+                      "risp",
+                      "ne",
+                      "w $",
+                      "50 bill i",
+                      "n my w",
+                      "allet.",
+                      "Th",
+                      "is"
+                    ],
+                    [
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "number con",
+                      "t",
+                      "ains",
+                      "a",
+                      "sym",
+                      "b",
+                      "ol",
+                      "t",
+                      "ha",
+                      "t",
+                      "s",
+                      "houl",
+                      "d m",
+                      "a",
+                      "ke",
+                      "it c",
+                      "le",
+                      "ar",
+                      "it",
+                      "i",
+                      "s cu",
+                      "rre",
+                      "nc",
+                      "y.",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "For the third",
+                      "",
+                      "para",
+                      "g",
+                      "raph",
+                      "I",
+                      "w",
+                      "a",
+                      "nt",
+                      "to",
+                      "",
+                      "test",
+                      "the",
+                      "p",
+                      "ars",
+                      "in",
+                      "g",
+                      "of",
+                      "a",
+                      "v",
+                      "ery",
+                      "lar",
+                      "ge",
+                      "number",
+                      "so I am",
+                      "incl",
+                      "udi",
+                      "ng a"
+                    ],
+                    [
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "number that",
+                      "",
+                      "has",
+                      "a",
+                      "com",
+                      "m",
+                      "a",
+                      "i",
+                      "n i",
+                      "t.",
+                      "T",
+                      "hat",
+                      "num",
+                      "b",
+                      "er",
+                      "is",
+                      "1",
+                      "0,0",
+                      "0",
+                      "0",
+                      ". Th",
+                      "is",
+                      "is a",
+                      "test of",
+                      "large n",
+                      "umbe",
+                      "rs",
+                      "with"
+                    ],
+                    [
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ],
+                    [
+                      "commas.",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      "",
+                      ""
+                    ]
+                  ],
+                  "records": [
+                    {
+                      "For the first": "For the first",
+                      "p": "p",
+                      "ara": "ara",
+                      "gr": "gr",
+                      "aph": "aph",
+                      "I": "I",
+                      "wa": "wa",
+                      "n": "n",
+                      "t": "t",
+                      "to": "to",
+                      "s": "s",
+                      "ay t": "ay t",
+                      "hat": "hat",
+                      "hav": "hav",
+                      "e": "e",
+                      "1": "1",
+                      "0 f": "0 f",
+                      "in": "in",
+                      "g": "g",
+                      "ers.": "ers.",
+                      "Th": "Th",
+                      "at": "at",
+                      "is just a": "is just a",
+                      "simple": "simple",
+                      "integ": "integ",
+                      "er": "er",
+                      "number": "number"
+                    },
+                    {
+                      "For the first": "",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "with no com",
+                      "p": "",
+                      "ara": "mas",
+                      "gr": "an",
+                      "aph": "d n",
+                      "I": "",
+                      "wa": "un",
+                      "n": "it",
+                      "t": "s",
+                      "to": "so",
+                      "s": "",
+                      "ay t": "it sh",
+                      "hat": "ould",
+                      "hav": "be",
+                      "e": "ea",
+                      "1": "s",
+                      "0 f": "ier",
+                      "in": "t",
+                      "g": "o",
+                      "ers.": "dete",
+                      "Th": "ct.",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "For the seco",
+                      "p": "",
+                      "ara": "nd p",
+                      "gr": "ar",
+                      "aph": "agra",
+                      "I": "h",
+                      "wa": "h",
+                      "n": "I",
+                      "t": "w",
+                      "to": "an",
+                      "s": "t",
+                      "ay t": "to s",
+                      "hat": "ay t",
+                      "hav": "at I",
+                      "e": "h",
+                      "1": "av",
+                      "0 f": "e",
+                      "in": "a",
+                      "g": "c",
+                      "ers.": "risp",
+                      "Th": "ne",
+                      "at": "w $",
+                      "is just a": "50 bill i",
+                      "simple": "n my w",
+                      "integ": "allet.",
+                      "er": "Th",
+                      "number": "is"
+                    },
+                    {
+                      "For the first": "",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "number con",
+                      "p": "t",
+                      "ara": "ains",
+                      "gr": "a",
+                      "aph": "sym",
+                      "I": "a",
+                      "wa": "ol",
+                      "n": "t",
+                      "t": "ha",
+                      "to": "t",
+                      "s": "s",
+                      "ay t": "houl",
+                      "hat": "d m",
+                      "hav": "ke",
+                      "e": "it c",
+                      "1": "le",
+                      "0 f": "ar",
+                      "in": "it",
+                      "g": "i",
+                      "ers.": "s cu",
+                      "Th": "rre",
+                      "at": "nc",
+                      "is just a": "y.",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "For the third",
+                      "p": "",
+                      "ara": "para",
+                      "gr": "g",
+                      "aph": "raph",
+                      "I": "p",
+                      "wa": "w",
+                      "n": "a",
+                      "t": "nt",
+                      "to": "to",
+                      "s": "",
+                      "ay t": "test",
+                      "hat": "the",
+                      "hav": "ars",
+                      "e": "in",
+                      "1": "g",
+                      "0 f": "of",
+                      "in": "a",
+                      "g": "v",
+                      "ers.": "ery",
+                      "Th": "lar",
+                      "at": "ge",
+                      "is just a": "number",
+                      "simple": "so I am",
+                      "integ": "incl",
+                      "er": "udi",
+                      "number": "ng a"
+                    },
+                    {
+                      "For the first": "",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "number that",
+                      "p": "",
+                      "ara": "has",
+                      "gr": "a",
+                      "aph": "com",
+                      "I": "b",
+                      "wa": "a",
+                      "n": "i",
+                      "t": "n i",
+                      "to": "t.",
+                      "s": "T",
+                      "ay t": "hat",
+                      "hat": "num",
+                      "hav": "er",
+                      "e": "is",
+                      "1": "1",
+                      "0 f": "0,0",
+                      "in": "0",
+                      "g": "0",
+                      "ers.": ". Th",
+                      "Th": "is",
+                      "at": "is a",
+                      "is just a": "test of",
+                      "simple": "large n",
+                      "integ": "umbe",
+                      "er": "rs",
+                      "number": "with"
+                    },
+                    {
+                      "For the first": "",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    },
+                    {
+                      "For the first": "commas.",
+                      "p": "",
+                      "ara": "",
+                      "gr": "",
+                      "aph": "",
+                      "I": "",
+                      "wa": "",
+                      "n": "",
+                      "t": "",
+                      "to": "",
+                      "s": "",
+                      "ay t": "",
+                      "hat": "",
+                      "hav": "",
+                      "e": "",
+                      "1": "",
+                      "0 f": "",
+                      "in": "",
+                      "g": "",
+                      "ers.": "",
+                      "Th": "",
+                      "at": "",
+                      "is just a": "",
+                      "simple": "",
+                      "integ": "",
+                      "er": "",
+                      "number": ""
+                    }
+                  ]
+                },
+                "metadata": {
+                  "extraction_method": "pdfplumber",
+                  "confidence": 0.85,
+                  "quality_score": 0.85,
+                  "cell_count": 364
+                }
+              }
+            ],
+            "quality_metrics": {
+              "overall_confidence": 0.85,
+              "extraction_success": true
+            }
+          },
+          "text_content": {
+            "extraction_metadata": {
+              "method": "pdfplumber",
+              "total_sections": 0,
+              "total_words": 0,
+              "extraction_timestamp": "2025-07-31T16:50:21.898149",
+              "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf"
+            },
+            "text_content": {
+              "document_metadata": {
+                "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
+                "extraction_timestamp": "2025-07-31T16:50:21.862333",
+                "extraction_method": "pdfplumber_enhanced",
+                "total_pages": 1,
+                "total_word_count": 0
+              },
+              "pages": [
+                {
+                  "page_number": 1,
+                  "page_width": 612,
+                  "page_height": 792,
+                  "sections": []
+                }
+              ],
+              "document_structure": {
+                "toc": [],
+                "sections_by_type": {
+                  "header": 0,
+                  "paragraph": 0,
+                  "list": 0,
+                  "table_caption": 0,
+                  "figure_caption": 0,
+                  "footer": 0,
+                  "sidebar": 0
+                }
+              },
+              "summary": {
+                "total_sections": 0,
+                "total_words": 0,
+                "llm_ready_sections": 0,
+                "average_section_length": 0,
+                "reading_time_estimate": 0,
+                "total_numbers_found": 0
+              }
+            },
+            "quality_metrics": {
+              "llm_ready_sections": 0,
+              "extraction_success": true
+            }
+          },
+          "numbers": {
+            "extraction_metadata": {
+              "method": "pdfplumber_enhanced",
+              "total_numbers": 0,
+              "extraction_timestamp": "2025-07-31T16:50:21.898207"
+            },
+            "numbers": [],
+            "summary": {
+              "by_type": {},
+              "by_page": {},
+              "confidence_distribution": {
+                "high": 0,
+                "medium": 0,
+                "low": 0
+              }
+            }
+          },
+          "processing_summary": {
+            "tables_extracted": 1,
+            "text_sections_extracted": 0,
+            "numbers_extracted": 0,
+            "overall_success": true,
+            "errors": []
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """
-Test script to simulate the web interface PDF processing
+Test script to check current web interface behavior
 """
 
 import os
 import sys
 import logging
 import json
+import requests
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from PDF_processing import PDFProcessor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def test_web_interface_simulation():
-    """Test the PDF processing as called by the web interface"""
+def test_current_web_behavior():
+    """Test what the current web interface is actually doing"""
     
     pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/test_pdfs/synthetic_financial_report.pdf"
     
@@ -22,13 +24,13 @@ def test_web_interface_simulation():
         logger.error(f"PDF file not found: {pdf_path}")
         return
     
-    logger.info(f"Testing web interface simulation for: {pdf_path}")
+    logger.info(f"Testing current web interface behavior for: {pdf_path}")
     
-    # Create processor
+    # Create processor (this should use the updated code)
     processor = PDFProcessor()
     
     try:
-        # Simulate web interface call with all options enabled
+        # Simulate the exact same call the web interface makes
         result = processor.process_file(
             pdf_path, 
             extract_tables=True, 
@@ -36,11 +38,12 @@ def test_web_interface_simulation():
             extract_numbers=True
         )
         
-        # Examine the result
+        # Check what we actually got
         tables = result.get("pdf_processing_result", {}).get("tables", {})
         table_list = tables.get("tables", [])
         text_content = result.get("pdf_processing_result", {}).get("text_content", {})
         
+        logger.info(f"\n=== CURRENT BEHAVIOR ===")
         logger.info(f"Tables found: {len(table_list)}")
         logger.info(f"Text pages: {len(text_content.get('pages', []))}")
         
@@ -53,7 +56,7 @@ def test_web_interface_simulation():
                 cell_values = [str(cell.get('value', '')).strip() for cell in cells.values()]
                 combined_text = ' '.join(cell_values)
                 if 'Selected Operating Metrics' in combined_text:
-                    logger.info(f"*** FOUND TARGET TABLE IN TABLES: {combined_text} ***")
+                    logger.info(f"*** TARGET TABLE FOUND IN TABLES: {combined_text} ***")
                     target_table_found_in_tables = True
                     break
             if target_table_found_in_tables:
@@ -65,7 +68,7 @@ def test_web_interface_simulation():
             for section in page.get('sections', []):
                 section_text = section.get('text', '')
                 if 'Selected Operating Metrics' in section_text:
-                    logger.info(f"*** FOUND TARGET TABLE IN TEXT SECTIONS: {section_text[:100]}... ***")
+                    logger.info(f"*** TARGET TABLE FOUND IN TEXT SECTIONS: {section_text[:100]}... ***")
                     logger.info(f"Section type: {section.get('section_type')}")
                     target_table_found_in_text = True
                     break
@@ -90,10 +93,15 @@ def test_web_interface_simulation():
                     cell_values = [str(cell.get('value', '')).strip() for cell in cells.values()]
                     logger.info(f"    Row {j+1}: {cell_values}")
         
+        # Save the result for comparison
+        with open('current_web_behavior_result.json', 'w') as f:
+            json.dump(result, f, indent=2)
+        logger.info(f"\nFull result saved to current_web_behavior_result.json")
+        
     except Exception as e:
         logger.error(f"Error during processing: {str(e)}")
         import traceback
         traceback.print_exc()
 
 if __name__ == "__main__":
-    test_web_interface_simulation() 
+    test_current_web_behavior() 

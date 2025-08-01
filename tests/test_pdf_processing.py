@@ -1,12 +1,13 @@
+#!/usr/bin/env python3
 """
-Test script for PDF processing functionality
-
-This script tests the PDF processing module with sample PDF files
+Test PDF processing functionality and output
 """
 
-import os
 import json
+import logging
+import os
 import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from PDF_processing import PDFProcessor, PDFTableExtractor
 
 def test_table_extraction():

@@ -15,10 +15,10 @@ def analyze_fixed_results():
     
     # Load the upload result
     try:
-        with open('upload_result.json', 'r') as f:
+        with open('tests/test_JSON/upload_result.json', 'r') as f:
             upload_result = json.load(f)
     except FileNotFoundError:
-        print("ERROR: upload_result.json not found")
+        print("ERROR: tests/test_JSON/upload_result.json not found")
         return
     
     # Get the Excel data

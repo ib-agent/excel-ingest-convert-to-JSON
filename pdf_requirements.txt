@@ -1,8 +1,9 @@
 # PDF Processing Dependencies
 
 # Core PDF processing libraries
-camelot-py[cv]>=0.11.0
-PyMuPDF>=1.23.0
+pdfplumber>=0.11.0
+# Removed: camelot-py[cv]>=0.11.0 (replaced with pdfplumber)
+# Removed: PyMuPDF>=1.23.0 (replaced with pdfplumber)
 
 # Data processing
 pandas>=1.5.0
