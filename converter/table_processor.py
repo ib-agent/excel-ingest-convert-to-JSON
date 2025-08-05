@@ -1,6 +1,7 @@
 import json
 from typing import Dict, Any, List, Optional, Tuple
 from openpyxl.utils import get_column_letter, column_index_from_string
+from .table_detector import TableDetector, HeaderResolver
 
 
 class TableProcessor:
@@ -11,6 +12,9 @@ class TableProcessor:
     
     def __init__(self):
         self.table_detection_rules = []
+        # Add new simplified detection system
+        self.detector = TableDetector()
+        self.header_resolver = HeaderResolver()
     
     def transform_to_table_format(self, excel_json: dict, options: dict = None) -> dict:
         """
@@ -451,22 +455,16 @@ class TableProcessor:
         """
         tables = []
         
-        # Get sheet dimensions
-        dimensions = sheet_data.get('dimensions', {})
-        min_row = dimensions.get('min_row', 1)
-        max_row = dimensions.get('max_row', 1)
-        min_col = dimensions.get('min_col', 1)
-        max_col = dimensions.get('max_col', 1)
-        
-        # Get cells data
+        # Get cells data and dimensions
         cells = sheet_data.get('cells', {})
+        dimensions = sheet_data.get('dimensions', {})
         
-        # Detect tables using various methods
+        # Prepare options for new detection system
         detection_options = options.copy()
         detection_options['sheet_data'] = sheet_data
-        table_regions = self._detect_table_regions(
-            cells, min_row, max_row, min_col, max_col, detection_options
-        )
+        
+        # Use new simplified detection system
+        table_regions = self.detector.detect_tables(cells, dimensions, detection_options)
         
         # Process each detected table region
         for i, region in enumerate(table_regions):
@@ -484,377 +482,21 @@ class TableProcessor:
         
         return tables
     
-    def _detect_table_regions(self, cells: dict, min_row: int, max_row: int, 
-                            min_col: int, max_col: int, options: dict) -> List[Dict[str, Any]]:
-        """
-        Detect table regions in the sheet
-        
-        Args:
-            cells: Cell data dictionary
-            min_row, max_row, min_col, max_col: Sheet dimensions
-            options: Detection options
-            
-        Returns:
-            List of table regions with coordinates
-        """
-        regions = []
-        
-        # Check if this sheet has frozen panes (indicating a structured table)
-        sheet_data = options.get('sheet_data', {})
-        frozen_panes = sheet_data.get('frozen_panes', {})
-        frozen_rows = frozen_panes.get('frozen_rows', 0)
-        frozen_cols = frozen_panes.get('frozen_cols', 0)
-        
-        # Check for structured table indicators
-        has_structured_layout = self._detect_structured_table_layout(cells, min_row, max_row, min_col, max_col)
-        
-        # Check if we should use gap-based detection (for multiple tables)
-        use_gap_detection = options.get('table_detection', {}).get('use_gaps', False)
-        
-        # PRIORITY: If sheet has ANY frozen rows or columns, treat as single table
-        # This is a strong indicator of a structured table layout
-        if frozen_rows > 0 or frozen_cols > 0:
-            # Create a single table region for the entire data area
-            regions.append({
-                'start_row': min_row,
-                'end_row': max_row,
-                'start_col': min_col,
-                'end_col': max_col,
-                'detection_method': 'frozen_panes',
-                'frozen_rows': frozen_rows,
-                'frozen_cols': frozen_cols
-            })
-            return regions
-        
-        # If gap detection is explicitly requested, use it regardless of structured layout
-        if use_gap_detection:
-            # Use gap-based detection
-            gap_regions = self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col)
-            if gap_regions:
-                regions.extend(gap_regions)
-            else:
-                # Fallback to other detection methods only if gap detection found nothing
-                regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
-                regions.extend(self._detect_tables_by_merged_cells(cells, min_row, max_row, min_col, max_col))
-                regions = self._merge_overlapping_regions(regions)
-            return regions
-        
-        # SECONDARY: If sheet shows structured layout and we're not using gap detection, treat as single table
-        if has_structured_layout and not use_gap_detection:
-            # Create a single table region for the entire data area
-            regions.append({
-                'start_row': min_row,
-                'end_row': max_row,
-                'start_col': min_col,
-                'end_col': max_col,
-                'detection_method': 'structured_layout',
-                'has_structured_layout': has_structured_layout
-            })
-            return regions
-        
-        # For sheets without frozen panes, use the enhanced detection methods
-        # Method 1: Detect based on empty row/column gaps (enhanced with non-numerical content check)
-        gap_regions = self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col)
-        
-        if gap_regions:
-            # If gap detection found tables, use only those
-            regions.extend(gap_regions)
-        else:
-            # Fallback to other detection methods only if gap detection found nothing
-            # Method 2: Detect based on formatting patterns
-            regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
-            
-            # Method 3: Detect based on merged cells
-            regions.extend(self._detect_tables_by_merged_cells(cells, min_row, max_row, min_col, max_col))
-            
-            # Remove overlapping regions and merge adjacent ones (only for fallback methods)
-            regions = self._merge_overlapping_regions(regions)
-        
-        return regions
+
     
-    def _is_non_numerical_content(self, cells: dict, row: int, min_col: int, max_col: int) -> bool:
-        """
-        Check if a row contains non-numerical content that indicates a new table
-        
-        Args:
-            cells: Cell data dictionary
-            row: Row number to check
-            min_col, max_col: Column range to check
-            
-        Returns:
-            True if the row contains non-numerical content (dates, text labels, etc.)
-        """
-        import re
-        from datetime import datetime
-        
-        # Common date patterns
-        date_patterns = [
-            r'\d{1,2}/\d{1,2}/\d{2,4}',  # MM/DD/YYYY or M/D/YY
-            r'\d{1,2}-\d{1,2}-\d{2,4}',  # MM-DD-YYYY
-            r'\d{4}-\d{1,2}-\d{1,2}',    # YYYY-MM-DD
-            r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4}\b',  # Month Year
-            r'\b\d{4}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b',  # Year Month
-            r'\b(Q[1-4])\s+\d{4}\b',     # Q1 2024, Q2 2024, etc.
-            r'\b\d{4}\s+(Q[1-4])\b',     # 2024 Q1, 2024 Q2, etc.
-            r'\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}\b',
-            r'\b\d{4}\s+(January|February|March|April|May|June|July|August|September|October|November|December)\b',
-        ]
-        
-        # Patterns that indicate new tables (section headers, not summary rows)
-        new_table_patterns = [
-            r'\b(Report|Analysis|Breakdown|Details|Overview)\b',
-            r'\b(Department|Division|Region|Category|Product|Service|Item)\b',
-            r'\b(Monthly|Quarterly|Annual|Yearly|Weekly|Daily)\b',
-            r'\b(Performance|Metrics|KPI|Target|Actual|Budget|Forecast)\b',
-            # More specific patterns for section headers
-            r'\b(Revenue|Sales|Cost of Goods|COGS|Gross Profit|Operating Income|Operating Expense)\b',
-            r'\b(SG&A|General|Administrative|Marketing|Research|Development|R&D)\b',
-            r'\b(Interest|Tax|Depreciation|Amortization|Other Income|Other Expense)\b',
-        ]
-        
-        # Patterns that indicate summary rows (part of the same table)
-        summary_patterns = [
-            r'\b(Total|Subtotal|Net Income|EBITDA|EBIT|Net Profit|Net Loss)\b',
-            r'\b(Gross Profit|Operating Profit|Operating Loss|Net Operating Income)\b',
-            r'\b(Total Revenue|Total Sales|Total Expense|Total Cost)\b',
-        ]
-        
-        # Check each cell in the row
-        for col in range(min_col, max_col + 1):
-            cell_key = f"{get_column_letter(col)}{row}"
-            if cell_key in cells:
-                cell_value = cells[cell_key].get('value')
-                if cell_value is not None:
-                    value_str = str(cell_value).strip()
-                    
-                    # Skip empty values
-                    if not value_str:
-                        continue
-                    
-                    # Check if it's a pure number (including decimals, percentages, currency)
-                    if self._is_pure_numerical(value_str):
-                        continue
-                    
-                    # Check for date patterns
-                    for pattern in date_patterns:
-                        if re.search(pattern, value_str, re.IGNORECASE):
-                            return True
-                    
-                    # Check for summary patterns first (these are part of the same table)
-                    for pattern in summary_patterns:
-                        if re.search(pattern, value_str, re.IGNORECASE):
-                            return False  # This is a summary row, not a new table
-                    
-                    # Check for new table patterns
-                    for pattern in new_table_patterns:
-                        if re.search(pattern, value_str, re.IGNORECASE):
-                            return True
-                    
-                    # If it's not numerical and not empty, and doesn't match summary patterns,
-                    # it might be a new table indicator
-                    return True
-        
-        return False
+
     
-    def _is_pure_numerical(self, value_str: str) -> bool:
-        """
-        Check if a string represents a pure numerical value
-        
-        Args:
-            value_str: String value to check
-            
-        Returns:
-            True if the value is purely numerical
-        """
-        import re
-        
-        # Remove common numerical formatting
-        cleaned = value_str.replace(',', '').replace('$', '').replace('%', '').replace('(', '').replace(')', '')
-        
-        # Check for pure number patterns
-        if re.match(r'^-?\d+\.?\d*$', cleaned):
-            return True
-        
-        # Check for scientific notation
-        if re.match(r'^-?\d+\.?\d*[eE][+-]?\d+$', cleaned):
-            return True
-        
-        # Check for fractions
-        if re.match(r'^\d+/\d+$', cleaned):
-            return True
-        
-        return False
+
     
-    def _detect_tables_by_gaps(self, cells: dict, min_row: int, max_row: int, 
-                             min_col: int, max_col: int) -> List[Dict[str, Any]]:
-        """Detect tables by looking for gaps in data"""
-        regions = []
-        
-        # Find continuous data regions
-        current_start_row = None
-        consecutive_blank_rows = 0
-        max_consecutive_blank_rows = 2  # Allow up to 2 consecutive blank rows within a table
-        
-        # Analyze the sheet to determine if it's a financial table with single-row gaps
-        is_financial_table = self._is_financial_table_with_single_gaps(cells, min_row, max_row, min_col, max_col)
-        
-        if is_financial_table:
-            # For financial tables, be more tolerant of single blank rows
-            max_consecutive_blank_rows = 3  # Allow up to 3 consecutive blank rows
-        
-        for row in range(min_row, max_row + 1):
-            row_has_data = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    row_has_data = True
-                    if current_start_row is None:
-                        current_start_row = row
-                    consecutive_blank_rows = 0  # Reset blank row counter
-                    break
-            
-            if not row_has_data:
-                consecutive_blank_rows += 1
-                if current_start_row is not None and consecutive_blank_rows >= max_consecutive_blank_rows:
-                    # Check if the next row after the gap contains non-numerical content
-                    next_row_after_gap = row + 1
-                    should_start_new_table = False
-                    
-                    if next_row_after_gap <= max_row:
-                        should_start_new_table = self._is_non_numerical_content(cells, next_row_after_gap, min_col, max_col)
-                    if should_start_new_table:
-                        # End of a table region after gap followed by non-numerical content
-                        regions.append({
-                            'start_row': current_start_row,
-                            'end_row': row - consecutive_blank_rows,
-                            'start_col': min_col,
-                            'end_col': max_col,
-                            'detection_method': 'gaps'
-                        })
-                        current_start_row = None
-                        consecutive_blank_rows = 0
-                        continue  # Ensure next non-empty row starts a new region
-                    else:
-                        # Do NOT reset consecutive_blank_rows here; let it accumulate
-                        pass
-        # Handle table that extends to the end
-        if current_start_row is not None:
-            regions.append({
-                'start_row': current_start_row,
-                'end_row': max_row,
-                'start_col': min_col,
-                'end_col': max_col,
-                'detection_method': 'gaps'
-            })
-        return regions
+
     
-    def _detect_tables_by_formatting(self, cells: dict, min_row: int, max_row: int, 
-                                   min_col: int, max_col: int) -> List[Dict[str, Any]]:
-        """Detect tables based on formatting patterns"""
-        regions = []
-        
-        # Look for header-like formatting (bold, background colors, borders)
-        header_rows = []
-        for row in range(min_row, min(max_row, min_row + 10)):  # Check first 10 rows
-            row_has_header_formatting = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells:
-                    cell = cells[cell_key]
-                    style = cell.get('style', {})
-                    font = style.get('font', {})
-                    fill = style.get('fill', {})
-                    
-                    # Check for header-like formatting
-                    if (font.get('bold') or 
-                        fill.get('fill_type') in ['solid', 'darkGray', 'mediumGray'] or
-                        any(border.get('style') for border in style.get('border', {}).values() if border)):
-                        row_has_header_formatting = True
-                        break
-            
-            if row_has_header_formatting:
-                header_rows.append(row)
-        
-        # Create table regions based on header rows
-        for header_row in header_rows:
-            # Find the extent of the table
-            end_row = self._find_table_end_row(cells, header_row, max_row, min_col, max_col)
-            end_col = self._find_table_end_col(cells, header_row, max_row, min_col, max_col)
-            
-            regions.append({
-                'start_row': header_row,
-                'end_row': end_row,
-                'start_col': min_col,
-                'end_col': end_col,
-                'detection_method': 'formatting'
-            })
-        
-        return regions
+
     
-    def _detect_tables_by_merged_cells(self, cells: dict, min_row: int, max_row: int, 
-                                     min_col: int, max_col: int) -> List[Dict[str, Any]]:
-        """Detect tables based on merged cell patterns"""
-        regions = []
-        
-        # This would analyze merged cells to identify table boundaries
-        # For now, return empty list - can be enhanced later
-        return regions
+
     
-    def _merge_overlapping_regions(self, regions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Merge overlapping or adjacent table regions"""
-        if not regions:
-            return regions
-        
-        # Sort regions by start_row, then start_col
-        regions.sort(key=lambda x: (x['start_row'], x['start_col']))
-        
-        merged = []
-        current = regions[0].copy()
-        
-        for region in regions[1:]:
-            # Check if regions overlap or are truly adjacent (touching, not separated by gaps)
-            if (region['start_row'] <= current['end_row'] + 1 and
-                region['start_col'] <= current['end_col'] + 1 and
-                region['start_row'] <= current['end_row']):  # Only merge if they actually overlap or touch
-                # Merge regions
-                current['end_row'] = max(current['end_row'], region['end_row'])
-                current['end_col'] = max(current['end_col'], region['end_col'])
-                current['detection_method'] = f"{current['detection_method']}+{region['detection_method']}"
-            else:
-                # No overlap, add current to merged and start new
-                merged.append(current)
-                current = region.copy()
-        
-        merged.append(current)
-        return merged
+
     
-    def _find_table_end_row(self, cells: dict, start_row: int, max_row: int, 
-                           min_col: int, max_col: int) -> int:
-        """Find the end row of a table"""
-        for row in range(start_row + 1, max_row + 1):
-            row_has_data = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    row_has_data = True
-                    break
-            if not row_has_data:
-                return row - 1
-        return max_row
-    
-    def _find_table_end_col(self, cells: dict, start_row: int, max_row: int, 
-                           min_col: int, max_col: int) -> int:
-        """Find the end column of a table"""
-        for col in range(min_col, max_col + 1):
-            col_has_data = False
-            for row in range(start_row, max_row + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    col_has_data = True
-                    break
-            if not col_has_data:
-                return col - 1
-        return max_col
+
     
     def _process_table_region(self, sheet_data: dict, region: dict, 
                             table_index: int, options: dict) -> Optional[Dict[str, Any]]:
@@ -885,8 +527,9 @@ class TableProcessor:
             if cleaned_cell:  # Only include non-empty cells
                 cleaned_table_cells[cell_key] = cleaned_cell
         
-        # Determine header rows and columns
-        header_info = self._determine_headers(cleaned_table_cells, region, merged_cells, options)
+        # Determine header rows and columns using new resolver
+        normalized_cells = self.detector._normalize_cell_data(cleaned_table_cells)
+        header_info = self.header_resolver.resolve_headers(normalized_cells, region, options)
         
         # Create table structure
         table = {
@@ -1109,188 +752,6 @@ class TableProcessor:
         
         return self._process_table_region(sheet_data, region, 0, options) 
     
-    def _is_financial_table_with_single_gaps(self, cells: dict, min_row: int, max_row: int, 
-                                           min_col: int, max_col: int) -> bool:
-        """
-        Detect if this is a financial table with single-row gaps used for visual separation
-        
-        Args:
-            cells: Cell data dictionary
-            min_row, max_row, min_col, max_col: Sheet dimensions
-            
-        Returns:
-            True if this appears to be a financial table with single-row gaps
-        """
-        # Count total rows with data
-        rows_with_data = []
-        for row in range(min_row, max_row + 1):
-            row_has_data = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    row_has_data = True
-                    break
-            if row_has_data:
-                rows_with_data.append(row)
-        
-        if len(rows_with_data) < 10:  # Need enough data rows to analyze
-            return False
-        
-        # Find gaps between data rows
-        gaps = []
-        for i in range(len(rows_with_data) - 1):
-            gap = rows_with_data[i+1] - rows_with_data[i] - 1
-            if gap > 0:
-                gaps.append(gap)
-        
-        if not gaps:
-            return False
-        
-        # Count single-row gaps vs multi-row gaps
-        single_row_gaps = sum(1 for gap in gaps if gap == 1)
-        multi_row_gaps = sum(1 for gap in gaps if gap > 1)
-        
-        # Check for financial table indicators
-        financial_indicators = 0
-        
-        # Look for common financial terms in the first few rows
-        financial_terms = [
-            'revenue', 'profit', 'loss', 'income', 'expense', 'cost', 'margin', 
-            'ebitda', 'gross', 'net', 'total', 'sales', 'p&l', 'balance', 'cash',
-            'assets', 'liabilities', 'equity', 'depreciation', 'amortization'
-        ]
-        
-        for row in rows_with_data[:10]:  # Check first 10 data rows
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells:
-                    value = cells[cell_key].get('value', '')
-                    if isinstance(value, str):
-                        value_lower = value.lower()
-                        for term in financial_terms:
-                            if term in value_lower:
-                                financial_indicators += 1
-                                break
-        
-        # Check for numeric data patterns (financial tables have lots of numbers)
-        numeric_cells = 0
-        total_cells = 0
-        for cell_key, cell_data in cells.items():
-            value = cell_data.get('value')
-            if value is not None:
-                total_cells += 1
-                if isinstance(value, (int, float)) or (isinstance(value, str) and value.replace('.', '').replace(',', '').replace('-', '').replace('%', '').isdigit()):
-                    numeric_cells += 1
-        
-        numeric_ratio = numeric_cells / total_cells if total_cells > 0 else 0
-        
-        # Determine if this is a financial table with single gaps
-        # Criteria:
-        # 1. High ratio of single-row gaps to multi-row gaps
-        # 2. Presence of financial terms
-        # 3. High ratio of numeric data
-        # 4. Reasonable number of gaps (not too few, not too many)
-        
-        single_gap_ratio = single_row_gaps / len(gaps) if gaps else 0
-        has_financial_terms = financial_indicators >= 3
-        has_numeric_data = numeric_ratio > 0.3
-        
-        return (single_gap_ratio > 0.7 and has_financial_terms and has_numeric_data and 
-                len(gaps) >= 5 and len(gaps) <= 20)  # Reasonable number of gaps
+
     
-    def _detect_structured_table_layout(self, cells: dict, min_row: int, max_row: int, 
-                                      min_col: int, max_col: int) -> bool:
-        """
-        Detect if a sheet has a structured table layout based on formatting and organization
-        
-        Args:
-            cells: Cell data dictionary
-            min_row, max_row, min_col, max_col: Sheet dimensions
-            
-        Returns:
-            True if the sheet appears to have a structured table layout
-        """
-        if not cells:
-            return False
-        
-        # Check for header-like formatting in first few rows
-        header_indicators = 0
-        max_header_rows_to_check = min(5, max_row - min_row + 1)
-        
-        for row in range(min_row, min_row + max_header_rows_to_check):
-            row_header_indicators = 0
-            for col in range(min_col, min_col + min(10, max_col - min_col + 1)):  # Check first 10 columns
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells:
-                    cell = cells[cell_key]
-                    style = cell.get('style', {})
-                    font = style.get('font', {})
-                    fill = style.get('fill', {})
-                    
-                    # Check for header-like formatting
-                    if (font.get('bold') or 
-                        fill.get('fill_type') in ['solid', 'darkGray', 'mediumGray'] or
-                        any(border.get('style') for border in style.get('border', {}).values() if border)):
-                        row_header_indicators += 1
-            
-            if row_header_indicators > 0:
-                header_indicators += 1
-        
-        # Check for consistent data structure
-        data_structure_indicators = 0
-        
-        # Check if there are multiple columns with data
-        columns_with_data = 0
-        for col in range(min_col, max_col + 1):
-            col_has_data = False
-            for row in range(min_row, max_row + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    col_has_data = True
-                    break
-            if col_has_data:
-                columns_with_data += 1
-        
-        # Check if there are multiple rows with data
-        rows_with_data = 0
-        for row in range(min_row, max_row + 1):
-            row_has_data = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    row_has_data = True
-                    break
-            if row_has_data:
-                rows_with_data += 1
-        
-        # A structured table should have:
-        # 1. Header-like formatting in first few rows
-        # 2. Multiple columns with data
-        # 3. Multiple rows with data
-        # 4. Reasonable data density
-        
-        if (header_indicators >= 2 and  # At least 2 rows have header-like formatting
-            columns_with_data >= 3 and  # At least 3 columns have data
-            rows_with_data >= 5):       # At least 5 rows have data
-            data_structure_indicators = 1
-        
-        # Check for financial/structured data patterns
-        financial_indicators = 0
-        
-        # Look for common financial terms in headers
-        financial_terms = ['revenue', 'income', 'expense', 'profit', 'loss', 'balance', 'cash', 'flow', 
-                          'assets', 'liabilities', 'equity', 'total', 'net', 'gross', 'operating']
-        
-        for row in range(min_row, min_row + 3):  # Check first 3 rows
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells:
-                    cell_value = cells[cell_key].get('value', '')
-                    if isinstance(cell_value, str):
-                        cell_value_lower = cell_value.lower()
-                        if any(term in cell_value_lower for term in financial_terms):
-                            financial_indicators += 1
-                            break
-        
-        # Consider it a structured table if it has good indicators
-        return (header_indicators >= 2 and data_structure_indicators >= 1) or financial_indicators >= 2 
+ 

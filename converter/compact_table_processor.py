@@ -1,6 +1,7 @@
 import json
 from typing import Dict, Any, List, Optional, Tuple
 from openpyxl.utils import get_column_letter, column_index_from_string
+from .table_detector import TableDetector, HeaderResolver
 
 
 class CompactTableProcessor:
@@ -11,6 +12,9 @@ class CompactTableProcessor:
     
     def __init__(self):
         self.table_detection_rules = []
+        # Add new simplified detection system
+        self.detector = TableDetector()
+        self.header_resolver = HeaderResolver()
     
     def transform_to_compact_table_format(self, compact_excel_json: dict, options: dict = None) -> dict:
         """
@@ -49,19 +53,16 @@ class CompactTableProcessor:
         """
         tables = []
         
-        # Get sheet dimensions from the compact format
+        # Get sheet data in compact format
+        rows = sheet_data.get('rows', [])
         dimensions = sheet_data.get('dimensions', [1, 1, 1, 1])
-        min_row, min_col, max_row, max_col = dimensions
         
-        # Convert compact rows back to cell-like structure for detection
-        cell_map = self._build_cell_map_from_compact_rows(sheet_data.get('rows', []))
-        
-        # Detect tables using various methods
+        # Prepare options for new detection system
         detection_options = options.copy()
         detection_options['sheet_data'] = sheet_data
-        table_regions = self._detect_table_regions(
-            cell_map, min_row, max_row, min_col, max_col, detection_options
-        )
+        
+        # Use new simplified detection system with compact data
+        table_regions = self.detector.detect_tables(rows, dimensions, detection_options)
         
         # Process each detected table region
         for i, region in enumerate(table_regions):
@@ -72,7 +73,7 @@ class CompactTableProcessor:
                 tables.append(table)
         
         # If no tables detected, create a default table for the entire sheet
-        if not tables and cell_map:
+        if not tables and rows:
             default_table = self._create_compact_default_table(sheet_data, options)
             if default_table:
                 tables.append(default_table)
@@ -101,162 +102,11 @@ class CompactTableProcessor:
         
         return cell_map
     
-    def _detect_table_regions(self, cells: dict, min_row: int, max_row: int, 
-                            min_col: int, max_col: int, options: dict) -> List[Dict[str, Any]]:
-        """
-        Detect table regions in the sheet
-        
-        Args:
-            cells: Cell data dictionary
-            min_row, max_row, min_col, max_col: Sheet dimensions
-            options: Detection options
-            
-        Returns:
-            List of table regions with coordinates
-        """
-        regions = []
-        
-        # Check if this sheet has frozen panes (indicating a structured table)
-        sheet_data = options.get('sheet_data', {})
-        frozen_panes = sheet_data.get('frozen', [0, 0])
-        frozen_rows, frozen_cols = frozen_panes if len(frozen_panes) >= 2 else [0, 0]
-        
-        # Check for structured table indicators
-        has_structured_layout = self._detect_structured_table_layout(cells, min_row, max_row, min_col, max_col)
-        
-        # Check if we should use gap-based detection (for multiple tables)
-        use_gap_detection = options.get('table_detection', {}).get('use_gaps', False)
-        
-        # PRIORITY: If sheet has ANY frozen rows or columns, treat as single table
-        if frozen_rows > 0 or frozen_cols > 0:
-            regions.append({
-                'start_row': min_row,
-                'end_row': max_row,
-                'start_col': min_col,
-                'end_col': max_col,
-                'detection_method': 'frozen_panes',
-                'frozen_rows': frozen_rows,
-                'frozen_cols': frozen_cols
-            })
-            return regions
-        
-        # If gap detection is explicitly requested, use it
-        if use_gap_detection:
-            gap_regions = self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col)
-            if gap_regions:
-                regions.extend(gap_regions)
-            else:
-                regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
-            return regions
-        
-        # SECONDARY: If sheet shows structured layout, treat as single table
-        if has_structured_layout and not use_gap_detection:
-            regions.append({
-                'start_row': min_row,
-                'end_row': max_row,
-                'start_col': min_col,
-                'end_col': max_col,
-                'detection_method': 'structured_layout',
-                'has_structured_layout': has_structured_layout
-            })
-            return regions
-        
-        # For sheets without frozen panes, use enhanced detection methods
-        gap_regions = self._detect_tables_by_gaps(cells, min_row, max_row, min_col, max_col)
-        
-        if gap_regions:
-            regions.extend(gap_regions)
-        else:
-            regions.extend(self._detect_tables_by_formatting(cells, min_row, max_row, min_col, max_col))
-        
-        return regions
+
     
-    def _detect_tables_by_gaps(self, cells: dict, min_row: int, max_row: int, 
-                             min_col: int, max_col: int) -> List[Dict[str, Any]]:
-        """Detect tables by looking for gaps in data"""
-        regions = []
-        
-        current_start_row = None
-        consecutive_blank_rows = 0
-        max_consecutive_blank_rows = 2
-        
-        for row in range(min_row, max_row + 1):
-            row_has_data = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    row_has_data = True
-                    if current_start_row is None:
-                        current_start_row = row
-                    consecutive_blank_rows = 0
-                    break
-            
-            if not row_has_data:
-                consecutive_blank_rows += 1
-                if current_start_row is not None and consecutive_blank_rows >= max_consecutive_blank_rows:
-                    regions.append({
-                        'start_row': current_start_row,
-                        'end_row': row - consecutive_blank_rows,
-                        'start_col': min_col,
-                        'end_col': max_col,
-                        'detection_method': 'gaps'
-                    })
-                    current_start_row = None
-                    consecutive_blank_rows = 0
-        
-        # Handle table that extends to the end
-        if current_start_row is not None:
-            regions.append({
-                'start_row': current_start_row,
-                'end_row': max_row,
-                'start_col': min_col,
-                'end_col': max_col,
-                'detection_method': 'gaps'
-            })
-        return regions
+
     
-    def _detect_tables_by_formatting(self, cells: dict, min_row: int, max_row: int, 
-                                   min_col: int, max_col: int) -> List[Dict[str, Any]]:
-        """Detect tables based on formatting patterns"""
-        # For now, create a single table for the entire data range
-        return [{
-            'start_row': min_row,
-            'end_row': max_row,
-            'start_col': min_col,
-            'end_col': max_col,
-            'detection_method': 'formatting'
-        }]
-    
-    def _detect_structured_table_layout(self, cells: dict, min_row: int, max_row: int, 
-                                      min_col: int, max_col: int) -> bool:
-        """Detect if a sheet has a structured table layout"""
-        if not cells:
-            return False
-        
-        # Check if there are multiple columns and rows with data
-        columns_with_data = 0
-        for col in range(min_col, max_col + 1):
-            col_has_data = False
-            for row in range(min_row, max_row + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    col_has_data = True
-                    break
-            if col_has_data:
-                columns_with_data += 1
-        
-        rows_with_data = 0
-        for row in range(min_row, max_row + 1):
-            row_has_data = False
-            for col in range(min_col, max_col + 1):
-                cell_key = f"{get_column_letter(col)}{row}"
-                if cell_key in cells and cells[cell_key].get('value') is not None:
-                    row_has_data = True
-                    break
-            if row_has_data:
-                rows_with_data += 1
-        
-        return columns_with_data >= 3 and rows_with_data >= 5
+
     
     def _process_compact_table_region(self, sheet_data: dict, region: dict, 
                                     table_index: int, options: dict) -> Optional[Dict[str, Any]]:
@@ -276,8 +126,11 @@ class CompactTableProcessor:
         if not rows:
             return None
         
-        # Determine header information
-        header_info = self._determine_compact_headers(rows, region, options)
+        # Determine header information using new resolver
+        # Convert compact rows to normalized cells for header resolution
+        cell_map = self._build_cell_map_from_compact_rows(rows)
+        normalized_cells = self.detector._normalize_cell_data(cell_map)
+        header_info = self.header_resolver.resolve_headers(normalized_cells, region, options)
         
         # Create compact table structure
         table = {
