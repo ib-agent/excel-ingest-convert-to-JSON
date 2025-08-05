@@ -107,22 +107,21 @@ def upload_and_convert(request):
             header_resolver = HeaderResolver()
             enhanced_table_data = header_resolver.resolve_headers(table_data, {})
         
-        # Calculate response sizes
-        json_data_size = len(json.dumps(json_data))
-        table_data_size = len(json.dumps(enhanced_table_data))
-        total_size = json_data_size + table_data_size
+        # Quick size estimation to avoid expensive JSON serialization for large files
+        # Estimate based on cell count and sheet structure
+        total_cells = sum(len(sheet.get('cells', {})) for sheet in json_data.get('workbook', {}).get('sheets', []))
+        estimated_size = total_cells * 200  # Rough estimate: 200 bytes per cell
         
-        # Check if response would be too large (>10MB)
-        LARGE_FILE_THRESHOLD = 10 * 1024 * 1024  # 10MB
+        # Check if response would be too large (>5MB estimated = likely >10MB actual)
+        LARGE_FILE_THRESHOLD = 5 * 1024 * 1024  # 5MB estimated threshold
         
         print(f"Debug - File: {uploaded_file.name}")
         print(f"Debug - Format: {format_type}")
-        print(f"Debug - JSON data size: {json_data_size / 1024 / 1024:.2f} MB")
-        print(f"Debug - Table data size: {table_data_size / 1024 / 1024:.2f} MB")
-        print(f"Debug - Total size: {total_size / 1024 / 1024:.2f} MB")
+        print(f"Debug - Total cells: {total_cells}")
+        print(f"Debug - Estimated size: {estimated_size / 1024 / 1024:.2f} MB")
         print(f"Debug - Large file threshold: {LARGE_FILE_THRESHOLD / 1024 / 1024:.2f} MB")
         
-        if total_size > LARGE_FILE_THRESHOLD:
+        if estimated_size > LARGE_FILE_THRESHOLD:
             print(f"Debug - Processing as large file")
             # For large files, return summary and download links
             if use_compact:
@@ -193,27 +192,35 @@ def upload_and_convert(request):
                 'format': format_type,
                 'filename': uploaded_file.name,
                 'large_file': True,
-                'warning': f'File is very large ({total_size / 1024 / 1024:.1f} MB). Use download links below.',
+                'warning': f'File is very large (estimated {estimated_size / 1024 / 1024:.1f} MB). Use download links below.',
                 'summary': summary_data,
                 'download_urls': {
                     'full_data': f'/api/download/?type=full&file_id={file_id}',
                     'table_data': f'/api/download/?type=table&file_id={file_id}'
                 },
                 'file_info': {
-                    'total_size_mb': total_size / 1024 / 1024,
-                    'json_data_size_mb': json_data_size / 1024 / 1024,
-                    'table_data_size_mb': table_data_size / 1024 / 1024,
+                    'estimated_size_mb': estimated_size / 1024 / 1024,
+                    'total_cells': total_cells,
                     'sheet_count': len(json_data.get('workbook', {}).get('sheets', [])),
                     'total_tables': sum(len(sheet.get('tables', [])) for sheet in json_data.get('workbook', {}).get('sheets', []))
                 },
                 'compression_stats': {
                     'format_used': format_type,
-                    'estimated_verbose_size_mb': total_size / 1024 / 1024 * (3.5 if use_compact else 1.0),
+                    'estimated_verbose_size_mb': estimated_size / 1024 / 1024 * (3.5 if use_compact else 1.0),
                     'estimated_reduction_percent': 70 if use_compact else 0
                 } if use_compact else None
             }, status=200)
         else:
-            # For smaller files, return full data
+            # For smaller files, calculate actual sizes and return full data
+            print(f"Debug - Calculating actual sizes for small file")
+            json_data_size = len(json.dumps(json_data, default=str))
+            table_data_size = len(json.dumps(enhanced_table_data, default=str))
+            total_size = json_data_size + table_data_size
+            
+            print(f"Debug - Actual JSON data size: {json_data_size / 1024 / 1024:.2f} MB")
+            print(f"Debug - Actual table data size: {table_data_size / 1024 / 1024:.2f} MB")
+            print(f"Debug - Actual total size: {total_size / 1024 / 1024:.2f} MB")
+            
             # Clean up temporary file
             default_storage.delete(temp_path)
             
