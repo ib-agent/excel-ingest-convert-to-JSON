@@ -633,8 +633,17 @@ class ExcelProcessor:
     def _extract_conditional_formatting(self, worksheet: Worksheet) -> List[Dict[str, Any]]:
         conditional_formats = []
         for cf in getattr(worksheet, 'conditional_formatting', []):
+            # Handle MultiCellRange object properly
+            cell_range = ""
+            try:
+                cells_attr = getattr(cf, 'cells', None)
+                if cells_attr is not None:
+                    cell_range = str(cells_attr)
+            except:
+                cell_range = ""
+            
             cf_data = {
-                "range": self._safe(str(getattr(cf, 'cells', {}).get('ranges', [''])[0]) if getattr(cf, 'cells', None) and getattr(cf.cells, 'ranges', None) else ''),
+                "range": self._safe(cell_range),
                 "priority": self._safe(getattr(cf, 'priority', None)),
                 "stop_if_true": self._safe(getattr(cf, 'stopIfTrue', None)),
                 "type": self._safe(getattr(getattr(cf, 'cfRule', [{}])[0], 'type', '') if getattr(cf, 'cfRule', None) else ''),
