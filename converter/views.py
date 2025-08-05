@@ -12,7 +12,6 @@ from django.conf import settings
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from rest_framework import status
 from .excel_processor import ExcelProcessor
 from .table_processor import TableProcessor
 from .header_resolver import HeaderResolver
@@ -189,7 +188,7 @@ def upload_and_convert(request):
             # Clean up temporary file
             default_storage.delete(temp_path)
             
-            return Response({
+            return JsonResponse({
                 'success': True,
                 'format': format_type,
                 'filename': uploaded_file.name,
@@ -212,7 +211,7 @@ def upload_and_convert(request):
                     'estimated_verbose_size_mb': total_size / 1024 / 1024 * (3.5 if use_compact else 1.0),
                     'estimated_reduction_percent': 70 if use_compact else 0
                 } if use_compact else None
-            }, status=status.HTTP_200_OK)
+            }, status=200)
         else:
             # For smaller files, return full data
             # Clean up temporary file
@@ -270,7 +269,7 @@ def download_json(request):
         if not file_id or file_id not in processed_data_cache:
             return Response(
                 {'error': 'File not found or expired'}, 
-                status=status.HTTP_404_NOT_FOUND
+                status=404
             )
         
         cached_data = processed_data_cache[file_id]
@@ -296,7 +295,7 @@ def download_json(request):
     except Exception as e:
         return Response(
             {'error': f'Error downloading file: {str(e)}'}, 
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=500
         )
 
 
@@ -332,7 +331,7 @@ def transform_to_tables(request):
         if not json_data:
             return Response(
                 {'error': 'No JSON data provided'}, 
-                status=status.HTTP_400_BAD_REQUEST
+                status=400
             )
         
         # Check format parameter
@@ -366,12 +365,12 @@ def transform_to_tables(request):
                 'reduction_percent': int((1 - compressed_size / original_size) * 100) if original_size > 0 else 0
             }
         
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=200)
         
     except Exception as e:
         return Response(
             {'error': f'Error transforming data: {str(e)}'}, 
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=500
         )
 
 
@@ -387,7 +386,7 @@ def resolve_headers(request):
         if not table_data:
             return Response(
                 {'error': 'No table data provided'}, 
-                status=status.HTTP_400_BAD_REQUEST
+                status=400
             )
         
         # Check format parameter
@@ -401,7 +400,7 @@ def resolve_headers(request):
                 'format': format_type,
                 'resolved_data': table_data,
                 'message': 'Compact format already includes resolved headers in labels'
-            }, status=status.HTTP_200_OK)
+            }, status=200)
         else:
             # Resolve headers for verbose format
             header_resolver = HeaderResolver()
@@ -411,10 +410,10 @@ def resolve_headers(request):
                 'success': True,
                 'format': format_type,
                 'resolved_data': resolved_data
-            }, status=status.HTTP_200_OK)
+            }, status=200)
         
     except Exception as e:
         return Response(
             {'error': f'Error resolving headers: {str(e)}'}, 
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=500
         )
