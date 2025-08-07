@@ -19,6 +19,7 @@ class TableDetector:
     def __init__(self):
         self.detection_methods = [
             self._detect_by_frozen_panes,
+            self._detect_financial_statement_layout,
             self._detect_by_blank_row_separation,
             self._detect_by_temporal_headers,
             self._detect_by_column_continuity,
@@ -131,6 +132,113 @@ class TableDetector:
             }]
         return []
     
+    def _detect_financial_statement_layout(self, cells: Dict[str, Any], bounds: Tuple[int, int, int, int],
+                                          options: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Detect financial statement layouts where section headers (with labels only) 
+        are part of the same table, not separate tables.
+        
+        This method specifically handles layouts like balance sheets where you have:
+        - Row headers with dates/periods across columns
+        - Section headers like "Assets", "Liabilities", "Equity" with only text in first column
+        - Data rows with values across columns
+        """
+        min_row, min_col, max_row, max_col = bounds
+        regions = []
+        
+        # Check if this looks like a financial statement layout
+        if not self._looks_like_financial_statement(cells, bounds):
+            return []
+        
+        # For financial statements, treat the entire data area as one table
+        # but ensure we have meaningful data
+        data_rows = []
+        for row in range(min_row, max_row + 1):
+            if self._row_has_meaningful_data(cells, row, min_col, max_col):
+                data_rows.append(row)
+        
+        if len(data_rows) >= 3:  # Need at least 3 rows for a table
+            # Find actual column bounds (exclude empty trailing columns)
+            actual_bounds = self._determine_table_column_bounds(cells, min(data_rows), max(data_rows), min_col, max_col)
+            
+            regions.append({
+                'start_row': min(data_rows),
+                'end_row': max(data_rows),
+                'start_col': actual_bounds['min_col'],
+                'end_col': actual_bounds['max_col'],
+                'detection_method': 'financial_statement_layout'
+            })
+        
+        return regions
+    
+    def _looks_like_financial_statement(self, cells: Dict[str, Any], bounds: Tuple[int, int, int, int]) -> bool:
+        """
+        Check if the data layout looks like a financial statement.
+        
+        Characteristics:
+        - Has section headers (rows with only text in first column)
+        - Has consistent column structure across most rows
+        - Section headers are common financial terms
+        """
+        min_row, min_col, max_row, max_col = bounds
+        
+        section_headers = []
+        data_rows = []
+        
+        # Analyze each row
+        for row in range(min_row, max_row + 1):
+            first_col_coord = f"{get_column_letter(min_col)}{row}"
+            if first_col_coord in cells:
+                first_col_value = cells[first_col_coord]['value']
+                
+                # Count data in other columns
+                other_data_count = 0
+                for col in range(min_col + 1, max_col + 1):
+                    coord = f"{get_column_letter(col)}{row}"
+                    if coord in cells and cells[coord]['value'] is not None:
+                        value = str(cells[coord]['value']).strip()
+                        if value:
+                            other_data_count += 1
+                
+                # Classify the row
+                if isinstance(first_col_value, str) and first_col_value.strip():
+                    if other_data_count == 0:
+                        # Row with only first column - potential section header
+                        section_headers.append((row, first_col_value.strip()))
+                    elif other_data_count > 2:
+                        # Row with data across multiple columns
+                        data_rows.append(row)
+        
+        # Check if we have financial statement characteristics
+        if len(section_headers) >= 2 and len(data_rows) >= 3:
+            # Check if section headers contain financial terms
+            financial_terms = [
+                'assets', 'liabilities', 'equity', 'revenue', 'expenses', 'income',
+                'cash', 'receivable', 'payable', 'inventory', 'property', 'debt',
+                'retained', 'earnings', 'capital', 'current', 'non-current', 'total'
+            ]
+            
+            financial_header_count = 0
+            for _, header_text in section_headers:
+                header_lower = header_text.lower()
+                if any(term in header_lower for term in financial_terms):
+                    financial_header_count += 1
+            
+            # If most section headers are financial terms, this is likely a financial statement
+            return financial_header_count >= len(section_headers) * 0.6
+        
+        return False
+    
+    def _row_has_meaningful_data(self, cells: Dict[str, Any], row: int, min_col: int, max_col: int) -> bool:
+        """Check if a row has meaningful data (not just empty cells)."""
+        for col in range(min_col, max_col + 1):
+            coord = f"{get_column_letter(col)}{row}"
+            if coord in cells and cells[coord]['value'] is not None:
+                value = str(cells[coord]['value']).strip()
+                if value:  # Non-empty value
+                    return True
+        return False
+    
     def _detect_by_blank_row_separation(self, cells: Dict[str, Any], bounds: Tuple[int, int, int, int],
                                        options: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
@@ -232,6 +340,12 @@ class TableDetector:
         """
         Check if the gap between prev_row and next_row represents a genuine table boundary.
         """
+        # Check if there's a potential section header row between prev_row and next_row
+        for gap_row in range(prev_row + 1, next_row):
+            if self._is_section_header_row(cells, gap_row, min_col, max_col, next_row, max_col):
+                # This is likely a section header within the same table, not a boundary
+                return False
+        
         # Analyze content patterns around the boundary
         prev_content = self._get_row_content_pattern(cells, prev_row, min_col, max_col)
         next_content = self._get_row_content_pattern(cells, next_row, min_col, max_col)
@@ -277,6 +391,94 @@ class TableDetector:
             'mostly_numeric': numeric_count > len(values) / 2,
             'has_text_labels': len(text_labels) > 2
         }
+    
+    def _is_section_header_row(self, cells: Dict[str, Any], row: int, min_col: int, max_col: int, next_data_row: int, max_row: int = None) -> bool:
+        """
+        Check if a row is a section header (label in first column only, no other data).
+        
+        A row is considered a section header if:
+        1. It has text in the first column (typically a label)
+        2. It has no or minimal data in other columns  
+        3. The row following it is NOT a row of dates/headers (indicating it's part of the same table)
+        """
+        # Check if this row has data in the first column
+        first_col_coord = f"{get_column_letter(min_col)}{row}"
+        if first_col_coord not in cells:
+            return False
+        
+        first_col_value = cells[first_col_coord]['value']
+        if not isinstance(first_col_value, str) or len(str(first_col_value).strip()) == 0:
+            return False
+        
+        # Count data cells in other columns (excluding first column)
+        other_data_count = 0
+        for col in range(min_col + 1, max_col + 1):
+            coord = f"{get_column_letter(col)}{row}"
+            if coord in cells and cells[coord]['value'] is not None:
+                value = str(cells[coord]['value']).strip()
+                if value:  # Non-empty value
+                    other_data_count += 1
+        
+        # If this row has significant data in other columns, it's not a section header
+        if other_data_count > 2:
+            return False
+        
+        # Check if the next data row contains dates or header-like content
+        # If it does, then this might actually be a new table
+        if max_row is None or next_data_row <= max_row:
+            next_row_pattern = self._get_row_content_pattern(cells, next_data_row, min_col, max_col)
+            
+            # Check for date patterns in the next row (indicating new table with date headers)
+            has_date_headers = self._row_has_date_pattern(cells, next_data_row, min_col, max_col)
+            
+            # If next row has date headers or significantly different structure, this could be a new table
+            if has_date_headers:
+                return False  # This is likely a real table boundary
+        
+        # This appears to be a section header within the same table
+        return True
+    
+    def _row_has_date_pattern(self, cells: Dict[str, Any], row: int, min_col: int, max_col: int) -> bool:
+        """
+        Check if a row contains date-like patterns that would indicate column headers.
+        """
+        date_like_count = 0
+        total_values = 0
+        
+        for col in range(min_col + 1, max_col + 1):  # Skip first column (labels)
+            coord = f"{get_column_letter(col)}{row}"
+            if coord in cells and cells[coord]['value'] is not None:
+                value = str(cells[coord]['value']).strip()
+                if value:
+                    total_values += 1
+                    # Check for date-like patterns
+                    if self._looks_like_date(value):
+                        date_like_count += 1
+        
+        # If more than 30% of values look like dates, consider it a date header row
+        return total_values > 0 and (date_like_count / total_values) > 0.3
+    
+    def _looks_like_date(self, value: str) -> bool:
+        """
+        Check if a value looks like a date.
+        """
+        import re
+        
+        # Common date patterns
+        date_patterns = [
+            r'\d{1,2}[/-]\d{1,2}[/-]\d{2,4}',  # MM/DD/YYYY, MM-DD-YYYY
+            r'\d{4}[/-]\d{1,2}[/-]\d{1,2}',    # YYYY/MM/DD, YYYY-MM-DD  
+            r'\w{3}\s+\d{1,2}[,]?\s+\d{4}',    # Jan 1, 2024
+            r'\d{1,2}\s+\w{3}\s+\d{4}',        # 1 Jan 2024
+            r'Q[1-4]\s+\d{4}',                 # Q1 2024
+            r'\d{4}Q[1-4]',                    # 2024Q1
+        ]
+        
+        for pattern in date_patterns:
+            if re.search(pattern, value, re.IGNORECASE):
+                return True
+        
+        return False
     
     def _detect_by_temporal_headers(self, cells: Dict[str, Any], bounds: Tuple[int, int, int, int],
                                    options: Dict[str, Any]) -> List[Dict[str, Any]]:
