@@ -17,12 +17,13 @@ class CompactExcelProcessor:
         self.style_registry = {}  # Central style dictionary
         self.next_style_id = 1
     
-    def process_file(self, file_path: str) -> Dict[str, Any]:
+    def process_file(self, file_path: str, filter_empty_trailing: bool = True) -> Dict[str, Any]:
         """
         Process an Excel file and return compact JSON representation
         
         Args:
             file_path: Path to the Excel file
+            filter_empty_trailing: Whether to filter out empty trailing rows and columns
             
         Returns:
             Dictionary containing the compact Excel structure
@@ -41,7 +42,13 @@ class CompactExcelProcessor:
             # Second pass: get calculated values (data_only=True)
             workbook_with_values = load_workbook(file_path, data_only=True, keep_vba=True)
             
-            return self._process_workbook(workbook_with_formulas, workbook_with_values, file_path)
+            result = self._process_workbook(workbook_with_formulas, workbook_with_values, file_path)
+            
+            # Apply empty trailing filtering if requested
+            if filter_empty_trailing:
+                result = self._filter_empty_trailing_areas(result)
+            
+            return result
         except Exception as e:
             raise Exception(f"Error processing Excel file: {str(e)}")
     
@@ -568,4 +575,87 @@ class CompactExcelProcessor:
             
             table_data.append(row_data)
         
-        return table_data 
+        return table_data
+    
+    def _filter_empty_trailing_areas(self, result: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Filter out empty trailing rows and columns from each sheet.
+        Only removes rows/columns where there's no data and no data after them.
+        """
+        if 'workbook' not in result or 'sheets' not in result['workbook']:
+            return result
+        
+        filtered_result = result.copy()
+        filtered_sheets = []
+        
+        for sheet in result['workbook']['sheets']:
+            filtered_sheet = self._filter_sheet_empty_trailing_areas(sheet)
+            filtered_sheets.append(filtered_sheet)
+        
+        filtered_result['workbook']['sheets'] = filtered_sheets
+        return filtered_result
+    
+    def _filter_sheet_empty_trailing_areas(self, sheet: Dict[str, Any]) -> Dict[str, Any]:
+        """Filter empty trailing areas from a single sheet"""
+        if 'rows' not in sheet:
+            return sheet
+        
+        rows = sheet['rows']
+        if not rows:
+            return sheet
+        
+        # Find the actual data extents
+        max_data_row = 0
+        max_data_col = 0
+        
+        for row in rows:
+            row_num = row.get('r', 0)
+            cells = row.get('cells', [])
+            
+            for cell in cells:
+                if len(cell) >= 2 and self._has_meaningful_data(cell[1]):
+                    col_num = cell[0]
+                    if row_num > max_data_row:
+                        max_data_row = row_num
+                    if col_num > max_data_col:
+                        max_data_col = col_num
+        
+        # Filter rows - keep only rows up to max_data_row
+        filtered_rows = []
+        for row in rows:
+            row_num = row.get('r', 0)
+            if row_num <= max_data_row:
+                # Filter columns within this row
+                filtered_cells = []
+                for cell in row.get('cells', []):
+                    if len(cell) >= 1 and cell[0] <= max_data_col:
+                        filtered_cells.append(cell)
+                
+                # Only include row if it has cells after filtering
+                if filtered_cells:
+                    filtered_row = row.copy()
+                    filtered_row['cells'] = filtered_cells
+                    filtered_rows.append(filtered_row)
+        
+        # Update dimensions to reflect actual data extent
+        filtered_sheet = sheet.copy()
+        filtered_sheet['rows'] = filtered_rows
+        
+        if max_data_row > 0 and max_data_col > 0:
+            original_dimensions = sheet.get('dimensions', [1, 1, 1, 1])
+            filtered_sheet['dimensions'] = [
+                original_dimensions[0],  # min_row
+                original_dimensions[1],  # min_col
+                max_data_row,           # max_row (filtered)
+                max_data_col            # max_col (filtered)
+            ]
+        
+        return filtered_sheet
+    
+    def _has_meaningful_data(self, value) -> bool:
+        """Check if a cell value represents meaningful data"""
+        if value is None:
+            return False
+        if isinstance(value, str) and value.strip() == '':
+            return False
+        return True 

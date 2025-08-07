@@ -149,16 +149,18 @@ class TableDetector:
         if len(data_rows) < 4:  # Need at least 4 rows for multiple tables
             return []
         
-        # Look for gaps of 1-3 rows (small gaps indicate table separations)
+        # Look for gaps that indicate table separations
+        # Small gaps (1-3 rows) or larger gaps (4+ rows) can both indicate separate tables
         table_boundaries = [data_rows[0]]  # Start with first data row
         
         for i in range(1, len(data_rows)):
             gap_size = data_rows[i] - data_rows[i-1] - 1
             
-            # Small gaps (1-3 rows) indicate table boundaries
-            if 1 <= gap_size <= 3:
-                # Check if this could be a genuine table boundary
-                if self._is_table_boundary(cells, data_rows[i-1], data_rows[i], min_col, max_col):
+            # Any gap of 1 or more rows could indicate table boundaries
+            if gap_size >= 1:
+                # For small gaps (1-3 rows), check if it's a genuine boundary
+                # For larger gaps (4+ rows), assume it's definitely a boundary
+                if gap_size >= 4 or self._is_table_boundary(cells, data_rows[i-1], data_rows[i], min_col, max_col):
                     table_boundaries.append(data_rows[i])
         
         # Create table regions from boundaries
@@ -179,15 +181,51 @@ class TableDetector:
                     end_row = data_rows[-1]
                 
                 if end_row >= start_row:  # Valid table
+                    # Determine actual column boundaries for this table region
+                    actual_bounds = self._determine_table_column_bounds(cells, start_row, end_row, min_col, max_col)
+                    
                     regions.append({
                         'start_row': start_row,
                         'end_row': end_row,
-                        'start_col': min_col,
-                        'end_col': max_col,
+                        'start_col': actual_bounds['min_col'],
+                        'end_col': actual_bounds['max_col'],
                         'detection_method': 'blank_row_separation'
                     })
         
         return regions
+    
+    def _determine_table_column_bounds(self, cells: Dict[str, Any], start_row: int, end_row: int, 
+                                     min_col: int, max_col: int) -> Dict[str, int]:
+        """
+        Determine the actual column boundaries for a table region by analyzing data distribution.
+        
+        Args:
+            cells: Normalized cell data
+            start_row: Table start row
+            end_row: Table end row  
+            min_col: Overall minimum column
+            max_col: Overall maximum column
+            
+        Returns:
+            Dictionary with actual min_col and max_col for the table
+        """
+        # Find columns that have data in this row range
+        cols_with_data = set()
+        
+        for row in range(start_row, end_row + 1):
+            for col in range(min_col, max_col + 1):
+                coord = f"{get_column_letter(col)}{row}"
+                if coord in cells and cells[coord]['value'] is not None:
+                    cols_with_data.add(col)
+        
+        if not cols_with_data:
+            return {'min_col': min_col, 'max_col': max_col}
+        
+        # Return the actual range of columns with data
+        return {
+            'min_col': min(cols_with_data),
+            'max_col': max(cols_with_data)
+        }
     
     def _is_table_boundary(self, cells: Dict[str, Any], prev_row: int, next_row: int, 
                           min_col: int, max_col: int) -> bool:

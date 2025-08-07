@@ -880,6 +880,140 @@
             border-color: #c8e6c9;
         }
 
+        /* Table Summary Styles */
+        .table-summary-display {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .summary-sheet {
+            margin-bottom: 2rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .summary-sheet:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-sheet-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-sheet-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .summary-sheet-stats {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .summary-tables {
+            background: #f8f9fa;
+        }
+
+        .summary-table {
+            border-bottom: 1px solid #dee2e6;
+            padding: 1rem 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .summary-table:last-child {
+            border-bottom: none;
+        }
+
+        .summary-table:hover {
+            background: #e3f2fd;
+        }
+
+        .summary-table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-table-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin: 0;
+        }
+
+        .summary-table-size {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .summary-table-coordinates {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .summary-coordinate-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .summary-coordinate-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-coordinate-value {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .summary-coordinate-range {
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .summary-no-tables {
+            padding: 2rem;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .summary-table-title.detected-title {
+            color: #28a745;
+        }
+
+        .summary-table-title.detected-title .fa-tag {
+            color: #ffc107;
+            margin-right: 0.25rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -1050,6 +1184,15 @@
                 <div class="json-display" id="jsonDisplay"></div>
             </div>
 
+            <div class="result-section" id="tableSummarySection">
+                <div class="result-header">
+                    <div class="result-title">
+                        <i class="fas fa-chart-bar"></i> Table Summary
+                    </div>
+                </div>
+                <div class="table-summary-display" id="tableSummaryDisplay"></div>
+            </div>
+
             <div class="result-section" id="tableResultSection">
                 <div class="result-header">
                     <div class="result-title">
@@ -1142,6 +1285,7 @@
             const jsonDisplay = document.getElementById('jsonDisplay');
             const downloadBtn = document.getElementById('downloadBtn');
             const displayType = document.getElementById('displayType');
+            const tableSummarySection = document.getElementById('tableSummarySection');
             const tableResultSection = document.getElementById('tableResultSection');
             const tableJsonDisplay = document.getElementById('tableJsonDisplay');
             const downloadTableBtn = document.getElementById('downloadTableBtn');
@@ -1477,6 +1621,9 @@
                 updateTableJSONDisplay(data);
                 tableResultSection.style.display = 'block';
                 
+                // Show table summary
+                showTableSummary(data);
+                
                 // Ensure download button is visible
                 const downloadTableBtn = document.getElementById('downloadTableBtn');
                 if (downloadTableBtn) {
@@ -1513,6 +1660,165 @@
                     downloadTableBtn.innerHTML = `<i class="fas fa-download"></i> Download Table JSON (${tableSizeKB} KB)`;
                     downloadTableBtn.style.display = 'inline-flex';
                 }
+            }
+
+            function showTableSummary(data) {
+                const tableSummarySection = document.getElementById('tableSummarySection');
+                const tableSummaryDisplay = document.getElementById('tableSummaryDisplay');
+                
+                if (!tableSummarySection || !tableSummaryDisplay) {
+                    console.error('Table summary elements not found');
+                    return;
+                }
+                
+                // Extract table data - check both locations
+                let tableData = data.table_data || data;
+                if (!tableData || !tableData.workbook || !tableData.workbook.sheets) {
+                    console.log('No table data found for summary');
+                    tableSummaryDisplay.innerHTML = '<div class="summary-no-tables">No table data available</div>';
+                    tableSummarySection.style.display = 'block';
+                    return;
+                }
+                
+                let summaryHTML = '';
+                const sheets = tableData.workbook.sheets;
+                
+                for (let i = 0; i < sheets.length; i++) {
+                    const sheet = sheets[i];
+                    const sheetName = sheet.name || `Sheet ${i + 1}`;
+                    const tables = sheet.tables || [];
+                    
+                    summaryHTML += `<div class="summary-sheet">`;
+                    summaryHTML += `<div class="summary-sheet-header">`;
+                    summaryHTML += `<h3 class="summary-sheet-name"><i class="fas fa-file-alt"></i> ${sheetName}</h3>`;
+                    summaryHTML += `<div class="summary-sheet-stats">${tables.length} table${tables.length !== 1 ? 's' : ''}</div>`;
+                    summaryHTML += `</div>`;
+                    
+                    if (tables.length > 0) {
+                        summaryHTML += `<div class="summary-tables">`;
+                        
+                        for (let j = 0; j < tables.length; j++) {
+                            const table = tables[j];
+                            const tableTitle = table.title || table.name || table.table_title || table.id || `Table ${j + 1}`;
+                            
+                            // Extract coordinates - check different possible locations
+                            let upperLeft = 'N/A';
+                            let lowerRight = 'N/A';
+                            let tableSize = 'Unknown';
+                            
+                            // Method 1: Check for compact format region array [start_row, start_col, end_row, end_col]
+                            if (table.region && Array.isArray(table.region) && table.region.length === 4) {
+                                const [startRow, startCol, endRow, endCol] = table.region;
+                                upperLeft = `${getColumnLetter(startCol)}${startRow}`;
+                                lowerRight = `${getColumnLetter(endCol)}${endRow}`;
+                                const rows = endRow - startRow + 1;
+                                const cols = endCol - startCol + 1;
+                                tableSize = `${rows} × ${cols}`;
+                            }
+                            
+                            // Method 2: Check for region object coordinates
+                            else if (table.region && typeof table.region === 'object' && !Array.isArray(table.region)) {
+                                const region = table.region;
+                                if (region.start_row && region.start_col && region.end_row && region.end_col) {
+                                    upperLeft = `${getColumnLetter(region.start_col)}${region.start_row}`;
+                                    lowerRight = `${getColumnLetter(region.end_col)}${region.end_row}`;
+                                    const rows = region.end_row - region.start_row + 1;
+                                    const cols = region.end_col - region.start_col + 1;
+                                    tableSize = `${rows} × ${cols}`;
+                                }
+                            }
+                            
+                            // Method 3: Check for start/end coordinates directly on table
+                            else if (table.start_row && table.start_col && table.end_row && table.end_col) {
+                                upperLeft = `${getColumnLetter(table.start_col)}${table.start_row}`;
+                                lowerRight = `${getColumnLetter(table.end_col)}${table.end_row}`;
+                                const rows = table.end_row - table.start_row + 1;
+                                const cols = table.end_col - table.start_col + 1;
+                                tableSize = `${rows} × ${cols}`;
+                            }
+                            
+                            // Method 4: Estimate from columns and rows
+                            else if (table.columns && table.rows) {
+                                const colCount = table.columns.length;
+                                const rowCount = table.rows.length;
+                                tableSize = `${rowCount} × ${colCount}`;
+                                
+                                // Try to extract first/last coordinates from columns
+                                if (colCount > 0 && rowCount > 0) {
+                                    const firstCol = table.columns[0];
+                                    const lastCol = table.columns[colCount - 1];
+                                    const firstRow = table.rows[0];
+                                    const lastRow = table.rows[rowCount - 1];
+                                    
+                                    if (firstCol.column_index && firstRow.row_index) {
+                                        upperLeft = `${getColumnLetter(firstCol.column_index)}${firstRow.row_index}`;
+                                    }
+                                    if (lastCol.column_index && lastRow.row_index) {
+                                        lowerRight = `${getColumnLetter(lastCol.column_index)}${lastRow.row_index}`;
+                                    }
+                                }
+                            }
+                            
+                            // Debug: Log what we found for this table
+                            console.log(`DEBUG: Table ${j + 1} in sheet ${sheetName}:`, {
+                                hasRegion: !!table.region,
+                                regionType: Array.isArray(table.region) ? 'array' : typeof table.region,
+                                regionValue: table.region,
+                                upperLeft: upperLeft,
+                                lowerRight: lowerRight,
+                                tableSize: tableSize
+                            });
+                            
+                            summaryHTML += `<div class="summary-table">`;
+                            summaryHTML += `<div class="summary-table-header">`;
+                            
+                            // Show title with indicator if it was detected vs generated
+                            const titleIcon = table.title ? '<i class="fas fa-tag" title="Detected table title"></i>' : '<i class="fas fa-table"></i>';
+                            const titleClass = table.title ? 'detected-title' : '';
+                            summaryHTML += `<h4 class="summary-table-title ${titleClass}">${titleIcon} ${tableTitle}</h4>`;
+                            
+                            summaryHTML += `<div class="summary-table-size">${tableSize}</div>`;
+                            summaryHTML += `</div>`;
+                            
+                            summaryHTML += `<div class="summary-table-coordinates">`;
+                            summaryHTML += `<div class="summary-coordinate-group">`;
+                            summaryHTML += `<span class="summary-coordinate-label">Upper Left:</span>`;
+                            summaryHTML += `<span class="summary-coordinate-value">${upperLeft}</span>`;
+                            summaryHTML += `</div>`;
+                            summaryHTML += `<div class="summary-coordinate-group">`;
+                            summaryHTML += `<span class="summary-coordinate-label">Lower Right:</span>`;
+                            summaryHTML += `<span class="summary-coordinate-value">${lowerRight}</span>`;
+                            summaryHTML += `</div>`;
+                            if (upperLeft !== 'N/A' && lowerRight !== 'N/A') {
+                                summaryHTML += `<div class="summary-coordinate-group">`;
+                                summaryHTML += `<span class="summary-coordinate-label">Range:</span>`;
+                                summaryHTML += `<span class="summary-coordinate-range">${upperLeft}:${lowerRight}</span>`;
+                                summaryHTML += `</div>`;
+                            }
+                            summaryHTML += `</div>`;
+                            summaryHTML += `</div>`;
+                        }
+                        
+                        summaryHTML += `</div>`;
+                    } else {
+                        summaryHTML += `<div class="summary-no-tables">No tables detected in this sheet</div>`;
+                    }
+                    
+                    summaryHTML += `</div>`;
+                }
+                
+                tableSummaryDisplay.innerHTML = summaryHTML;
+                tableSummarySection.style.display = 'block';
+            }
+            
+            function getColumnLetter(col) {
+                let result = '';
+                while (col > 0) {
+                    col--;
+                    result = String.fromCharCode(65 + (col % 26)) + result;
+                    col = Math.floor(col / 26);
+                }
+                return result;
             }
 
             function showCellDisplay(data) {
@@ -1873,6 +2179,15 @@
                 const thead = document.createElement('thead');
                 const headerRow = document.createElement('tr');
                 
+                // Add row number column header
+                const rowHeader = document.createElement('th');
+                rowHeader.textContent = 'Row';
+                rowHeader.style.backgroundColor = '#f1f3f4';
+                rowHeader.style.fontWeight = 'bold';
+                rowHeader.style.textAlign = 'center';
+                rowHeader.style.minWidth = '50px';
+                headerRow.appendChild(rowHeader);
+                
                 for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
                     const th = document.createElement('th');
                     th.textContent = getColumnLabel(col);
@@ -1885,6 +2200,15 @@
                 const tbody = document.createElement('tbody');
                 for (let row = dataRange.minRow; row <= dataRange.maxRow; row++) {
                     const tr = document.createElement('tr');
+                    
+                    // Add row number column
+                    const rowNumTd = document.createElement('td');
+                    rowNumTd.textContent = row;
+                    rowNumTd.style.backgroundColor = '#f8f9fa';
+                    rowNumTd.style.fontWeight = 'bold';
+                    rowNumTd.style.textAlign = 'center';
+                    rowNumTd.style.borderRight = '2px solid #dee2e6';
+                    tr.appendChild(rowNumTd);
                     
                     for (let col = dataRange.minCol; col <= dataRange.maxCol; col++) {
                         const td = document.createElement('td');
@@ -2575,6 +2899,7 @@
                 tableDisplay.style.display = 'none';
                 fileMetadata.style.display = 'none';
                 resultSection.style.display = 'none';
+                tableSummarySection.style.display = 'none';
                 tableResultSection.style.display = 'none';
                 cellDisplaySection.style.display = 'none';
                 

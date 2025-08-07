@@ -1,0 +1,269 @@
+{
+  "timestamp": "2025-08-07T14:40:53.056371",
+  "file_path": "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/test_excel/pDD10abc_360 Energy_360_Energy_Corporate_Model_May_24.xlsx",
+  "file_characteristics": {
+    "total_sheets": 10,
+    "sheet_names": [
+      "Single Unit Econs>",
+      "Rental Single Unit Economics",
+      "Single Unit Waha Yard Economics",
+      "Corporate Model>",
+      "Monthly",
+      "Assumptions",
+      "New Rental Units",
+      "Outputs>",
+      "Output",
+      "Deal Pipeline"
+    ],
+    "sheets_with_data": 7,
+    "sheets_without_data": 3
+  },
+  "filtering_performance": {
+    "total_filtered_cells": 21824,
+    "total_unfiltered_cells": 240656,
+    "overall_reduction_ratio": 0.9093145402566318,
+    "major_reductions": 4
+  },
+  "table_detection": {
+    "sheets_with_tables": 7,
+    "total_tables_detected": 19,
+    "table_details": {
+      "Rental Single Unit Economics": {
+        "table_count": 3,
+        "table_titles": [
+          null,
+          null,
+          "Monthly Cash Flow"
+        ]
+      },
+      "Single Unit Waha Yard Economics": {
+        "table_count": 5,
+        "table_titles": [
+          null,
+          null,
+          "Monthly Cash Flow",
+          "Total Monthly Cash Flow",
+          "Cash Flow to Halliburton - First $15k + 50% of remaining cash flow"
+        ]
+      },
+      "Monthly": {
+        "table_count": 1,
+        "table_titles": [
+          null
+        ]
+      },
+      "Assumptions": {
+        "table_count": 2,
+        "table_titles": [
+          "General Assumptions",
+          null
+        ]
+      },
+      "New Rental Units": {
+        "table_count": 2,
+        "table_titles": [
+          null,
+          "Levered Cash Flow"
+        ]
+      },
+      "Output": {
+        "table_count": 3,
+        "table_titles": [
+          null,
+          null,
+          null
+        ]
+      },
+      "Deal Pipeline": {
+        "table_count": 3,
+        "table_titles": [
+          "Rental Deal Pipeline",
+          "Customer Purchase Deals",
+          null
+        ]
+      }
+    }
+  },
+  "detailed_metrics": {
+    "Single Unit Econs>": {
+      "filtered_dimensions": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "filtered_addressable_cells": 1,
+      "unfiltered_addressable_cells": 1,
+      "actual_data_cells": 0,
+      "reduction_ratio": 0.0
+    },
+    "Rental Single Unit Economics": {
+      "filtered_dimensions": [
+        1,
+        1,
+        37,
+        62
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1000,
+        64
+      ],
+      "filtered_addressable_cells": 2294,
+      "unfiltered_addressable_cells": 64000,
+      "actual_data_cells": 1099,
+      "reduction_ratio": 0.96415625
+    },
+    "Single Unit Waha Yard Economics": {
+      "filtered_dimensions": [
+        1,
+        1,
+        64,
+        69
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1000,
+        73
+      ],
+      "filtered_addressable_cells": 4416,
+      "unfiltered_addressable_cells": 73000,
+      "actual_data_cells": 1388,
+      "reduction_ratio": 0.9395068493150684
+    },
+    "Corporate Model>": {
+      "filtered_dimensions": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "filtered_addressable_cells": 1,
+      "unfiltered_addressable_cells": 1,
+      "actual_data_cells": 0,
+      "reduction_ratio": 0.0
+    },
+    "Monthly": {
+      "filtered_dimensions": [
+        2,
+        1,
+        173,
+        62
+      ],
+      "unfiltered_dimensions": [
+        2,
+        1,
+        174,
+        62
+      ],
+      "filtered_addressable_cells": 10664,
+      "unfiltered_addressable_cells": 10726,
+      "actual_data_cells": 6708,
+      "reduction_ratio": 0.005780346820809301
+    },
+    "Assumptions": {
+      "filtered_dimensions": [
+        2,
+        2,
+        34,
+        6
+      ],
+      "unfiltered_dimensions": [
+        2,
+        2,
+        60,
+        6
+      ],
+      "filtered_addressable_cells": 165,
+      "unfiltered_addressable_cells": 295,
+      "actual_data_cells": 116,
+      "reduction_ratio": 0.44067796610169496
+    },
+    "New Rental Units": {
+      "filtered_dimensions": [
+        1,
+        1,
+        42,
+        65
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1000,
+        65
+      ],
+      "filtered_addressable_cells": 2730,
+      "unfiltered_addressable_cells": 65000,
+      "actual_data_cells": 1720,
+      "reduction_ratio": 0.958
+    },
+    "Outputs>": {
+      "filtered_dimensions": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "filtered_addressable_cells": 1,
+      "unfiltered_addressable_cells": 1,
+      "actual_data_cells": 0,
+      "reduction_ratio": 0.0
+    },
+    "Output": {
+      "filtered_dimensions": [
+        1,
+        1,
+        42,
+        32
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        51,
+        32
+      ],
+      "filtered_addressable_cells": 1344,
+      "unfiltered_addressable_cells": 1632,
+      "actual_data_cells": 914,
+      "reduction_ratio": 0.17647058823529416
+    },
+    "Deal Pipeline": {
+      "filtered_dimensions": [
+        1,
+        1,
+        26,
+        8
+      ],
+      "unfiltered_dimensions": [
+        1,
+        1,
+        1000,
+        26
+      ],
+      "filtered_addressable_cells": 208,
+      "unfiltered_addressable_cells": 26000,
+      "actual_data_cells": 89,
+      "reduction_ratio": 0.992
+    }
+  }
+}

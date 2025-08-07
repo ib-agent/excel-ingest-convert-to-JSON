@@ -132,15 +132,30 @@ class CompactTableProcessor:
         normalized_cells = self.detector._normalize_cell_data(cell_map)
         header_info = self.header_resolver.resolve_headers(normalized_cells, region, options)
         
+        # Detect table title (row above the detected region)
+        title_info = self._detect_table_title(rows, region, options)
+        
+        # Adjust region to exclude title row if found
+        adjusted_region = region.copy()
+        if title_info['title_row'] is not None:
+            # If title row is the first row of the region, adjust start to exclude it
+            if adjusted_region['start_row'] == title_info['title_row']:
+                adjusted_region['start_row'] = title_info['title_row'] + 1
+            # If title row is above the region, no adjustment needed
+            elif title_info['title_row'] < adjusted_region['start_row']:
+                pass
+        
         # Create compact table structure
         table = {
             'id': f"t{table_index + 1}",
-            'name': f"Table {table_index + 1}",
+            'name': title_info['title'] or f"Table {table_index + 1}",
+            'title': title_info['title'],
+            'title_row': title_info['title_row'],
             'region': [
-                region['start_row'],
-                region['start_col'],
-                region['end_row'],
-                region['end_col']
+                adjusted_region['start_row'],
+                adjusted_region['start_col'],
+                adjusted_region['end_row'],
+                adjusted_region['end_col']
             ],
             'headers': {
                 'rows': header_info['header_rows'],
@@ -148,17 +163,119 @@ class CompactTableProcessor:
                 'data_start': [header_info['data_start_row'], header_info['data_start_col']]
             },
             'labels': {
-                'cols': self._create_compact_column_labels(rows, header_info, region),
-                'rows': self._create_compact_row_labels(rows, header_info, region)
+                'cols': self._create_compact_column_labels(rows, header_info, adjusted_region),
+                'rows': self._create_compact_row_labels(rows, header_info, adjusted_region)
             },
             'meta': {
                 'method': region.get('detection_method', 'unknown'),
-                'cells': self._count_cells_in_region(rows, region),
-                'merged': len(sheet_data.get('merged', [])) > 0
+                'cells': self._count_cells_in_region(rows, adjusted_region),
+                'merged': len(sheet_data.get('merged', [])) > 0,
+                'original_region': [region['start_row'], region['start_col'], region['end_row'], region['end_col']]
             }
         }
         
         return table
+    
+    def _detect_table_title(self, rows: List[Dict[str, Any]], region: dict, options: dict) -> Dict[str, Any]:
+        """
+        Detect table title in the row immediately above the table region.
+        
+        Args:
+            rows: Sheet rows data
+            region: Table region coordinates
+            options: Processing options
+            
+        Returns:
+            Dictionary with title information: {'title': str, 'title_row': int}
+        """
+        start_row = region['start_row']
+        start_col = region['start_col']
+        end_col = region['end_col']
+        
+        # Check if the first row of the region could be a title
+        # or check the row immediately above the table
+        potential_title_rows = [start_row - 1, start_row]
+        
+        # Build row lookup for quick access
+        row_lookup = {}
+        for row_data in rows:
+            row_num = row_data.get('r', 0)
+            row_lookup[row_num] = row_data
+        
+        for potential_title_row in potential_title_rows:
+            if potential_title_row in row_lookup:
+                row_data = row_lookup[potential_title_row]
+                cells = row_data.get('cells', [])
+                
+                # Look for a single cell in the leftmost position that could be a title
+                title_candidates = []
+                data_candidates = []
+                
+                for cell_array in cells:
+                    if len(cell_array) >= 2:
+                        col_num = cell_array[0]
+                        value = cell_array[1]
+                        
+                        # Check if this is in the table's column range and has text content
+                        if start_col <= col_num <= end_col and value is not None and str(value).strip():
+                            if isinstance(value, str) and len(value.strip()) > 0:
+                                title_candidates.append((col_num, value.strip()))
+                            else:
+                                data_candidates.append((col_num, value))
+                
+                # If we have exactly one text value in the leftmost column and no other data, it's likely a title
+                if (len(title_candidates) == 1 and title_candidates[0][0] == start_col and 
+                    len(data_candidates) == 0):
+                    title_text = title_candidates[0][1]
+                    
+                    # Validate that this looks like a title (not just random text)
+                    if self._is_likely_table_title(title_text):
+                        return {
+                            'title': title_text,
+                            'title_row': potential_title_row
+                        }
+        
+        return {
+            'title': None,
+            'title_row': None
+        }
+    
+    def _is_likely_table_title(self, text: str) -> bool:
+        """
+        Determine if text is likely a table title.
+        
+        Args:
+            text: Text to evaluate
+            
+        Returns:
+            True if text looks like a table title
+        """
+        # Basic heuristics for table titles
+        text = text.strip()
+        
+        # Must be reasonable length
+        if len(text) < 3 or len(text) > 100:
+            return False
+            
+        # Should not be purely numeric
+        if text.replace('.', '').replace('-', '').replace('/', '').isdigit():
+            return False
+            
+        # Should not be a date (basic check)
+        if any(date_indicator in text.lower() for date_indicator in ['2024', '2025', '2026', 'jan', 'feb', 'mar']):
+            return False
+            
+        # Should contain some alphabetic characters
+        if not any(c.isalpha() for c in text):
+            return False
+            
+        # Common title patterns
+        title_indicators = ['table', 'summary', 'report', 'data', 'cost', 'revenue', 'analysis']
+        if any(indicator in text.lower() for indicator in title_indicators):
+            return True
+            
+        # If it passes basic checks and isn't obviously not a title, assume it is
+        return True
     
     def _determine_compact_headers(self, rows: List[Dict[str, Any]], region: dict, options: dict) -> Dict[str, Any]:
         """Determine header rows and columns for the compact table"""
@@ -286,12 +403,12 @@ class CompactTableProcessor:
         if not rows:
             return None
         
-        dimensions = sheet_data.get('dimensions', [1, 1, 1, 1])
+        dimensions = sheet_data.get('dimensions', {'min_row': 1, 'max_row': 1, 'min_col': 1, 'max_col': 1})
         region = {
-            'start_row': dimensions[0],
-            'end_row': dimensions[2],
-            'start_col': dimensions[1],
-            'end_col': dimensions[3],
+            'start_row': dimensions.get('min_row', 1),
+            'end_row': dimensions.get('max_row', 1),
+            'start_col': dimensions.get('min_col', 1),
+            'end_col': dimensions.get('max_col', 1),
             'detection_method': 'default'
         }
         
