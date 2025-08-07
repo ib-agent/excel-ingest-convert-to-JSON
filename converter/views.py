@@ -12,9 +12,6 @@ from django.conf import settings
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from .excel_processor import ExcelProcessor
-from .table_processor import TableProcessor
-from .header_resolver import HeaderResolver
 from .compact_excel_processor import CompactExcelProcessor
 from .compact_table_processor import CompactTableProcessor
 
@@ -47,8 +44,8 @@ def pdf_processor(request):
 @require_http_methods(["POST"])
 def upload_and_convert(request):
     """
-    Upload an Excel file and convert it to JSON with table-oriented format
-    Supports both compact and verbose formats via ?format=compact parameter
+    Upload an Excel file and convert it to JSON with compact table-oriented format
+    Uses RLE-enabled CompactExcelProcessor for optimal performance
     """
     print(f"DEBUG: upload_and_convert called with method: {request.method}")
     print(f"DEBUG: Format parameter: {request.GET.get('format', 'not_provided')}")
@@ -63,9 +60,9 @@ def upload_and_convert(request):
         
         uploaded_file = request.FILES['file']
         
-        # Check format parameter
-        format_type = request.GET.get('format', 'verbose').lower()
-        use_compact = format_type == 'compact'
+        # Always use compact format (RLE-enabled)
+        format_type = 'compact'
+        use_compact = True
         
         # Validate file type
         allowed_extensions = ['.xlsx', '.xlsm', '.xltx', '.xltm']
@@ -84,28 +81,16 @@ def upload_and_convert(request):
         )
         full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
         
-        # Process the Excel file to get JSON using appropriate processor
-        if use_compact:
-            processor = CompactExcelProcessor()
-            json_data = processor.process_file(full_path)
-            
-            # Transform to compact table-oriented format
-            table_processor = CompactTableProcessor()
-            table_data = table_processor.transform_to_compact_table_format(json_data, {})
-            
-            # No header resolver needed for compact format (labels are built-in)
-            enhanced_table_data = table_data
-        else:
-            processor = ExcelProcessor()
-            json_data = processor.process_file(full_path)
-            
-            # Transform to table-oriented format
-            table_processor = TableProcessor()
-            table_data = table_processor.transform_to_table_format(json_data, {})
-            
-            # Resolve headers for enhanced table data
-            header_resolver = HeaderResolver()
-            enhanced_table_data = header_resolver.resolve_headers(table_data, {})
+        # Process the Excel file using RLE-enabled CompactExcelProcessor
+        processor = CompactExcelProcessor()
+        json_data = processor.process_file(full_path)
+        
+        # Transform to compact table-oriented format
+        table_processor = CompactTableProcessor()
+        table_data = table_processor.transform_to_compact_table_format(json_data, {})
+        
+        # No header resolver needed for compact format (labels are built-in)
+        enhanced_table_data = table_data
         
         # Quick size estimation to avoid expensive JSON serialization for large files
         # Estimate based on cell count and sheet structure
@@ -124,21 +109,12 @@ def upload_and_convert(request):
         if estimated_size > LARGE_FILE_THRESHOLD:
             print(f"Debug - Processing as large file")
             # For large files, return summary and download links
-            if use_compact:
-                summary_data = {
-                    'workbook': {
-                        'meta': json_data.get('workbook', {}).get('meta', {}),
-                        'sheets': []
-                    }
+            summary_data = {
+                'workbook': {
+                    'meta': json_data.get('workbook', {}).get('meta', {}),
+                    'sheets': []
                 }
-            else:
-                summary_data = {
-                    'workbook': {
-                        'metadata': json_data.get('workbook', {}).get('metadata', {}),
-                        'properties': json_data.get('workbook', {}).get('properties', {}),
-                        'sheets': []
-                    }
-                }
+            }
             
             # Add sheet summaries
             sheets = json_data.get('workbook', {}).get('sheets', [])
@@ -152,20 +128,12 @@ def upload_and_convert(request):
                 tables = sheet.get('tables', [])
                 print(f"Debug - Sheet {i} has {len(tables)} tables")
                 
-                if use_compact:
-                    sheet_summary = {
-                        'name': sheet.get('name', 'Unknown'),
-                        'table_count': len(tables),
-                        'total_rows': sum(len(table.get('labels', {}).get('rows', [])) for table in tables),
-                        'total_columns': sum(len(table.get('labels', {}).get('cols', [])) for table in tables)
-                    }
-                else:
-                    sheet_summary = {
-                        'name': sheet.get('name', 'Unknown'),
-                        'table_count': len(tables),
-                        'total_rows': sum(len(table.get('rows', [])) for table in tables),
-                        'total_columns': sum(len(table.get('columns', [])) for table in tables)
-                    }
+                sheet_summary = {
+                    'name': sheet.get('name', 'Unknown'),
+                    'table_count': len(tables),
+                    'total_rows': sum(len(table.get('labels', {}).get('rows', [])) for table in tables),
+                    'total_columns': sum(len(table.get('labels', {}).get('cols', [])) for table in tables)
+                }
                 summary_data['workbook']['sheets'].append(sheet_summary)
             
             # Generate a unique identifier for this file
@@ -206,9 +174,10 @@ def upload_and_convert(request):
                 },
                 'compression_stats': {
                     'format_used': format_type,
-                    'estimated_verbose_size_mb': estimated_size / 1024 / 1024 * (3.5 if use_compact else 1.0),
-                    'estimated_reduction_percent': 70 if use_compact else 0
-                } if use_compact else None
+                    'estimated_verbose_size_mb': estimated_size / 1024 / 1024 * 3.5,
+                    'estimated_reduction_percent': 70,
+                    'rle_enabled': True
+                }
             }, status=200)
         else:
             # For smaller files, calculate actual sizes and return full data
@@ -241,14 +210,18 @@ def upload_and_convert(request):
                 }
             }
             
-            # Add compression stats for compact format
-            if use_compact:
-                response_data['compression_stats'] = {
-                    'format_used': format_type,
-                    'estimated_verbose_size_mb': total_size / 1024 / 1024 * 3.5,
-                    'actual_size_mb': total_size / 1024 / 1024,
-                    'estimated_reduction_percent': 70
-                }
+            # Add compression stats (always using compact format with RLE)
+            response_data['compression_stats'] = {
+                'format_used': format_type,
+                'estimated_verbose_size_mb': total_size / 1024 / 1024 * 3.5,
+                'actual_size_mb': total_size / 1024 / 1024,
+                'estimated_reduction_percent': 70,
+                'rle_enabled': True
+            }
+            
+            # Add RLE statistics if available
+            if 'rle_compression' in json_data:
+                response_data['rle_stats'] = json_data['rle_compression']
             
             print(f"Debug - Returning small file response")
             print(f"Debug - Response keys: {list(response_data.keys())}")
@@ -329,8 +302,8 @@ def index(request):
 @api_view(['POST'])
 def transform_to_tables(request):
     """
-    Transform Excel JSON to table-oriented format
-    Supports both compact and verbose formats via ?format=compact parameter
+    Transform Excel JSON to compact table-oriented format
+    Uses RLE-enabled compact format for optimal performance
     """
     try:
         json_data = request.data.get('json_data')
@@ -341,20 +314,15 @@ def transform_to_tables(request):
                 status=400
             )
         
-        # Check format parameter
-        format_type = request.GET.get('format', 'verbose').lower()
-        use_compact = format_type == 'compact'
+        # Always use compact format
+        format_type = 'compact'
         
         # Get options from request
         options = request.data.get('options', {})
         
-        # Transform to table-oriented format using appropriate processor
-        if use_compact:
-            table_processor = CompactTableProcessor()
-            table_data = table_processor.transform_to_compact_table_format(json_data, options)
-        else:
-            table_processor = TableProcessor()
-            table_data = table_processor.transform_to_table_format(json_data, options)
+        # Transform to compact table-oriented format
+        table_processor = CompactTableProcessor()
+        table_data = table_processor.transform_to_compact_table_format(json_data, options)
         
         response_data = {
             'success': True,
@@ -362,15 +330,15 @@ def transform_to_tables(request):
             'table_data': table_data
         }
         
-        # Add compression stats for compact format
-        if use_compact:
-            original_size = len(json.dumps(json_data))
-            compressed_size = len(json.dumps(table_data))
-            response_data['compression_stats'] = {
-                'original_size': original_size,
-                'compressed_size': compressed_size,
-                'reduction_percent': int((1 - compressed_size / original_size) * 100) if original_size > 0 else 0
-            }
+        # Add compression stats (always using compact format)
+        original_size = len(json.dumps(json_data))
+        compressed_size = len(json.dumps(table_data))
+        response_data['compression_stats'] = {
+            'original_size': original_size,
+            'compressed_size': compressed_size,
+            'reduction_percent': int((1 - compressed_size / original_size) * 100) if original_size > 0 else 0,
+            'rle_enabled': True
+        }
         
         return Response(response_data, status=200)
         
@@ -385,7 +353,7 @@ def transform_to_tables(request):
 def resolve_headers(request):
     """
     Resolve headers for table-oriented JSON
-    Note: Header resolution is built into compact format, so this is mainly for verbose format
+    Note: Header resolution is built into compact format (labels structure)
     """
     try:
         table_data = request.data.get('table_data')
@@ -396,28 +364,16 @@ def resolve_headers(request):
                 status=400
             )
         
-        # Check format parameter
-        format_type = request.GET.get('format', 'verbose').lower()
-        use_compact = format_type == 'compact'
+        # Always use compact format (header resolution is built-in)
+        format_type = 'compact'
         
-        if use_compact:
-            # Compact format already has labels resolved
-            return Response({
-                'success': True,
-                'format': format_type,
-                'resolved_data': table_data,
-                'message': 'Compact format already includes resolved headers in labels'
-            }, status=200)
-        else:
-            # Resolve headers for verbose format
-            header_resolver = HeaderResolver()
-            resolved_data = header_resolver.resolve_headers(table_data, {})
-            
-            return Response({
-                'success': True,
-                'format': format_type,
-                'resolved_data': resolved_data
-            }, status=200)
+        # Compact format already has labels resolved
+        return Response({
+            'success': True,
+            'format': format_type,
+            'resolved_data': table_data,
+            'message': 'Compact format already includes resolved headers in labels structure'
+        }, status=200)
         
     except Exception as e:
         return Response(

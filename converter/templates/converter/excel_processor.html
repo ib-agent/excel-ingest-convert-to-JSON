@@ -1074,12 +1074,13 @@
                     <div class="upload-subtext">Supports: .xlsx, .xlsm, .xltx, .xltm</div>
                 </div>
 
-                <div class="format-selector" style="margin-bottom: 1rem;">
-                    <label for="formatSelect" style="font-weight: 600; color: #495057; margin-right: 1rem;">Output Format:</label>
-                    <select id="formatSelect" style="background: white; border: 2px solid #dee2e6; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 500; color: #495057; cursor: pointer;">
-                        <option value="compact">Compact (Recommended - 60-80% smaller)</option>
-                        <option value="verbose">Verbose (Traditional format)</option>
-                    </select>
+                <div class="format-info" style="margin-bottom: 1rem; padding: 0.75rem; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3;">
+                    <div style="font-weight: 600; color: #1976d2; margin-bottom: 0.25rem;">
+                        <i class="fas fa-compress-alt"></i> Optimized Processing
+                    </div>
+                    <div style="font-size: 0.9rem; color: #424242;">
+                        Using compact format with Run-Length Encoding for optimal performance and memory efficiency
+                    </div>
                 </div>
 
                 <input type="file" id="fileInput" class="file-input" accept=".xlsx,.xlsm,.xltx,.xltm">
@@ -1372,10 +1373,9 @@
                 console.log('Starting upload for file:', file.name);
                 console.log('File size:', file.size);
                 
-                // Get selected format
-                const formatSelect = document.getElementById('formatSelect');
-                const selectedFormat = formatSelect ? formatSelect.value : 'compact';
-                console.log('Selected format:', selectedFormat);
+                // Always use compact format (RLE-enabled)
+                const selectedFormat = 'compact';
+                console.log('Using compact format with RLE:', selectedFormat);
                 
                 fetch(`/api/upload/?format=${selectedFormat}`, {
                     method: 'POST',

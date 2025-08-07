@@ -10,12 +10,39 @@ from openpyxl.workbook.workbook import Workbook
 
 
 class CompactExcelProcessor:
-    """Compact Excel to JSON converter using the new compact schema format"""
+    """Compact Excel to JSON converter with Run-Length Encoding support"""
     
-    def __init__(self):
+    def __init__(self, 
+                 enable_rle: bool = True,
+                 rle_min_run_length: int = 3,
+                 rle_max_row_width: int = 20,
+                 rle_aggressive_none: bool = True):
+        """
+        Initialize processor with RLE configuration
+        
+        Args:
+            enable_rle: Enable run-length encoding for repeated values
+            rle_min_run_length: Minimum consecutive cells to apply RLE (default: 3)
+            rle_max_row_width: Only apply RLE to rows with more than this many cells
+            rle_aggressive_none: Use more aggressive compression for None values (min_run=2)
+        """
         self.supported_extensions = ['.xlsx', '.xlsm', '.xltx', '.xltm']
         self.style_registry = {}  # Central style dictionary
         self.next_style_id = 1
+        
+        # RLE Configuration
+        self.enable_rle = enable_rle
+        self.rle_min_run_length = rle_min_run_length
+        self.rle_max_row_width = rle_max_row_width
+        self.rle_aggressive_none = rle_aggressive_none
+        
+        # RLE Statistics
+        self.rle_stats = {
+            "rows_compressed": 0,
+            "cells_before_rle": 0,
+            "cells_after_rle": 0,
+            "runs_created": 0
+        }
     
     def process_file(self, file_path: str, filter_empty_trailing: bool = True) -> Dict[str, Any]:
         """
@@ -35,11 +62,19 @@ class CompactExcelProcessor:
         if file_extension not in self.supported_extensions:
             raise ValueError(f"Unsupported file format: {file_extension}")
         
+        # Reset statistics
+        self.rle_stats = {
+            "rows_compressed": 0,
+            "cells_before_rle": 0,
+            "cells_after_rle": 0,
+            "runs_created": 0
+        }
+        
         try:
             # First pass: get all data including formulas (data_only=False)
             workbook_with_formulas = load_workbook(file_path, data_only=False, keep_vba=True)
             
-            # Second pass: get calculated values (data_only=True)
+            # Second pass: get calculated values (data_only=True)  
             workbook_with_values = load_workbook(file_path, data_only=True, keep_vba=True)
             
             result = self._process_workbook(workbook_with_formulas, workbook_with_values, file_path)
@@ -47,6 +82,15 @@ class CompactExcelProcessor:
             # Apply empty trailing filtering if requested
             if filter_empty_trailing:
                 result = self._filter_empty_trailing_areas(result)
+            
+            # Add RLE statistics to result if compression was applied
+            if self.enable_rle and self.rle_stats["runs_created"] > 0:
+                result["rle_compression"] = self.rle_stats.copy()
+                compression_ratio = (
+                    (self.rle_stats["cells_before_rle"] - self.rle_stats["cells_after_rle"]) 
+                    / max(self.rle_stats["cells_before_rle"], 1) * 100
+                )
+                result["rle_compression"]["compression_ratio_percent"] = round(compression_ratio, 2)
             
             return result
         except Exception as e:
@@ -128,12 +172,259 @@ class CompactExcelProcessor:
         if merged_cells:
             sheet_data["merged"] = merged_cells
         
-        # Process cells in row-based format
-        rows = self._extract_compact_cell_data(worksheet_with_formulas, worksheet_with_values)
+        # Process cells in row-based format with optional RLE compression
+        rows = self._extract_compact_cell_data_with_rle(worksheet_with_formulas, worksheet_with_values)
         if rows:
             sheet_data["rows"] = rows
         
         return sheet_data
+    
+    def _extract_compact_cell_data_with_rle(self, worksheet_with_formulas: Worksheet, worksheet_with_values: Worksheet) -> List[Dict[str, Any]]:
+        """Extract cell data in compact row-based format with optional RLE compression"""
+        rows_data = {}  # Dictionary to organize by row number
+        
+        for row in worksheet_with_formulas.iter_rows():
+            for cell in row:
+                # Get formula from the worksheet with formulas
+                formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
+                
+                # Get calculated value from the worksheet with values
+                value_cell = worksheet_with_values[cell.coordinate]
+                calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
+                
+                # Only process cells that have content
+                if calculated_value is not None or formula or cell.comment:
+                    row_num = cell.row
+                    col_num = cell.column
+                    
+                    if row_num not in rows_data:
+                        rows_data[row_num] = {"r": row_num, "cells": []}
+                    
+                    # Create compact cell format: [col, value, style_ref?, formula?]
+                    cell_array = [col_num]
+                    
+                    # Add value
+                    cell_array.append(calculated_value)
+                    
+                    # Get style reference
+                    style_ref = self._get_style_reference(cell)
+                    if style_ref:
+                        cell_array.append(style_ref)
+                    elif formula:
+                        cell_array.append(None)  # Placeholder for style if formula follows
+                    
+                    # Add formula if present
+                    if formula:
+                        # Ensure we have a style slot
+                        while len(cell_array) < 3:
+                            cell_array.append(None)
+                        cell_array.append(str(formula))
+                    
+                    rows_data[row_num]["cells"].append(cell_array)
+        
+        # Apply RLE compression to each row
+        for row_num, row_data in rows_data.items():
+            # Apply RLE to all rows if enabled, with more aggressive settings for wide rows
+            if self.enable_rle:
+                original_cell_count = len(row_data["cells"])
+                
+                # For extremely wide rows (>1000 columns), use more aggressive compression
+                if original_cell_count > 1000:
+                    # Temporarily reduce thresholds for very wide sheets
+                    original_min_run = self.rle_min_run_length
+                    self.rle_min_run_length = 2  # More aggressive for wide sheets
+                    
+                    row_data["cells"] = self._apply_rle_to_row(row_data["cells"])
+                    
+                    # Restore original threshold
+                    self.rle_min_run_length = original_min_run
+                elif original_cell_count > self.rle_max_row_width:
+                    row_data["cells"] = self._apply_rle_to_row(row_data["cells"])
+                
+                compressed_cell_count = len(row_data["cells"])
+                
+                if compressed_cell_count < original_cell_count:
+                    self.rle_stats["rows_compressed"] += 1
+                
+                self.rle_stats["cells_before_rle"] += original_cell_count
+                self.rle_stats["cells_after_rle"] += compressed_cell_count
+        
+        # Check for row-level shared styles
+        for row_num, row_data in rows_data.items():
+            shared_style = self._detect_shared_row_style(row_data["cells"])
+            if shared_style:
+                row_data["style"] = shared_style
+                # Remove style references from individual cells if they match the row style
+                self._remove_redundant_cell_styles(row_data["cells"], shared_style)
+        
+        # Convert to sorted list
+        return [rows_data[row_num] for row_num in sorted(rows_data.keys())]
+    
+    def _apply_rle_to_row(self, cells: List[List[Any]]) -> List[List[Any]]:
+        """Apply run-length encoding to a row of cells"""
+        if len(cells) < self.rle_min_run_length:
+            return cells
+        
+        # Sort cells by column to ensure proper sequence
+        sorted_cells = sorted(cells, key=lambda x: x[0])
+        compressed_cells = []
+        current_run = []
+        
+        for cell in sorted_cells:
+            if self._can_extend_run(current_run, cell):
+                current_run.append(cell)
+            else:
+                # Process completed run with dynamic thresholds
+                min_run_for_value = self._get_min_run_length_for_value(current_run[0] if current_run else None)
+                if len(current_run) >= min_run_for_value:
+                    rle_cell = self._create_rle_cell(current_run)
+                    if rle_cell:
+                        compressed_cells.append(rle_cell)
+                        self.rle_stats["runs_created"] += 1
+                    else:
+                        compressed_cells.extend(current_run)  # Keep as individual cells
+                else:
+                    compressed_cells.extend(current_run)  # Keep as individual cells
+                current_run = [cell]
+        
+        # Handle final run with dynamic thresholds
+        if current_run:
+            min_run_for_value = self._get_min_run_length_for_value(current_run[0])
+            if len(current_run) >= min_run_for_value:
+                rle_cell = self._create_rle_cell(current_run)
+                if rle_cell:
+                    compressed_cells.append(rle_cell)
+                    self.rle_stats["runs_created"] += 1
+                else:
+                    compressed_cells.extend(current_run)
+            else:
+                compressed_cells.extend(current_run)
+        
+        return compressed_cells
+    
+    def _get_min_run_length_for_value(self, cell: Optional[List[Any]]) -> int:
+        """Get the minimum run length required for a specific cell value"""
+        if not cell or len(cell) < 2:
+            return self.rle_min_run_length
+        
+        value = cell[1]
+        
+        # Use aggressive compression for None values (very common in wide sheets)
+        if self.rle_aggressive_none and value is None:
+            return 2  # Compress even 2 consecutive None values
+        
+        return self.rle_min_run_length
+    
+    def _can_extend_run(self, current_run: List[List[Any]], new_cell: List[Any]) -> bool:
+        """Check if a new cell can extend the current run"""
+        if not current_run:
+            return True
+        
+        last_cell = current_run[-1]
+        
+        # Check column continuity (must be consecutive)
+        if new_cell[0] != last_cell[0] + 1:
+            return False
+        
+        # Check value equality
+        if new_cell[1] != last_cell[1]:
+            return False
+        
+        # Check style compatibility
+        last_style = last_cell[2] if len(last_cell) > 2 else None
+        new_style = new_cell[2] if len(new_cell) > 2 else None
+        if last_style != new_style:
+            return False
+        
+        # Check formula compatibility
+        last_formula = last_cell[3] if len(last_cell) > 3 else None
+        new_formula = new_cell[3] if len(new_cell) > 3 else None
+        if last_formula != new_formula:
+            return False
+        
+        return True
+    
+    def _create_rle_cell(self, run_cells: List[List[Any]]) -> Optional[List[Any]]:
+        """Create a run-length encoded cell from a sequence of identical cells"""
+        if not run_cells:
+            return None
+        
+        first_cell = run_cells[0]
+        
+        # Verify all cells are truly identical (safety check)
+        base_value = first_cell[1]
+        base_style = first_cell[2] if len(first_cell) > 2 else None
+        base_formula = first_cell[3] if len(first_cell) > 3 else None
+        
+        for cell in run_cells[1:]:
+            if (cell[1] != base_value or 
+                (len(cell) > 2 and cell[2] != base_style) or
+                (len(cell) > 3 and cell[3] != base_formula)):
+                # Cells are not identical, cannot create RLE
+                return None
+        
+        start_col = first_cell[0]
+        run_length = len(run_cells)
+        
+        # Create RLE cell: [start_col, value, style, formula, run_length]
+        rle_cell = [start_col, base_value]
+        
+        # Add style if present
+        if base_style is not None:
+            rle_cell.append(base_style)
+        elif base_formula is not None:
+            rle_cell.append(None)  # Style placeholder if formula exists
+        
+        # Add formula if present
+        if base_formula is not None:
+            while len(rle_cell) < 4:
+                rle_cell.append(None)
+            rle_cell[3] = base_formula
+        
+        # Add run length as final element (this is the RLE marker)
+        rle_cell.append(run_length)
+        
+        return rle_cell
+    
+    def expand_rle_cells(self, row_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Expand RLE cells back to individual cells (utility method)"""
+        if "cells" not in row_data:
+            return row_data
+        
+        expanded_cells = []
+        
+        for cell in row_data["cells"]:
+            if self._is_rle_cell(cell):
+                # This is an RLE cell, expand it
+                start_col, value = cell[0], cell[1]
+                style = cell[2] if len(cell) > 2 else None
+                formula = cell[3] if len(cell) > 3 else None
+                run_length = cell[-1]  # Last element is run length
+                
+                # Expand the run
+                for i in range(run_length):
+                    expanded_cell = [start_col + i, value]
+                    if style is not None:
+                        expanded_cell.append(style)
+                    if formula is not None:
+                        while len(expanded_cell) < 4:
+                            expanded_cell.append(None)
+                        expanded_cell[3] = formula
+                    expanded_cells.append(expanded_cell)
+            else:
+                # Normal cell, keep as is
+                expanded_cells.append(cell)
+        
+        return {"r": row_data["r"], "cells": expanded_cells}
+    
+    def _is_rle_cell(self, cell: List[Any]) -> bool:
+        """Check if a cell is RLE encoded"""
+        return (len(cell) >= 5 and 
+                isinstance(cell[-1], int) and 
+                cell[-1] > 1)  # Run length > 1
+    
+    # The following methods are inherited from the original CompactExcelProcessor
+    # with minimal modifications for compatibility
     
     def _extract_dimensions(self, worksheet: Worksheet) -> Dict[str, int]:
         """Extract worksheet dimensions"""
@@ -197,60 +488,6 @@ class CompactExcelProcessor:
                     getattr(end_cell, 'column', 1)
                 ])
         return merged_cells
-    
-    def _extract_compact_cell_data(self, worksheet_with_formulas: Worksheet, worksheet_with_values: Worksheet) -> List[Dict[str, Any]]:
-        """Extract cell data in compact row-based format"""
-        rows_data = {}  # Dictionary to organize by row number
-        
-        for row in worksheet_with_formulas.iter_rows():
-            for cell in row:
-                # Get formula from the worksheet with formulas
-                formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
-                
-                # Get calculated value from the worksheet with values
-                value_cell = worksheet_with_values[cell.coordinate]
-                calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
-                
-                # Only process cells that have content
-                if calculated_value is not None or formula or cell.comment:
-                    row_num = cell.row
-                    col_num = cell.column
-                    
-                    if row_num not in rows_data:
-                        rows_data[row_num] = {"r": row_num, "cells": []}
-                    
-                    # Create compact cell format: [col, value, style_ref?, formula?]
-                    cell_array = [col_num]
-                    
-                    # Add value
-                    cell_array.append(calculated_value)
-                    
-                    # Get style reference
-                    style_ref = self._get_style_reference(cell)
-                    if style_ref:
-                        cell_array.append(style_ref)
-                    elif formula:
-                        cell_array.append(None)  # Placeholder for style if formula follows
-                    
-                    # Add formula if present
-                    if formula:
-                        # Ensure we have a style slot
-                        while len(cell_array) < 3:
-                            cell_array.append(None)
-                        cell_array.append(str(formula))
-                    
-                    rows_data[row_num]["cells"].append(cell_array)
-        
-        # Check for row-level shared styles
-        for row_num, row_data in rows_data.items():
-            shared_style = self._detect_shared_row_style(row_data["cells"])
-            if shared_style:
-                row_data["style"] = shared_style
-                # Remove style references from individual cells if they match the row style
-                self._remove_redundant_cell_styles(row_data["cells"], shared_style)
-        
-        # Convert to sorted list
-        return [rows_data[row_num] for row_num in sorted(rows_data.keys())]
     
     def _extract_cell_value(self, cell) -> Any:
         """Extract cell value with proper formatting"""
@@ -418,11 +655,17 @@ class CompactExcelProcessor:
         if not cells:
             return None
         
-        # Get style references from cells (3rd element if present)
+        # Get style references from cells, handling RLE cells
         style_refs = []
         for cell in cells:
-            if len(cell) > 2 and cell[2] is not None:
-                style_refs.append(cell[2])
+            if self._is_rle_cell(cell):
+                # RLE cell - style is at position 2
+                if len(cell) > 2 and cell[2] is not None:
+                    style_refs.append(cell[2])
+            else:
+                # Normal cell - style is at position 2
+                if len(cell) > 2 and cell[2] is not None:
+                    style_refs.append(cell[2])
         
         # If all cells have the same style reference, return it
         if style_refs and all(ref == style_refs[0] for ref in style_refs):
@@ -433,12 +676,18 @@ class CompactExcelProcessor:
     def _remove_redundant_cell_styles(self, cells: List[List[Any]], shared_style: str):
         """Remove redundant style references from cells when they match the row style"""
         for cell in cells:
-            if len(cell) > 2 and cell[2] == shared_style:
-                # Remove the style reference
-                if len(cell) == 3:
-                    cell.pop(2)  # Remove style, no formula
-                else:
-                    cell[2] = None  # Keep slot for formula
+            if self._is_rle_cell(cell):
+                # RLE cell handling
+                if len(cell) > 2 and cell[2] == shared_style:
+                    cell[2] = None  # Keep slot structure for RLE
+            else:
+                # Normal cell handling
+                if len(cell) > 2 and cell[2] == shared_style:
+                    # Remove the style reference
+                    if len(cell) == 3:
+                        cell.pop(2)  # Remove style, no formula
+                    else:
+                        cell[2] = None  # Keep slot for formula
     
     def _format_datetime(self, dt) -> Optional[str]:
         """Format datetime objects to ISO 8601 string"""
@@ -467,13 +716,19 @@ class CompactExcelProcessor:
             
             # Create a single table from the sheet data
             if "rows" in sheet and sheet["rows"]:
+                # Expand RLE cells for table display
+                expanded_rows = []
+                for row in sheet["rows"]:
+                    expanded_row = self.expand_rle_cells(row)
+                    expanded_rows.append(expanded_row)
+                
                 table = {
                     "table_id": 1,
                     "name": f"{sheet['name']} - Table",
-                    "range": f"A1:{self._get_last_cell_ref(sheet)}",
-                    "headers": self._extract_headers_from_rows(sheet["rows"]),
-                    "data": self._convert_rows_to_table_data(sheet["rows"]),
-                    "columns": self._create_columns_for_cell_cards(sheet["rows"])
+                    "range": f"A1:{self._get_last_cell_ref_from_expanded_rows(expanded_rows)}",
+                    "headers": self._extract_headers_from_expanded_rows(expanded_rows),
+                    "data": self._convert_expanded_rows_to_table_data(expanded_rows),
+                    "columns": self._create_columns_for_expanded_rows(expanded_rows)
                 }
                 table_sheet["tables"].append(table)
             
@@ -481,14 +736,65 @@ class CompactExcelProcessor:
         
         return table_data
     
-    def _create_columns_for_cell_cards(self, rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Create columns structure for cell cards compatibility"""
-        if not rows:
+    def _get_last_cell_ref_from_expanded_rows(self, expanded_rows: List[Dict[str, Any]]) -> str:
+        """Get the last cell reference from expanded rows"""
+        max_row = 0
+        max_col = 0
+        
+        for row in expanded_rows:
+            max_row = max(max_row, row.get("r", 0))
+            for cell in row.get("cells", []):
+                max_col = max(max_col, cell[0])
+        
+        # Convert to Excel reference
+        col_str = ""
+        temp_col = max_col
+        while temp_col > 0:
+            temp_col -= 1
+            col_str = chr(65 + (temp_col % 26)) + col_str
+            temp_col //= 26
+        
+        return f"{col_str}{max_row}"
+    
+    def _extract_headers_from_expanded_rows(self, expanded_rows: List[Dict[str, Any]]) -> List[str]:
+        """Extract headers from the first expanded row"""
+        if not expanded_rows:
+            return []
+        
+        first_row = expanded_rows[0]
+        headers = []
+        
+        for cell in first_row.get("cells", []):
+            headers.append(str(cell[1]) if cell[1] is not None else "")
+        
+        return headers
+    
+    def _convert_expanded_rows_to_table_data(self, expanded_rows: List[Dict[str, Any]]) -> List[List[Any]]:
+        """Convert expanded rows format to table data format"""
+        table_data = []
+        
+        for row in expanded_rows[1:]:  # Skip header row
+            row_data = []
+            cells_dict = {cell[0]: cell[1] for cell in row.get("cells", [])}
+            
+            # Find max column to ensure consistent row length
+            max_col = max(cells_dict.keys()) if cells_dict else 0
+            
+            for col in range(1, max_col + 1):
+                row_data.append(cells_dict.get(col, ""))
+            
+            table_data.append(row_data)
+        
+        return table_data
+    
+    def _create_columns_for_expanded_rows(self, expanded_rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Create columns structure for expanded rows"""
+        if not expanded_rows:
             return []
         
         # Get headers from first row
         headers = []
-        first_row = rows[0]
+        first_row = expanded_rows[0]
         for cell in first_row.get("cells", []):
             headers.append({
                 "col": cell[0],
@@ -506,7 +812,7 @@ class CompactExcelProcessor:
             }
             
             # Add cells from all rows for this column
-            for row_idx, row in enumerate(rows[1:], start=2):  # Skip header row
+            for row_idx, row in enumerate(expanded_rows[1:], start=2):  # Skip header row
                 cells_dict = {cell[0]: cell for cell in row.get("cells", [])}
                 
                 if header["col"] in cells_dict:
@@ -525,57 +831,6 @@ class CompactExcelProcessor:
             columns.append(column)
         
         return columns
-    
-    def _get_last_cell_ref(self, sheet: Dict[str, Any]) -> str:
-        """Get the last cell reference in the sheet"""
-        max_row = 0
-        max_col = 0
-        
-        for row in sheet.get("rows", []):
-            max_row = max(max_row, row.get("r", 0))
-            for cell in row.get("cells", []):
-                max_col = max(max_col, cell[0])
-        
-        # Convert to Excel reference
-        col_str = ""
-        temp_col = max_col
-        while temp_col > 0:
-            temp_col -= 1
-            col_str = chr(65 + (temp_col % 26)) + col_str
-            temp_col //= 26
-        
-        return f"{col_str}{max_row}"
-    
-    def _extract_headers_from_rows(self, rows: List[Dict[str, Any]]) -> List[str]:
-        """Extract headers from the first row"""
-        if not rows:
-            return []
-        
-        first_row = rows[0]
-        headers = []
-        
-        for cell in first_row.get("cells", []):
-            headers.append(str(cell[1]) if cell[1] is not None else "")
-        
-        return headers
-    
-    def _convert_rows_to_table_data(self, rows: List[Dict[str, Any]]) -> List[List[Any]]:
-        """Convert rows format to table data format"""
-        table_data = []
-        
-        for row in rows[1:]:  # Skip header row
-            row_data = []
-            cells_dict = {cell[0]: cell[1] for cell in row.get("cells", [])}
-            
-            # Find max column to ensure consistent row length
-            max_col = max(cells_dict.keys()) if cells_dict else 0
-            
-            for col in range(1, max_col + 1):
-                row_data.append(cells_dict.get(col, ""))
-            
-            table_data.append(row_data)
-        
-        return table_data
     
     def _filter_empty_trailing_areas(self, result: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -604,7 +859,7 @@ class CompactExcelProcessor:
         if not rows:
             return sheet
         
-        # Find the actual data extents
+        # Find the actual data extents (considering RLE cells)
         max_data_row = 0
         max_data_col = 0
         
@@ -614,7 +869,16 @@ class CompactExcelProcessor:
             
             for cell in cells:
                 if len(cell) >= 2 and self._has_meaningful_data(cell[1]):
-                    col_num = cell[0]
+                    if self._is_rle_cell(cell):
+                        # RLE cell: calculate end column
+                        start_col = cell[0]
+                        run_length = cell[-1]
+                        end_col = start_col + run_length - 1
+                        col_num = end_col
+                    else:
+                        # Normal cell
+                        col_num = cell[0]
+                    
                     if row_num > max_data_row:
                         max_data_row = row_num
                     if col_num > max_data_col:
@@ -628,8 +892,23 @@ class CompactExcelProcessor:
                 # Filter columns within this row
                 filtered_cells = []
                 for cell in row.get('cells', []):
-                    if len(cell) >= 1 and cell[0] <= max_data_col:
-                        filtered_cells.append(cell)
+                    if self._is_rle_cell(cell):
+                        # RLE cell: check if any part is within range
+                        start_col = cell[0]
+                        run_length = cell[-1]
+                        end_col = start_col + run_length - 1
+                        if start_col <= max_data_col:
+                            # Trim RLE cell if it extends beyond max_data_col
+                            if end_col > max_data_col:
+                                trimmed_length = max_data_col - start_col + 1
+                                trimmed_cell = cell[:-1] + [trimmed_length]  # Update run length
+                                filtered_cells.append(trimmed_cell)
+                            else:
+                                filtered_cells.append(cell)
+                    else:
+                        # Normal cell
+                        if len(cell) >= 1 and cell[0] <= max_data_col:
+                            filtered_cells.append(cell)
                 
                 # Only include row if it has cells after filtering
                 if filtered_cells:
@@ -658,4 +937,4 @@ class CompactExcelProcessor:
             return False
         if isinstance(value, str) and value.strip() == '':
             return False
-        return True 
+        return True
