@@ -183,44 +183,103 @@ class CompactExcelProcessor:
         """Extract cell data in compact row-based format with optional RLE compression"""
         rows_data = {}  # Dictionary to organize by row number
         
-        for row in worksheet_with_formulas.iter_rows():
-            for cell in row:
-                # Get formula from the worksheet with formulas
-                formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
+        # Get worksheet dimensions to handle empty cells for RLE
+        max_row = worksheet_with_formulas.max_row or 1
+        max_col = worksheet_with_formulas.max_column or 1
+        
+        # For very wide sheets, process all cells including empty ones for RLE
+        process_empty_cells = self.enable_rle and max_col > 100
+        
+        if process_empty_cells:
+            # Use a more efficient approach: process rows that have any content, then fill gaps
+            # First, get all cells with content using the normal iteration
+            content_rows = {}
+            for row in worksheet_with_formulas.iter_rows():
+                for cell in row:
+                    formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
+                    value_cell = worksheet_with_values[cell.coordinate]
+                    calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
+                    
+                    if calculated_value is not None or formula or cell.comment:
+                        row_num = cell.row
+                        if row_num not in content_rows:
+                            content_rows[row_num] = set()
+                        content_rows[row_num].add(cell.column)
+            
+            # Now for rows with content, fill in empty cells for RLE compression
+            for row_num, content_cols in content_rows.items():
+                if row_num not in rows_data:
+                    rows_data[row_num] = {"r": row_num, "cells": []}
                 
-                # Get calculated value from the worksheet with values
-                value_cell = worksheet_with_values[cell.coordinate]
-                calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
+                # Find the range of columns with potential for RLE
+                min_col = min(content_cols)
+                max_col = max(content_cols)
                 
-                # Only process cells that have content
-                if calculated_value is not None or formula or cell.comment:
-                    row_num = cell.row
-                    col_num = cell.column
+                # Process all columns in the range (including gaps for RLE)
+                for col_num in range(min_col, max_col + 1):
+                    cell = worksheet_with_formulas.cell(row=row_num, column=col_num)
                     
-                    if row_num not in rows_data:
-                        rows_data[row_num] = {"r": row_num, "cells": []}
+                    # Get formula and value
+                    formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
+                    value_cell = worksheet_with_values.cell(row=row_num, column=col_num)
+                    calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
                     
-                    # Create compact cell format: [col, value, style_ref?, formula?]
-                    cell_array = [col_num]
+                    # Create cell array (None for empty cells)
+                    cell_array = [col_num, calculated_value]
                     
-                    # Add value
-                    cell_array.append(calculated_value)
-                    
-                    # Get style reference
+                    # Add style and formula if present
                     style_ref = self._get_style_reference(cell)
                     if style_ref:
                         cell_array.append(style_ref)
                     elif formula:
-                        cell_array.append(None)  # Placeholder for style if formula follows
+                        cell_array.append(None)
                     
-                    # Add formula if present
                     if formula:
-                        # Ensure we have a style slot
-                        while len(cell_array) < 3:
+                        while len(cell_array) < 4:
                             cell_array.append(None)
-                        cell_array.append(str(formula))
+                        cell_array[3] = str(formula)
                     
                     rows_data[row_num]["cells"].append(cell_array)
+        else:
+            # Original logic for normal-sized sheets - only process cells with content
+            for row in worksheet_with_formulas.iter_rows():
+                for cell in row:
+                    # Get formula from the worksheet with formulas
+                    formula = cell.value if getattr(cell, 'data_type', None) == 'f' else None
+                    
+                    # Get calculated value from the worksheet with values
+                    value_cell = worksheet_with_values[cell.coordinate]
+                    calculated_value = self._extract_cell_value(value_cell) if value_cell.value is not None else None
+                    
+                    # Only process cells that have content
+                    if calculated_value is not None or formula or cell.comment:
+                        row_num = cell.row
+                        col_num = cell.column
+                        
+                        if row_num not in rows_data:
+                            rows_data[row_num] = {"r": row_num, "cells": []}
+                        
+                        # Create compact cell format: [col, value, style_ref?, formula?]
+                        cell_array = [col_num]
+                        
+                        # Add value
+                        cell_array.append(calculated_value)
+                        
+                        # Get style reference
+                        style_ref = self._get_style_reference(cell)
+                        if style_ref:
+                            cell_array.append(style_ref)
+                        elif formula:
+                            cell_array.append(None)  # Placeholder for style if formula follows
+                        
+                        # Add formula if present
+                        if formula:
+                            # Ensure we have a style slot
+                            while len(cell_array) < 3:
+                                cell_array.append(None)
+                            cell_array.append(str(formula))
+                        
+                        rows_data[row_num]["cells"].append(cell_array)
         
         # Apply RLE compression to each row
         for row_num, row_data in rows_data.items():
