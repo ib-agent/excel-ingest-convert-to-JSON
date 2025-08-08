@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "timestamp": "2025-08-08T15:57:10.766744",
+    "purpose": "unit_test_generation",
+    "total_cases": 7
+  },
+  "test_cases": [
+    {
+      "file": "single_unit_economics_4_tables.xlsx",
+      "sheet": "Rental Single Unit Economics",
+      "complexity": 0.6195856576239983,
+      "agreement": 0.0,
+      "traditional_tables": 4,
+      "ai_tables": 4,
+      "ai_confidence": 0.9,
+      "winner": "traditional"
+    },
+    {
+      "file": "Test_SpreadSheet_100_numbers.xlsx",
+      "sheet": "Sheet1",
+      "complexity": 0.23264462809917358,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+      "sheet": "Sheet1",
+      "complexity": 0.7429731488555018,
+      "agreement": 0.0,
+      "traditional_tables": 2,
+      "ai_tables": 2,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "TOTAL P&L without PT",
+      "complexity": 0.36837947252801717,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "TOTAL P&L with PT",
+      "complexity": 0.3357142857142857,
+      "agreement": 0.0,
+      "traditional_tables": 2,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "Cash Flow",
+      "complexity": 0.5240481238671055,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "Balance Sheet",
+      "complexity": 0.26764220363655566,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 2,
+      "ai_confidence": 0.92,
+      "winner": "traditional"
+    }
+  ]
+}

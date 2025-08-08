@@ -1,0 +1,2288 @@
+{
+  "collection_metadata": {
+    "timestamp": "2025-08-08T15:57:10.764068",
+    "purpose": "threshold_tuning_and_test_generation",
+    "version": "1.0",
+    "thresholds_used": {
+      "traditional_max": 0.2,
+      "dual_min": 0.2,
+      "ai_primary_min": 0.8,
+      "max_cost_per_sheet": 0.15
+    }
+  },
+  "summary_statistics": {
+    "total_sheets": 9,
+    "traditional_only": 1,
+    "dual_analysis": 8,
+    "ai_primary": 0,
+    "total_cost": 0.181143,
+    "ai_advantages": 0,
+    "traditional_advantages": 8
+  },
+  "disagreement_cases": [
+    {
+      "file": "single_unit_economics_4_tables.xlsx",
+      "sheet": "Rental Single Unit Economics",
+      "complexity": 0.6195856576239983,
+      "agreement": 0.0,
+      "traditional_tables": 4,
+      "ai_tables": 4,
+      "ai_confidence": 0.9,
+      "winner": "traditional"
+    },
+    {
+      "file": "Test_SpreadSheet_100_numbers.xlsx",
+      "sheet": "Sheet1",
+      "complexity": 0.23264462809917358,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+      "sheet": "Sheet1",
+      "complexity": 0.7429731488555018,
+      "agreement": 0.0,
+      "traditional_tables": 2,
+      "ai_tables": 2,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "TOTAL P&L without PT",
+      "complexity": 0.36837947252801717,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "TOTAL P&L with PT",
+      "complexity": 0.3357142857142857,
+      "agreement": 0.0,
+      "traditional_tables": 2,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "Cash Flow",
+      "complexity": 0.5240481238671055,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 1,
+      "ai_confidence": 0.95,
+      "winner": "traditional"
+    },
+    {
+      "file": "pDD10b - Exos_2023_financials.xlsx",
+      "sheet": "Balance Sheet",
+      "complexity": 0.26764220363655566,
+      "agreement": 0.0,
+      "traditional_tables": 1,
+      "ai_tables": 2,
+      "ai_confidence": 0.92,
+      "winner": "traditional"
+    }
+  ],
+  "detailed_results": [
+    {
+      "file_name": "single_unit_economics_4_tables.xlsx",
+      "timestamp": "2025-08-08T15:49:35.941629",
+      "total_sheets": 1,
+      "sheets": [
+        {
+          "sheet_name": "Rental Single Unit Economics",
+          "complexity_analysis": {
+            "complexity_score": 0.6195856576239983,
+            "complexity_level": "moderate",
+            "metrics": {
+              "merged_cell_complexity": 0.0,
+              "header_complexity": 0.25,
+              "sparsity_complexity": 0.19313125000000003,
+              "column_inconsistency": 0.12645440762399826,
+              "formula_complexity": 0.05
+            },
+            "recommendation": "dual",
+            "failure_indicators": [
+              "multi_level_headers",
+              "high_data_sparsity",
+              "inconsistent_column_structure"
+            ],
+            "processing_metadata": {
+              "sheet_name": "Rental Single Unit Economics",
+              "dimensions": [
+                1,
+                1,
+                1000,
+                67
+              ],
+              "analysis_timestamp": "2025-08-08T15:49:35.941677"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 4,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "Table 1",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  2,
+                  2,
+                  14,
+                  62
+                ],
+                "headers": {
+                  "rows": [
+                    2
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    3,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Column B",
+                    "Column C",
+                    "Column D",
+                    "Column E",
+                    "Year Fraction",
+                    "0",
+                    "0.08333333333",
+                    "0.1666666667",
+                    "0.25",
+                    "0.3333333333",
+                    "0.4166666667",
+                    "0.5",
+                    "0.5833333333",
+                    "0.6666666667",
+                    "0.7444444444",
+                    "0.8333333333",
+                    "0.9166666667",
+                    "1",
+                    "1.083333333",
+                    "1.166666667",
+                    "1.25",
+                    "1.333333333",
+                    "1.416666667",
+                    "1.5",
+                    "1.583333333",
+                    "1.666666667",
+                    "1.744444444",
+                    "1.833333333",
+                    "1.916666667",
+                    "2",
+                    "2.083333333",
+                    "2.166666667",
+                    "2.25",
+                    "2.333333333",
+                    "2.416666667",
+                    "2.5",
+                    "2.583333333",
+                    "2.666666667",
+                    "2.747222222",
+                    "2.833333333",
+                    "2.916666667",
+                    "3",
+                    "3.083333333",
+                    "3.166666667",
+                    "3.25",
+                    "3.333333333",
+                    "3.416666667",
+                    "3.5",
+                    "3.583333333",
+                    "3.666666667",
+                    "3.744444444",
+                    "3.833333333",
+                    "3.916666667",
+                    "4",
+                    "4.083333333",
+                    "4.166666667",
+                    "4.25",
+                    "4.333333333",
+                    "4.416666667",
+                    "4.5",
+                    "4.583333333"
+                  ],
+                  "rows": [
+                    "Assumptions",
+                    "Kw Per Unit",
+                    "Kw for Miners",
+                    "Miner Model",
+                    "J/TH",
+                    "TH",
+                    "$/TH Cost",
+                    "Kw per miner",
+                    "Max Miners in Container",
+                    "Miners in container",
+                    "PH Per container",
+                    "Uptime / Utilization"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 288,
+                  "merged": false,
+                  "original_region": [
+                    2,
+                    2,
+                    14,
+                    62
+                  ]
+                }
+              },
+              {
+                "id": "t2",
+                "name": "Table 2",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  16,
+                  2,
+                  22,
+                  62
+                ],
+                "headers": {
+                  "rows": [
+                    16
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    17,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Rental Income Per Month Per Unit",
+                    "54000.0",
+                    "Column D",
+                    "Column E",
+                    "Rental Income ",
+                    "0",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000"
+                  ],
+                  "rows": [
+                    "360 Energy Data Center Revenue",
+                    "Monthly Maint. Capex",
+                    "Mobilization Cost Above Customer $25k",
+                    "Opex Per month Per unit",
+                    "Row 21",
+                    "Capex Detail"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 251,
+                  "merged": false,
+                  "original_region": [
+                    16,
+                    2,
+                    22,
+                    62
+                  ]
+                }
+              },
+              {
+                "id": "t3",
+                "name": "Table 3",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  24,
+                  2,
+                  28,
+                  62
+                ],
+                "headers": {
+                  "rows": [
+                    24
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    25,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Data Center",
+                    "80000.0",
+                    "0.08",
+                    "Column E",
+                    "Unlevered Cash Flow",
+                    "-1000000",
+                    "5000",
+                    "44000",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "50110.0678",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50227.9322",
+                    "50110.0678",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50227.9322",
+                    "50149.35593",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50110.0678",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322"
+                  ],
+                  "rows": [
+                    "Servers",
+                    "Generator",
+                    "Wiring, Pressure Regulator, Meters",
+                    "Total Cost"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 186,
+                  "merged": false,
+                  "original_region": [
+                    24,
+                    2,
+                    28,
+                    62
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 4,
+            "confidence": 0.9,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.047712,
+            "actual_cost": 0.037953,
+            "tokens_used": 12651,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_154953_Rental Single Unit Economics",
+            "timestamp": "2025-08-08T15:49:53.682394",
+            "sheet_name": "Rental Single Unit Economics",
+            "summary": {
+              "traditional_tables_found": 3,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "moderate"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 3,
+                "ai_count": 0,
+                "count_difference": -3,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.9,
+                "confidence_difference": 0.09999999999999998,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.9
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "moderate",
+                "complexity_score": 0.6195856576239983,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": true,
+                "actual_ai_advantage": false,
+                "ai_performance": "unexpected",
+                "complexity_factors": [
+                  "multi_level_headers",
+                  "high_data_sparsity",
+                  "inconsistent_column_structure"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers",
+                  "complexity_high_data_sparsity",
+                  "complexity_inconsistent_column_structure"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "dual"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -3,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.9,
+              "complexity_alignment": 0.5,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 3 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider lowering complexity threshold for AI activation",
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        }
+      ],
+      "file_summary": {
+        "processing_decisions": {
+          "dual_analysis": 1
+        },
+        "total_cost": 0.037953,
+        "complexity_distribution": {
+          "moderate": 1
+        },
+        "performance_comparison": {}
+      },
+      "insights": [
+        "Average cost per sheet: $0.0380"
+      ]
+    },
+    {
+      "file_name": "Test_SpreadSheet_100_numbers.xlsx",
+      "timestamp": "2025-08-08T15:49:53.714814",
+      "total_sheets": 1,
+      "sheets": [
+        {
+          "sheet_name": "Sheet1",
+          "complexity_analysis": {
+            "complexity_score": 0.23264462809917358,
+            "complexity_level": "simple",
+            "metrics": {
+              "merged_cell_complexity": 0.0,
+              "header_complexity": 0.15,
+              "sparsity_complexity": 0.0,
+              "column_inconsistency": 0.08264462809917357,
+              "formula_complexity": 0.0
+            },
+            "recommendation": "traditional",
+            "failure_indicators": [],
+            "processing_metadata": {
+              "sheet_name": "Sheet1",
+              "dimensions": [
+                1,
+                2,
+                16,
+                17
+              ],
+              "analysis_timestamp": "2025-08-08T15:49:53.714907"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 1,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "Table 1",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  1,
+                  2,
+                  11,
+                  17
+                ],
+                "headers": {
+                  "rows": [
+                    1
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    2,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Category",
+                    "2025-01-01T00:00:00",
+                    "2025-02-01T00:00:00",
+                    "2025-03-01T00:00:00",
+                    "2025-04-01T00:00:00",
+                    "2025-05-01T00:00:00",
+                    "2025-06-01T00:00:00",
+                    "2025-07-01T00:00:00",
+                    "2025-08-01T00:00:00",
+                    "2025-09-01T00:00:00",
+                    "2025-10-01T00:00:00",
+                    "Column M",
+                    "Column N",
+                    "Column O",
+                    "Column P",
+                    "Column Q"
+                  ],
+                  "rows": [
+                    "First Cost",
+                    "Second Cost",
+                    "Third Cost",
+                    "Fourth Cost",
+                    "Fifth Cost",
+                    "Sixth Cost",
+                    "Seventh Cost",
+                    "Eighth Cost",
+                    "Ninth Cost",
+                    "Tenth Cost"
+                  ]
+                },
+                "meta": {
+                  "method": "temporal_headers",
+                  "cells": 121,
+                  "merged": false,
+                  "original_region": [
+                    1,
+                    2,
+                    11,
+                    17
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 1,
+            "confidence": 0.95,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.034518,
+            "actual_cost": 0.007986,
+            "tokens_used": 2662,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_155001_Sheet1",
+            "timestamp": "2025-08-08T15:50:01.035200",
+            "sheet_name": "Sheet1",
+            "summary": {
+              "traditional_tables_found": 1,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "simple"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 1,
+                "ai_count": 0,
+                "count_difference": -1,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.95,
+                "confidence_difference": 0.1499999999999999,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.95
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "simple",
+                "complexity_score": 0.23264462809917358,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": false,
+                "actual_ai_advantage": false,
+                "ai_performance": "as_expected",
+                "complexity_factors": []
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": []
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "traditional"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -1,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.95,
+              "complexity_alignment": 1.0,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 1 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results",
+              "AI may have over-complicated a simple structure"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        }
+      ],
+      "file_summary": {
+        "processing_decisions": {
+          "dual_analysis": 1
+        },
+        "total_cost": 0.007986,
+        "complexity_distribution": {
+          "simple": 1
+        },
+        "performance_comparison": {}
+      },
+      "insights": [
+        "Average cost per sheet: $0.0080"
+      ]
+    },
+    {
+      "file_name": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+      "timestamp": "2025-08-08T15:50:01.075289",
+      "total_sheets": 1,
+      "sheets": [
+        {
+          "sheet_name": "Sheet1",
+          "complexity_analysis": {
+            "complexity_score": 0.7429731488555018,
+            "complexity_level": "complex",
+            "metrics": {
+              "merged_cell_complexity": 0.08823529411764705,
+              "header_complexity": 0.2409090909090909,
+              "sparsity_complexity": 0.1084175084175084,
+              "column_inconsistency": 0.3054112554112554,
+              "formula_complexity": 0.0
+            },
+            "recommendation": "ai_first",
+            "failure_indicators": [
+              "multi_level_headers",
+              "high_data_sparsity",
+              "inconsistent_column_structure"
+            ],
+            "processing_metadata": {
+              "sheet_name": "Sheet1",
+              "dimensions": [
+                1,
+                2,
+                32,
+                17
+              ],
+              "analysis_timestamp": "2025-08-08T15:50:01.075366"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 2,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "First Table",
+                "title": "First Table",
+                "title_row": 1,
+                "region": [
+                  2,
+                  2,
+                  4,
+                  12
+                ],
+                "headers": {
+                  "rows": [
+                    1
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    2,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "First Table",
+                    "Column C",
+                    "Column D",
+                    "Column E",
+                    "Column F",
+                    "Column G",
+                    "Column H",
+                    "Column I",
+                    "Column J",
+                    "Column K",
+                    "Column L"
+                  ],
+                  "rows": [
+                    "Category",
+                    "First Cost",
+                    "Second Cost"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 33,
+                  "merged": false,
+                  "original_region": [
+                    1,
+                    2,
+                    4,
+                    12
+                  ]
+                }
+              },
+              {
+                "id": "t2",
+                "name": "Second Table",
+                "title": "Second Table",
+                "title_row": 16,
+                "region": [
+                  17,
+                  2,
+                  27,
+                  4
+                ],
+                "headers": {
+                  "rows": [
+                    16
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    17,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Second Table",
+                    "Column C",
+                    "Column D"
+                  ],
+                  "rows": [
+                    "Category",
+                    "First Cost",
+                    "Second Cost",
+                    "Third Cost",
+                    "Fourth Cost",
+                    "Fifth Cost",
+                    "Sixth Cost",
+                    "Seventh Cost",
+                    "Eighth Cost",
+                    "Ninth Cost",
+                    "Tenth Cost"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 33,
+                  "merged": false,
+                  "original_region": [
+                    16,
+                    2,
+                    27,
+                    4
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 2,
+            "confidence": 0.95,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.033992999999999995,
+            "actual_cost": 0.007869000000000001,
+            "tokens_used": 2623,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_155011_Sheet1",
+            "timestamp": "2025-08-08T15:50:11.994568",
+            "sheet_name": "Sheet1",
+            "summary": {
+              "traditional_tables_found": 2,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "complex"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 2,
+                "ai_count": 0,
+                "count_difference": -2,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.95,
+                "confidence_difference": 0.1499999999999999,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.95
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "complex",
+                "complexity_score": 0.7429731488555018,
+                "expected_traditional_success": false,
+                "actual_traditional_success": true,
+                "traditional_performance": "unexpected",
+                "expected_ai_advantage": true,
+                "actual_ai_advantage": false,
+                "ai_performance": "unexpected",
+                "complexity_factors": [
+                  "multi_level_headers",
+                  "high_data_sparsity",
+                  "inconsistent_column_structure"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers",
+                  "complexity_high_data_sparsity",
+                  "complexity_inconsistent_column_structure"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "ai_primary"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -2,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.95,
+              "complexity_alignment": 0.5,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 2 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider lowering complexity threshold for AI activation",
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        }
+      ],
+      "file_summary": {
+        "processing_decisions": {
+          "dual_analysis": 1
+        },
+        "total_cost": 0.007869000000000001,
+        "complexity_distribution": {
+          "complex": 1
+        },
+        "performance_comparison": {}
+      },
+      "insights": [
+        "Average cost per sheet: $0.0079",
+        "File contains primarily complex sheets requiring advanced analysis"
+      ]
+    },
+    {
+      "file_name": "pDD10b - Exos_2023_financials.xlsx",
+      "timestamp": "2025-08-08T15:50:12.790263",
+      "total_sheets": 4,
+      "sheets": [
+        {
+          "sheet_name": "TOTAL P&L without PT",
+          "complexity_analysis": {
+            "complexity_score": 0.36837947252801717,
+            "complexity_level": "moderate",
+            "metrics": {
+              "merged_cell_complexity": 0.0,
+              "header_complexity": 0.25,
+              "sparsity_complexity": 0.03339404978749241,
+              "column_inconsistency": 0.034985422740524776,
+              "formula_complexity": 0.05
+            },
+            "recommendation": "dual",
+            "failure_indicators": [
+              "multi_level_headers"
+            ],
+            "processing_metadata": {
+              "sheet_name": "TOTAL P&L without PT",
+              "dimensions": [
+                1,
+                1,
+                66,
+                27
+              ],
+              "analysis_timestamp": "2025-08-08T15:50:12.790321"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 1,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "Table 1",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  1,
+                  1,
+                  66,
+                  27
+                ],
+                "headers": {
+                  "rows": [
+                    1
+                  ],
+                  "cols": [
+                    1
+                  ],
+                  "data_start": [
+                    2,
+                    2
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "P&L Group",
+                    "Jan 2023",
+                    " Feb 2023",
+                    "Mar 2023",
+                    " Apr 2023",
+                    "May 2023",
+                    "Jun 2023",
+                    "Jul 2023",
+                    "Aug 2023",
+                    "Sep 2023",
+                    "Oct 2023",
+                    "Nov 2023",
+                    " Dec 2023",
+                    "Full Year 2023",
+                    "Column O",
+                    "Column P",
+                    "Column Q",
+                    "Column R",
+                    "Column S",
+                    "Column T",
+                    "Column U",
+                    "Column V",
+                    "Column W",
+                    "Column X",
+                    "Column Y",
+                    "Column Z",
+                    "Column AA"
+                  ],
+                  "rows": [
+                    "Strategic Accounts",
+                    "Employer",
+                    "Commercial / Multi-Rec",
+                    "Coach App",
+                    "Sport",
+                    "Programs & Events",
+                    "Corporate",
+                    "Equipment",
+                    "Revenue",
+                    "Salaries & Wages",
+                    "Payroll Taxes",
+                    "Employee Benefits",
+                    "Equipment",
+                    "Other",
+                    "COGS",
+                    "Gross Margin",
+                    "GM%",
+                    "Salaries & Wages",
+                    "Payroll Taxes",
+                    "Employee Benefits",
+                    "Bonuses",
+                    "Recruiting",
+                    "Other",
+                    "Labor",
+                    "Marketing",
+                    "Technology",
+                    "Accounting / Bank Fees",
+                    "Legal fees",
+                    "International Services",
+                    "Insurance",
+                    "Travel / Meals",
+                    "Other",
+                    "G&A",
+                    "Rent",
+                    "Other",
+                    "Facilities",
+                    "Total Expense",
+                    "EBITDA",
+                    "EBITDA %",
+                    "Addbacks",
+                    "EBITDA wo Addbacks",
+                    "Amortization",
+                    "Depreciation",
+                    "Taxes",
+                    "Interest Expense",
+                    "Other",
+                    "Other Income & Expense",
+                    "Net Income"
+                  ]
+                },
+                "meta": {
+                  "method": "frozen_panes",
+                  "cells": 686,
+                  "merged": false,
+                  "original_region": [
+                    1,
+                    1,
+                    66,
+                    27
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 1,
+            "confidence": 0.95,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.046881,
+            "actual_cost": 0.032538,
+            "tokens_used": 10846,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_155023_TOTAL P&L without PT",
+            "timestamp": "2025-08-08T15:50:23.259402",
+            "sheet_name": "TOTAL P&L without PT",
+            "summary": {
+              "traditional_tables_found": 1,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "moderate"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 1,
+                "ai_count": 0,
+                "count_difference": -1,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.95,
+                "confidence_difference": 0.1499999999999999,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.95
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "moderate",
+                "complexity_score": 0.36837947252801717,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": true,
+                "actual_ai_advantage": false,
+                "ai_performance": "unexpected",
+                "complexity_factors": [
+                  "multi_level_headers"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "dual"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -1,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.95,
+              "complexity_alignment": 0.5,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 1 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        },
+        {
+          "sheet_name": "TOTAL P&L with PT",
+          "complexity_analysis": {
+            "complexity_score": 0.3357142857142857,
+            "complexity_level": "moderate",
+            "metrics": {
+              "merged_cell_complexity": 0.0,
+              "header_complexity": 0.25,
+              "sparsity_complexity": 0.0,
+              "column_inconsistency": 0.03571428571428571,
+              "formula_complexity": 0.05
+            },
+            "recommendation": "dual",
+            "failure_indicators": [
+              "multi_level_headers"
+            ],
+            "processing_metadata": {
+              "sheet_name": "TOTAL P&L with PT",
+              "dimensions": [
+                1,
+                1,
+                67,
+                19
+              ],
+              "analysis_timestamp": "2025-08-08T15:50:23.259467"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 2,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "Table 1",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  1,
+                  1,
+                  1,
+                  19
+                ],
+                "headers": {
+                  "rows": [
+                    1
+                  ],
+                  "cols": [
+                    1
+                  ],
+                  "data_start": [
+                    2,
+                    2
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "P&L Group",
+                    "Jan 2023",
+                    " Feb 2023",
+                    "Mar 2023",
+                    " Apr 2023",
+                    "May 2023",
+                    "Jun 2023",
+                    "Jul 2023",
+                    "Aug 2023",
+                    "Sep 2023",
+                    "Oct 2023",
+                    "Nov 2023",
+                    " Dec 2023",
+                    "Full Year 2023",
+                    "Column O",
+                    "Column P",
+                    "Column Q",
+                    "Column R",
+                    "Column S"
+                  ],
+                  "rows": []
+                },
+                "meta": {
+                  "method": "column_continuity",
+                  "cells": 14,
+                  "merged": false,
+                  "original_region": [
+                    1,
+                    1,
+                    1,
+                    19
+                  ]
+                }
+              },
+              {
+                "id": "t2",
+                "name": "Table 2",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  2,
+                  1,
+                  62,
+                  19
+                ],
+                "headers": {
+                  "rows": [
+                    2
+                  ],
+                  "cols": [
+                    1
+                  ],
+                  "data_start": [
+                    3,
+                    2
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Strategic Accounts",
+                    "4474347.529999999",
+                    "3983915.48999999",
+                    "4354355.5600000005",
+                    "4158619.12999999",
+                    "4066190.23999999",
+                    "4152906.5599999996",
+                    "4429006.539999999",
+                    "4069601.57999998",
+                    "4087902.11",
+                    "4127636.7199999895",
+                    "4441319.589999979",
+                    "4322922.96999998",
+                    "50668724.01999991",
+                    "Column O",
+                    "Column P",
+                    "Column Q",
+                    "Column R",
+                    "Column S"
+                  ],
+                  "rows": [
+                    "Employer",
+                    "Commercial / Multi-Rec",
+                    "Coach App",
+                    "Sport",
+                    "PT",
+                    "Programs & Events",
+                    "Corporate",
+                    "Equipment",
+                    "Revenue",
+                    "Salaries & Wages",
+                    "Payroll Taxes",
+                    "Employee Benefits",
+                    "Equipment",
+                    "Other",
+                    "COGS",
+                    "Gross Margin",
+                    "GM%",
+                    "Salaries & Wages",
+                    "Payroll Taxes",
+                    "Employee Benefits",
+                    "Bonuses",
+                    "Recruiting",
+                    "Other",
+                    "Labor",
+                    "Marketing",
+                    "Technology",
+                    "Accounting / Bank Fees",
+                    "Legal fees",
+                    "International Services",
+                    "Insurance",
+                    "Travel / Meals",
+                    "Other",
+                    "G&A",
+                    "Rent",
+                    "Other",
+                    "Facilities",
+                    "Total Expense",
+                    "EBITDA",
+                    "EBITDA %",
+                    "Addbacks",
+                    "EBITDA wo Addbacks",
+                    "Amortization",
+                    "Depreciation",
+                    "Taxes",
+                    "Interest Expense",
+                    "Other",
+                    "Other Income & Expense",
+                    "Net Income"
+                  ]
+                },
+                "meta": {
+                  "method": "column_continuity",
+                  "cells": 686,
+                  "merged": false,
+                  "original_region": [
+                    2,
+                    1,
+                    62,
+                    19
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 1,
+            "confidence": 0.95,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.0471,
+            "actual_cost": 0.03306,
+            "tokens_used": 11020,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_155035_TOTAL P&L with PT",
+            "timestamp": "2025-08-08T15:50:35.885159",
+            "sheet_name": "TOTAL P&L with PT",
+            "summary": {
+              "traditional_tables_found": 2,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "moderate"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 2,
+                "ai_count": 0,
+                "count_difference": -2,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.95,
+                "confidence_difference": 0.1499999999999999,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.95
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "moderate",
+                "complexity_score": 0.3357142857142857,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": true,
+                "actual_ai_advantage": false,
+                "ai_performance": "unexpected",
+                "complexity_factors": [
+                  "multi_level_headers"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "dual"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -2,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.95,
+              "complexity_alignment": 0.5,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 2 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        },
+        {
+          "sheet_name": "Cash Flow",
+          "complexity_analysis": {
+            "complexity_score": 0.5240481238671055,
+            "complexity_level": "moderate",
+            "metrics": {
+              "merged_cell_complexity": 0.011152416356877323,
+              "header_complexity": 0.25,
+              "sparsity_complexity": 0.18441031585047815,
+              "column_inconsistency": 0.0450281425891182,
+              "formula_complexity": 0.03345724907063197
+            },
+            "recommendation": "dual",
+            "failure_indicators": [
+              "multi_level_headers",
+              "high_data_sparsity"
+            ],
+            "processing_metadata": {
+              "sheet_name": "Cash Flow",
+              "dimensions": [
+                1,
+                1,
+                986,
+                19
+              ],
+              "analysis_timestamp": "2025-08-08T15:50:35.885229"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 1,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "CASH FLOW STATEMENT",
+                "title": "CASH FLOW STATEMENT",
+                "title_row": 1,
+                "region": [
+                  2,
+                  1,
+                  986,
+                  19
+                ],
+                "headers": {
+                  "rows": [
+                    1,
+                    2,
+                    3
+                  ],
+                  "cols": [
+                    1
+                  ],
+                  "data_start": [
+                    4,
+                    2
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "CASH FLOW STATEMENT",
+                    "Column B",
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                    "Column O",
+                    "Column P",
+                    "Column Q",
+                    "Column R",
+                    "Column S"
+                  ],
+                  "rows": [
+                    "Operating activities",
+                    "Net Loss",
+                    "Adjustments to reconcile net loss to net cash provided by/(used in)",
+                    "     operating activities:",
+                    "Depreciation",
+                    "Amortization",
+                    "Changes in fair value of warrant and derivative liability, net",
+                    "Loss on disposal of assets",
+                    "Non-cash interest expense (income), net",
+                    "Deferred income taxes",
+                    "Deferred financing costs",
+                    "Amortization of deferred finance costs",
+                    "Amortization of debt discount",
+                    "Stock-based compensation",
+                    "Change in operating assets and liabilities:",
+                    "Accounts receivable",
+                    "Accrued A/R",
+                    "Other receivables",
+                    "Accrued client reimbursements",
+                    "Prepaid expenses",
+                    "Accounts payable",
+                    "Deferred revenue",
+                    "Accrued payroll and related taxes",
+                    "Accrued bonus and commissions",
+                    "Accrued payroll benefits",
+                    "Equipment sales in process",
+                    "Equipment sale deposits",
+                    "Accrued expenses",
+                    "Customer prepaid dues",
+                    "Operating lease liability",
+                    "Other current/non-current assets and liabilities",
+                    "Due to (from) related parties",
+                    "Net cash provided by (used in) operating activities",
+                    "Investing activities",
+                    "Purchases of property and equipment",
+                    "Software development",
+                    "Digital content creation",
+                    "Intangible assets and goodwill",
+                    "Net cash provided by (used in) investing activities",
+                    "Financing activities",
+                    "Issuance of debt",
+                    "Net cash provided by (used in) financing activities",
+                    "Net increase (decrease) in cash",
+                    "Beginning cash",
+                    "Ending cash",
+                    "Row 57"
+                  ]
+                },
+                "meta": {
+                  "method": "frozen_panes",
+                  "cells": 537,
+                  "merged": false,
+                  "original_region": [
+                    1,
+                    1,
+                    986,
+                    19
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 1,
+            "confidence": 0.95,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.040541999999999995,
+            "actual_cost": 0.019404,
+            "tokens_used": 6468,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_155045_Cash Flow",
+            "timestamp": "2025-08-08T15:50:45.580835",
+            "sheet_name": "Cash Flow",
+            "summary": {
+              "traditional_tables_found": 1,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "moderate"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 1,
+                "ai_count": 0,
+                "count_difference": -1,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.95,
+                "confidence_difference": 0.1499999999999999,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.95
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "moderate",
+                "complexity_score": 0.5240481238671055,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": true,
+                "actual_ai_advantage": false,
+                "ai_performance": "unexpected",
+                "complexity_factors": [
+                  "multi_level_headers",
+                  "high_data_sparsity"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers",
+                  "complexity_high_data_sparsity"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "dual"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -1,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.95,
+              "complexity_alignment": 0.5,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 1 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider lowering complexity threshold for AI activation",
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        },
+        {
+          "sheet_name": "Balance Sheet",
+          "complexity_analysis": {
+            "complexity_score": 0.26764220363655566,
+            "complexity_level": "simple",
+            "metrics": {
+              "merged_cell_complexity": 0.0,
+              "header_complexity": 0.25,
+              "sparsity_complexity": 0.0,
+              "column_inconsistency": 0.01181260722399963,
+              "formula_complexity": 0.005829596412556054
+            },
+            "recommendation": "traditional",
+            "failure_indicators": [
+              "multi_level_headers"
+            ],
+            "processing_metadata": {
+              "sheet_name": "Balance Sheet",
+              "dimensions": [
+                2,
+                2,
+                120,
+                20
+              ],
+              "analysis_timestamp": "2025-08-08T15:50:45.580893"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 1,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "Table 1",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  2,
+                  2,
+                  115,
+                  15
+                ],
+                "headers": {
+                  "rows": [
+                    2
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    3,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Column B",
+                    "2022",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023",
+                    "2023"
+                  ],
+                  "rows": [
+                    "Row 3",
+                    "Assets",
+                    "Current assets:",
+                    "Cash",
+                    "Accounts receivable, net",
+                    "Accounts receivable, client reimbursement",
+                    "Accrued accounts receivable",
+                    "Other receivables",
+                    "Tax Receivables",
+                    "Due from related parties",
+                    "Inventory",
+                    "Equipment sales in process",
+                    "Prepaid expenses",
+                    "Corporate card suspense",
+                    "Other current assets",
+                    "Total current assets",
+                    "Equipment CIP",
+                    "Equipment and improvements",
+                    "Equipment accum depr.",
+                    "Equipment and improvements, net",
+                    "Software development CIP",
+                    "Software development",
+                    "Software development accum amort.",
+                    "Software development, net",
+                    "Digital content CIP",
+                    "Digital content",
+                    "Digital content accum amort.",
+                    "Digital content, net",
+                    "Right of Use Asset",
+                    "ROU accum depr",
+                    "Right of Use Asset, Net",
+                    "Other assets:",
+                    "Security deposits",
+                    "Deferred tax asset",
+                    "Other non-current assets",
+                    "Goodwill",
+                    "Goodwill accum amort.",
+                    "Intangible assets",
+                    "Intangible assets accum amort.",
+                    "Due from related parties",
+                    "Investment in subs",
+                    "Total other assets",
+                    "Total assets",
+                    "Liabilities and stockholders' equity",
+                    "Current iabities:",
+                    "Accounts payable",
+                    "Customer prepaid dues",
+                    "Equipment sale deposits",
+                    "Deferred revenue",
+                    "Accrued payroll and related taxes",
+                    "Accrued benefits",
+                    "Accrued bonus and commissions",
+                    "Accrued expenses",
+                    "Operating lease liability",
+                    "Due to related parties",
+                    "Interest payable",
+                    "Taxes payable",
+                    "Dividend payable",
+                    "Other current liabilities",
+                    "Total current liabilities",
+                    "Long-term liabilities:",
+                    "Long-term debt",
+                    "Debt Discount",
+                    "Deferrred finance fees",
+                    "Warrant liability",
+                    "Derivatives liability",
+                    "Deferred tax liability",
+                    "Due to related parties",
+                    "Operating lease liability",
+                    "Other long-term liabilities",
+                    "Total long-term liabilities",
+                    "Total liabilities",
+                    "Stockholders' Equity:",
+                    "Preferred Stock",
+                    "Common stock, par value",
+                    "Additional paid in capital - common stock",
+                    "Equity loan receivable",
+                    "Treasury Stock",
+                    "Intercompany (receivable) payable",
+                    "Accumulated deficit",
+                    "Income (loss), year to date",
+                    "Total stockholders' equity",
+                    "Total liabilities andl stockholders' equity",
+                    "Row 100",
+                    "Depreciation",
+                    "Amortization - Digital Content",
+                    "Amortization - Software",
+                    "Amortization - Goodwill",
+                    "Amortization - Intangibles",
+                    "Stock Compensation Expense",
+                    "Asset Disposal Gain/Loss",
+                    "Interest expense (non-cash)",
+                    "Interest income (non-cash)",
+                    "Interest expense (cash)",
+                    "Interest income (cash)"
+                  ]
+                },
+                "meta": {
+                  "method": "financial_statement_layout",
+                  "cells": 1115,
+                  "merged": false,
+                  "original_region": [
+                    2,
+                    2,
+                    115,
+                    15
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 2,
+            "confidence": 0.92,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.048576,
+            "actual_cost": 0.036009,
+            "tokens_used": 12003,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_155057_Balance Sheet",
+            "timestamp": "2025-08-08T15:50:57.839311",
+            "sheet_name": "Balance Sheet",
+            "summary": {
+              "traditional_tables_found": 1,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "simple"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 1,
+                "ai_count": 0,
+                "count_difference": -1,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.92,
+                "confidence_difference": 0.12,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.92
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "simple",
+                "complexity_score": 0.26764220363655566,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": false,
+                "actual_ai_advantage": false,
+                "ai_performance": "as_expected",
+                "complexity_factors": [
+                  "multi_level_headers"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "traditional"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -1,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.92,
+              "complexity_alignment": 1.0,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 1 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results",
+              "AI may have over-complicated a simple structure"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        }
+      ],
+      "file_summary": {
+        "processing_decisions": {
+          "dual_analysis": 4
+        },
+        "total_cost": 0.121011,
+        "complexity_distribution": {
+          "moderate": 3,
+          "simple": 1
+        },
+        "performance_comparison": {}
+      },
+      "insights": [
+        "Average cost per sheet: $0.0303"
+      ]
+    }
+  ]
+}

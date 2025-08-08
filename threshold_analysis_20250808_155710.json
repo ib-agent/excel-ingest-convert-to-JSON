@@ -1,0 +1,22 @@
+{
+  "current_thresholds": {
+    "traditional_max": 0.2,
+    "dual_min": 0.2,
+    "ai_primary_min": 0.8,
+    "max_cost_per_sheet": 0.15
+  },
+  "performance_metrics": {
+    "total_sheets": 9,
+    "ai_usage_rate": 0.8888888888888888,
+    "cost_per_sheet": 0.020127,
+    "disagreement_rate": 0.7777777777777778
+  },
+  "recommendations": [
+    {
+      "type": "decrease_ai_usage",
+      "current_value": 0.2,
+      "suggested_value": 0.30000000000000004,
+      "reason": "High AI usage - may be unnecessarily expensive"
+    }
+  ]
+}

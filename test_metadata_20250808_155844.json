@@ -1,0 +1,489 @@
+{
+  "generation_metadata": {
+    "timestamp": "2025-08-08T15:58:44.492715",
+    "source_file": "test_cases_20250808_155710.json",
+    "test_cases_count": 7,
+    "generated_tests": {
+      "complexity_threshold_tests": 3,
+      "processing_decision_tests": 1,
+      "agreement_validation_tests": 1,
+      "regression_tests": 4,
+      "performance_benchmark_tests": 1
+    }
+  },
+  "test_suite": {
+    "complexity_threshold_tests": [
+      {
+        "test_name": "test_complexity_simple_threshold",
+        "description": "Validate simple complexity processing decisions",
+        "test_type": "threshold_validation",
+        "complexity_level": "simple",
+        "test_cases": [
+          {
+            "file": "Test_SpreadSheet_100_numbers.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.23264462809917358,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Balance Sheet",
+            "complexity": 0.26764220363655566,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 2,
+            "ai_confidence": 0.92,
+            "winner": "traditional"
+          }
+        ],
+        "expected_behavior": {
+          "processing_decision": "traditional_only",
+          "ai_usage": false,
+          "cost_expectation": "zero",
+          "quality_expectation": "traditional_sufficient"
+        },
+        "test_code": "\ndef test_complexity_simple_threshold(self):\n    \"\"\"Test that simple complexity sheets get appropriate processing.\"\"\"\n    test_cases = [\n        {\n                \"file\": \"Test_SpreadSheet_100_numbers.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.23264462809917358,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Balance Sheet\",\n                \"complexity\": 0.26764220363655566,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.92,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    for case in test_cases:\n        complexity_score = case['complexity']\n        expected_behavior = {\n        \"processing_decision\": \"traditional_only\",\n        \"ai_usage\": false,\n        \"cost_expectation\": \"zero\",\n        \"quality_expectation\": \"traditional_sufficient\"\n}\n        \n        # Test complexity categorization\n        if complexity_score < 0.3:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'simple')\n        elif complexity_score < 0.7:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'moderate')\n        else:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'complex')\n        \n        # Test processing decision\n        decision = self.analyzer.make_processing_decision(complexity_score)\n        self.assertEqual(decision, expected_behavior['processing_decision'])\n        \n        print(f\"\u2705 {case['file']} - {case['sheet']}: {decision}\")\n"
+      },
+      {
+        "test_name": "test_complexity_moderate_threshold",
+        "description": "Validate moderate complexity processing decisions",
+        "test_type": "threshold_validation",
+        "complexity_level": "moderate",
+        "test_cases": [
+          {
+            "file": "single_unit_economics_4_tables.xlsx",
+            "sheet": "Rental Single Unit Economics",
+            "complexity": 0.6195856576239983,
+            "agreement": 0.0,
+            "traditional_tables": 4,
+            "ai_tables": 4,
+            "ai_confidence": 0.9,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L without PT",
+            "complexity": 0.36837947252801717,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L with PT",
+            "complexity": 0.3357142857142857,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Cash Flow",
+            "complexity": 0.5240481238671055,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          }
+        ],
+        "expected_behavior": {
+          "processing_decision": "dual_analysis",
+          "ai_usage": true,
+          "cost_expectation": "low_to_moderate",
+          "quality_expectation": "comparison_valuable"
+        },
+        "test_code": "\ndef test_complexity_moderate_threshold(self):\n    \"\"\"Test that moderate complexity sheets get appropriate processing.\"\"\"\n    test_cases = [\n        {\n                \"file\": \"single_unit_economics_4_tables.xlsx\",\n                \"sheet\": \"Rental Single Unit Economics\",\n                \"complexity\": 0.6195856576239983,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 4,\n                \"ai_tables\": 4,\n                \"ai_confidence\": 0.9,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L without PT\",\n                \"complexity\": 0.36837947252801717,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L with PT\",\n                \"complexity\": 0.3357142857142857,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Cash Flow\",\n                \"complexity\": 0.5240481238671055,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    for case in test_cases:\n        complexity_score = case['complexity']\n        expected_behavior = {\n        \"processing_decision\": \"dual_analysis\",\n        \"ai_usage\": true,\n        \"cost_expectation\": \"low_to_moderate\",\n        \"quality_expectation\": \"comparison_valuable\"\n}\n        \n        # Test complexity categorization\n        if complexity_score < 0.3:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'simple')\n        elif complexity_score < 0.7:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'moderate')\n        else:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'complex')\n        \n        # Test processing decision\n        decision = self.analyzer.make_processing_decision(complexity_score)\n        self.assertEqual(decision, expected_behavior['processing_decision'])\n        \n        print(f\"\u2705 {case['file']} - {case['sheet']}: {decision}\")\n"
+      },
+      {
+        "test_name": "test_complexity_complex_threshold",
+        "description": "Validate complex complexity processing decisions",
+        "test_type": "threshold_validation",
+        "complexity_level": "complex",
+        "test_cases": [
+          {
+            "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.7429731488555018,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 2,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          }
+        ],
+        "expected_behavior": {
+          "processing_decision": "ai_primary",
+          "ai_usage": true,
+          "cost_expectation": "moderate_to_high",
+          "quality_expectation": "ai_superior"
+        },
+        "test_code": "\ndef test_complexity_complex_threshold(self):\n    \"\"\"Test that complex complexity sheets get appropriate processing.\"\"\"\n    test_cases = [\n        {\n                \"file\": \"Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.7429731488555018,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    for case in test_cases:\n        complexity_score = case['complexity']\n        expected_behavior = {\n        \"processing_decision\": \"ai_primary\",\n        \"ai_usage\": true,\n        \"cost_expectation\": \"moderate_to_high\",\n        \"quality_expectation\": \"ai_superior\"\n}\n        \n        # Test complexity categorization\n        if complexity_score < 0.3:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'simple')\n        elif complexity_score < 0.7:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'moderate')\n        else:\n            self.assertEqual(self.analyzer.get_complexity_level(complexity_score), 'complex')\n        \n        # Test processing decision\n        decision = self.analyzer.make_processing_decision(complexity_score)\n        self.assertEqual(decision, expected_behavior['processing_decision'])\n        \n        print(f\"\u2705 {case['file']} - {case['sheet']}: {decision}\")\n"
+      }
+    ],
+    "processing_decision_tests": [
+      {
+        "test_name": "test_processing_decision_dual_analysis",
+        "description": "Validate dual_analysis processing decision logic",
+        "test_type": "processing_decision",
+        "expected_decision": "dual_analysis",
+        "test_cases": [
+          {
+            "file": "single_unit_economics_4_tables.xlsx",
+            "sheet": "Rental Single Unit Economics",
+            "complexity": 0.6195856576239983,
+            "agreement": 0.0,
+            "traditional_tables": 4,
+            "ai_tables": 4,
+            "ai_confidence": 0.9,
+            "winner": "traditional"
+          },
+          {
+            "file": "Test_SpreadSheet_100_numbers.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.23264462809917358,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.7429731488555018,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 2,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L without PT",
+            "complexity": 0.36837947252801717,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L with PT",
+            "complexity": 0.3357142857142857,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Cash Flow",
+            "complexity": 0.5240481238671055,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Balance Sheet",
+            "complexity": 0.26764220363655566,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 2,
+            "ai_confidence": 0.92,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_processing_decision_dual_analysis(self):\n    \"\"\"Test that sheets get dual_analysis processing decision.\"\"\"\n    test_cases = [\n        {\n                \"file\": \"single_unit_economics_4_tables.xlsx\",\n                \"sheet\": \"Rental Single Unit Economics\",\n                \"complexity\": 0.6195856576239983,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 4,\n                \"ai_tables\": 4,\n                \"ai_confidence\": 0.9,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"Test_SpreadSheet_100_numbers.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.23264462809917358,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.7429731488555018,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L without PT\",\n                \"complexity\": 0.36837947252801717,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L with PT\",\n                \"complexity\": 0.3357142857142857,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Cash Flow\",\n                \"complexity\": 0.5240481238671055,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Balance Sheet\",\n                \"complexity\": 0.26764220363655566,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.92,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    for case in test_cases:\n        complexity_score = case['complexity']\n        actual_decision = self.analyzer.make_processing_decision(complexity_score)\n        \n        self.assertEqual(actual_decision, 'dual_analysis')\n        \n        # Validate decision logic\n        if 'dual_analysis' == 'traditional_only':\n            self.assertLess(complexity_score, 0.3)\n        elif 'dual_analysis' == 'dual_analysis':\n            self.assertGreaterEqual(complexity_score, 0.3)\n            self.assertLess(complexity_score, 0.8)\n        elif 'dual_analysis' == 'ai_primary':\n            self.assertGreaterEqual(complexity_score, 0.8)\n        \n        print(f\"\u2705 {case['file']} - {case['sheet']}: {actual_decision}\")\n"
+      }
+    ],
+    "agreement_validation_tests": [
+      {
+        "test_name": "test_disagreement_cases_detection",
+        "description": "Validate that known disagreement cases are properly detected",
+        "test_type": "agreement_validation",
+        "expected_agreement_threshold": 0.3,
+        "test_cases": [
+          {
+            "file": "single_unit_economics_4_tables.xlsx",
+            "sheet": "Rental Single Unit Economics",
+            "complexity": 0.6195856576239983,
+            "agreement": 0.0,
+            "traditional_tables": 4,
+            "ai_tables": 4,
+            "ai_confidence": 0.9,
+            "winner": "traditional"
+          },
+          {
+            "file": "Test_SpreadSheet_100_numbers.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.23264462809917358,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.7429731488555018,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 2,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L without PT",
+            "complexity": 0.36837947252801717,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L with PT",
+            "complexity": 0.3357142857142857,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Cash Flow",
+            "complexity": 0.5240481238671055,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Balance Sheet",
+            "complexity": 0.26764220363655566,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 2,
+            "ai_confidence": 0.92,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_disagreement_cases_detection(self):\n    \"\"\"Test that known disagreement cases are properly identified.\"\"\"\n    known_disagreement_cases = [\n        {\n                \"file\": \"single_unit_economics_4_tables.xlsx\",\n                \"sheet\": \"Rental Single Unit Economics\",\n                \"complexity\": 0.6195856576239983,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 4,\n                \"ai_tables\": 4,\n                \"ai_confidence\": 0.9,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"Test_SpreadSheet_100_numbers.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.23264462809917358,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.7429731488555018,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L without PT\",\n                \"complexity\": 0.36837947252801717,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L with PT\",\n                \"complexity\": 0.3357142857142857,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Cash Flow\",\n                \"complexity\": 0.5240481238671055,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Balance Sheet\",\n                \"complexity\": 0.26764220363655566,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.92,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    for case in known_disagreement_cases:\n        # Simulate comparison analysis\n        agreement_score = case['agreement']\n        \n        # These are known disagreement cases\n        self.assertLess(agreement_score, 0.3, \n                       f\"Case {case['file']}/{case['sheet']} should be a disagreement\")\n        \n        # Should be flagged for test case generation\n        test_case_potential = self.comparison_engine.assess_test_case_potential(agreement_score)\n        self.assertGreater(test_case_potential, 0.4)\n        \n        print(f\"\u2705 Disagreement detected: {case['file']} - {case['sheet']} ({agreement_score:.3f})\")\n"
+      }
+    ],
+    "regression_tests": [
+      {
+        "test_name": "test_regression_single_unit_economics_4_tables_xlsx",
+        "description": "Regression test for single_unit_economics_4_tables.xlsx",
+        "test_type": "regression",
+        "file_name": "single_unit_economics_4_tables.xlsx",
+        "expected_results": [
+          {
+            "file": "single_unit_economics_4_tables.xlsx",
+            "sheet": "Rental Single Unit Economics",
+            "complexity": 0.6195856576239983,
+            "agreement": 0.0,
+            "traditional_tables": 4,
+            "ai_tables": 4,
+            "ai_confidence": 0.9,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_regression_single_unit_economics_4_tables_xlsx(self):\n    \"\"\"Regression test for single_unit_economics_4_tables.xlsx.\"\"\"\n    expected_results = [\n        {\n                \"file\": \"single_unit_economics_4_tables.xlsx\",\n                \"sheet\": \"Rental Single Unit Economics\",\n                \"complexity\": 0.6195856576239983,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 4,\n                \"ai_tables\": 4,\n                \"ai_confidence\": 0.9,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    # Process the file\n    file_path = \"tests/test_excel/single_unit_economics_4_tables.xlsx\"\n    if not os.path.exists(file_path):\n        self.skipTest(f\"Test file not found: {file_path}\")\n    \n    result = self.analyzer.analyze_file_intelligently(file_path)\n    \n    # Validate each expected case\n    for expected_case in expected_results:\n        sheet_name = expected_case['sheet']\n        \n        # Find matching sheet in results\n        actual_sheet = None\n        for sheet in result['sheets']:\n            if sheet['sheet_name'] == sheet_name:\n                actual_sheet = sheet\n                break\n        \n        self.assertIsNotNone(actual_sheet, f\"Sheet {sheet_name} not found in results\")\n        \n        # Validate complexity is in expected range (\u00b110%)\n        expected_complexity = expected_case['complexity']\n        actual_complexity = actual_sheet['complexity_analysis']['complexity_score']\n        complexity_tolerance = 0.1\n        \n        self.assertAlmostEqual(actual_complexity, expected_complexity, \n                             delta=complexity_tolerance,\n                             msg=f\"Complexity score regression for {sheet_name}\")\n        \n        print(f\"\u2705 {sheet_name}: complexity {actual_complexity:.3f} (expected {expected_complexity:.3f})\")\n"
+      },
+      {
+        "test_name": "test_regression_Test_SpreadSheet_100_numbers_xlsx",
+        "description": "Regression test for Test_SpreadSheet_100_numbers.xlsx",
+        "test_type": "regression",
+        "file_name": "Test_SpreadSheet_100_numbers.xlsx",
+        "expected_results": [
+          {
+            "file": "Test_SpreadSheet_100_numbers.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.23264462809917358,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_regression_Test_SpreadSheet_100_numbers_xlsx(self):\n    \"\"\"Regression test for Test_SpreadSheet_100_numbers.xlsx.\"\"\"\n    expected_results = [\n        {\n                \"file\": \"Test_SpreadSheet_100_numbers.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.23264462809917358,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    # Process the file\n    file_path = \"tests/test_excel/Test_SpreadSheet_100_numbers.xlsx\"\n    if not os.path.exists(file_path):\n        self.skipTest(f\"Test file not found: {file_path}\")\n    \n    result = self.analyzer.analyze_file_intelligently(file_path)\n    \n    # Validate each expected case\n    for expected_case in expected_results:\n        sheet_name = expected_case['sheet']\n        \n        # Find matching sheet in results\n        actual_sheet = None\n        for sheet in result['sheets']:\n            if sheet['sheet_name'] == sheet_name:\n                actual_sheet = sheet\n                break\n        \n        self.assertIsNotNone(actual_sheet, f\"Sheet {sheet_name} not found in results\")\n        \n        # Validate complexity is in expected range (\u00b110%)\n        expected_complexity = expected_case['complexity']\n        actual_complexity = actual_sheet['complexity_analysis']['complexity_score']\n        complexity_tolerance = 0.1\n        \n        self.assertAlmostEqual(actual_complexity, expected_complexity, \n                             delta=complexity_tolerance,\n                             msg=f\"Complexity score regression for {sheet_name}\")\n        \n        print(f\"\u2705 {sheet_name}: complexity {actual_complexity:.3f} (expected {expected_complexity:.3f})\")\n"
+      },
+      {
+        "test_name": "test_regression_Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles_xlsx",
+        "description": "Regression test for Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+        "test_type": "regression",
+        "file_name": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+        "expected_results": [
+          {
+            "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.7429731488555018,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 2,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_regression_Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles_xlsx(self):\n    \"\"\"Regression test for Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx.\"\"\"\n    expected_results = [\n        {\n                \"file\": \"Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx\",\n                \"sheet\": \"Sheet1\",\n                \"complexity\": 0.7429731488555018,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    # Process the file\n    file_path = \"tests/test_excel/Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx\"\n    if not os.path.exists(file_path):\n        self.skipTest(f\"Test file not found: {file_path}\")\n    \n    result = self.analyzer.analyze_file_intelligently(file_path)\n    \n    # Validate each expected case\n    for expected_case in expected_results:\n        sheet_name = expected_case['sheet']\n        \n        # Find matching sheet in results\n        actual_sheet = None\n        for sheet in result['sheets']:\n            if sheet['sheet_name'] == sheet_name:\n                actual_sheet = sheet\n                break\n        \n        self.assertIsNotNone(actual_sheet, f\"Sheet {sheet_name} not found in results\")\n        \n        # Validate complexity is in expected range (\u00b110%)\n        expected_complexity = expected_case['complexity']\n        actual_complexity = actual_sheet['complexity_analysis']['complexity_score']\n        complexity_tolerance = 0.1\n        \n        self.assertAlmostEqual(actual_complexity, expected_complexity, \n                             delta=complexity_tolerance,\n                             msg=f\"Complexity score regression for {sheet_name}\")\n        \n        print(f\"\u2705 {sheet_name}: complexity {actual_complexity:.3f} (expected {expected_complexity:.3f})\")\n"
+      },
+      {
+        "test_name": "test_regression_pDD10b_-_Exos_2023_financials_xlsx",
+        "description": "Regression test for pDD10b - Exos_2023_financials.xlsx",
+        "test_type": "regression",
+        "file_name": "pDD10b - Exos_2023_financials.xlsx",
+        "expected_results": [
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L without PT",
+            "complexity": 0.36837947252801717,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L with PT",
+            "complexity": 0.3357142857142857,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Cash Flow",
+            "complexity": 0.5240481238671055,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Balance Sheet",
+            "complexity": 0.26764220363655566,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 2,
+            "ai_confidence": 0.92,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_regression_pDD10b_-_Exos_2023_financials_xlsx(self):\n    \"\"\"Regression test for pDD10b - Exos_2023_financials.xlsx.\"\"\"\n    expected_results = [\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L without PT\",\n                \"complexity\": 0.36837947252801717,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"TOTAL P&L with PT\",\n                \"complexity\": 0.3357142857142857,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 2,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Cash Flow\",\n                \"complexity\": 0.5240481238671055,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 1,\n                \"ai_confidence\": 0.95,\n                \"winner\": \"traditional\"\n        },\n        {\n                \"file\": \"pDD10b - Exos_2023_financials.xlsx\",\n                \"sheet\": \"Balance Sheet\",\n                \"complexity\": 0.26764220363655566,\n                \"agreement\": 0.0,\n                \"traditional_tables\": 1,\n                \"ai_tables\": 2,\n                \"ai_confidence\": 0.92,\n                \"winner\": \"traditional\"\n        }\n]\n    \n    # Process the file\n    file_path = \"tests/test_excel/pDD10b - Exos_2023_financials.xlsx\"\n    if not os.path.exists(file_path):\n        self.skipTest(f\"Test file not found: {file_path}\")\n    \n    result = self.analyzer.analyze_file_intelligently(file_path)\n    \n    # Validate each expected case\n    for expected_case in expected_results:\n        sheet_name = expected_case['sheet']\n        \n        # Find matching sheet in results\n        actual_sheet = None\n        for sheet in result['sheets']:\n            if sheet['sheet_name'] == sheet_name:\n                actual_sheet = sheet\n                break\n        \n        self.assertIsNotNone(actual_sheet, f\"Sheet {sheet_name} not found in results\")\n        \n        # Validate complexity is in expected range (\u00b110%)\n        expected_complexity = expected_case['complexity']\n        actual_complexity = actual_sheet['complexity_analysis']['complexity_score']\n        complexity_tolerance = 0.1\n        \n        self.assertAlmostEqual(actual_complexity, expected_complexity, \n                             delta=complexity_tolerance,\n                             msg=f\"Complexity score regression for {sheet_name}\")\n        \n        print(f\"\u2705 {sheet_name}: complexity {actual_complexity:.3f} (expected {expected_complexity:.3f})\")\n"
+      }
+    ],
+    "performance_benchmark_tests": [
+      {
+        "test_name": "test_performance_benchmarks",
+        "description": "Validate system performance meets benchmarks",
+        "test_type": "performance_benchmark",
+        "benchmarks": {
+          "total_traditional_tables": 12,
+          "total_ai_tables": 12,
+          "average_ai_confidence": 0.9385714285714286,
+          "disagreement_cases": 7
+        },
+        "test_cases": [
+          {
+            "file": "single_unit_economics_4_tables.xlsx",
+            "sheet": "Rental Single Unit Economics",
+            "complexity": 0.6195856576239983,
+            "agreement": 0.0,
+            "traditional_tables": 4,
+            "ai_tables": 4,
+            "ai_confidence": 0.9,
+            "winner": "traditional"
+          },
+          {
+            "file": "Test_SpreadSheet_100_numbers.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.23264462809917358,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
+            "sheet": "Sheet1",
+            "complexity": 0.7429731488555018,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 2,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L without PT",
+            "complexity": 0.36837947252801717,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "TOTAL P&L with PT",
+            "complexity": 0.3357142857142857,
+            "agreement": 0.0,
+            "traditional_tables": 2,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Cash Flow",
+            "complexity": 0.5240481238671055,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 1,
+            "ai_confidence": 0.95,
+            "winner": "traditional"
+          },
+          {
+            "file": "pDD10b - Exos_2023_financials.xlsx",
+            "sheet": "Balance Sheet",
+            "complexity": 0.26764220363655566,
+            "agreement": 0.0,
+            "traditional_tables": 1,
+            "ai_tables": 2,
+            "ai_confidence": 0.92,
+            "winner": "traditional"
+          }
+        ],
+        "test_code": "\ndef test_performance_benchmarks(self):\n    \"\"\"Test that system performance meets established benchmarks.\"\"\"\n    benchmarks = {\n        \"total_traditional_tables\": 12,\n        \"total_ai_tables\": 12,\n        \"average_ai_confidence\": 0.9385714285714286,\n        \"disagreement_cases\": 7\n}\n    \n    # Run analysis on benchmark files\n    benchmark_files = [\n        \"tests/test_excel/single_unit_economics_4_tables.xlsx\",\n        \"tests/test_excel/Test_SpreadSheet_100_numbers.xlsx\",\n        \"tests/test_excel/pDD10b - Exos_2023_financials.xlsx\"\n    ]\n    \n    total_traditional = 0\n    total_ai = 0\n    confidence_scores = []\n    disagreement_count = 0\n    \n    for file_path in benchmark_files:\n        if os.path.exists(file_path):\n            result = self.analyzer.analyze_file_intelligently(file_path)\n            \n            for sheet in result['sheets']:\n                if 'traditional_analysis' in sheet:\n                    total_traditional += sheet['traditional_analysis']['tables_found']\n                \n                if 'ai_analysis' in sheet and sheet['ai_analysis']['success']:\n                    total_ai += sheet['ai_analysis']['tables_found']\n                    confidence_scores.append(sheet['ai_analysis']['confidence'])\n                \n                if 'comparison' in sheet and sheet['comparison']:\n                    agreement = sheet['comparison']['metrics']['agreement_score']\n                    if agreement < 0.3:\n                        disagreement_count += 1\n    \n    # Validate benchmarks (allow 20% variance)\n    self.assertGreaterEqual(total_traditional, benchmarks['total_traditional_tables'] * 0.8)\n    self.assertGreaterEqual(total_ai, benchmarks['total_ai_tables'] * 0.8)\n    \n    if confidence_scores:\n        avg_confidence = sum(confidence_scores) / len(confidence_scores)\n        self.assertGreaterEqual(avg_confidence, benchmarks['average_ai_confidence'] * 0.9)\n    \n    self.assertGreaterEqual(disagreement_count, benchmarks['disagreement_cases'] * 0.5)\n    \n    print(f\"\u2705 Performance benchmarks met\")\n    print(f\"   Traditional tables: {total_traditional} (benchmark: {benchmarks['total_traditional_tables']})\")\n    print(f\"   AI tables: {total_ai} (benchmark: {benchmarks['total_ai_tables']})\")\n    print(f\"   Avg confidence: {avg_confidence:.3f} (benchmark: {benchmarks['average_ai_confidence']:.3f})\")\n    print(f\"   Disagreements: {disagreement_count} (benchmark: {benchmarks['disagreement_cases']})\")\n"
+      }
+    ]
+  }
+}
