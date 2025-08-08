@@ -1,15 +1,19 @@
 # Anthropic AI Enhancement Design
-## PDF Processing with AI-Powered Extraction and Complexity Failover
+## PDF & Excel Processing with AI-Powered Extraction and Complexity Failover
 
-**Version:** 1.0  
+**Version:** 2.0  
 **Date:** January 2025  
-**Status:** Design Phase  
+**Status:** Design Phase - Expanded for Excel  
 
 ---
 
 ## 📋 Executive Summary
 
-This document outlines the design and implementation plan for enhancing the existing PDF extraction system with Anthropic AI capabilities. The enhancement will add AI-powered extraction as both a comparison tool for improving traditional techniques and as a smart failover mechanism for complex documents.
+This document outlines the design and implementation plan for enhancing both PDF and Excel extraction systems with Anthropic AI capabilities. The enhancement will add AI-powered extraction as both a comparison tool for improving traditional techniques and as a smart failover mechanism for complex documents.
+
+### Expanded Scope
+- **PDF Processing**: Original focus on AI-powered extraction for complex documents
+- **Excel Processing**: New addition focusing on complex table detection and structure analysis
 
 ### Key Objectives
 1. **Comparison Dataset Generation**: Use Anthropic AI to extract text, numbers, and tables to create robust test cases
@@ -19,117 +23,395 @@ This document outlines the design and implementation plan for enhancing the exis
 
 ---
 
+## 🔍 Excel Table Detection Complexity Analysis
+
+### Current Heuristic Success Patterns
+
+Based on analysis of the existing table detection system (`TableDetector` and `CompactTableProcessor`), the current heuristics succeed in these scenarios:
+
+#### ✅ **High Success Scenarios (Traditional Heuristics Work Well)**
+
+1. **Frozen Panes Tables**
+   - **Success Rate**: ~95%
+   - **Characteristics**: Clear header delineation via frozen rows/columns
+   - **Example**: Financial dashboards with frozen first row and column
+   - **Detection Method**: `_detect_by_frozen_panes` - highest priority method
+
+2. **Simple Financial Statements**
+   - **Success Rate**: ~90%
+   - **Characteristics**: 
+     - Section headers in first column only ("Assets", "Liabilities")
+     - Consistent column structure across data rows
+     - Clear temporal headers (dates, periods)
+   - **Detection Method**: `_detect_financial_statement_layout`
+
+3. **Clean Separated Tables**
+   - **Success Rate**: ~85%
+   - **Characteristics**: 
+     - Tables separated by 2+ blank rows
+     - Consistent row/column boundaries
+     - Uniform data types within columns
+   - **Detection Method**: `_detect_by_blank_row_separation`
+
+4. **Temporal Data Tables**
+   - **Success Rate**: ~80%
+   - **Characteristics**:
+     - Date sequences in headers (2024-01-01, 2024-02-01)
+     - Month patterns (Month 1, Month 2)
+     - Time-series data structure
+   - **Detection Method**: `_detect_by_temporal_headers`
+
+#### ⚠️ **Moderate Success Scenarios (Heuristics Struggle)**
+
+1. **Multi-Level Headers**
+   - **Success Rate**: ~60%
+   - **Failure Cases**:
+     - Complex hierarchy (3+ header levels)
+     - Merged cells spanning multiple columns/rows
+     - Inconsistent header patterns across levels
+   - **Example**: `test_complex_table.py` - Q1/Q2 with Jan/Feb/Apr/May subheaders
+
+2. **Embedded Section Headers**
+   - **Success Rate**: ~55%
+   - **Failure Cases**:
+     - Section headers mixed within data rows
+     - Headers that span partial columns
+     - Section headers that don't follow financial patterns
+   - **Memory Reference**: [[memory:5504365]] - 360 Energy file with complex sections
+
+3. **Irregular Table Boundaries**
+   - **Success Rate**: ~50%
+   - **Failure Cases**:
+     - Tables with inconsistent column counts
+     - Data that doesn't align to clear grid patterns
+     - Mixed content types (formulas, text, numbers) in unexpected patterns
+
+#### ❌ **High Failure Scenarios (AI Fallback Needed)**
+
+1. **Complex Merged Cell Structures**
+   - **Success Rate**: <30%
+   - **Failure Cases**:
+     - Extensive cell merging across multiple dimensions
+     - Merged cells that break normal table grid assumptions
+     - Headers that span non-contiguous areas
+
+2. **Non-Standard Table Layouts**
+   - **Success Rate**: <25%
+   - **Failure Cases**:
+     - Tables with mixed orientations
+     - Nested table structures
+     - Tables where headers are not in first row/column
+     - Cross-tabulation with complex grouping
+
+3. **Sparse Data with Complex Patterns**
+   - **Success Rate**: <20%
+   - **Failure Cases**:
+     - Large amounts of empty space creating false boundaries
+     - Data clusters that don't follow row/column alignment
+     - Multiple independent data regions on same sheet
+   - **Memory Reference**: [[memory:5504365]] - Empty trailing areas problem
+
+4. **Dynamic Formula-Heavy Tables**
+   - **Success Rate**: <15%
+   - **Failure Cases**:
+     - Tables where structure is determined by formulas
+     - Conditional formatting that affects table boundaries
+     - Dynamic ranges that change based on data
+
+### Excel Complexity Scoring Criteria
+
+Based on the analysis above, here are the specific metrics for determining when to use AI fallback:
+
+#### **Complexity Score Calculation (0.0 - 1.0)**
+
+```python
+def calculate_excel_complexity_score(sheet_data):
+    score = 0.0
+    
+    # Merged Cell Complexity (0.0 - 0.3)
+    merged_cells = len(sheet_data.get('merged_cells', []))
+    total_cells = estimate_total_data_cells(sheet_data)
+    merge_ratio = merged_cells / max(total_cells, 1)
+    score += min(merge_ratio * 3, 0.3)  # Cap at 0.3
+    
+    # Multi-Level Header Complexity (0.0 - 0.25)
+    header_levels = detect_header_levels(sheet_data)
+    if header_levels > 2:
+        score += min((header_levels - 2) * 0.1, 0.25)
+    
+    # Data Sparsity Complexity (0.0 - 0.2)
+    sparsity_ratio = calculate_sparsity_ratio(sheet_data)
+    if sparsity_ratio > 0.5:  # More than 50% empty
+        score += min((sparsity_ratio - 0.5) * 0.4, 0.2)
+    
+    # Column Structure Inconsistency (0.0 - 0.15)
+    inconsistency = analyze_column_inconsistency(sheet_data)
+    score += min(inconsistency, 0.15)
+    
+    # Formula Complexity (0.0 - 0.1)
+    formula_complexity = analyze_formula_patterns(sheet_data)
+    score += min(formula_complexity, 0.1)
+    
+    return min(score, 1.0)
+```
+
+#### **AI Fallback Thresholds**
+
+- **score < 0.3**: Traditional heuristics only
+- **0.3 ≤ score < 0.7**: Dual processing (traditional + AI comparison)
+- **score ≥ 0.7**: AI-first with traditional backup
+
+---
+
 ## 🏗️ System Architecture
 
 ### High-Level Architecture
 
 ```mermaid
 graph TD
-    A[PDF Upload] --> B[Complexity Analyzer]
-    B --> C{Complexity Check}
-    C -->|Simple| D[Traditional PDFPlumber Processing]
-    C -->|Complex| E[Anthropic AI Processing]
-    C -->|Comparison Mode| F[Dual Processing Pipeline]
+    A[Document Upload] --> B{Document Type}
+    B -->|PDF| C[PDF Complexity Analyzer]
+    B -->|Excel| D[Excel Complexity Analyzer]
     
-    D --> G[Traditional JSON Output]
-    E --> H[AI JSON Output]
-    F --> I[Both Outputs + Comparison]
+    C --> E{PDF Complexity Check}
+    D --> F{Excel Complexity Check}
     
-    G --> J[Final Result]
-    H --> J
-    I --> J
+    E -->|Simple| G[Traditional PDFPlumber Processing]
+    E -->|Complex| H[Anthropic AI PDF Processing]
+    E -->|Comparison Mode| I[Dual PDF Processing]
     
-    K[Test Case Generator] --> L[Comparison Analysis]
-    F --> L
-    L --> M[Quality Metrics & Insights]
+    F -->|Simple| J[Traditional Excel Heuristics]
+    F -->|Complex| K[Anthropic AI Excel Processing]
+    F -->|Comparison Mode| L[Dual Excel Processing]
     
-    style E fill:#ff9999
-    style F fill:#99ccff
-    style M fill:#99ff99
+    G --> M[Traditional JSON Output]
+    H --> N[AI JSON Output]
+    I --> O[Both PDF Outputs + Comparison]
+    
+    J --> P[Traditional Table JSON]
+    K --> Q[AI Table JSON]
+    L --> R[Both Excel Outputs + Comparison]
+    
+    M --> S[Final Result]
+    N --> S
+    O --> S
+    P --> S
+    Q --> S
+    R --> S
+    
+    T[Test Case Generator] --> U[Comparison Analysis]
+    I --> U
+    L --> U
+    U --> V[Quality Metrics & Insights]
+    
+    style H fill:#ff9999
+    style K fill:#ff9999
+    style I fill:#99ccff
+    style L fill:#99ccff
+    style V fill:#99ff99
 ```
 
 ### Component Architecture
 
 ```mermaid
 graph LR
-    subgraph "Existing System"
+    subgraph "Existing PDF System"
         A[PDFPlumber Processor]
-        B[Table Extractor]
-        C[Text Extractor]
-        D[Number Extractor]
+        B[PDF Table Extractor]
+        C[PDF Text Extractor]
+        D[PDF Number Extractor]
+    end
+    
+    subgraph "Existing Excel System"
+        E[Excel Processor]
+        F[Table Detector]
+        G[Compact Table Processor]
+        H[Header Resolver]
     end
     
     subgraph "New AI Enhancement Layer"
-        E[Complexity Analyzer]
-        F[Anthropic API Client]
-        G[Prompt Manager]
-        H[AI Result Parser]
-        I[Comparison Engine]
-        J[Quality Assessor]
+        I[Document Type Router]
+        J[PDF Complexity Analyzer]
+        K[Excel Complexity Analyzer]
+        L[Anthropic API Client]
+        M[Prompt Manager]
+        N[AI Result Parser]
+        O[Comparison Engine]
+        P[Quality Assessor]
     end
     
     subgraph "Integration Layer"
-        K[Smart Router]
-        L[Result Merger]
-        M[Test Case Generator]
+        Q[Smart Processing Router]
+        R[Result Merger]
+        S[Test Case Generator]
+        T[Performance Monitor]
     end
     
-    A --> K
-    E --> K
-    K --> F
-    F --> G
-    G --> H
-    H --> L
-    I --> J
-    J --> M
+    A --> Q
+    E --> Q
+    I --> Q
+    J --> Q
+    K --> Q
+    Q --> L
+    L --> M
+    M --> N
+    N --> R
+    O --> P
+    P --> S
+    R --> T
 ```
 
 ---
 
 ## 🧠 Core Components Design
 
-### 1. Complexity Analyzer (`complexity_analyzer.py`)
+### 1. Excel Complexity Analyzer (`excel_complexity_analyzer.py`)
 
-**Purpose**: Determine document complexity to decide between traditional and AI processing
+**Purpose**: Determine Excel sheet complexity to decide between traditional heuristics and AI processing
 
-**Complexity Metrics:**
-- **Table Complexity**: Number of tables, nested structures, merged cells
-- **Layout Complexity**: Multi-column layouts, irregular text flow, graphics overlap
-- **Content Density**: Text-to-whitespace ratio, font variations, formatting complexity
-- **Processing History**: Previous failure rates for similar documents
+**Excel-Specific Complexity Metrics:**
+- **Merged Cell Complexity**: Ratio of merged cells to total data cells
+- **Header Hierarchy Complexity**: Number of header levels, inconsistent patterns
+- **Data Sparsity**: Empty cell ratio, scattered data patterns
+- **Column Structure Consistency**: Variance in column data types and patterns
+- **Formula Complexity**: Complex formula dependencies, dynamic ranges
+- **Table Boundary Ambiguity**: Unclear table separation, overlapping regions
 
 **Implementation:**
 ```python
-class ComplexityAnalyzer:
+class ExcelComplexityAnalyzer:
     def __init__(self, thresholds=None):
-        self.thresholds = thresholds or self._default_thresholds()
+        self.thresholds = thresholds or self._default_excel_thresholds()
     
-    def analyze_complexity(self, pdf_path):
-        """Analyze PDF complexity and return complexity score"""
+    def analyze_sheet_complexity(self, sheet_data):
+        """Analyze Excel sheet complexity and return complexity score"""
         metrics = {
-            'table_complexity': self._analyze_tables(pdf_path),
-            'layout_complexity': self._analyze_layout(pdf_path),
-            'content_density': self._analyze_content(pdf_path),
-            'extraction_difficulty': self._predict_difficulty(pdf_path)
+            'merged_cell_complexity': self._analyze_merged_cells(sheet_data),
+            'header_complexity': self._analyze_header_structure(sheet_data),
+            'sparsity_complexity': self._analyze_data_sparsity(sheet_data),
+            'column_inconsistency': self._analyze_column_structure(sheet_data),
+            'formula_complexity': self._analyze_formula_patterns(sheet_data),
+            'boundary_ambiguity': self._analyze_table_boundaries(sheet_data)
         }
         
-        overall_score = self._calculate_complexity_score(metrics)
+        overall_score = self._calculate_excel_complexity_score(metrics)
         
         return {
             'complexity_score': overall_score,
             'complexity_level': self._get_complexity_level(overall_score),
             'metrics': metrics,
-            'recommendation': self._get_processing_recommendation(overall_score)
+            'recommendation': self._get_excel_processing_recommendation(overall_score),
+            'failure_indicators': self._identify_failure_indicators(metrics)
+        }
+    
+    def _analyze_merged_cells(self, sheet_data):
+        """Analyze complexity from merged cell patterns"""
+        merged_cells = sheet_data.get('merged_cells', [])
+        total_data_cells = self._estimate_data_cell_count(sheet_data)
+        
+        if total_data_cells == 0:
+            return 0.0
+        
+        merge_ratio = len(merged_cells) / total_data_cells
+        
+        # Check for complex merge patterns
+        complex_merges = 0
+        for merge in merged_cells:
+            rows_spanned = merge['end_row'] - merge['start_row'] + 1
+            cols_spanned = merge['end_column'] - merge['start_column'] + 1
+            if rows_spanned > 2 or cols_spanned > 2:
+                complex_merges += 1
+        
+        complexity_score = merge_ratio
+        if complex_merges > 0:
+            complexity_score += (complex_merges / len(merged_cells)) * 0.5
+        
+        return min(complexity_score, 1.0)
+    
+    def _analyze_header_structure(self, sheet_data):
+        """Analyze multi-level header complexity"""
+        cells = sheet_data.get('cells', {})
+        dimensions = sheet_data.get('dimensions', {})
+        
+        # Detect header levels by analyzing first few rows
+        max_row_to_check = min(dimensions.get('max_row', 10), 10)
+        header_levels = self._detect_header_levels(cells, max_row_to_check)
+        
+        # Check for header inconsistencies
+        inconsistencies = self._detect_header_inconsistencies(cells, header_levels)
+        
+        complexity = 0.0
+        if header_levels > 2:
+            complexity += (header_levels - 2) * 0.2
+        
+        complexity += inconsistencies * 0.3
+        
+        return min(complexity, 1.0)
+```
+
+### 2. Document Type Router (`document_type_router.py`)
+
+**Purpose**: Route documents to appropriate processing pipelines based on file type and content analysis
+
+**Excel-Specific Features:**
+- Sheet-level complexity analysis
+- Processing recommendation per sheet
+- Integration with existing Excel processors
+
+**Implementation:**
+```python
+class DocumentTypeRouter:
+    def __init__(self):
+        self.pdf_analyzer = PDFComplexityAnalyzer()
+        self.excel_analyzer = ExcelComplexityAnalyzer()
+    
+    def route_document(self, file_path, document_data=None):
+        """Route document to appropriate processing pipeline"""
+        file_extension = os.path.splitext(file_path)[1].lower()
+        
+        if file_extension == '.pdf':
+            return self._route_pdf(file_path)
+        elif file_extension in ['.xlsx', '.xlsm', '.xltx', '.xltm']:
+            return self._route_excel(file_path, document_data)
+        else:
+            raise ValueError(f"Unsupported file type: {file_extension}")
+    
+    def _route_excel(self, file_path, document_data):
+        """Route Excel file based on complexity analysis"""
+        if document_data is None:
+            # Load Excel data for analysis
+            processor = ExcelProcessor()
+            document_data = processor.process_file(file_path)
+        
+        routing_decisions = []
+        
+        for sheet in document_data['workbook']['sheets']:
+            analysis = self.excel_analyzer.analyze_sheet_complexity(sheet)
+            
+            routing_decisions.append({
+                'sheet_name': sheet['name'],
+                'complexity_score': analysis['complexity_score'],
+                'complexity_level': analysis['complexity_level'],
+                'recommendation': analysis['recommendation'],
+                'processing_method': self._determine_excel_processing_method(analysis),
+                'failure_indicators': analysis['failure_indicators']
+            })
+        
+        return {
+            'document_type': 'excel',
+            'file_path': file_path,
+            'routing_decisions': routing_decisions,
+            'overall_recommendation': self._get_overall_excel_recommendation(routing_decisions)
         }
 ```
 
-### 2. Anthropic API Client (`anthropic_client.py`)
+### 3. Enhanced Anthropic API Client (`anthropic_client.py`)
 
 **Purpose**: Handle all interactions with Anthropic's API including file uploads and structured prompting
 
-**Features:**
-- File upload management
-- Prompt template management
+**Enhanced Features:**
+- File upload management for PDF and Excel
+- Document-type specific prompt templates
 - Response parsing and validation
 - Error handling and retry logic
 - Rate limiting and quota management
@@ -143,7 +425,7 @@ class AnthropicClient:
         
     def extract_pdf_content(self, pdf_path, extraction_type="comprehensive"):
         """Extract content from PDF using Anthropic AI"""
-        prompt = self._build_extraction_prompt(extraction_type)
+        prompt = self._build_pdf_extraction_prompt(extraction_type)
         
         try:
             response = self.client.beta.messages.create(
@@ -162,29 +444,94 @@ class AnthropicClient:
             
         except Exception as e:
             raise AnthropicProcessingError(f"AI extraction failed: {str(e)}")
+    
+    def analyze_excel_tables(self, excel_data, sheet_name, complexity_info):
+        """Analyze Excel table structure using Anthropic AI"""
+        prompt = self._build_excel_analysis_prompt(complexity_info)
+        
+        try:
+            # Convert Excel data to a text representation for AI analysis
+            excel_text = self._excel_to_text_representation(excel_data, sheet_name)
+            
+            response = self.client.messages.create(
+                model=self.model,
+                max_tokens=8192,
+                messages=[{
+                    "role": "user",
+                    "content": prompt + "\n\nExcel Data:\n" + excel_text
+                }]
+            )
+            
+            return self._parse_excel_analysis_response(response.content[0].text)
+            
+        except Exception as e:
+            raise AnthropicProcessingError(f"AI Excel analysis failed: {str(e)}")
 ```
 
-### 3. Prompt Manager (`prompt_manager.py`)
+### 4. Enhanced Prompt Manager (`prompt_manager.py`)
 
 **Purpose**: Manage AI prompts for different extraction scenarios with JSON schema integration
 
-**Prompt Categories:**
-- **Comprehensive Extraction**: Full document analysis with tables, text, and numbers
-- **Table-Focused Extraction**: Specialized for complex table structures
-- **Text-Focused Extraction**: Optimized for text and number extraction
+**Expanded Prompt Categories:**
+
+**PDF Prompts:**
+- **Comprehensive PDF Extraction**: Full document analysis with tables, text, and numbers
+- **PDF Table-Focused Extraction**: Specialized for complex table structures
+- **PDF Text-Focused Extraction**: Optimized for text and number extraction
+
+**Excel Prompts:**
+- **Excel Table Structure Analysis**: Specialized for complex table detection
+- **Excel Header Hierarchy Analysis**: Multi-level header structure detection
+- **Excel Data Region Identification**: Finding meaningful data boundaries
+- **Excel Merged Cell Analysis**: Understanding complex merge patterns
+
+**Cross-Document Prompts:**
 - **Comparison Extraction**: Structured for test case generation
+- **Quality Assessment**: Evaluating extraction accuracy
 
 **Implementation:**
 ```python
 class PromptManager:
     def __init__(self, schema_manager):
         self.schema_manager = schema_manager
-        self.prompts = self._load_prompt_templates()
+        self.pdf_prompts = self._load_pdf_prompt_templates()
+        self.excel_prompts = self._load_excel_prompt_templates()
     
-    def build_extraction_prompt(self, extraction_type, document_context=None):
-        """Build structured prompt with JSON schema"""
-        base_prompt = self.prompts[extraction_type]
-        schema = self.schema_manager.get_schema(extraction_type)
+    def build_excel_analysis_prompt(self, complexity_info, analysis_type="table_structure"):
+        """Build Excel-specific analysis prompt"""
+        base_prompt = self.excel_prompts[analysis_type]
+        schema = self.schema_manager.get_excel_schema(analysis_type)
+        
+        complexity_context = self._build_complexity_context(complexity_info)
+        
+        return f"""
+{base_prompt}
+
+COMPLEXITY ANALYSIS CONTEXT:
+{complexity_context}
+
+IMPORTANT: You must return your response as valid JSON following this exact schema:
+
+{json.dumps(schema, indent=2)}
+
+Please analyze the Excel data structure and focus on:
+
+1. **Table Detection**: Identify all distinct table regions within the sheet
+2. **Header Structure**: Detect multi-level headers and their hierarchy
+3. **Data Boundaries**: Determine clear table boundaries despite merged cells or sparse data
+4. **Row/Column Relationships**: Understand header-to-data relationships
+5. **Quality Assessment**: Provide confidence scores for detected structures
+
+Pay special attention to the complexity indicators identified:
+{self._format_failure_indicators(complexity_info.get('failure_indicators', []))}
+
+Return only the JSON response without any additional commentary.
+"""
+    
+    def build_pdf_extraction_prompt(self, extraction_type, document_context=None):
+        """Build PDF-specific extraction prompt"""
+        base_prompt = self.pdf_prompts[extraction_type]
+        schema = self.schema_manager.get_pdf_schema(extraction_type)
         
         return f"""
 {base_prompt}
@@ -203,28 +550,81 @@ Please extract all relevant information from the PDF document and structure it a
 
 Return only the JSON response without any additional commentary.
 """
+    
+    def _build_complexity_context(self, complexity_info):
+        """Build context string from complexity analysis"""
+        score = complexity_info.get('complexity_score', 0)
+        level = complexity_info.get('complexity_level', 'unknown')
+        
+        context = f"Complexity Score: {score:.2f} ({level})\n"
+        
+        metrics = complexity_info.get('metrics', {})
+        for metric_name, metric_value in metrics.items():
+            context += f"- {metric_name}: {metric_value:.3f}\n"
+        
+        return context
+```
 ```
 
-### 4. AI Result Parser (`ai_result_parser.py`)
+### 5. Enhanced AI Result Parser (`ai_result_parser.py`)
 
 **Purpose**: Parse and validate AI responses, converting them to system-compatible format
 
-**Features:**
-- JSON validation against schemas
+**Enhanced Features:**
+- JSON validation against PDF and Excel schemas
 - Error handling for malformed responses
 - Data type conversion and normalization
 - Confidence score extraction
 - Metadata enhancement
+- Excel-specific structure validation
 
-### 5. Comparison Engine (`comparison_engine.py`)
+**Excel-Specific Parsing:**
+```python
+class AIResultParser:
+    def parse_excel_analysis_response(self, ai_response):
+        """Parse AI response for Excel table analysis"""
+        try:
+            parsed_data = json.loads(ai_response)
+            
+            # Validate against Excel analysis schema
+            self._validate_excel_schema(parsed_data)
+            
+            # Convert to system-compatible format
+            return {
+                'detected_tables': self._normalize_detected_tables(parsed_data.get('tables', [])),
+                'header_analysis': self._normalize_header_analysis(parsed_data.get('headers', {})),
+                'complexity_assessment': parsed_data.get('complexity_assessment', {}),
+                'confidence_scores': parsed_data.get('confidence_scores', {}),
+                'processing_metadata': {
+                    'ai_model': parsed_data.get('metadata', {}).get('model', 'unknown'),
+                    'processing_time': parsed_data.get('metadata', {}).get('processing_time', 0),
+                    'confidence_overall': parsed_data.get('metadata', {}).get('confidence', 0.5)
+                }
+            }
+        except json.JSONDecodeError as e:
+            raise AIParsingError(f"Invalid JSON response: {str(e)}")
+        except Exception as e:
+            raise AIParsingError(f"Failed to parse Excel analysis: {str(e)}")
+```
+
+### 6. Enhanced Comparison Engine (`comparison_engine.py`)
 
 **Purpose**: Compare traditional and AI extraction results to generate insights and test cases
 
-**Comparison Metrics:**
+**Enhanced Comparison Metrics:**
+
+**PDF Comparison:**
 - **Accuracy**: Correctness of extracted data
 - **Completeness**: Coverage of all content
 - **Structure**: Quality of data organization
 - **Performance**: Processing time and resource usage
+
+**Excel Comparison:**
+- **Table Detection Accuracy**: Correct identification of table boundaries
+- **Header Structure Accuracy**: Proper multi-level header detection
+- **Data Relationship Accuracy**: Correct row/column label associations
+- **Merged Cell Handling**: Effectiveness with complex merged structures
+- **Processing Efficiency**: Speed and resource usage comparison
 
 ---
 
@@ -348,45 +748,46 @@ Return only the JSON response without any additional commentary.
 
 ## 🔧 Implementation Plan
 
-### Phase 1: Foundation Components (Weeks 1-2)
+### Phase 1: Excel Complexity Analysis Foundation (Weeks 1-2)
 
-#### Week 1: Core Infrastructure
-1. **Set up Anthropic API Integration**
-   - Install Anthropic Python SDK
-   - Configure API credentials and environment
-   - Create basic API client with authentication
-   - Implement file upload functionality
+#### Week 1: Excel Complexity Infrastructure
+1. **Excel Complexity Analyzer Development**
+   - Implement merged cell complexity analysis
+   - Create header structure detection algorithms
+   - Add data sparsity analysis
+   - Develop column structure consistency metrics
+   - Test with 360 Energy file [[memory:5504365]]
 
-2. **Create Complexity Analyzer**
-   - Implement basic complexity metrics
-   - Create scoring algorithm
-   - Add configuration management
-   - Test with sample documents
+2. **Integration with Existing Excel System**
+   - Extend `TableDetector` with complexity scoring
+   - Enhance `CompactTableProcessor` with AI fallback hooks
+   - Create Excel-specific complexity thresholds
+   - Test with complex table scenarios from `test_complex_table.py`
 
-3. **Design Prompt Templates**
-   - Create base prompt templates for different extraction types
-   - Integrate JSON schemas into prompts
-   - Implement prompt versioning
-   - Test prompts with sample documents
+3. **Excel-Specific Prompt Development**
+   - Create Excel table structure analysis prompts
+   - Design header hierarchy analysis prompts
+   - Develop merged cell analysis prompts
+   - Test prompts with complex Excel structures
 
-#### Week 2: AI Processing Pipeline
-1. **Implement AI Result Parser**
-   - Create JSON validation and parsing
-   - Implement error handling
-   - Add data type conversion
-   - Create response normalization
+#### Week 2: Excel AI Integration Pipeline
+1. **Excel AI Result Parser**
+   - Create Excel-specific JSON validation and parsing
+   - Implement error handling for table analysis
+   - Add Excel data type conversion
+   - Create table structure normalization
 
-2. **Build Smart Router**
-   - Implement processing decision logic
-   - Create fallback mechanisms
-   - Add configuration options
-   - Integrate with existing pipeline
+2. **Excel Smart Router**
+   - Implement Excel processing decision logic based on complexity
+   - Create Excel-specific fallback mechanisms
+   - Add sheet-level configuration options
+   - Integrate with existing `CompactTableProcessor`
 
-3. **Initial Testing**
-   - Test basic AI extraction functionality
-   - Validate prompt responses
-   - Test complexity analysis
-   - Document initial findings
+3. **Excel Initial Testing**
+   - Test AI table detection on complex Excel files
+   - Validate Excel analysis prompt responses
+   - Test complexity scoring accuracy
+   - Compare AI vs traditional heuristics on known failure cases
 
 ### Phase 2: Comparison and Analysis (Weeks 3-4)
 

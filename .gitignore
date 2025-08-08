@@ -110,6 +110,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# API Configuration (contains sensitive API keys)
+config.env
+*.env
+
 # Spyder project settings
 .spyderproject
 .spyproject

@@ -12,6 +12,9 @@ urlpatterns = [
     path('api/transform-tables/', views.transform_to_tables, name='transform_to_tables'),
     path('api/resolve-headers/', views.resolve_headers, name='resolve_headers'),
     path('api/health/', views.health_check, name='health_check'),
+    # New Excel complexity analysis endpoints
+    path('api/excel/analyze-complexity/', views.analyze_excel_complexity, name='analyze_excel_complexity'),
+    path('api/excel/comparison-analysis/', views.excel_comparison_analysis, name='excel_comparison_analysis'),
     path('api/pdf/upload/', pdf_views.upload_and_process_pdf, name='upload_and_process_pdf'),
     path('api/pdf/process/', pdf_views.process_pdf_with_options, name='process_pdf_with_options'),
     path('api/pdf/status/', pdf_views.get_processing_status, name='get_pdf_processing_status'),

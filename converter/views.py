@@ -14,6 +14,12 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from .compact_excel_processor import CompactExcelProcessor
 from .compact_table_processor import CompactTableProcessor
+from .excel_complexity_analyzer import ExcelComplexityAnalyzer
+from .excel_processor import ExcelProcessor
+from .complexity_preserving_compact_processor import ComplexityPreservingCompactProcessor
+from .anthropic_excel_client import AnthropicExcelClient
+from .ai_result_parser import AIResultParser
+from .comparison_engine import ComparisonEngine
 
 # Temporary storage for processed data (in production, use Redis or database)
 processed_data_cache = {}
@@ -46,6 +52,10 @@ def upload_and_convert(request):
     """
     Upload an Excel file and convert it to JSON with compact table-oriented format
     Uses RLE-enabled CompactExcelProcessor for optimal performance
+    
+    New Features:
+    - Complexity analysis for each sheet
+    - Comparison mode flag for dual processing (traditional + AI)
     """
     print(f"DEBUG: upload_and_convert called with method: {request.method}")
     print(f"DEBUG: Format parameter: {request.GET.get('format', 'not_provided')}")
@@ -59,6 +69,10 @@ def upload_and_convert(request):
             )
         
         uploaded_file = request.FILES['file']
+        
+        # Get processing options
+        enable_comparison = request.POST.get('enable_comparison', 'false').lower() == 'true'
+        enable_ai_analysis = request.POST.get('enable_ai_analysis', 'false').lower() == 'true'
         
         # Always use compact format (RLE-enabled)
         format_type = 'compact'
@@ -81,16 +95,55 @@ def upload_and_convert(request):
         )
         full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
         
-        # Process the Excel file using RLE-enabled CompactExcelProcessor
-        processor = CompactExcelProcessor()
-        json_data = processor.process_file(full_path)
+        # Process the Excel file using enhanced complexity-preserving processor
+        processor = ComplexityPreservingCompactProcessor(enable_rle=True)
+        json_data = processor.process_file(full_path, 
+                                         filter_empty_trailing=True,
+                                         include_complexity_metadata=True)
+        
+        # Initialize complexity analyzer
+        complexity_analyzer = ExcelComplexityAnalyzer()
+        
+        # Analyze complexity for each sheet using enhanced metadata
+        complexity_results = {}
+        complexity_metadata_dict = json_data.get('complexity_metadata', {}).get('sheets', {})
+        
+        for sheet in json_data.get('workbook', {}).get('sheets', []):
+            sheet_name = sheet.get('name', 'Unknown')
+            
+            # Get complexity metadata for this sheet
+            sheet_complexity_metadata = complexity_metadata_dict.get(sheet_name)
+            
+            # Analyze complexity using metadata if available
+            complexity_analysis = complexity_analyzer.analyze_sheet_complexity(
+                sheet, 
+                complexity_metadata=sheet_complexity_metadata
+            )
+            complexity_results[sheet_name] = complexity_analysis
+            
+            # Log complexity analysis
+            print(f"DEBUG: Sheet '{sheet_name}' complexity: {complexity_analysis['complexity_score']:.3f} ({complexity_analysis['complexity_level']})")
+            print(f"DEBUG: Recommendation: {complexity_analysis['recommendation']}")
+            print(f"DEBUG: Using metadata: {sheet_complexity_metadata is not None}")
+            if complexity_analysis['failure_indicators']:
+                print(f"DEBUG: Failure indicators: {complexity_analysis['failure_indicators']}")
+        
+        # Prepare processing options
+        processing_options = {
+            'enable_comparison': enable_comparison,
+            'enable_ai_analysis': enable_ai_analysis,
+            'complexity_results': complexity_results
+        }
         
         # Transform to compact table-oriented format
         table_processor = CompactTableProcessor()
-        table_data = table_processor.transform_to_compact_table_format(json_data, {})
+        table_data = table_processor.transform_to_compact_table_format(json_data, processing_options)
         
-        # No header resolver needed for compact format (labels are built-in)
+        # Enhanced data includes complexity analysis
         enhanced_table_data = table_data
+        
+        # Add complexity analysis to response
+        enhanced_table_data['complexity_analysis'] = complexity_results
         
         # Quick size estimation to avoid expensive JSON serialization for large files
         # Estimate based on cell count and sheet structure
@@ -378,5 +431,260 @@ def resolve_headers(request):
     except Exception as e:
         return Response(
             {'error': f'Error resolving headers: {str(e)}'}, 
+            status=500
+        )
+
+
+@api_view(['POST'])
+def analyze_excel_complexity(request):
+    """
+    Analyze Excel file complexity and get processing recommendations
+    
+    This endpoint performs complexity analysis on uploaded Excel files
+    to determine when traditional heuristics will struggle and AI should be used.
+    """
+    try:
+        if 'file' not in request.FILES:
+            return Response(
+                {'error': 'No file provided'}, 
+                status=400
+            )
+        
+        uploaded_file = request.FILES['file']
+        
+        # Validate file type
+        allowed_extensions = ['.xlsx', '.xlsm', '.xltx', '.xltm']
+        file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+        
+        if file_extension not in allowed_extensions:
+            return Response(
+                {'error': f'Unsupported file format. Allowed formats: {", ".join(allowed_extensions)}'}, 
+                status=400
+            )
+        
+        # Save uploaded file temporarily
+        temp_path = default_storage.save(
+            f'temp/{uploaded_file.name}', 
+            ContentFile(uploaded_file.read())
+        )
+        full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
+        
+        try:
+            # Process the Excel file
+            processor = CompactExcelProcessor()
+            json_data = processor.process_file(full_path)
+            
+            # Initialize complexity analyzer
+            complexity_analyzer = ExcelComplexityAnalyzer()
+            
+            # Analyze complexity for each sheet
+            complexity_results = {}
+            overall_recommendations = {}
+            
+            for sheet in json_data.get('workbook', {}).get('sheets', []):
+                sheet_name = sheet.get('name', 'Unknown')
+                complexity_analysis = complexity_analyzer.analyze_sheet_complexity(sheet)
+                complexity_results[sheet_name] = complexity_analysis
+                overall_recommendations[sheet_name] = complexity_analysis['recommendation']
+            
+            # Determine overall file recommendation
+            recommendations = list(overall_recommendations.values())
+            if 'ai_first' in recommendations:
+                overall_recommendation = 'ai_first'
+            elif 'dual' in recommendations:
+                overall_recommendation = 'dual'
+            else:
+                overall_recommendation = 'traditional'
+            
+            # Clean up temporary file
+            default_storage.delete(temp_path)
+            
+            return Response({
+                'success': True,
+                'filename': uploaded_file.name,
+                'overall_recommendation': overall_recommendation,
+                'sheet_analysis': complexity_results,
+                'summary': {
+                    'total_sheets': len(complexity_results),
+                    'simple_sheets': len([r for r in recommendations if r == 'traditional']),
+                    'moderate_sheets': len([r for r in recommendations if r == 'dual']),
+                    'complex_sheets': len([r for r in recommendations if r == 'ai_first']),
+                    'average_complexity': sum(c['complexity_score'] for c in complexity_results.values()) / len(complexity_results) if complexity_results else 0
+                }
+            }, status=200)
+            
+        finally:
+            # Ensure cleanup even if processing fails
+            try:
+                default_storage.delete(temp_path)
+            except:
+                pass
+        
+    except Exception as e:
+        return Response(
+            {'error': f'Error analyzing complexity: {str(e)}'}, 
+            status=500
+        )
+
+
+@api_view(['POST']) 
+def excel_comparison_analysis(request):
+    """
+    Perform dual processing comparison (traditional heuristics vs AI analysis)
+    
+    This endpoint runs both traditional table detection and AI-powered analysis
+    on the same Excel file to generate comparison data for tuning and testing.
+    """
+    try:
+        if 'file' not in request.FILES:
+            return Response(
+                {'error': 'No file provided'}, 
+                status=400
+            )
+        
+        uploaded_file = request.FILES['file']
+        
+        # Validate file type
+        allowed_extensions = ['.xlsx', '.xlsm', '.xltx', '.xltm']
+        file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+        
+        if file_extension not in allowed_extensions:
+            return Response(
+                {'error': f'Unsupported file format. Allowed formats: {", ".join(allowed_extensions)}'}, 
+                status=400
+            )
+        
+        # Save uploaded file temporarily
+        temp_path = default_storage.save(
+            f'temp/{uploaded_file.name}', 
+            ContentFile(uploaded_file.read())
+        )
+        full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
+        
+        try:
+            # Process the Excel file
+            processor = CompactExcelProcessor()
+            json_data = processor.process_file(full_path)
+            
+            # Initialize analyzers
+            complexity_analyzer = ExcelComplexityAnalyzer()
+            table_processor = CompactTableProcessor()
+            
+            # Perform analysis for each sheet
+            comparison_results = {}
+            
+            for sheet in json_data.get('workbook', {}).get('sheets', []):
+                sheet_name = sheet.get('name', 'Unknown')
+                
+                # 1. Complexity Analysis
+                complexity_analysis = complexity_analyzer.analyze_sheet_complexity(sheet)
+                
+                # 2. Traditional Heuristic Processing
+                traditional_options = {
+                    'enable_comparison': False,
+                    'enable_ai_analysis': False
+                }
+                traditional_result = table_processor.transform_to_compact_table_format(
+                    {'workbook': {'sheets': [sheet]}}, 
+                    traditional_options
+                )
+                
+                # 3. AI Processing using Anthropic
+                print(f"DEBUG: Starting AI analysis for sheet '{sheet_name}'...")
+                
+                # Initialize AI client and parser
+                ai_client = AnthropicExcelClient()
+                ai_parser = AIResultParser()
+                
+                if ai_client.is_available():
+                    # Perform AI analysis
+                    ai_raw_response = ai_client.analyze_excel_tables(
+                        sheet, 
+                        complexity_metadata=complexity_analysis,
+                        analysis_focus="comprehensive"
+                    )
+                    
+                    # Parse AI response
+                    ai_result = ai_parser.parse_excel_analysis(ai_raw_response)
+                    
+                    print(f"DEBUG: AI analysis completed for '{sheet_name}'")
+                    print(f"DEBUG: AI found {ai_result.get('table_count', 0)} tables")
+                    print(f"DEBUG: AI confidence: {ai_result.get('ai_analysis', {}).get('confidence', 0.0):.3f}")
+                    
+                else:
+                    print("DEBUG: AI client not available, using placeholder")
+                    ai_result = {
+                        'status': 'unavailable',
+                        'message': 'Anthropic AI client not available (API key missing or package not installed)',
+                        'ai_analysis': {
+                            'tables': [],
+                            'sheet_summary': {
+                                'total_tables': 0,
+                                'structure_complexity': 'unknown',
+                                'recommended_processing': 'traditional'
+                            },
+                            'confidence': 0.0,
+                            'processing_notes': ['AI analysis unavailable']
+                        },
+                        'table_count': 0,
+                        'high_confidence_tables': 0,
+                        'complexity_assessment': {
+                            'level': 'unknown',
+                            'score': 0.0,
+                            'factors': ['ai_unavailable']
+                        },
+                        'processing_recommendation': 'traditional',
+                        'validation': {
+                            'errors': ['AI service unavailable'],
+                            'warnings': [],
+                            'valid': False
+                        },
+                        'converted_tables': []
+                    }
+                
+                # 4. Comprehensive Comparison Analysis
+                print(f"DEBUG: Starting comparison analysis for '{sheet_name}'...")
+                
+                # Initialize comparison engine
+                comparison_engine = ComparisonEngine()
+                
+                # Perform comprehensive comparison
+                comparison_data = comparison_engine.compare_analysis_results(
+                    traditional_result=traditional_result,
+                    ai_result=ai_result,
+                    complexity_metadata=complexity_analysis,
+                    sheet_name=sheet_name
+                )
+                
+                print(f"DEBUG: Comparison completed for '{sheet_name}'")
+                print(f"DEBUG: Winner: {comparison_data['summary']['winner']}")
+                print(f"DEBUG: Agreement score: {comparison_data['metrics']['agreement_score']:.3f}")
+                
+                comparison_results[sheet_name] = comparison_data
+            
+            # Clean up temporary file
+            default_storage.delete(temp_path)
+            
+            return Response({
+                'success': True,
+                'filename': uploaded_file.name,
+                'comparison_results': comparison_results,
+                'summary': {
+                    'total_sheets_analyzed': len(comparison_results),
+                    'ai_implementation_status': 'placeholder',
+                    'analysis_timestamp': complexity_analyzer._get_timestamp()
+                }
+            }, status=200)
+            
+        finally:
+            # Ensure cleanup even if processing fails
+            try:
+                default_storage.delete(temp_path)
+            except:
+                pass
+        
+    except Exception as e:
+        return Response(
+            {'error': f'Error performing comparison analysis: {str(e)}'}, 
             status=500
         )
