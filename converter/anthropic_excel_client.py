@@ -58,27 +58,32 @@ class AnthropicExcelClient:
         """Check if the Anthropic client is available and ready to use."""
         return self.available
     
-    def analyze_excel_tables(self, 
-                           sheet_data: Dict[str, Any], 
-                           complexity_metadata: Optional[Dict[str, Any]] = None,
-                           analysis_focus: str = "comprehensive") -> Dict[str, Any]:
+    def analyze_excel_sheet(self, 
+                          sheet_data: Dict[str, Any], 
+                          complexity_metadata: Optional[Dict[str, Any]] = None,
+                          analysis_focus: str = "comprehensive") -> Dict[str, Any]:
         """
-        Analyze Excel sheet data using AI to detect and extract tables.
+        Analyze a single Excel sheet using AI to detect and extract tables.
+        
+        This method is designed for per-sheet analysis, allowing for:
+        - Sheet-specific complexity assessment
+        - Independent processing decisions per sheet
+        - Optimized cost control by analyzing only complex sheets
         
         Args:
-            sheet_data: Excel sheet data (compact format)
-            complexity_metadata: Complexity analysis metadata
+            sheet_data: Single Excel sheet data (compact format)
+            complexity_metadata: Sheet-specific complexity analysis metadata
             analysis_focus: Type of analysis ("comprehensive", "tables", "headers")
             
         Returns:
-            Dictionary containing AI analysis results
+            Dictionary containing AI analysis results for the single sheet
         """
         if not self.available:
             return self._create_unavailable_response()
         
         try:
-            # Prepare the analysis prompt
-            prompt = self._build_excel_analysis_prompt(
+            # Prepare the sheet-specific analysis prompt
+            prompt = self._build_sheet_analysis_prompt(
                 sheet_data, 
                 complexity_metadata, 
                 analysis_focus
@@ -118,27 +123,28 @@ class AnthropicExcelClient:
             logger.error(f"AI analysis failed: {str(e)}")
             return self._create_error_response(str(e))
     
-    def _build_excel_analysis_prompt(self, 
-                                   sheet_data: Dict[str, Any],
-                                   complexity_metadata: Optional[Dict[str, Any]],
-                                   analysis_focus: str) -> str:
+    def _build_sheet_analysis_prompt(self, 
+                                    sheet_data: Dict[str, Any],
+                                    complexity_metadata: Optional[Dict[str, Any]],
+                                    analysis_focus: str) -> str:
         """
-        Build the analysis prompt for Excel table detection.
+        Build the analysis prompt for single Excel sheet table detection.
         
-        This prompt is specifically designed for Excel table analysis and
-        incorporates complexity metadata when available.
+        This prompt is specifically designed for analyzing one sheet at a time,
+        providing focused analysis and incorporating sheet-specific complexity metadata.
         """
         sheet_name = sheet_data.get('name', 'Unknown')
         dimensions = sheet_data.get('dimensions', [1, 1, 1, 1])
         
         prompt = f"""You are an expert Excel analyst specializing in table detection and data structure analysis. 
 
-TASK: Analyze the provided Excel sheet data and identify all tables, their structures, and relationships.
+TASK: Analyze this SINGLE Excel sheet to identify all tables, their structures, and relationships within this sheet only.
 
 SHEET INFORMATION:
-- Name: {sheet_name}
-- Dimensions: Rows {dimensions[0]}-{dimensions[2]}, Columns {dimensions[1]}-{dimensions[3]}
+- Sheet Name: {sheet_name}
+- Sheet Dimensions: Rows {dimensions[0]}-{dimensions[2]}, Columns {dimensions[1]}-{dimensions[3]}
 - Data Format: Compact representation with run-length encoding
+- Analysis Scope: This sheet only (tables never cross sheet boundaries)
 
 """
         

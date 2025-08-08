@@ -89,9 +89,9 @@ def test_single_file(file_path="tests/test_excel/single_unit_economics_4_tables.
         cost_estimate = ai_client.estimate_api_cost(sheet)
         print(f"   💰 Estimated cost: ${cost_estimate['estimated_cost_usd']:.4f}")
         
-        # Perform AI analysis
+        # Perform AI analysis (sheet-level)
         print("   🤖 Calling Anthropic API...")
-        ai_raw_response = ai_client.analyze_excel_tables(
+        ai_raw_response = ai_client.analyze_excel_sheet(
             sheet, 
             complexity_metadata=complexity_analysis,
             analysis_focus="comprehensive"

@@ -202,8 +202,8 @@ class ComparisonDataCollector:
                 # Cost estimation first
                 cost_estimate = self.ai_client.estimate_api_cost(sheet)
                 
-                # Perform AI analysis
-                ai_raw_response = self.ai_client.analyze_excel_tables(
+                # Perform AI analysis (sheet-level)
+                ai_raw_response = self.ai_client.analyze_excel_sheet(
                     sheet, 
                     complexity_metadata=complexity_analysis,
                     analysis_focus="comprehensive"

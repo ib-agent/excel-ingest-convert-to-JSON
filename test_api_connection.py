@@ -48,8 +48,8 @@ def test_basic_connection():
         cost = client.estimate_api_cost(simple_sheet)
         print(f"Cost estimate: ${cost['estimated_cost_usd']:.4f}")
         
-        # Try actual API call
-        response = client.analyze_excel_tables(
+        # Try actual API call (sheet-level)
+        response = client.analyze_excel_sheet(
             simple_sheet,
             complexity_metadata=None,
             analysis_focus="tables"

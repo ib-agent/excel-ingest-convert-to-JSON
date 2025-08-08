@@ -1,0 +1,523 @@
+{
+  "analysis_metadata": {
+    "timestamp": "2025-08-08T15:43:42.926027",
+    "analyzer_version": "1.0",
+    "ai_available": true
+  },
+  "processing_stats": {
+    "total_sheets": 2,
+    "traditional_only": 1,
+    "dual_analysis": 1,
+    "ai_primary": 0,
+    "total_cost": 0.036912,
+    "ai_advantages": 0,
+    "traditional_advantages": 1
+  },
+  "file_results": [
+    {
+      "file_name": "single_unit_economics_4_tables.xlsx",
+      "timestamp": "2025-08-08T15:43:28.821824",
+      "total_sheets": 1,
+      "sheets": [
+        {
+          "sheet_name": "Rental Single Unit Economics",
+          "complexity_analysis": {
+            "complexity_score": 0.6195856576239983,
+            "complexity_level": "moderate",
+            "metrics": {
+              "merged_cell_complexity": 0.0,
+              "header_complexity": 0.25,
+              "sparsity_complexity": 0.19313125000000003,
+              "column_inconsistency": 0.12645440762399826,
+              "formula_complexity": 0.05
+            },
+            "recommendation": "dual",
+            "failure_indicators": [
+              "multi_level_headers",
+              "high_data_sparsity",
+              "inconsistent_column_structure"
+            ],
+            "processing_metadata": {
+              "sheet_name": "Rental Single Unit Economics",
+              "dimensions": [
+                1,
+                1,
+                1000,
+                67
+              ],
+              "analysis_timestamp": "2025-08-08T15:43:28.821867"
+            }
+          },
+          "processing_decision": "dual_analysis",
+          "traditional_analysis": {
+            "tables_found": 4,
+            "tables": [
+              {
+                "id": "t1",
+                "name": "Table 1",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  2,
+                  2,
+                  14,
+                  62
+                ],
+                "headers": {
+                  "rows": [
+                    2
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    3,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Column B",
+                    "Column C",
+                    "Column D",
+                    "Column E",
+                    "Year Fraction",
+                    "0",
+                    "0.08333333333",
+                    "0.1666666667",
+                    "0.25",
+                    "0.3333333333",
+                    "0.4166666667",
+                    "0.5",
+                    "0.5833333333",
+                    "0.6666666667",
+                    "0.7444444444",
+                    "0.8333333333",
+                    "0.9166666667",
+                    "1",
+                    "1.083333333",
+                    "1.166666667",
+                    "1.25",
+                    "1.333333333",
+                    "1.416666667",
+                    "1.5",
+                    "1.583333333",
+                    "1.666666667",
+                    "1.744444444",
+                    "1.833333333",
+                    "1.916666667",
+                    "2",
+                    "2.083333333",
+                    "2.166666667",
+                    "2.25",
+                    "2.333333333",
+                    "2.416666667",
+                    "2.5",
+                    "2.583333333",
+                    "2.666666667",
+                    "2.747222222",
+                    "2.833333333",
+                    "2.916666667",
+                    "3",
+                    "3.083333333",
+                    "3.166666667",
+                    "3.25",
+                    "3.333333333",
+                    "3.416666667",
+                    "3.5",
+                    "3.583333333",
+                    "3.666666667",
+                    "3.744444444",
+                    "3.833333333",
+                    "3.916666667",
+                    "4",
+                    "4.083333333",
+                    "4.166666667",
+                    "4.25",
+                    "4.333333333",
+                    "4.416666667",
+                    "4.5",
+                    "4.583333333"
+                  ],
+                  "rows": [
+                    "Assumptions",
+                    "Kw Per Unit",
+                    "Kw for Miners",
+                    "Miner Model",
+                    "J/TH",
+                    "TH",
+                    "$/TH Cost",
+                    "Kw per miner",
+                    "Max Miners in Container",
+                    "Miners in container",
+                    "PH Per container",
+                    "Uptime / Utilization"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 288,
+                  "merged": false,
+                  "original_region": [
+                    2,
+                    2,
+                    14,
+                    62
+                  ]
+                }
+              },
+              {
+                "id": "t2",
+                "name": "Table 2",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  16,
+                  2,
+                  22,
+                  62
+                ],
+                "headers": {
+                  "rows": [
+                    16
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    17,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Rental Income Per Month Per Unit",
+                    "54000.0",
+                    "Column D",
+                    "Column E",
+                    "Rental Income ",
+                    "0",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "0",
+                    "54000",
+                    "54000",
+                    "54000",
+                    "54000"
+                  ],
+                  "rows": [
+                    "360 Energy Data Center Revenue",
+                    "Monthly Maint. Capex",
+                    "Mobilization Cost Above Customer $25k",
+                    "Opex Per month Per unit",
+                    "Row 21",
+                    "Capex Detail"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 251,
+                  "merged": false,
+                  "original_region": [
+                    16,
+                    2,
+                    22,
+                    62
+                  ]
+                }
+              },
+              {
+                "id": "t3",
+                "name": "Table 3",
+                "title": null,
+                "title_row": null,
+                "region": [
+                  24,
+                  2,
+                  28,
+                  62
+                ],
+                "headers": {
+                  "rows": [
+                    24
+                  ],
+                  "cols": [
+                    2
+                  ],
+                  "data_start": [
+                    25,
+                    3
+                  ]
+                },
+                "labels": {
+                  "cols": [
+                    "Data Center",
+                    "80000.0",
+                    "0.08",
+                    "Column E",
+                    "Unlevered Cash Flow",
+                    "-1000000",
+                    "5000",
+                    "44000",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "54010",
+                    "50110.0678",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50227.9322",
+                    "50110.0678",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50227.9322",
+                    "50149.35593",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50227.9322",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50110.0678",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322",
+                    "10",
+                    "50188.64407",
+                    "50227.9322",
+                    "50188.64407",
+                    "50227.9322"
+                  ],
+                  "rows": [
+                    "Servers",
+                    "Generator",
+                    "Wiring, Pressure Regulator, Meters",
+                    "Total Cost"
+                  ]
+                },
+                "meta": {
+                  "method": "blank_row_separation",
+                  "cells": 186,
+                  "merged": false,
+                  "original_region": [
+                    24,
+                    2,
+                    28,
+                    62
+                  ]
+                }
+              }
+            ],
+            "success": true,
+            "method": "traditional_heuristics"
+          },
+          "ai_analysis": {
+            "tables_found": 3,
+            "confidence": 0.9,
+            "validation_status": true,
+            "success": true,
+            "estimated_cost": 0.047712,
+            "actual_cost": 0.036912,
+            "tokens_used": 12304,
+            "method": "anthropic_ai"
+          },
+          "comparison": {
+            "comparison_id": "comp_20250808_154342_Rental Single Unit Economics",
+            "timestamp": "2025-08-08T15:43:42.889828",
+            "sheet_name": "Rental Single Unit Economics",
+            "summary": {
+              "traditional_tables_found": 3,
+              "ai_tables_found": 0,
+              "agreement_score": 0.0,
+              "winner": "traditional",
+              "complexity_level": "moderate"
+            },
+            "detailed_analysis": {
+              "table_detection": {
+                "traditional_count": 3,
+                "ai_count": 0,
+                "count_difference": -3,
+                "detection_ratio": 0.0,
+                "both_found_tables": false,
+                "only_traditional": true,
+                "only_ai": false,
+                "neither_found": false
+              },
+              "boundary_analysis": {
+                "average_overlap": 0.0,
+                "max_overlap": 0.0,
+                "exact_matches": 0,
+                "significant_overlaps": 0,
+                "boundary_pairs": []
+              },
+              "quality_metrics": {
+                "traditional_confidence": 0.8,
+                "ai_confidence": 0.9,
+                "confidence_difference": 0.09999999999999998,
+                "traditional_has_errors": false,
+                "ai_has_errors": false,
+                "traditional_completeness": 0.8,
+                "ai_completeness": 0.9
+              },
+              "performance_indicators": {
+                "traditional_processing_time": 0,
+                "ai_processing_time": 0,
+                "traditional_method_used": "unknown",
+                "ai_tokens_used": 0,
+                "ai_cost_estimate": 0
+              },
+              "complexity_handling": {
+                "analysis_available": true,
+                "complexity_level": "moderate",
+                "complexity_score": 0.6195856576239983,
+                "expected_traditional_success": true,
+                "actual_traditional_success": true,
+                "traditional_performance": "as_expected",
+                "expected_ai_advantage": true,
+                "actual_ai_advantage": false,
+                "ai_performance": "unexpected",
+                "complexity_factors": [
+                  "multi_level_headers",
+                  "high_data_sparsity",
+                  "inconsistent_column_structure"
+                ]
+              },
+              "failure_analysis": {
+                "traditional_failed": false,
+                "ai_failed": true,
+                "both_failed": false,
+                "both_succeeded": false,
+                "only_traditional_failed": false,
+                "only_ai_failed": true,
+                "potential_causes": [
+                  "complexity_multi_level_headers",
+                  "complexity_high_data_sparsity",
+                  "complexity_inconsistent_column_structure"
+                ]
+              },
+              "recommendation_analysis": {
+                "ai_recommendation": "ai_assisted",
+                "traditional_success": true,
+                "recommendation_accurate": false,
+                "complexity_based_recommendation": "dual"
+              }
+            },
+            "metrics": {
+              "agreement_score": 0.0,
+              "table_count_difference": -3,
+              "boundary_overlap_score": 0.0,
+              "confidence_score": 0.9,
+              "complexity_alignment": 0.5,
+              "recommendation_accuracy": 1.0
+            },
+            "insights": [
+              "Traditional methods detected 3 more tables than AI",
+              "Low agreement suggests one method may be failing or detecting different structures",
+              "AI analysis has high confidence in its results"
+            ],
+            "test_case_potential": {
+              "potential_score": 1.0,
+              "test_case_type": "high_value",
+              "reasons": [
+                "table_count_disagreement",
+                "low_agreement",
+                "confident_disagreement"
+              ],
+              "recommended_for_test_suite": true
+            },
+            "tuning_recommendations": [
+              "Consider lowering complexity threshold for AI activation",
+              "Consider improving boundary detection algorithms"
+            ]
+          }
+        }
+      ],
+      "file_summary": {
+        "processing_decisions": {
+          "dual_analysis": 1
+        },
+        "total_cost": 0.036912,
+        "complexity_distribution": {
+          "moderate": 1
+        },
+        "performance_comparison": {}
+      },
+      "insights": [
+        "Average cost per sheet: $0.0369"
+      ]
+    }
+  ]
+}

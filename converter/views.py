@@ -597,8 +597,8 @@ def excel_comparison_analysis(request):
                 ai_parser = AIResultParser()
                 
                 if ai_client.is_available():
-                    # Perform AI analysis
-                    ai_raw_response = ai_client.analyze_excel_tables(
+                    # Perform AI analysis (sheet-level)
+                    ai_raw_response = ai_client.analyze_excel_sheet(
                         sheet, 
                         complexity_metadata=complexity_analysis,
                         analysis_focus="comprehensive"
