@@ -3,7 +3,7 @@
 
 **Version:** 1.0  
 **Date:** January 2025  
-**Status:** Design Phase  
+**Status:** In Progress  
 
 ---
 
@@ -525,8 +525,23 @@ class ProcessingResult:
    - Add configuration management
 
 3. **Testing & Validation**
-   - Unit tests for both storage implementations
-   - Integration tests with existing processors
+   - Unit tests for storage microservice endpoints (local backend) ✓
+   - Integration tests: Excel/PDF endpoints store artifacts and return references ✓
+   - Status endpoint returns processing records ✓
+   - Test automation script added (`scripts/run_tests.sh`) ✓
+
+4. **Docs**
+   - Storage endpoints documented in `docs/storage-service-endpoints.md` ✓
+   - Project README updated with test/run instructions ✓
+
+5. **Current Gaps / Next Fixes**
+   - Finalize remaining table-detection edge cases (some tests still failing)
+   - Add LocalStack-backed S3 tests (optional next)
+   - Plan CI integration
+
+6. **Feature Flags**
+   - `USE_STORAGE_SERVICE` and `STORAGE_BACKEND` wired into Excel/PDF flows ✓
+
 
 ### Phase 2: Event System (Week 2)
 1. **Event Interfaces**
@@ -745,5 +760,12 @@ services:
 - [ ] Documentation for all new APIs
 
 ---
+
+## ✅ Progress Summary (current)
+- Storage abstraction implemented (local backend), S3 implementation scaffolded
+- Storage microservice endpoints added (`/api/storage/...`)
+- Excel/PDF endpoints integrated with storage; status endpoint added
+- Tests added for storage endpoints, Excel/PDF integration, and status; automation script created
+- Table detection ordering and gap heuristics improved; a few regression tests remain to be fixed next
 
 This architecture provides a solid foundation for scaling the Excel processing system while maintaining development velocity and operational simplicity. The abstraction layers ensure the system works identically in local and cloud environments, making development and testing straightforward while enabling powerful cloud-native capabilities in production.
