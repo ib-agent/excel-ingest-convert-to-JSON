@@ -295,8 +295,36 @@ excel-ingest-convert-to-JSON/
 
 ### Running Tests
 
+Install test dependencies from `docs/requirements.txt` and run with pytest.
+
+1. Setup environment
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r docs/requirements.txt
+   ```
+
+2. Configure environment variables for local storage and Django
+   ```bash
+   export DJANGO_SETTINGS_MODULE=excel_converter.settings
+   export STORAGE_BACKEND=local
+   export LOCAL_STORAGE_PATH=$(mktemp -d)
+   export USE_STORAGE_SERVICE=true
+   ```
+
+3. Run tests
+   ```bash
+   pytest -q tests
+   ```
+
+To run only storage-related tests:
 ```bash
-python manage.py test
+pytest -q \
+  tests/test_storage_service_endpoints.py \
+  tests/test_excel_storage_integration.py \
+  tests/test_pdf_storage_integration.py \
+  tests/test_status_endpoint.py \
+  tests/test_excel_additional_storage_integration.py
 ```
 
 ### Code Style

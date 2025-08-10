@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import RedirectView
 from . import views
 from . import pdf_views
+from . import storage_views
 
 urlpatterns = [
     path('', views.main_landing, name='main_landing'),
@@ -20,5 +21,12 @@ urlpatterns = [
     path('api/pdf/status/', pdf_views.get_processing_status, name='get_pdf_processing_status'),
     # New table removal endpoint
     path('api/pdf/table-removal/', pdf_views.upload_and_process_pdf_with_table_removal, name='upload_and_process_pdf_table_removal'),
+    # Storage microservice-like endpoints
+    path('api/storage/store-file/', storage_views.storage_store_file, name='storage_store_file'),
+    path('api/storage/store-json/', storage_views.storage_store_json, name='storage_store_json'),
+    path('api/storage/get/', storage_views.storage_get, name='storage_get'),
+    path('api/storage/get-json/', storage_views.storage_get_json, name='storage_get_json'),
+    path('api/storage/delete/', storage_views.storage_delete, name='storage_delete'),
+    path('api/storage/list/', storage_views.storage_list, name='storage_list'),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico'), name='favicon'),
 ] 

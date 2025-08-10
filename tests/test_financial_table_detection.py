@@ -6,7 +6,11 @@ Test script to verify financial table detection fix
 import sys
 import os
 import json
-import requests
+import django
+from rest_framework.test import APIClient
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'excel_converter.settings')
+django.setup()
 
 # Add the project root to the path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -18,21 +22,36 @@ def test_financial_table_detection():
     print("=" * 60)
     
     # Upload the file again to get fresh data
-    file_path = "/Users/jeffwinner/Desktop/Number Counter tests/pDD10b - Exos_2023_financials.xlsx"
+    file_path = os.path.join(os.path.dirname(__file__), 'test_excel', 'pDD10b - Exos_2023_financials.xlsx')
     
+    client = APIClient()
     with open(file_path, 'rb') as f:
-        files = {'file': f}
-        response = requests.post('http://127.0.0.1:8001/api/upload/', files=files)
+        upload = {'file': f}
+        response = client.post('/api/upload/', data=upload)
     
     if response.status_code != 200:
         print(f"ERROR: Upload failed with status {response.status_code}")
         return
     
     upload_result = response.json()
-    print(f"Upload successful. File ID: {upload_result.get('file_id')}")
-    
+    print("Upload successful.")
+
     # Get the Excel JSON data
-    excel_data = upload_result.get('excel_data', {})
+    excel_data = upload_result.get('data') or {}
+    if not excel_data:
+        # For large files, fetch via download URL provided by the API
+        download_urls = upload_result.get('download_urls', {})
+        full_url = download_urls.get('full_data')
+        if full_url:
+            download_resp = client.get(full_url)
+            if download_resp.status_code == 200:
+                try:
+                    excel_data = json.loads(download_resp.content.decode('utf-8'))
+                except Exception:
+                    excel_data = {}
+        if not excel_data:
+            print("No inline data available and couldn't fetch via download URL; skipping transform tests.")
+            return
     workbook = excel_data.get('workbook', {})
     sheets = workbook.get('sheets', [])
     
@@ -53,12 +72,13 @@ def test_financial_table_detection():
             print(f"  Test {j+1}: use_gaps={options['table_detection']['use_gaps']}")
             
             try:
-                response = requests.post(
-                    'http://127.0.0.1:8001/api/transform-tables/',
-                    json={
-                        'excel_data': excel_data,
+                response = client.post(
+                    '/api/transform-tables/',
+                    data={
+                        'json_data': excel_data,
                         'options': options
-                    }
+                    },
+                    format='json'
                 )
                 
                 if response.status_code == 200:

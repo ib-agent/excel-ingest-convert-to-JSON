@@ -20,6 +20,8 @@ from .complexity_preserving_compact_processor import ComplexityPreservingCompact
 from .anthropic_excel_client import AnthropicExcelClient
 from .ai_result_parser import AIResultParser
 from .comparison_engine import ComparisonEngine
+from .storage_service import get_storage_service, StorageType, StorageService
+from .processing_registry import processing_registry
 
 # Temporary storage for processed data (in production, use Redis or database)
 processed_data_cache = {}
@@ -94,6 +96,24 @@ def upload_and_convert(request):
             ContentFile(uploaded_file.read())
         )
         full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
+
+        # Optional: store original file via storage service (local FS or S3)
+        use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+        storage: StorageService | None = get_storage_service() if use_storage_service else None
+        processing_id = str(uuid.uuid4())
+        original_ref = None
+        if storage is not None:
+            try:
+                with open(full_path, 'rb') as f:
+                    original_bytes = f.read()
+                original_ref = storage.store_file(
+                    data=original_bytes,
+                    storage_type=StorageType.ORIGINAL_FILE,
+                    filename=uploaded_file.name,
+                    metadata={'processing_id': processing_id}
+                )
+            except Exception as e:
+                print(f"WARNING: Failed to store original file in storage service: {e}")
         
         # Process the Excel file using enhanced complexity-preserving processor
         processor = ComplexityPreservingCompactProcessor(enable_rle=True)
@@ -192,13 +212,41 @@ def upload_and_convert(request):
             # Generate a unique identifier for this file
             file_id = str(uuid.uuid4())
             
-            # Store the processed data for download
-            processed_data_cache[file_id] = {
-                'full_data': json_data,
-                'table_data': enhanced_table_data,
-                'filename': uploaded_file.name,
-                'format': format_type
-            }
+            # Store the processed data for download or via storage service
+            if storage is not None:
+                try:
+                    full_ref = storage.store_json(
+                        data=json_data,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    table_ref = storage.store_json(
+                        data=enhanced_table_data,
+                        storage_type=StorageType.TABLE_DATA,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__ if original_ref else None,
+                        'processed_json': full_ref.__dict__,
+                        'table_data': table_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref) if original_ref else None,
+                            'processed_json': storage.get_download_url(full_ref),
+                            'table_data': storage.get_download_url(table_ref),
+                        }
+                    }
+                except Exception as e:
+                    print(f"WARNING: Failed to store JSON results in storage service: {e}")
+                    response_storage = None
+            else:
+                # Fallback to in-memory cache (legacy)
+                processed_data_cache[file_id] = {
+                    'full_data': json_data,
+                    'table_data': enhanced_table_data,
+                    'filename': uploaded_file.name,
+                    'format': format_type
+                }
             
             # Clean up old entries (keep only last 10)
             if len(processed_data_cache) > 10:
@@ -208,7 +256,7 @@ def upload_and_convert(request):
             # Clean up temporary file
             default_storage.delete(temp_path)
             
-            return JsonResponse({
+            response_payload = {
                 'success': True,
                 'format': format_type,
                 'filename': uploaded_file.name,
@@ -216,9 +264,11 @@ def upload_and_convert(request):
                 'warning': f'File is very large (estimated {estimated_size / 1024 / 1024:.1f} MB). Use download links below.',
                 'summary': summary_data,
                 'download_urls': {
-                    'full_data': f'/api/download/?type=full&file_id={file_id}',
-                    'table_data': f'/api/download/?type=table&file_id={file_id}'
+                    'full_data': f'/api/download/?type=full&file_id={file_id}' if storage is None else None,
+                    'table_data': f'/api/download/?type=table&file_id={file_id}' if storage is None else None
                 },
+                'storage': response_storage if storage is not None else None,
+                'processing_id': processing_id,
                 'file_info': {
                     'estimated_size_mb': estimated_size / 1024 / 1024,
                     'total_cells': total_cells,
@@ -231,7 +281,21 @@ def upload_and_convert(request):
                     'estimated_reduction_percent': 70,
                     'rle_enabled': True
                 }
-            }, status=200)
+            }
+
+            # Register processing record for status endpoint
+            try:
+                processing_registry.register(processing_id, {
+                    'filename': uploaded_file.name,
+                    'type': 'excel',
+                    'storage': response_storage,
+                    'size_estimated_bytes': estimated_size,
+                    'large_file': True,
+                })
+            except Exception:
+                pass
+
+            return JsonResponse(response_payload, status=200)
         else:
             # For smaller files, calculate actual sizes and return full data
             print(f"Debug - Calculating actual sizes for small file")
@@ -272,14 +336,58 @@ def upload_and_convert(request):
                 'rle_enabled': True
             }
             
+            # Optionally store results even for small files
+            response_storage = None
+            if storage is not None:
+                try:
+                    full_ref = storage.store_json(
+                        data=json_data,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    table_ref = storage.store_json(
+                        data=enhanced_table_data,
+                        storage_type=StorageType.TABLE_DATA,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__ if original_ref else None,
+                        'processed_json': full_ref.__dict__,
+                        'table_data': table_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref) if original_ref else None,
+                            'processed_json': storage.get_download_url(full_ref),
+                            'table_data': storage.get_download_url(table_ref),
+                        }
+                    }
+                except Exception as e:
+                    print(f"WARNING: Failed to store small-file JSON results in storage service: {e}")
+
             # Add RLE statistics if available
             if 'rle_compression' in json_data:
                 response_data['rle_stats'] = json_data['rle_compression']
             
+            # Attach storage references if available (in addition to inline data)
+            if response_storage is not None:
+                response_data['storage'] = response_storage
+
             print(f"Debug - Returning small file response")
             print(f"Debug - Response keys: {list(response_data.keys())}")
             print(f"Debug - Has data key: {'data' in response_data}")
             print(f"Debug - Data structure: {type(response_data['data'])}")
+
+            # Register processing record for status endpoint
+            try:
+                processing_registry.register(processing_id, {
+                    'filename': uploaded_file.name,
+                    'type': 'excel',
+                    'storage': response_storage,
+                    'size_actual_bytes': total_size,
+                    'large_file': False,
+                })
+            except Exception:
+                pass
             
             return JsonResponse(response_data, status=200)
         
@@ -496,10 +604,63 @@ def analyze_excel_complexity(request):
             else:
                 overall_recommendation = 'traditional'
             
+            # Optionally store original and complexity results
+            use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+            storage: StorageService | None = get_storage_service() if use_storage_service else None
+            processing_id = str(uuid.uuid4()) if use_storage_service else None
+            response_storage = None
+            if storage is not None and processing_id is not None:
+                try:
+                    with open(full_path, 'rb') as f:
+                        original_bytes = f.read()
+                    original_ref = storage.store_file(
+                        data=original_bytes,
+                        storage_type=StorageType.ORIGINAL_FILE,
+                        filename=uploaded_file.name,
+                        metadata={'processing_id': processing_id, 'type': 'excel_complexity'}
+                    )
+                    complexity_payload = {
+                        'success': True,
+                        'filename': uploaded_file.name,
+                        'overall_recommendation': overall_recommendation,
+                        'sheet_analysis': complexity_results,
+                        'summary': {
+                            'total_sheets': len(complexity_results),
+                            'simple_sheets': len([r for r in recommendations if r == 'traditional']),
+                            'moderate_sheets': len([r for r in recommendations if r == 'dual']),
+                            'complex_sheets': len([r for r in recommendations if r == 'ai_first']),
+                            'average_complexity': sum(c['complexity_score'] for c in complexity_results.values()) / len(complexity_results) if complexity_results else 0
+                        }
+                    }
+                    results_ref = storage.store_json(
+                        data=complexity_payload,
+                        storage_type=StorageType.COMPLEXITY_METADATA,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__,
+                        'complexity_results': results_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref),
+                            'complexity_results': storage.get_download_url(results_ref),
+                        }
+                    }
+                    try:
+                        processing_registry.register(processing_id, {
+                            'filename': uploaded_file.name,
+                            'type': 'excel_complexity',
+                            'storage': response_storage,
+                        })
+                    except Exception:
+                        pass
+                except Exception as e:
+                    print(f"WARNING: Failed to store complexity results: {e}")
+
             # Clean up temporary file
             default_storage.delete(temp_path)
-            
-            return Response({
+
+            response_body = {
                 'success': True,
                 'filename': uploaded_file.name,
                 'overall_recommendation': overall_recommendation,
@@ -511,7 +672,12 @@ def analyze_excel_complexity(request):
                     'complex_sheets': len([r for r in recommendations if r == 'ai_first']),
                     'average_complexity': sum(c['complexity_score'] for c in complexity_results.values()) / len(complexity_results) if complexity_results else 0
                 }
-            }, status=200)
+            }
+            if response_storage is not None:
+                response_body['storage'] = response_storage
+                response_body['processing_id'] = processing_id
+            
+            return Response(response_body, status=200)
             
         finally:
             # Ensure cleanup even if processing fails
@@ -662,10 +828,60 @@ def excel_comparison_analysis(request):
                 
                 comparison_results[sheet_name] = comparison_data
             
+            # Optionally store original and comparison results
+            use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+            storage: StorageService | None = get_storage_service() if use_storage_service else None
+            processing_id = str(uuid.uuid4()) if use_storage_service else None
+            response_storage = None
+            if storage is not None and processing_id is not None:
+                try:
+                    with open(full_path, 'rb') as f:
+                        original_bytes = f.read()
+                    original_ref = storage.store_file(
+                        data=original_bytes,
+                        storage_type=StorageType.ORIGINAL_FILE,
+                        filename=uploaded_file.name,
+                        metadata={'processing_id': processing_id, 'type': 'excel_comparison'}
+                    )
+                    comparison_payload = {
+                        'success': True,
+                        'filename': uploaded_file.name,
+                        'comparison_results': comparison_results,
+                        'summary': {
+                            'total_sheets_analyzed': len(comparison_results),
+                            'ai_implementation_status': 'placeholder',
+                            'analysis_timestamp': complexity_analyzer._get_timestamp()
+                        }
+                    }
+                    results_ref = storage.store_json(
+                        data=comparison_payload,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__,
+                        'comparison_results': results_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref),
+                            'comparison_results': storage.get_download_url(results_ref),
+                        }
+                    }
+                    try:
+                        processing_registry.register(processing_id, {
+                            'filename': uploaded_file.name,
+                            'type': 'excel_comparison',
+                            'storage': response_storage,
+                        })
+                    except Exception:
+                        pass
+                except Exception as e:
+                    print(f"WARNING: Failed to store comparison results: {e}")
+
             # Clean up temporary file
             default_storage.delete(temp_path)
-            
-            return Response({
+
+            response_body = {
                 'success': True,
                 'filename': uploaded_file.name,
                 'comparison_results': comparison_results,
@@ -674,7 +890,12 @@ def excel_comparison_analysis(request):
                     'ai_implementation_status': 'placeholder',
                     'analysis_timestamp': complexity_analyzer._get_timestamp()
                 }
-            }, status=200)
+            }
+            if response_storage is not None:
+                response_body['storage'] = response_storage
+                response_body['processing_id'] = processing_id
+            
+            return Response(response_body, status=200)
             
         finally:
             # Ensure cleanup even if processing fails

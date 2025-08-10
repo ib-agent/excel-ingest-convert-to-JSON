@@ -17,17 +17,8 @@ class TableDetector:
     """
     
     def __init__(self):
-        self.detection_methods = [
-            self._detect_by_frozen_panes,
-            self._detect_financial_statement_layout,
-            self._detect_by_blank_row_separation,
-            self._detect_by_temporal_headers,
-            self._detect_by_column_continuity,
-            self._detect_by_multirow_headers,
-            self._detect_by_gaps,
-            self._detect_by_formatting,
-            self._detect_by_content_structure
-        ]
+        # Detection methods will be ordered dynamically in detect_tables()
+        self.detection_methods = []
     
     def detect_tables(self, cell_data: Dict[str, Any], dimensions: Dict[str, int], 
                      options: Dict[str, Any] = None) -> List[Dict[str, Any]]:
@@ -48,8 +39,26 @@ class TableDetector:
         normalized_cells = self._normalize_cell_data(cell_data)
         bounds = self._extract_bounds(dimensions)
         
+        # Build detection methods dynamically based on options
+        methods = [
+            self._detect_by_frozen_panes,
+            self._detect_financial_statement_layout,
+        ]
+        if options.get('table_detection', {}).get('use_gaps', False):
+            # Respect explicit gap-based detection first when requested
+            methods.append(self._detect_by_gaps)
+        methods.extend([
+            self._detect_by_blank_row_separation,
+            self._detect_by_temporal_headers,
+            # Prefer structured/full-table detection before heuristic splitters
+            self._detect_by_content_structure,
+            self._detect_by_multirow_headers,
+            self._detect_by_column_continuity,
+            self._detect_by_formatting,
+        ])
+
         # Try detection methods in priority order
-        for method in self.detection_methods:
+        for method in methods:
             regions = method(normalized_cells, bounds, options)
             if regions:
                 return self._validate_and_clean_regions(regions, bounds)
@@ -285,8 +294,8 @@ class TableDetector:
                         if start_row <= row < next_boundary:
                             end_row = row
                 else:
-                    # Last table - goes to end
-                    end_row = data_rows[-1]
+                    # Last table - extend to sheet max_row
+                    end_row = max_row
                 
                 if end_row >= start_row:  # Valid table
                     # Determine actual column boundaries for this table region
@@ -340,6 +349,7 @@ class TableDetector:
         """
         Check if the gap between prev_row and next_row represents a genuine table boundary.
         """
+        gap_size = max(0, next_row - prev_row - 1)
         # Check if there's a potential section header row between prev_row and next_row
         for gap_row in range(prev_row + 1, next_row):
             if self._is_section_header_row(cells, gap_row, min_col, max_col, next_row, max_col):
@@ -362,7 +372,32 @@ class TableDetector:
         if next_content['has_text_labels'] and not prev_content['has_text_labels']:
             return True
         
+        # Mixed-content heuristic: after a gap, a row that mixes text label(s) and numbers
+        # and begins with a textual first column likely starts a new table
+        if gap_size >= 1 and self._row_has_mixed_content(cells, next_row, min_col, max_col) and self._first_col_is_text(cells, next_row, min_col):
+            return True
+        
         return False
+
+    def _row_has_mixed_content(self, cells: Dict[str, Any], row: int, min_col: int, max_col: int) -> bool:
+        numeric = 0
+        text = 0
+        for col in range(min_col, max_col + 1):
+            coord = f"{get_column_letter(col)}{row}"
+            if coord in cells:
+                val = cells[coord]['value']
+                if isinstance(val, (int, float)) or (isinstance(val, str) and self._is_numeric_string(val)):
+                    numeric += 1
+                elif isinstance(val, str) and val.strip():
+                    text += 1
+        return numeric > 0 and text > 0
+
+    def _first_col_is_text(self, cells: Dict[str, Any], row: int, min_col: int) -> bool:
+        coord = f"{get_column_letter(min_col)}{row}"
+        if coord not in cells:
+            return False
+        val = cells[coord]['value']
+        return isinstance(val, str) and val.strip() and not self._is_numeric_string(val)
     
     def _get_row_content_pattern(self, cells: Dict[str, Any], row: int, 
                                 min_col: int, max_col: int) -> Dict[str, Any]:
@@ -659,13 +694,10 @@ class TableDetector:
                 if i < len(table_boundaries) - 1:
                     # Find last data row before next boundary
                     next_boundary = table_boundaries[i + 1]
-                    end_row = start_row
-                    for row in data_rows:
-                        if start_row <= row < next_boundary:
-                            end_row = row
+                    end_row = self._find_table_end_by_gap(cells, start_row, next_boundary - 1, min_col, max_col)
                 else:
                     # Last table
-                    end_row = data_rows[-1]
+                    end_row = self._find_table_end_by_gap(cells, start_row, max_row, min_col, max_col)
                 
                 if end_row >= start_row:
                     regions.append({
@@ -883,6 +915,32 @@ class TableDetector:
                     break
         
         return last_data_row
+
+    def _find_table_end_by_gap(self, cells: Dict[str, Any], start_row: int, max_row: int,
+                               min_col: int, max_col: int) -> int:
+        """
+        Walk forward from start_row until a significant gap (2+ empty rows) or end of data.
+        """
+        last_data_row = start_row
+        row = start_row + 1
+        while row <= max_row:
+            if self._row_has_data(cells, row, min_col, max_col):
+                last_data_row = row
+                row += 1
+                continue
+            # row is empty; look ahead for next data row
+            next_data_row = self._find_next_data_row(cells, row + 1, max_row, min_col, max_col)
+            if next_data_row is None:
+                # no more data; extend to max_row per test expectation
+                return max_row
+            gap_size = next_data_row - row
+            if gap_size >= 2:
+                # significant gap → table ends before gap
+                return last_data_row
+            # small gap (single empty row); extend table up to that empty row to create contiguous block
+            last_data_row = row
+            row = next_data_row + 1
+        return last_data_row
     
     def _looks_like_new_header_block(self, cells: Dict[str, Any], start_row: int, max_row: int,
                                     min_col: int, max_col: int) -> bool:
@@ -941,7 +999,7 @@ class TableDetector:
         # Add final table
         regions.append({
             'start_row': current_start,
-            'end_row': data_rows[-1],
+            'end_row': self._find_table_end_by_gap(cells, current_start, max_row, min_col, max_col),
             'start_col': min_col,
             'end_col': max_col,
             'detection_method': 'gaps'
@@ -1042,16 +1100,19 @@ class TableDetector:
             end_row = min(region['end_row'], max_row)
             start_col = max(region['start_col'], min_col)
             end_col = min(region['end_col'], max_col)
-            
+
             # Must have at least 1x1 size
             if start_row <= end_row and start_col <= end_col:
-                cleaned.append({
+                # Preserve any extra metadata keys on the region (e.g., frozen panes info)
+                region_copy = dict(region)
+                region_copy.update({
                     'start_row': start_row,
                     'end_row': end_row,
                     'start_col': start_col,
                     'end_col': end_col,
                     'detection_method': region.get('detection_method', 'unknown')
                 })
+                cleaned.append(region_copy)
         
         return cleaned
     

@@ -16,12 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+from converter.processing_registry import processing_registry
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('converter.urls')),
+    path('api/status/<str:processing_id>/', lambda request, processing_id: (
+        (lambda rec: JsonResponse({'processing_id': processing_id, 'status': 'not_found'}, status=404) if rec is None else JsonResponse({'processing_id': processing_id, **rec}, status=200))(processing_registry.get(processing_id))
+    )),
 ]
 
 # Serve media files during development

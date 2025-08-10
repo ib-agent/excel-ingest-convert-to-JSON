@@ -285,7 +285,9 @@
               "end_row": 6,
               "start_col": 1,
               "end_col": 5,
-              "detection_method": "frozen_panes"
+              "detection_method": "frozen_panes",
+              "frozen_rows": 2,
+              "frozen_cols": 1
             },
             "header_info": {
               "header_rows": [

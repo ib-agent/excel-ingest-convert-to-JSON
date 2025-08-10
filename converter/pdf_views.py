@@ -7,6 +7,7 @@ This module handles PDF processing requests and integrates with the PDF_processi
 import os
 import json
 import tempfile
+import uuid
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -17,6 +18,8 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
+from .storage_service import get_storage_service, StorageService, StorageType
+from .processing_registry import processing_registry
 
 # Import our PDF processing modules
 import sys
@@ -101,6 +104,40 @@ def upload_and_process_pdf(request):
                 else:
                     result = _compress_pdf_result(result)
             
+            # Optional storage of original and results
+            use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+            storage: StorageService | None = get_storage_service() if use_storage_service else None
+            processing_id = str(uuid.uuid4()) if use_storage_service else None
+            response_storage = None
+            if storage is not None and processing_id is not None:
+                try:
+                    # Store original
+                    with open(full_path, 'rb') as f:
+                        original_bytes = f.read()
+                    original_ref = storage.store_file(
+                        data=original_bytes,
+                        storage_type=StorageType.ORIGINAL_FILE,
+                        filename=uploaded_file.name,
+                        metadata={'processing_id': processing_id, 'type': 'pdf'}
+                    )
+                    # Store result JSON
+                    result_ref = storage.store_json(
+                        data=result,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__,
+                        'processed_json': result_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref),
+                            'processed_json': storage.get_download_url(result_ref),
+                        }
+                    }
+                except Exception:
+                    response_storage = None
+
             # Clean up temporary file
             try:
                 os.remove(full_path)
@@ -141,6 +178,23 @@ def upload_and_process_pdf(request):
                     'guaranteed_separation': True
                 }
             
+            # Attach storage references if available
+            if response_storage is not None:
+                response_data['storage'] = response_storage
+
+            # Register processing record
+            if response_storage is not None and processing_id is not None:
+                try:
+                    processing_registry.register(processing_id, {
+                        'filename': uploaded_file.name,
+                        'type': 'pdf',
+                        'storage': response_storage,
+                        'format': format_type,
+                        'mode': processing_mode,
+                    })
+                except Exception:
+                    pass
+
             # Return the processing result
             return Response(response_data)
             
@@ -209,6 +263,40 @@ def upload_and_process_pdf_with_table_removal(request):
             if use_compact:
                 result = _compress_table_removal_result(result)
             
+            # Optional storage of original and results
+            use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+            storage: StorageService | None = get_storage_service() if use_storage_service else None
+            processing_id = str(uuid.uuid4()) if use_storage_service else None
+            response_storage = None
+            if storage is not None and processing_id is not None:
+                try:
+                    # Store original
+                    with open(full_path, 'rb') as f:
+                        original_bytes = f.read()
+                    original_ref = storage.store_file(
+                        data=original_bytes,
+                        storage_type=StorageType.ORIGINAL_FILE,
+                        filename=uploaded_file.name,
+                        metadata={'processing_id': processing_id, 'type': 'pdf'}
+                    )
+                    # Store result JSON
+                    result_ref = storage.store_json(
+                        data=result,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__,
+                        'processed_json': result_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref),
+                            'processed_json': storage.get_download_url(result_ref),
+                        }
+                    }
+                except Exception:
+                    response_storage = None
+
             # Clean up temporary file
             try:
                 os.remove(full_path)
@@ -250,6 +338,23 @@ def upload_and_process_pdf_with_table_removal(request):
                     'estimated_reduction_percent': 23
                 }
             
+            # Attach storage references if available
+            if response_storage is not None:
+                response_data['storage'] = response_storage
+
+            # Register processing record
+            if response_storage is not None and processing_id is not None:
+                try:
+                    processing_registry.register(processing_id, {
+                        'filename': uploaded_file.name,
+                        'type': 'pdf',
+                        'storage': response_storage,
+                        'format': format_type,
+                        'mode': 'table_removal',
+                    })
+                except Exception:
+                    pass
+
             # Return the processing result
             return Response(response_data)
             
@@ -485,6 +590,28 @@ def process_pdf_with_options(request):
             if use_compact:
                 result = _compress_pdf_result(result)
             
+            # Optional storage of results (no original file bytes in this endpoint)
+            use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+            storage: StorageService | None = get_storage_service() if use_storage_service else None
+            processing_id = str(uuid.uuid4()) if use_storage_service else None
+            response_storage = None
+            if storage is not None and processing_id is not None:
+                try:
+                    result_ref = storage.store_json(
+                        data=result,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'processed_json': result_ref.__dict__,
+                        'download_urls': {
+                            'processed_json': storage.get_download_url(result_ref),
+                        }
+                    }
+                except Exception:
+                    response_storage = None
+
             # Calculate response sizes for statistics
             result_size = len(json.dumps(result))
             
@@ -505,6 +632,20 @@ def process_pdf_with_options(request):
                     'actual_size_mb': result_size / 1024 / 1024,
                     'estimated_reduction_percent': 23
                 }
+            
+            # Attach storage references if available
+            if response_storage is not None:
+                response_data['storage'] = response_storage
+                try:
+                    processing_registry.register(processing_id, {
+                        'filename': file_path,
+                        'type': 'pdf',
+                        'storage': response_storage,
+                        'format': format_type,
+                        'mode': 'options',
+                    })
+                except Exception:
+                    pass
             
             return Response(response_data)
             
