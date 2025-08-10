@@ -20,6 +20,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .storage_service import get_storage_service, StorageService, StorageType
 from .processing_registry import processing_registry
+from .pdf_ai_failover_pipeline import PDFAIFailoverPipeline
 
 # Import our PDF processing modules
 import sys
@@ -688,3 +689,97 @@ def get_processing_status(request):
             'status': 'unavailable',
             'error': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def upload_and_process_pdf_ai_failover(request):
+    """
+    Upload a PDF and process it using the AI failover routing pipeline.
+    Only numeric page groups are routed to AI; other pages are code-extracted.
+    """
+    try:
+        if 'file' not in request.FILES:
+            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        uploaded_file = request.FILES['file']
+        if not uploaded_file.name.lower().endswith('.pdf'):
+            return Response({'error': 'File must be a PDF'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save uploaded file temporarily
+        temp_path = default_storage.save(
+            f'temp/{uploaded_file.name}',
+            ContentFile(uploaded_file.read())
+        )
+        full_path = os.path.join(settings.MEDIA_ROOT, temp_path)
+
+        try:
+            pipeline = PDFAIFailoverPipeline()
+            result = pipeline.process(full_path)
+
+            # Optional storage
+            use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
+            storage: StorageService | None = get_storage_service() if use_storage_service else None
+            processing_id = str(uuid.uuid4()) if use_storage_service else None
+            response_storage = None
+            if storage is not None and processing_id is not None:
+                try:
+                    with open(full_path, 'rb') as f:
+                        original_bytes = f.read()
+                    original_ref = storage.store_file(
+                        data=original_bytes,
+                        storage_type=StorageType.ORIGINAL_FILE,
+                        filename=uploaded_file.name,
+                        metadata={'processing_id': processing_id, 'type': 'pdf'}
+                    )
+                    result_ref = storage.store_json(
+                        data=result,
+                        storage_type=StorageType.PROCESSED_JSON,
+                        key_prefix=f"{processing_id}"
+                    )
+                    response_storage = {
+                        'processing_id': processing_id,
+                        'original_file': original_ref.__dict__,
+                        'processed_json': result_ref.__dict__,
+                        'download_urls': {
+                            'original_file': storage.get_download_url(original_ref),
+                            'processed_json': storage.get_download_url(result_ref),
+                        }
+                    }
+                except Exception:
+                    response_storage = None
+
+            try:
+                os.remove(full_path)
+            except:
+                pass
+
+            response_data = {
+                'success': True,
+                'processing_mode': 'ai_failover_routing',
+                'result': result,
+                'filename': uploaded_file.name,
+            }
+            if response_storage is not None and processing_id is not None:
+                response_data['storage'] = response_storage
+                try:
+                    processing_registry.register(processing_id, {
+                        'filename': uploaded_file.name,
+                        'type': 'pdf',
+                        'storage': response_storage,
+                        'mode': 'ai_failover_routing',
+                    })
+                except Exception:
+                    pass
+
+            return Response(response_data)
+
+        except Exception as e:
+            try:
+                os.remove(full_path)
+            except:
+                pass
+            raise e
+
+    except Exception as e:
+        return Response({'error': f'Processing failed: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

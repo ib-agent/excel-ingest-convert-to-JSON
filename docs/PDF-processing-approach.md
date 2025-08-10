@@ -58,6 +58,49 @@ The PDF processing system will extract three main components from PDF documents:
 - Rich API for custom extraction logic
 - Maintains document structure and formatting
 
+## AI Failover Strategy and Routing (New)
+
+To increase robustness when native table detection is unreliable, we introduce an AI failover strategy driven by page-level complexity analysis. The core ideas:
+
+- Analyze every page for numeric density and table-likeness to create a per-page complexity score.
+- Group consecutive pages that contain numbers into compact batches and route only those groups to the AI for extraction.
+- Ask the AI to return both:
+  - Table-oriented output compatible with the table schema documented in `table-oriented-json-schema.md` (tables with page and bbox).
+  - Text sections with embedded numbers conforming to `pdf-json-schema.md` (text_content schema with numbers array per section).
+- Pages without numbers are still represented as paragraphs; these are extracted purely by code and not sent to AI.
+- Reconstruct the full `pdf-json-schema` by merging AI outputs for numeric page groups with code-extracted text sections for the remaining pages, preserving page order.
+
+This minimizes token usage and latency for large documents while improving accuracy on pages most likely to contain tables or important numeric content.
+
+### Page Complexity Analysis & Grouping
+
+For each page, compute:
+
+- number_count: count of numbers detected via regex patterns consistent with `docs/pdf-json-schema.md` number types
+- number_density: numbers per 1000 characters and per square inch (when bbox data available)
+- layout_signals: optional heuristics such as high alignment regularity, dense vertical lines, repeating column start x positions, and short-line variance indicative of tabular layouts
+- text_ratio: words-to-numbers ratio
+
+Use thresholds to assign a page category:
+
+- none_or_low_numbers → code-only paragraph extraction
+- numeric_text → route group to AI for numbers-in-text + paragraph structure
+- probable_table → route group to AI requesting both tables and text
+
+Consecutive pages with category ∈ {numeric_text, probable_table} are merged into a group with size constraints (e.g., 1–5 pages per group, capped by token budget). Non-numeric pages between numeric pages form natural group boundaries.
+
+### AI Request & Response Contracts
+
+- Inputs per page group:
+  - Page renders (PNG) when vision models are available; otherwise, page-level structured text with positioning (extracted via PyMuPDF)
+  - Minimal context: document-level metadata, page indices, and requested output schemas
+- Outputs per page group (from AI):
+  - tables: array of tables in table-oriented format, each including page_number and bbox
+  - text_content: sections per page with embedded numbers and metadata per `docs/pdf-json-schema.md`
+  - processing_summary: counts and simple quality flags
+
+If AI extraction fails or confidence is below threshold, fall back to code-only extraction for that group and mark an error in `processing_summary`.
+
 ## Architecture Plan
 
 ### 1. PDF Processor Core (`pdf_processor.py`)
@@ -67,9 +110,18 @@ class PDFProcessor:
     def __init__(self):
         self.camelot = None
         self.fitz_doc = None
+        self.page_analyzer = None  # PDFPageComplexityAnalyzer
+        self.ai_router = None      # PDFAIFailoverRouter
     
     def process_file(self, file_path):
-        # Main processing pipeline
+        # 1) Load doc with PyMuPDF
+        # 2) Analyze pages → complexity scores, categories
+        # 3) Create consecutive page groups (numeric-only)
+        # 4) For numeric groups: call AI for tables + numbers-in-text
+        # 5) For non-numeric pages: code-only text extraction
+        # 6) Run native table extraction (camelot) opportunistically; merge if quality≥threshold
+        # 7) Reconstruct full pdf-json-schema (merge, dedupe, order)
+        # 8) Return combined output and processing_summary
         pass
     
     def extract_tables(self):
@@ -120,6 +172,50 @@ class PDFTextProcessor:
     
     def extract_numbers_in_text(self, text_content):
         # Find and structure numerical data in text
+        pass
+```
+
+### 4. Page Complexity Analyzer (`pdf_page_complexity_analyzer.py`)
+
+```python
+class PDFPageComplexityAnalyzer:
+    def __init__(self, thresholds):
+        self.thresholds = thresholds
+
+    def analyze_pages(self, fitz_doc):
+        # returns list of page_metrics with number_count, number_density, layout_signals, text_ratio, category
+        pass
+
+    def group_numeric_pages(self, page_metrics):
+        # returns list of (start_page, end_page) for consecutive numeric pages within size/token limits
+        pass
+```
+
+### 5. AI Failover Router (`pdf_ai_router.py`)
+
+```python
+class PDFAIFailoverRouter:
+    def __init__(self, ai_client, config):
+        self.ai_client = ai_client
+        self.config = config
+
+    def process_groups(self, fitz_doc, page_groups):
+        # For each group, prepare inputs (images or structured text) and request AI outputs
+        # Returns list of ai_results with tables, text_content, and summaries
+        pass
+```
+
+### 6. Result Merger/Reconstructor (`pdf_result_reconstructor.py`)
+
+```python
+class PDFResultReconstructor:
+    def __init__(self):
+        pass
+
+    def merge(self, ai_group_results, code_only_pages, optional_native_tables):
+        # 1) Build text_content pages in order 1..N
+        # 2) Union tables from AI and native (dedupe by page_number+bbox overlap and header similarity)
+        # 3) Produce combined pdf_processing_result with processing_summary
         pass
 ```
 
@@ -229,7 +325,30 @@ Leverages the existing table-oriented JSON schema from Excel processing:
 }
 ```
 
+### Combined Output Reconstruction Notes (New)
+
+- Always produce a `text_content.pages` entry for every page in the document.
+- For pages not routed to AI, create sections from code-only extraction (paragraphs, headers, lists) without AI augmentation.
+- For pages routed to AI, prefer AI-provided sections and embedded numbers; optionally enrich with code-detected metadata if non-conflicting.
+- Consolidate all tables (from AI and native) under a `tables` structure, with each table carrying `page_number`, `bbox`, and `detection_method` = `ai_extraction` or `camelot_*`.
+- Maintain stable IDs to support downstream diffing: `table_id` as `p{page}_t{index}` and `section_id` as `p{page}_s{index}` within reconstruction step.
+
 ## Implementation Phases
+
+### Phase 0: AI Failover & Routing Foundations (New)
+**Duration**: 3–5 days
+
+**Tasks:**
+1. Implement `PDFPageComplexityAnalyzer` with numeric detection and basic layout signals.
+2. Implement grouping of consecutive numeric pages with size/token limits.
+3. Add `PDFAIFailoverRouter` and wire configurable AI client (vision if available; fallback to structured text prompts).
+4. Define AI prompt/response contracts to produce both table-oriented output and `text_content` with embedded numbers.
+5. Implement `PDFResultReconstructor` to merge AI outputs with code-only pages and optional native tables.
+
+**Deliverables:**
+- Page metrics and grouping
+- AI routing and minimal working integration
+- End-to-end reconstruction for mixed AI/code outputs
 
 ### Phase 1: Core Infrastructure
 **Duration**: 1-2 weeks
@@ -312,8 +431,12 @@ Leverages the existing table-oriented JSON schema from Excel processing:
 ```
 converter/
 ├── pdf_processor.py          # Main PDF processing class
+├── pdf_page_complexity_analyzer.py  # New: page complexity & grouping
+├── pdf_ai_router.py          # New: AI failover routing for numeric groups
+├── pdf_result_reconstructor.py # New: merge AI and code outputs
 ├── table_extractor.py        # Table extraction logic
 ├── text_processor.py         # Text and number extraction
+├── anthropic_pdf_client.py   # New: AI provider client (or reuse existing client pattern)
 ├── pdf_models.py            # PDF-specific data models
 ├── pdf_views.py             # PDF processing views
 └── templates/converter/
@@ -408,6 +531,41 @@ docs/
 }
 ```
 
+### AI Failover Configuration (New)
+
+```json
+{
+  "ai_failover": {
+    "enabled": true,
+    "use_vision_if_available": true,
+    "numeric_page_thresholds": {
+      "min_numbers_per_page": 3,
+      "min_number_density": 0.5
+    },
+    "table_likeness": {
+      "enable_layout_signals": true,
+      "min_score": 0.6
+    },
+    "grouping": {
+      "max_pages_per_group": 5,
+      "max_tokens_per_group": 20000,
+      "respect_nonnumeric_boundaries": true
+    },
+    "routing": {
+      "send_numeric_text_pages": true,
+      "send_probable_table_pages": true
+    },
+    "confidence": {
+      "min_ai_quality_score": 0.7,
+      "fallback_to_code_on_low_confidence": true
+    },
+    "rate_limits": {
+      "max_concurrent_groups": 3
+    }
+  }
+}
+```
+
 ## Performance Considerations
 
 ### Memory Management
@@ -419,6 +577,7 @@ docs/
 - Parallel processing for multi-page documents
 - Caching of intermediate results
 - Optimized extraction algorithms
+- Parallelize AI calls across groups with respect to provider rate limits
 
 ### Scalability
 - Queue-based processing for batch operations
