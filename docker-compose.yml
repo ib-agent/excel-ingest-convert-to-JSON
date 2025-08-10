@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: excel-json-web
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      # Mount code for live-reload with Django dev server
+      - ./:/app
+      # Persist uploads and collected static assets
+      - media:/app/media
+      - staticfiles:/app/staticfiles
+    # Override command via .env CMD to swap to Gunicorn for a production-like run
+    command: sh -lc "$CMD"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/api/health/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+volumes:
+  media:
+  staticfiles:
+
+

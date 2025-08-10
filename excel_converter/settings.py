@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#smcbw$8b6neol&p$_594o2r73+u#b5=h&q!i@^341rumm$38w'
+# Allow override via environment for containerized deployments
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-#smcbw$8b6neol&p$_594o2r73+u#b5=h&q!i@^341rumm$38w')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'true').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+_allowed_hosts_env = os.getenv('DJANGO_ALLOWED_HOSTS')
+if _allowed_hosts_env:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_env.split(',') if h.strip()]
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
 
 
 # Application definition
@@ -123,6 +129,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+# Provide a STATIC_ROOT so collectstatic works in containers
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media files (Uploaded files)
 MEDIA_URL = '/media/'
@@ -139,7 +147,8 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # Only for development
+# Default open for dev; allow override via env var for stricter deployments
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'true').lower() == 'true'
 CORS_ALLOW_CREDENTIALS = True
 
 # REST Framework settings
@@ -155,6 +164,8 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    # Disable DRF's '?format=' URL override so we can use 'format=compact' as a normal query param
+    'URL_FORMAT_OVERRIDE': None,
 }
 
 # Default primary key field type
