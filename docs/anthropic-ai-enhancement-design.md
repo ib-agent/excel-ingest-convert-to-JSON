@@ -1,9 +1,9 @@
 # Anthropic AI Enhancement Design
 ## PDF & Excel Processing with AI-Powered Extraction and Complexity Failover
 
-**Version:** 2.0  
+**Version:** 2.1  
 **Date:** January 2025  
-**Status:** Design Phase - Expanded for Excel  
+**Status:** Partially Implemented (Excel AI routing and endpoints in place; additional items in design)  
 
 ---
 
@@ -23,9 +23,29 @@ This document outlines the design and implementation plan for enhancing both PDF
 
 ---
 
+## ✅ Current Implementation Overview (Excel)
+
+- **Heuristic detection remains the primary path** via `TableDetector` and `CompactTableProcessor`. These do not call AI; if nothing is detected, a default table region is created for the data area.
+- **Per-sheet AI routing is implemented** in `SmartSheetAnalyzer` using `ExcelComplexityAnalyzer` scores and a cost cap to decide when to run AI:
+  - If `ANTHROPIC_API_KEY` is unavailable → traditional only.
+  - Estimated AI cost = 0.03 + (complexity_score × 0.05); if above `max_cost_per_sheet` (default 0.10) → traditional only.
+  - Thresholds: score < 0.3 → traditional only; 0.3 ≤ score < 0.7 → dual (traditional + AI); score ≥ 0.7 → AI-primary.
+- **AI client** is `AnthropicExcelClient.analyze_excel_sheet(...)` with inline prompt construction and a lightweight cost estimator `estimate_api_cost(...)`.
+- **AI results** are parsed/standardized by `AIResultParser.parse_excel_analysis(...)` to align with comparison and reporting.
+- **Endpoints implemented**:
+  - `POST /api/excel/analyze-complexity/` returns per-sheet complexity scores and recommendations (no AI call here).
+  - `POST /api/excel/comparison-analysis/` runs traditional detection and AI per sheet (if AI available) and returns comparison data.
+
+See implementation references:
+- `smart_sheet_analyzer.py`: routing, thresholds, and AI invocation
+- `converter/excel_complexity_analyzer.py`: scoring and failure indicators
+- `converter/anthropic_excel_client.py`: AI calls and cost estimation
+- `converter/ai_result_parser.py`: response parsing
+- `converter/compact_table_processor.py` and `converter/table_detector.py`: heuristic detection
+
 ## 🔍 Excel Table Detection Complexity Analysis
 
-### Current Heuristic Success Patterns
+### Current Heuristic Success Patterns (as implemented)
 
 Based on analysis of the existing table detection system (`TableDetector` and `CompactTableProcessor`), the current heuristics succeed in these scenarios:
 
@@ -118,7 +138,7 @@ Based on analysis of the existing table detection system (`TableDetector` and `C
      - Conditional formatting that affects table boundaries
      - Dynamic ranges that change based on data
 
-### Excel Complexity Scoring Criteria
+### Excel Complexity Scoring Criteria (as implemented)
 
 Based on the analysis above, here are the specific metrics for determining when to use AI fallback:
 
@@ -160,6 +180,26 @@ def calculate_excel_complexity_score(sheet_data):
 - **score < 0.3**: Traditional heuristics only
 - **0.3 ≤ score < 0.7**: Dual processing (traditional + AI comparison)
 - **score ≥ 0.7**: AI-first with traditional backup
+- Additional gate: estimated AI cost must be ≤ `max_cost_per_sheet` (default 0.10); otherwise traditional only.
+
+#### **Implemented Routing Logic (SmartSheetAnalyzer)**
+
+Pseudocode summary of the implemented decision:
+
+```python
+if not ai_available:
+    decision = 'traditional_only'
+else:
+    estimated_cost = 0.03 + complexity_score * 0.05
+    if estimated_cost > max_cost_per_sheet:
+        decision = 'traditional_only'
+    elif complexity_score < 0.3:
+        decision = 'traditional_only'
+    elif complexity_score >= 0.7:
+        decision = 'ai_primary'
+    else:
+        decision = 'dual_analysis'
+```
 
 ---
 
@@ -211,7 +251,7 @@ graph TD
     style V fill:#99ff99
 ```
 
-### Component Architecture
+### Component Architecture (current vs planned)
 
 ```mermaid
 graph LR
@@ -230,14 +270,14 @@ graph LR
     end
     
     subgraph "New AI Enhancement Layer"
-        I[Document Type Router]
+        I[Smart Processing Router (Excel: SmartSheetAnalyzer)]
         J[PDF Complexity Analyzer]
         K[Excel Complexity Analyzer]
-        L[Anthropic API Client]
-        M[Prompt Manager]
+        L[Anthropic Excel Client]
+        M[Prompt Manager (planned)]
         N[AI Result Parser]
         O[Comparison Engine]
-        P[Quality Assessor]
+        P[Quality Assessor (planned)]
     end
     
     subgraph "Integration Layer"
@@ -253,8 +293,7 @@ graph LR
     J --> Q
     K --> Q
     Q --> L
-    L --> M
-    M --> N
+    L --> N
     N --> R
     O --> P
     P --> S
@@ -265,7 +304,7 @@ graph LR
 
 ## 🧠 Core Components Design
 
-### 1. Excel Complexity Analyzer (`excel_complexity_analyzer.py`)
+### 1. Excel Complexity Analyzer (`converter/excel_complexity_analyzer.py`)
 
 **Purpose**: Determine Excel sheet complexity to decide between traditional heuristics and AI processing
 
@@ -277,7 +316,7 @@ graph LR
 - **Formula Complexity**: Complex formula dependencies, dynamic ranges
 - **Table Boundary Ambiguity**: Unclear table separation, overlapping regions
 
-**Implementation:**
+**Implementation (matches current code):**
 ```python
 class ExcelComplexityAnalyzer:
     def __init__(self, thresholds=None):
@@ -291,7 +330,7 @@ class ExcelComplexityAnalyzer:
             'sparsity_complexity': self._analyze_data_sparsity(sheet_data),
             'column_inconsistency': self._analyze_column_structure(sheet_data),
             'formula_complexity': self._analyze_formula_patterns(sheet_data),
-            'boundary_ambiguity': self._analyze_table_boundaries(sheet_data)
+            # Note: boundary ambiguity not currently included in code
         }
         
         overall_score = self._calculate_excel_complexity_score(metrics)
@@ -349,72 +388,26 @@ class ExcelComplexityAnalyzer:
         return min(complexity, 1.0)
 ```
 
-### 2. Document Type Router (`document_type_router.py`)
+### 2. Smart Sheet-Level Router (`smart_sheet_analyzer.py`)
 
-**Purpose**: Route documents to appropriate processing pipelines based on file type and content analysis
+**Purpose**: Make per-sheet processing decisions and invoke AI only when beneficial.
 
 **Excel-Specific Features:**
-- Sheet-level complexity analysis
-- Processing recommendation per sheet
-- Integration with existing Excel processors
+- Sheet-level complexity analysis with thresholds (0.3/0.7) and cost cap (default 0.10).
+- Traditional analysis always runs when AI is used, to enable comparisons.
+- AI analysis uses `AnthropicExcelClient.analyze_excel_sheet(...)` and is parsed by `AIResultParser`.
 
-**Implementation:**
-```python
-class DocumentTypeRouter:
-    def __init__(self):
-        self.pdf_analyzer = PDFComplexityAnalyzer()
-        self.excel_analyzer = ExcelComplexityAnalyzer()
-    
-    def route_document(self, file_path, document_data=None):
-        """Route document to appropriate processing pipeline"""
-        file_extension = os.path.splitext(file_path)[1].lower()
-        
-        if file_extension == '.pdf':
-            return self._route_pdf(file_path)
-        elif file_extension in ['.xlsx', '.xlsm', '.xltx', '.xltm']:
-            return self._route_excel(file_path, document_data)
-        else:
-            raise ValueError(f"Unsupported file type: {file_extension}")
-    
-    def _route_excel(self, file_path, document_data):
-        """Route Excel file based on complexity analysis"""
-        if document_data is None:
-            # Load Excel data for analysis
-            processor = ExcelProcessor()
-            document_data = processor.process_file(file_path)
-        
-        routing_decisions = []
-        
-        for sheet in document_data['workbook']['sheets']:
-            analysis = self.excel_analyzer.analyze_sheet_complexity(sheet)
-            
-            routing_decisions.append({
-                'sheet_name': sheet['name'],
-                'complexity_score': analysis['complexity_score'],
-                'complexity_level': analysis['complexity_level'],
-                'recommendation': analysis['recommendation'],
-                'processing_method': self._determine_excel_processing_method(analysis),
-                'failure_indicators': analysis['failure_indicators']
-            })
-        
-        return {
-            'document_type': 'excel',
-            'file_path': file_path,
-            'routing_decisions': routing_decisions,
-            'overall_recommendation': self._get_overall_excel_recommendation(routing_decisions)
-        }
-```
+**Notes:** This replaces the previously proposed generic `DocumentTypeRouter` for Excel.
 
-### 3. Enhanced Anthropic API Client (`anthropic_client.py`)
+### 3. Anthropic Excel Client (`converter/anthropic_excel_client.py`)
 
 **Purpose**: Handle all interactions with Anthropic's API including file uploads and structured prompting
 
-**Enhanced Features:**
-- File upload management for PDF and Excel
-- Document-type specific prompt templates
-- Response parsing and validation
-- Error handling and retry logic
-- Rate limiting and quota management
+**Features:**
+- Per-sheet Excel analysis with inline prompt construction
+- Lightweight cost estimation (`estimate_api_cost`)
+- Response parsing with JSON extraction and metadata attachment
+- Error handling with structured fallback responses
 
 **Implementation:**
 ```python
@@ -445,34 +438,18 @@ class AnthropicClient:
         except Exception as e:
             raise AnthropicProcessingError(f"AI extraction failed: {str(e)}")
     
-    def analyze_excel_tables(self, excel_data, sheet_name, complexity_info):
-        """Analyze Excel table structure using Anthropic AI"""
-        prompt = self._build_excel_analysis_prompt(complexity_info)
-        
-        try:
-            # Convert Excel data to a text representation for AI analysis
-            excel_text = self._excel_to_text_representation(excel_data, sheet_name)
-            
-            response = self.client.messages.create(
-                model=self.model,
-                max_tokens=8192,
-                messages=[{
-                    "role": "user",
-                    "content": prompt + "\n\nExcel Data:\n" + excel_text
-                }]
-            )
-            
-            return self._parse_excel_analysis_response(response.content[0].text)
-            
-        except Exception as e:
-            raise AnthropicProcessingError(f"AI Excel analysis failed: {str(e)}")
+    def analyze_excel_sheet(self, sheet_data, complexity_metadata=None, analysis_focus="comprehensive"):
+        """Analyze a SINGLE Excel sheet using AI to detect and extract tables"""
+        # Builds a sheet-focused prompt and returns parsed JSON with metadata
 ```
 
-### 4. Enhanced Prompt Manager (`prompt_manager.py`)
+### 4. Prompt Management
 
 **Purpose**: Manage AI prompts for different extraction scenarios with JSON schema integration
 
-**Expanded Prompt Categories:**
+**Status:** Planned. Current implementation builds Excel sheet prompts inline within `AnthropicExcelClient`.
+
+**Expanded Prompt Categories (planned):**
 
 **PDF Prompts:**
 - **Comprehensive PDF Extraction**: Full document analysis with tables, text, and numbers
@@ -566,7 +543,7 @@ Return only the JSON response without any additional commentary.
 ```
 ```
 
-### 5. Enhanced AI Result Parser (`ai_result_parser.py`)
+### 5. AI Result Parser (`converter/ai_result_parser.py`)
 
 **Purpose**: Parse and validate AI responses, converting them to system-compatible format
 
@@ -607,7 +584,7 @@ class AIResultParser:
             raise AIParsingError(f"Failed to parse Excel analysis: {str(e)}")
 ```
 
-### 6. Enhanced Comparison Engine (`comparison_engine.py`)
+### 6. Comparison Engine (`converter/comparison_engine.py`)
 
 **Purpose**: Compare traditional and AI extraction results to generate insights and test cases
 
@@ -778,10 +755,10 @@ class AIResultParser:
    - Create table structure normalization
 
 2. **Excel Smart Router**
-   - Implement Excel processing decision logic based on complexity
-   - Create Excel-specific fallback mechanisms
-   - Add sheet-level configuration options
-   - Integrate with existing `CompactTableProcessor`
+   - Implement Excel processing decision logic based on complexity (Implemented via `SmartSheetAnalyzer`)
+   - Create Excel-specific fallback mechanisms (Partially implemented: AI invoked per routing decision)
+   - Add sheet-level configuration options (Planned)
+   - Integrate with existing `CompactTableProcessor` (Implemented: traditional results always available)
 
 3. **Excel Initial Testing**
    - Test AI table detection on complex Excel files
@@ -873,7 +850,29 @@ class AIResultParser:
 
 ## 🚀 API Enhancements
 
-### New Endpoints
+### Implemented Endpoints (Excel)
+
+```
+POST /api/excel/analyze-complexity/
+Content-Type: multipart/form-data
+
+Parameters:
+- file: Excel file (.xlsx, .xlsm, .xltx, .xltm)
+
+Response: Per-sheet complexity analysis and overall recommendation
+```
+
+```
+POST /api/excel/comparison-analysis/
+Content-Type: multipart/form-data
+
+Parameters:
+- file: Excel file (.xlsx, .xlsm, .xltx, .xltm)
+
+Response: Traditional vs AI analysis per sheet with comparison metrics
+```
+
+### Existing PDF Endpoints
 
 #### 1. AI-Powered PDF Processing
 ```
@@ -936,9 +935,9 @@ Parameters:
 Response: Processing statistics and quality metrics
 ```
 
-### Enhanced Existing Endpoints
+### Planned Enhancements
 
-Update existing PDF processing endpoint to include AI capabilities:
+Update existing processing endpoints to include AI feature flags and options:
 
 ```
 POST /api/pdf/upload/
