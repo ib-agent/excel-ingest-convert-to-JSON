@@ -35,19 +35,19 @@
         {
           "name": "Core PDFPlumber Processor",
           "status": "PASSED",
-          "processing_time": 0.06473898887634277,
+          "processing_time": 0.06316089630126953,
           "details": "Successfully processed with 1 tables"
         },
         {
           "name": "Clean PDF Processor",
           "status": "PASSED",
-          "processing_time": 0.06818294525146484,
+          "processing_time": 0.27391815185546875,
           "details": "Successfully processed with 1 tables"
         },
         {
           "name": "Main PDF Processor",
           "status": "PASSED",
-          "processing_time": 0.06761503219604492,
+          "processing_time": 0.06470394134521484,
           "details": "Successfully processed with 1 tables"
         },
         {
@@ -62,17 +62,17 @@
         }
       ],
       "processing_times": {
-        "core_processor": 0.06473898887634277,
-        "clean_processor": 0.06818294525146484,
-        "main_processor": 0.06761503219604492
+        "core_processor": 0.06316089630126953,
+        "clean_processor": 0.27391815185546875,
+        "main_processor": 0.06470394134521484
       },
       "extraction_results": {
         "core_processor": {
           "pdf_processing_result": {
             "document_metadata": {
               "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-              "processing_timestamp": "2025-08-11T22:19:32.687997",
-              "processing_duration": 0.064545,
+              "processing_timestamp": "2025-08-11T22:24:02.645113",
+              "processing_duration": 0.062965,
               "extraction_methods": [
                 "pdfplumber_table_extraction",
                 "pdfplumber_text_extraction"
@@ -333,7 +333,7 @@
               ],
               "metadata": {
                 "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-                "extraction_timestamp": "2025-08-11T22:19:32.688049",
+                "extraction_timestamp": "2025-08-11T22:24:02.645162",
                 "extraction_method": "pdfplumber",
                 "total_tables_found": 1,
                 "quality_distribution": {
@@ -346,7 +346,7 @@
             "text_content": {
               "document_metadata": {
                 "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-                "extraction_timestamp": "2025-08-11T22:19:32.720253",
+                "extraction_timestamp": "2025-08-11T22:24:02.677872",
                 "extraction_method": "pdfplumber_enhanced",
                 "total_pages": 1,
                 "total_word_count": 52
@@ -644,15 +644,15 @@
         "main_processor": {
           "document_metadata": {
             "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-            "processing_timestamp": "2025-08-11T22:19:32.821146",
-            "processing_duration": 0.0671,
+            "processing_timestamp": "2025-08-11T22:24:02.982440",
+            "processing_duration": 0.064306,
             "extraction_method": "pdfplumber_comprehensive"
           },
           "tables": {
             "extraction_metadata": {
               "method": "pdfplumber",
               "total_tables": 1,
-              "extraction_timestamp": "2025-08-11T22:19:32.855100",
+              "extraction_timestamp": "2025-08-11T22:24:03.013930",
               "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf"
             },
             "tables": [
@@ -819,13 +819,13 @@
               "method": "pdfplumber",
               "total_sections": 4,
               "total_words": 68,
-              "extraction_timestamp": "2025-08-11T22:19:32.887714",
+              "extraction_timestamp": "2025-08-11T22:24:03.046206",
               "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf"
             },
             "text_content": {
               "document_metadata": {
                 "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-                "extraction_timestamp": "2025-08-11T22:19:32.855248",
+                "extraction_timestamp": "2025-08-11T22:24:03.014091",
                 "extraction_method": "pdfplumber_enhanced",
                 "total_pages": 1,
                 "total_word_count": 68
@@ -1066,7 +1066,7 @@
             "extraction_metadata": {
               "method": "pdfplumber_enhanced",
               "total_numbers": 1,
-              "extraction_timestamp": "2025-08-11T22:19:32.888218"
+              "extraction_timestamp": "2025-08-11T22:24:03.046717"
             },
             "numbers": [
               {
@@ -1125,19 +1125,19 @@
         {
           "name": "Core PDFPlumber Processor",
           "status": "PASSED",
-          "processing_time": 0.09747576713562012,
+          "processing_time": 0.09442996978759766,
           "details": "Successfully processed with 0 tables"
         },
         {
           "name": "Clean PDF Processor",
           "status": "PASSED",
-          "processing_time": 0.09746623039245605,
+          "processing_time": 0.09433698654174805,
           "details": "Successfully processed with 0 tables"
         },
         {
           "name": "Main PDF Processor",
           "status": "PASSED",
-          "processing_time": 0.09808826446533203,
+          "processing_time": 0.09527397155761719,
           "details": "Successfully processed with 0 tables"
         },
         {
@@ -1152,17 +1152,17 @@
         }
       ],
       "processing_times": {
-        "core_processor": 0.09747576713562012,
-        "clean_processor": 0.09746623039245605,
-        "main_processor": 0.09808826446533203
+        "core_processor": 0.09442996978759766,
+        "clean_processor": 0.09433698654174805,
+        "main_processor": 0.09527397155761719
       },
       "extraction_results": {
         "core_processor": {
           "pdf_processing_result": {
             "document_metadata": {
               "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
-              "processing_timestamp": "2025-08-11T22:19:32.888727",
-              "processing_duration": 0.097264,
+              "processing_timestamp": "2025-08-11T22:24:03.046996",
+              "processing_duration": 0.094231,
               "extraction_methods": [
                 "pdfplumber_table_extraction",
                 "pdfplumber_text_extraction"
@@ -1172,7 +1172,7 @@
               "tables": [],
               "metadata": {
                 "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
-                "extraction_timestamp": "2025-08-11T22:19:32.888799",
+                "extraction_timestamp": "2025-08-11T22:24:03.047058",
                 "extraction_method": "pdfplumber",
                 "total_tables_found": 0,
                 "quality_distribution": {
@@ -1185,7 +1185,7 @@
             "text_content": {
               "document_metadata": {
                 "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
-                "extraction_timestamp": "2025-08-11T22:19:32.948464",
+                "extraction_timestamp": "2025-08-11T22:24:03.103697",
                 "extraction_method": "pdfplumber_enhanced",
                 "total_pages": 1,
                 "total_word_count": 92
@@ -1598,15 +1598,15 @@
         "main_processor": {
           "document_metadata": {
             "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
-            "processing_timestamp": "2025-08-11T22:19:33.083930",
-            "processing_duration": 0.09767,
+            "processing_timestamp": "2025-08-11T22:24:03.236021",
+            "processing_duration": 0.094863,
             "extraction_method": "pdfplumber_comprehensive"
           },
           "tables": {
             "extraction_metadata": {
               "method": "pdfplumber",
               "total_tables": 0,
-              "extraction_timestamp": "2025-08-11T22:19:33.143373",
+              "extraction_timestamp": "2025-08-11T22:24:03.293008",
               "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf"
             },
             "tables": [],
@@ -1620,13 +1620,13 @@
               "method": "pdfplumber",
               "total_sections": 7,
               "total_words": 105,
-              "extraction_timestamp": "2025-08-11T22:19:33.181349",
+              "extraction_timestamp": "2025-08-11T22:24:03.330618",
               "file_path": "tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf"
             },
             "text_content": {
               "document_metadata": {
                 "filename": "Test_PDF_with_3_numbers_in_large_paragraphs.pdf",
-                "extraction_timestamp": "2025-08-11T22:19:33.143570",
+                "extraction_timestamp": "2025-08-11T22:24:03.293130",
                 "extraction_method": "pdfplumber_enhanced",
                 "total_pages": 1,
                 "total_word_count": 105
@@ -2051,7 +2051,7 @@
             "extraction_metadata": {
               "method": "pdfplumber_enhanced",
               "total_numbers": 3,
-              "extraction_timestamp": "2025-08-11T22:19:33.181572"
+              "extraction_timestamp": "2025-08-11T22:24:03.330855"
             },
             "numbers": [
               {
