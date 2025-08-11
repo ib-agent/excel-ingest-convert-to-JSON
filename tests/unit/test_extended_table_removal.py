@@ -23,6 +23,9 @@ import concurrent.futures
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import statistics
+import pytest
+# Skip this test module if matplotlib is not installed
+pytest.importorskip("matplotlib", reason="Matplotlib required for visualization, skipping if not installed")
 import matplotlib.pyplot as plt
 import numpy as np
 from dataclasses import dataclass, asdict
