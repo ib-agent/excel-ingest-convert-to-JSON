@@ -79,7 +79,7 @@ def test_pdfplumber_migration():
         print(f"\n🔍 Testing with: {pdf_name}")
         print("-" * 40)
         
-        pdf_results = test_single_pdf(test_pdf, test_results)
+        pdf_results = _run_single_pdf(test_pdf, test_results)
         test_results["detailed_results"][pdf_name] = pdf_results
     
     # Generate summary report
@@ -105,7 +105,7 @@ def test_pdfplumber_migration():
         print("❌ PDFPlumber migration validation FAILED!")
         return False
 
-def test_single_pdf(pdf_path: str, test_results: Dict) -> Dict[str, Any]:
+def _run_single_pdf(pdf_path: str, test_results: Dict) -> Dict[str, Any]:
     """
     Test a single PDF file with all processors
     

@@ -2,8 +2,8 @@
   "pdf_processing_result": {
     "document_metadata": {
       "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-      "processing_timestamp": "2025-08-11T22:39:00.145372",
-      "processing_duration": 0.063614,
+      "processing_timestamp": "2025-08-11T23:17:03.192280",
+      "processing_duration": 0.059649,
       "extraction_methods": [
         "pdfplumber_table_extraction",
         "pdfplumber_text_extraction"
@@ -264,7 +264,7 @@
       ],
       "metadata": {
         "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-        "extraction_timestamp": "2025-08-11T22:39:00.145433",
+        "extraction_timestamp": "2025-08-11T23:17:03.192345",
         "extraction_method": "pdfplumber",
         "total_tables_found": 1,
         "quality_distribution": {
@@ -277,7 +277,7 @@
     "text_content": {
       "document_metadata": {
         "filename": "Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
-        "extraction_timestamp": "2025-08-11T22:39:00.177641",
+        "extraction_timestamp": "2025-08-11T23:17:03.222558",
         "extraction_method": "pdfplumber_enhanced",
         "total_pages": 1,
         "total_word_count": 52
