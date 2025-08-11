@@ -3,8 +3,8 @@
     "document_metadata": {
       "filename": "synthetic_financial_report.pdf",
       "total_pages": 4,
-      "processing_timestamp": "2025-08-11T23:17:02.241202",
-      "processing_duration": 0.502409,
+      "processing_timestamp": "2025-08-11T23:54:00.416559",
+      "processing_duration": 0.47764,
       "extraction_methods": [
         "table_extraction",
         "text_extraction",
@@ -2382,7 +2382,7 @@
       ],
       "metadata": {
         "filename": "synthetic_financial_report.pdf",
-        "extraction_timestamp": "2025-08-11T23:17:02.241266",
+        "extraction_timestamp": "2025-08-11T23:54:00.416618",
         "extraction_method": "camelot_py_with_fallback",
         "total_tables_found": 1,
         "quality_distribution": {
@@ -2396,7 +2396,7 @@
       "text_content": {
         "document_metadata": {
           "filename": "synthetic_financial_report.pdf",
-          "extraction_timestamp": "2025-08-11T23:17:02.728729",
+          "extraction_timestamp": "2025-08-11T23:54:00.880502",
           "extraction_method": "pymupdf_enhanced",
           "total_pages": 4,
           "total_word_count": 437

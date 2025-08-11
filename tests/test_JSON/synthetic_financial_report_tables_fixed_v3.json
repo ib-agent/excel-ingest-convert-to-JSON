@@ -3,8 +3,8 @@
     "document_metadata": {
       "filename": "synthetic_financial_report.pdf",
       "total_pages": 4,
-      "processing_timestamp": "2025-07-28T12:05:15.824724",
-      "processing_duration": 0.448828,
+      "processing_timestamp": "2025-08-11T23:53:59.948731",
+      "processing_duration": 0.454219,
       "extraction_methods": [
         "table_extraction",
         "text_extraction",
@@ -12,10 +12,10 @@
       ]
     },
     "processing_summary": {
-      "tables_extracted": 2,
-      "numbers_found": 29,
-      "text_sections": 22,
-      "overall_quality_score": 98.87483596064381,
+      "tables_extracted": 1,
+      "numbers_found": 49,
+      "text_sections": 28,
+      "overall_quality_score": 98.16014608972354,
       "processing_errors": []
     },
     "tables": {
@@ -25,13 +25,13 @@
           "name": "Table 1",
           "region": {
             "page_number": 3,
-            "bbox": [
-              56.0,
-              52.93,
-              557.1999999999999,
-              735.3146153846153
+            "spans_pages": [
+              3,
+              3,
+              4,
+              4
             ],
-            "detection_method": "camelot_stream"
+            "detection_method": "merged_spanning_table"
           },
           "header_info": {
             "header_rows": [
@@ -49,83 +49,88 @@
               "column_label": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large",
               "is_header_column": true,
               "cells": {
-                "A2": {
+                "A1": {
                   "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large",
+                  "row": 1,
+                  "column": 1
+                },
+                "A2": {
+                  "value": "Table Spanning Pages",
                   "row": 2,
                   "column": 1
                 },
                 "A3": {
-                  "value": "Table Spanning Pages",
+                  "value": "Segment",
                   "row": 3,
                   "column": 1
                 },
                 "A4": {
-                  "value": "Segment",
+                  "value": "Public Sector",
                   "row": 4,
                   "column": 1
                 },
                 "A5": {
-                  "value": "Public Sector",
+                  "value": "Enterprise",
                   "row": 5,
                   "column": 1
                 },
                 "A6": {
-                  "value": "Enterprise",
+                  "value": "Services",
                   "row": 6,
                   "column": 1
                 },
                 "A7": {
-                  "value": "Services",
+                  "value": "Cloud",
                   "row": 7,
                   "column": 1
                 },
                 "A8": {
-                  "value": "Cloud",
+                  "value": "Hardware",
                   "row": 8,
                   "column": 1
                 },
                 "A9": {
-                  "value": "Hardware",
+                  "value": "OEM",
                   "row": 9,
                   "column": 1
                 },
                 "A10": {
-                  "value": "OEM",
+                  "value": "Services",
                   "row": 10,
                   "column": 1
                 },
                 "A11": {
-                  "value": "Services",
+                  "value": "SMB",
                   "row": 11,
                   "column": 1
                 },
                 "A12": {
-                  "value": "SMB",
+                  "value": "Enterprise",
                   "row": 12,
                   "column": 1
                 },
                 "A13": {
-                  "value": "Enterprise",
+                  "value": "Services",
                   "row": 13,
                   "column": 1
                 },
                 "A14": {
-                  "value": "Services",
+                  "value": "OEM",
                   "row": 14,
                   "column": 1
                 },
                 "A15": {
-                  "value": "OEM",
+                  "value": "Hardware",
                   "row": 15,
                   "column": 1
                 },
                 "A16": {
-                  "value": "Hardware",
+                  "value": "Public Sector",
                   "row": 16,
                   "column": 1
                 },
                 "A17": {
-                  "value": "Public Sector",
+                  "value": "Services",
                   "row": 17,
                   "column": 1
                 },
@@ -135,7 +140,7 @@
                   "column": 1
                 },
                 "A19": {
-                  "value": "Services",
+                  "value": "OEM",
                   "row": 19,
                   "column": 1
                 },
@@ -145,83 +150,88 @@
                   "column": 1
                 },
                 "A21": {
-                  "value": "OEM",
+                  "value": "Cloud",
                   "row": 21,
                   "column": 1
                 },
                 "A22": {
-                  "value": "Cloud",
+                  "value": "Public Sector",
                   "row": 22,
                   "column": 1
                 },
                 "A23": {
-                  "value": "Public Sector",
+                  "value": "Consumer",
                   "row": 23,
                   "column": 1
                 },
                 "A24": {
-                  "value": "Consumer",
+                  "value": "Cloud",
                   "row": 24,
                   "column": 1
                 },
                 "A25": {
-                  "value": "Cloud",
+                  "value": "Hardware",
                   "row": 25,
                   "column": 1
                 },
                 "A26": {
-                  "value": "Hardware",
+                  "value": "SMB",
                   "row": 26,
                   "column": 1
                 },
                 "A27": {
-                  "value": "SMB",
+                  "value": "Consumer",
                   "row": 27,
                   "column": 1
                 },
                 "A28": {
-                  "value": "Consumer",
+                  "value": "Cloud",
                   "row": 28,
                   "column": 1
                 },
                 "A29": {
-                  "value": "Cloud",
+                  "value": "OEM",
                   "row": 29,
                   "column": 1
                 },
                 "A30": {
-                  "value": "OEM",
+                  "value": "Consumer",
                   "row": 30,
                   "column": 1
                 },
                 "A31": {
-                  "value": "Consumer",
+                  "value": "Hardware",
                   "row": 31,
                   "column": 1
                 },
                 "A32": {
-                  "value": "Hardware",
+                  "value": "Enterprise",
                   "row": 32,
                   "column": 1
                 },
                 "A33": {
-                  "value": "Enterprise",
+                  "value": "Services",
                   "row": 33,
                   "column": 1
                 },
                 "A34": {
-                  "value": "Services",
+                  "value": "Consumer",
                   "row": 34,
                   "column": 1
                 },
                 "A35": {
-                  "value": "Consumer",
+                  "value": "Cloud",
                   "row": 35,
                   "column": 1
                 },
                 "A36": {
-                  "value": "Cloud",
+                  "value": "Consumer",
                   "row": 36,
+                  "column": 1
+                },
+                "A37": {
+                  "value": "Public Sector",
+                  "row": 37,
                   "column": 1
                 }
               }
@@ -231,38 +241,43 @@
               "column_label": "Column B",
               "is_header_column": false,
               "cells": {
-                "B4": {
+                "B3": {
                   "value": "Region",
+                  "row": 3,
+                  "column": 2
+                },
+                "B4": {
+                  "value": "APAC",
                   "row": 4,
                   "column": 2
                 },
                 "B5": {
-                  "value": "APAC",
+                  "value": "LATAM",
                   "row": 5,
                   "column": 2
                 },
                 "B6": {
-                  "value": "LATAM",
+                  "value": "APAC",
                   "row": 6,
                   "column": 2
                 },
                 "B7": {
-                  "value": "APAC",
+                  "value": "NA",
                   "row": 7,
                   "column": 2
                 },
                 "B8": {
-                  "value": "NA",
+                  "value": "EMEA",
                   "row": 8,
                   "column": 2
                 },
                 "B9": {
-                  "value": "EMEA",
+                  "value": "APAC",
                   "row": 9,
                   "column": 2
                 },
                 "B10": {
-                  "value": "APAC",
+                  "value": "EMEA",
                   "row": 10,
                   "column": 2
                 },
@@ -272,22 +287,22 @@
                   "column": 2
                 },
                 "B12": {
-                  "value": "EMEA",
+                  "value": "NA",
                   "row": 12,
                   "column": 2
                 },
                 "B13": {
-                  "value": "NA",
+                  "value": "EMEA",
                   "row": 13,
                   "column": 2
                 },
-                "B14": {
+                "B15": {
                   "value": "EMEA",
-                  "row": 14,
+                  "row": 15,
                   "column": 2
                 },
                 "B16": {
-                  "value": "EMEA",
+                  "value": "NA",
                   "row": 16,
                   "column": 2
                 },
@@ -312,17 +327,17 @@
                   "column": 2
                 },
                 "B21": {
-                  "value": "NA",
+                  "value": "EMEA",
                   "row": 21,
                   "column": 2
                 },
-                "B22": {
-                  "value": "EMEA",
-                  "row": 22,
+                "B23": {
+                  "value": "NA",
+                  "row": 23,
                   "column": 2
                 },
                 "B24": {
-                  "value": "NA",
+                  "value": "APAC",
                   "row": 24,
                   "column": 2
                 },
@@ -332,43 +347,38 @@
                   "column": 2
                 },
                 "B26": {
-                  "value": "APAC",
+                  "value": "LATAM",
                   "row": 26,
                   "column": 2
                 },
                 "B27": {
-                  "value": "LATAM",
+                  "value": "EMEA",
                   "row": 27,
                   "column": 2
                 },
-                "B28": {
-                  "value": "EMEA",
-                  "row": 28,
+                "B29": {
+                  "value": "NA",
+                  "row": 29,
                   "column": 2
                 },
                 "B30": {
-                  "value": "NA",
+                  "value": "LATAM",
                   "row": 30,
                   "column": 2
                 },
-                "B31": {
-                  "value": "LATAM",
-                  "row": 31,
+                "B32": {
+                  "value": "EMEA",
+                  "row": 32,
                   "column": 2
                 },
-                "B33": {
+                "B34": {
                   "value": "EMEA",
-                  "row": 33,
+                  "row": 34,
                   "column": 2
                 },
                 "B35": {
-                  "value": "EMEA",
-                  "row": 35,
-                  "column": 2
-                },
-                "B36": {
                   "value": "APAC",
-                  "row": 36,
+                  "row": 35,
                   "column": 2
                 }
               }
@@ -378,169 +388,179 @@
               "column_label": "Column C",
               "is_header_column": false,
               "cells": {
-                "C4": {
+                "C3": {
                   "value": "Q1Q2Q3Q4FY",
+                  "row": 3,
+                  "column": 3
+                },
+                "C4": {
+                  "value": "$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
                   "row": 4,
                   "column": 3
                 },
                 "C5": {
-                  "value": "$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                  "value": "$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
                   "row": 5,
                   "column": 3
                 },
                 "C6": {
-                  "value": "$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
+                  "value": "$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
                   "row": 6,
                   "column": 3
                 },
                 "C7": {
-                  "value": "$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
+                  "value": "$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
                   "row": 7,
                   "column": 3
                 },
                 "C8": {
-                  "value": "$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
+                  "value": "$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
                   "row": 8,
                   "column": 3
                 },
                 "C9": {
-                  "value": "$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
+                  "value": "$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
                   "row": 9,
                   "column": 3
                 },
                 "C10": {
-                  "value": "$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
+                  "value": "$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
                   "row": 10,
                   "column": 3
                 },
                 "C11": {
-                  "value": "$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
+                  "value": "$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
                   "row": 11,
                   "column": 3
                 },
                 "C12": {
-                  "value": "$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
+                  "value": "$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
                   "row": 12,
                   "column": 3
                 },
                 "C13": {
-                  "value": "$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
+                  "value": "$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
                   "row": 13,
                   "column": 3
                 },
                 "C14": {
-                  "value": "$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
+                  "value": "LATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
                   "row": 14,
                   "column": 3
                 },
                 "C15": {
-                  "value": "LATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
+                  "value": "$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
                   "row": 15,
                   "column": 3
                 },
                 "C16": {
-                  "value": "$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
+                  "value": "$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
                   "row": 16,
                   "column": 3
                 },
                 "C17": {
-                  "value": "$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                  "value": "$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
                   "row": 17,
                   "column": 3
                 },
                 "C18": {
-                  "value": "$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
+                  "value": "$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
                   "row": 18,
                   "column": 3
                 },
                 "C19": {
-                  "value": "$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
+                  "value": "$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
                   "row": 19,
                   "column": 3
                 },
                 "C20": {
-                  "value": "$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
+                  "value": "$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
                   "row": 20,
                   "column": 3
                 },
                 "C21": {
-                  "value": "$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
+                  "value": "$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
                   "row": 21,
                   "column": 3
                 },
                 "C22": {
-                  "value": "$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
+                  "value": "LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
                   "row": 22,
                   "column": 3
                 },
                 "C23": {
-                  "value": "LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                  "value": "$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
                   "row": 23,
                   "column": 3
                 },
                 "C24": {
-                  "value": "$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
+                  "value": "$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
                   "row": 24,
                   "column": 3
                 },
                 "C25": {
-                  "value": "$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
+                  "value": "$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
                   "row": 25,
                   "column": 3
                 },
                 "C26": {
-                  "value": "$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
+                  "value": "$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
                   "row": 26,
                   "column": 3
                 },
                 "C27": {
-                  "value": "$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
+                  "value": "$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
                   "row": 27,
                   "column": 3
                 },
                 "C28": {
-                  "value": "$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
+                  "value": "LATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
                   "row": 28,
                   "column": 3
                 },
                 "C29": {
-                  "value": "LATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
+                  "value": "$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
                   "row": 29,
                   "column": 3
                 },
                 "C30": {
-                  "value": "$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
+                  "value": "$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
                   "row": 30,
                   "column": 3
                 },
                 "C31": {
-                  "value": "$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
+                  "value": "LATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
                   "row": 31,
                   "column": 3
                 },
                 "C32": {
-                  "value": "LATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
+                  "value": "$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
                   "row": 32,
                   "column": 3
                 },
                 "C33": {
-                  "value": "$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
+                  "value": "LATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
                   "row": 33,
                   "column": 3
                 },
                 "C34": {
-                  "value": "LATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
+                  "value": "$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
                   "row": 34,
                   "column": 3
                 },
                 "C35": {
-                  "value": "$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
+                  "value": "$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
                   "row": 35,
                   "column": 3
                 },
                 "C36": {
-                  "value": "$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
+                  "value": "LATAM $16,846,975.87$18,231,722.82$5,444,680.20$5,583,920.92 $46,107,299.81",
                   "row": 36,
+                  "column": 3
+                },
+                "C37": {
+                  "value": "LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                  "row": 37,
                   "column": 3
                 }
               }
@@ -555,6 +575,18 @@
                 "A1": {
                   "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large",
                   "row": 1,
+                  "column": 1
+                }
+              }
+            },
+            {
+              "row_index": 1,
+              "row_label": "Table Spanning Pages",
+              "is_header_row": false,
+              "cells": {
+                "A2": {
+                  "value": "Table Spanning Pages",
+                  "row": 2,
                   "column": 1
                 }
               }
@@ -1293,153 +1325,744 @@
                   "column": 3
                 }
               }
-            }
-          ],
-          "metadata": {
-            "detection_method": "camelot_stream",
-            "quality_score": 98.16014608972354,
-            "cell_count": 111,
-            "whitespace": 9.90990990990991,
-            "order": 1
-          }
-        },
-        {
-          "table_id": "table_2",
-          "name": "Table 2",
-          "region": {
-            "page_number": 4,
-            "bbox": [
-              56.0,
-              598.93,
-              557.1999999999999,
-              776.93
-            ],
-            "detection_method": "camelot_stream"
-          },
-          "header_info": {
-            "header_rows": [
-              0
-            ],
-            "header_columns": [
-              0
-            ],
-            "data_start_row": 1,
-            "data_start_col": 1
-          },
-          "columns": [
+            },
             {
-              "column_index": 0,
-              "column_label": "Segment",
-              "is_header_column": true,
+              "row_index": 0,
+              "row_label": "Row 1",
+              "is_header_row": true,
+              "cells": {
+                "A1": {
+                  "value": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large\nTable Spanning Pages",
+                  "row": 1,
+                  "column": 1
+                }
+              }
+            },
+            {
+              "row_index": 1,
+              "row_label": "Row 2",
+              "is_header_row": false,
               "cells": {
                 "A2": {
-                  "value": "Segment",
+                  "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
                   "row": 2,
                   "column": 1
-                },
+                }
+              }
+            },
+            {
+              "row_index": 2,
+              "row_label": "Row 3",
+              "is_header_row": false,
+              "cells": {
                 "A3": {
-                  "value": "OEM",
+                  "value": "Public Sector",
                   "row": 3,
                   "column": 1
                 },
+                "B3": {
+                  "value": "APAC",
+                  "row": 3,
+                  "column": 2
+                },
+                "C3": {
+                  "value": "$20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                  "row": 3,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 3,
+              "row_label": "Row 4",
+              "is_header_row": false,
+              "cells": {
                 "A4": {
-                  "value": "Consumer",
+                  "value": "Enterprise",
                   "row": 4,
                   "column": 1
                 },
+                "B4": {
+                  "value": "LATAM",
+                  "row": 4,
+                  "column": 2
+                },
+                "C4": {
+                  "value": "$6,070,823.10$13,920,053.59$9,216,600.36$6,513,743.92 $35,721,220.96",
+                  "row": 4,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 4,
+              "row_label": "Row 5",
+              "is_header_row": false,
+              "cells": {
                 "A5": {
-                  "value": "Hardware",
+                  "value": "Services",
                   "row": 5,
                   "column": 1
                 },
+                "B5": {
+                  "value": "APAC",
+                  "row": 5,
+                  "column": 2
+                },
+                "C5": {
+                  "value": "$6,607,775.88$11,386,246.03$8,825,379.47$18,822,406.22 $45,641,807.60",
+                  "row": 5,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 5,
+              "row_label": "Row 6",
+              "is_header_row": false,
+              "cells": {
                 "A6": {
-                  "value": "Hardware",
+                  "value": "Cloud",
                   "row": 6,
                   "column": 1
                 },
+                "B6": {
+                  "value": "NA",
+                  "row": 6,
+                  "column": 2
+                },
+                "C6": {
+                  "value": "$16,071,225.13$1,520,172.19$17,684,481.96$21,298,938.03 $56,574,817.31",
+                  "row": 6,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 6,
+              "row_label": "Row 7",
+              "is_header_row": false,
+              "cells": {
                 "A7": {
                   "value": "Hardware",
                   "row": 7,
                   "column": 1
-                }
-              }
-            },
-            {
-              "column_index": 1,
-              "column_label": "Region",
-              "is_header_column": false,
-              "cells": {
-                "B2": {
-                  "value": "Region",
-                  "row": 2,
-                  "column": 2
-                },
-                "B3": {
-                  "value": "LATAM",
-                  "row": 3,
-                  "column": 2
-                },
-                "B4": {
-                  "value": "EMEA",
-                  "row": 4,
-                  "column": 2
-                },
-                "B5": {
-                  "value": "EMEA",
-                  "row": 5,
-                  "column": 2
-                },
-                "B6": {
-                  "value": "EMEA",
-                  "row": 6,
-                  "column": 2
                 },
                 "B7": {
-                  "value": "APAC",
+                  "value": "EMEA",
                   "row": 7,
+                  "column": 2
+                },
+                "C7": {
+                  "value": "$23,649,177.72$12,861,800.53$17,480,287.62$4,703,692.03 $58,694,957.89",
+                  "row": 7,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 7,
+              "row_label": "Row 8",
+              "is_header_row": false,
+              "cells": {
+                "A8": {
+                  "value": "OEM",
+                  "row": 8,
+                  "column": 1
+                },
+                "B8": {
+                  "value": "APAC",
+                  "row": 8,
+                  "column": 2
+                },
+                "C8": {
+                  "value": "$9,140,125.97$11,591,907.08$12,838,984.83$15,319,077.60 $48,890,095.48",
+                  "row": 8,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 8,
+              "row_label": "Row 9",
+              "is_header_row": false,
+              "cells": {
+                "A9": {
+                  "value": "Services",
+                  "row": 9,
+                  "column": 1
+                },
+                "B9": {
+                  "value": "EMEA",
+                  "row": 9,
+                  "column": 2
+                },
+                "C9": {
+                  "value": "$7,928,813.62$2,454,667.98$24,236,030.43$15,163,169.91 $49,782,681.94",
+                  "row": 9,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 9,
+              "row_label": "Row 10",
+              "is_header_row": false,
+              "cells": {
+                "A10": {
+                  "value": "SMB",
+                  "row": 10,
+                  "column": 1
+                },
+                "B10": {
+                  "value": "EMEA",
+                  "row": 10,
+                  "column": 2
+                },
+                "C10": {
+                  "value": "$9,176,432.72$3,914,297.42$20,604,928.09$11,041,638.03 $44,737,296.26",
+                  "row": 10,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 10,
+              "row_label": "Row 11",
+              "is_header_row": false,
+              "cells": {
+                "A11": {
+                  "value": "Enterprise",
+                  "row": 11,
+                  "column": 1
+                },
+                "B11": {
+                  "value": "NA",
+                  "row": 11,
+                  "column": 2
+                },
+                "C11": {
+                  "value": "$13,890,255.84$7,205,773.28$6,732,111.86$22,875,147.03 $50,703,288.00",
+                  "row": 11,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 11,
+              "row_label": "Row 12",
+              "is_header_row": false,
+              "cells": {
+                "A12": {
+                  "value": "Services",
+                  "row": 12,
+                  "column": 1
+                },
+                "B12": {
+                  "value": "EMEA",
+                  "row": 12,
+                  "column": 2
+                },
+                "C12": {
+                  "value": "$18,042,238.84$18,572,314.35$10,269,092.71$1,314,210.11 $48,197,856.01",
+                  "row": 12,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 12,
+              "row_label": "Row 13",
+              "is_header_row": false,
+              "cells": {
+                "A13": {
+                  "value": "OEM",
+                  "row": 13,
+                  "column": 1
+                },
+                "B13": {
+                  "value": "LATAM $14,901,294.74$16,059,264.02$10,868,244.60$6,547,327.16 $48,376,130.52",
+                  "row": 13,
                   "column": 2
                 }
               }
             },
             {
-              "column_index": 2,
-              "column_label": "Q1Q2Q3Q4FY",
-              "is_header_column": false,
+              "row_index": 13,
+              "row_label": "Row 14",
+              "is_header_row": false,
               "cells": {
-                "C2": {
-                  "value": "Q1Q2Q3Q4FY",
-                  "row": 2,
-                  "column": 3
+                "A14": {
+                  "value": "Hardware",
+                  "row": 14,
+                  "column": 1
                 },
-                "C3": {
-                  "value": "$5,826,915.36$4,468,720.54$24,568,337.64$22,272,182.09 $57,136,155.63",
-                  "row": 3,
-                  "column": 3
+                "B14": {
+                  "value": "EMEA",
+                  "row": 14,
+                  "column": 2
                 },
-                "C4": {
-                  "value": "$14,636,169.18$7,167,891.91$22,236,151.43$19,168,192.99 $63,208,405.50",
-                  "row": 4,
-                  "column": 3
-                },
-                "C5": {
-                  "value": "$14,274,279.51$1,154,455.71$21,636,656.79$6,063,640.01 $43,129,032.02",
-                  "row": 5,
-                  "column": 3
-                },
-                "C6": {
-                  "value": "$24,082,688.65$21,331,203.23$2,491,025.05$4,862,315.32 $52,767,232.25",
-                  "row": 6,
-                  "column": 3
-                },
-                "C7": {
-                  "value": "$20,585,821.36$7,195,273.67$13,786,945.13$7,422,618.39 $48,990,658.55",
-                  "row": 7,
+                "C14": {
+                  "value": "$4,518,801.34$17,067,963.00$10,978,102.00$9,509,674.64 $42,074,540.97",
+                  "row": 14,
                   "column": 3
                 }
               }
-            }
-          ],
-          "rows": [
+            },
+            {
+              "row_index": 14,
+              "row_label": "Row 15",
+              "is_header_row": false,
+              "cells": {
+                "A15": {
+                  "value": "Public Sector",
+                  "row": 15,
+                  "column": 1
+                },
+                "B15": {
+                  "value": "NA",
+                  "row": 15,
+                  "column": 2
+                },
+                "C15": {
+                  "value": "$5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                  "row": 15,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 15,
+              "row_label": "Row 16",
+              "is_header_row": false,
+              "cells": {
+                "A16": {
+                  "value": "Services",
+                  "row": 16,
+                  "column": 1
+                },
+                "B16": {
+                  "value": "NA",
+                  "row": 16,
+                  "column": 2
+                },
+                "C16": {
+                  "value": "$5,866,006.57$1,594,134.81$22,028,044.03$6,658,193.16 $36,146,378.58",
+                  "row": 16,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 16,
+              "row_label": "Row 17",
+              "is_header_row": false,
+              "cells": {
+                "A17": {
+                  "value": "Services",
+                  "row": 17,
+                  "column": 1
+                },
+                "B17": {
+                  "value": "NA",
+                  "row": 17,
+                  "column": 2
+                },
+                "C17": {
+                  "value": "$22,863,935.70$14,645,678.01$17,909,480.99$8,663,462.90 $64,082,557.60",
+                  "row": 17,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 17,
+              "row_label": "Row 18",
+              "is_header_row": false,
+              "cells": {
+                "A18": {
+                  "value": "OEM",
+                  "row": 18,
+                  "column": 1
+                },
+                "B18": {
+                  "value": "NA",
+                  "row": 18,
+                  "column": 2
+                },
+                "C18": {
+                  "value": "$13,526,647.51$19,248,184.15$24,346,579.11$22,551,510.20 $79,672,920.97",
+                  "row": 18,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 18,
+              "row_label": "Row 19",
+              "is_header_row": false,
+              "cells": {
+                "A19": {
+                  "value": "OEM",
+                  "row": 19,
+                  "column": 1
+                },
+                "B19": {
+                  "value": "NA",
+                  "row": 19,
+                  "column": 2
+                },
+                "C19": {
+                  "value": "$8,212,678.41$23,807,245.51$14,973,170.18$24,390,763.88 $71,383,857.98",
+                  "row": 19,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 19,
+              "row_label": "Row 20",
+              "is_header_row": false,
+              "cells": {
+                "A20": {
+                  "value": "Cloud",
+                  "row": 20,
+                  "column": 1
+                },
+                "B20": {
+                  "value": "EMEA",
+                  "row": 20,
+                  "column": 2
+                },
+                "C20": {
+                  "value": "$20,923,689.38$1,492,052.51$23,508,934.36$12,591,331.29 $58,516,007.54",
+                  "row": 20,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 20,
+              "row_label": "Row 21",
+              "is_header_row": false,
+              "cells": {
+                "A21": {
+                  "value": "Public Sector",
+                  "row": 21,
+                  "column": 1
+                },
+                "B21": {
+                  "value": "LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                  "row": 21,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "row_index": 21,
+              "row_label": "Row 22",
+              "is_header_row": false,
+              "cells": {
+                "A22": {
+                  "value": "Consumer",
+                  "row": 22,
+                  "column": 1
+                },
+                "B22": {
+                  "value": "NA",
+                  "row": 22,
+                  "column": 2
+                },
+                "C22": {
+                  "value": "$15,888,076.39$15,490,976.99$8,236,145.77$1,128,045.68 $40,743,244.83",
+                  "row": 22,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 22,
+              "row_label": "Row 23",
+              "is_header_row": false,
+              "cells": {
+                "A23": {
+                  "value": "Cloud",
+                  "row": 23,
+                  "column": 1
+                },
+                "B23": {
+                  "value": "APAC",
+                  "row": 23,
+                  "column": 2
+                },
+                "C23": {
+                  "value": "$3,902,905.80$1,598,348.30$18,074,110.23$7,380,550.94 $30,955,915.27",
+                  "row": 23,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 23,
+              "row_label": "Row 24",
+              "is_header_row": false,
+              "cells": {
+                "A24": {
+                  "value": "Hardware",
+                  "row": 24,
+                  "column": 1
+                },
+                "B24": {
+                  "value": "APAC",
+                  "row": 24,
+                  "column": 2
+                },
+                "C24": {
+                  "value": "$23,645,150.20$20,461,590.04$21,413,056.88$21,108,630.66 $86,628,427.79",
+                  "row": 24,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 24,
+              "row_label": "Row 25",
+              "is_header_row": false,
+              "cells": {
+                "A25": {
+                  "value": "SMB",
+                  "row": 25,
+                  "column": 1
+                },
+                "B25": {
+                  "value": "LATAM",
+                  "row": 25,
+                  "column": 2
+                },
+                "C25": {
+                  "value": "$9,742,717.06$23,024,033.52$23,536,525.31$14,908,434.82 $71,211,710.71",
+                  "row": 25,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 25,
+              "row_label": "Row 26",
+              "is_header_row": false,
+              "cells": {
+                "A26": {
+                  "value": "Consumer",
+                  "row": 26,
+                  "column": 1
+                },
+                "B26": {
+                  "value": "EMEA",
+                  "row": 26,
+                  "column": 2
+                },
+                "C26": {
+                  "value": "$18,922,397.15$19,595,662.11$3,059,145.98$21,341,322.86 $62,918,528.11",
+                  "row": 26,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 26,
+              "row_label": "Row 27",
+              "is_header_row": false,
+              "cells": {
+                "A27": {
+                  "value": "Cloud",
+                  "row": 27,
+                  "column": 1
+                },
+                "B27": {
+                  "value": "LATAM $23,988,439.12$3,528,400.95$16,354,252.22$17,582,416.12 $61,453,508.41",
+                  "row": 27,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "row_index": 27,
+              "row_label": "Row 28",
+              "is_header_row": false,
+              "cells": {
+                "A28": {
+                  "value": "OEM",
+                  "row": 28,
+                  "column": 1
+                },
+                "B28": {
+                  "value": "NA",
+                  "row": 28,
+                  "column": 2
+                },
+                "C28": {
+                  "value": "$12,840,144.43$20,957,297.48$1,395,586.93$22,196,603.02 $57,389,631.86",
+                  "row": 28,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 28,
+              "row_label": "Row 29",
+              "is_header_row": false,
+              "cells": {
+                "A29": {
+                  "value": "Consumer",
+                  "row": 29,
+                  "column": 1
+                },
+                "B29": {
+                  "value": "LATAM",
+                  "row": 29,
+                  "column": 2
+                },
+                "C29": {
+                  "value": "$8,571,685.42$14,468,367.26$2,189,219.81$2,299,615.09 $27,528,887.58",
+                  "row": 29,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 29,
+              "row_label": "Row 30",
+              "is_header_row": false,
+              "cells": {
+                "A30": {
+                  "value": "Hardware",
+                  "row": 30,
+                  "column": 1
+                },
+                "B30": {
+                  "value": "LATAM $19,829,165.63$11,536,805.86$3,203,006.86$5,477,645.50 $40,046,623.85",
+                  "row": 30,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "row_index": 30,
+              "row_label": "Row 31",
+              "is_header_row": false,
+              "cells": {
+                "A31": {
+                  "value": "Enterprise",
+                  "row": 31,
+                  "column": 1
+                },
+                "B31": {
+                  "value": "EMEA",
+                  "row": 31,
+                  "column": 2
+                },
+                "C31": {
+                  "value": "$20,098,956.96$23,741,196.99$5,139,107.25$7,225,770.56 $56,205,031.76",
+                  "row": 31,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 31,
+              "row_label": "Row 32",
+              "is_header_row": false,
+              "cells": {
+                "A32": {
+                  "value": "Services",
+                  "row": 32,
+                  "column": 1
+                },
+                "B32": {
+                  "value": "LATAM $10,491,683.87$19,423,901.29$24,883,191.22$20,892,518.45 $75,691,294.82",
+                  "row": 32,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "row_index": 32,
+              "row_label": "Row 33",
+              "is_header_row": false,
+              "cells": {
+                "A33": {
+                  "value": "Consumer",
+                  "row": 33,
+                  "column": 1
+                },
+                "B33": {
+                  "value": "EMEA",
+                  "row": 33,
+                  "column": 2
+                },
+                "C33": {
+                  "value": "$6,499,801.04$24,499,922.61$22,754,944.19$19,496,950.37 $73,251,618.22",
+                  "row": 33,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 33,
+              "row_label": "Row 34",
+              "is_header_row": false,
+              "cells": {
+                "A34": {
+                  "value": "Cloud",
+                  "row": 34,
+                  "column": 1
+                },
+                "B34": {
+                  "value": "APAC",
+                  "row": 34,
+                  "column": 2
+                },
+                "C34": {
+                  "value": "$16,960,413.57$20,164,999.95$14,202,676.30$2,722,651.76 $54,050,741.58",
+                  "row": 34,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 34,
+              "row_label": "Row 35",
+              "is_header_row": false,
+              "cells": {
+                "A35": {
+                  "value": "Consumer",
+                  "row": 35,
+                  "column": 1
+                },
+                "B35": {
+                  "value": "LATAM $16,846,975.87$18,231,722.82$5,444,680.20$5,583,920.92 $46,107,299.81",
+                  "row": 35,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "row_index": 35,
+              "row_label": "Row 36",
+              "is_header_row": false,
+              "cells": {
+                "A36": {
+                  "value": "Public Sector",
+                  "row": 36,
+                  "column": 1
+                },
+                "B36": {
+                  "value": "LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                  "row": 36,
+                  "column": 2
+                }
+              }
+            },
             {
               "row_index": 0,
               "row_label": "Row 1",
@@ -1588,22 +2211,180 @@
                   "column": 3
                 }
               }
+            },
+            {
+              "row_index": 0,
+              "row_label": "Row 1",
+              "is_header_row": true,
+              "cells": {
+                "A1": {
+                  "value": "Segment\nRegion\nQ1\nQ2\nQ3\nQ4\nFY",
+                  "row": 1,
+                  "column": 1
+                }
+              }
+            },
+            {
+              "row_index": 1,
+              "row_label": "Row 2",
+              "is_header_row": false,
+              "cells": {
+                "A2": {
+                  "value": "OEM",
+                  "row": 2,
+                  "column": 1
+                },
+                "B2": {
+                  "value": "LATAM",
+                  "row": 2,
+                  "column": 2
+                },
+                "C2": {
+                  "value": "$5,826,915.36$4,468,720.54$24,568,337.64$22,272,182.09 $57,136,155.63",
+                  "row": 2,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 2,
+              "row_label": "Row 3",
+              "is_header_row": false,
+              "cells": {
+                "A3": {
+                  "value": "Consumer",
+                  "row": 3,
+                  "column": 1
+                },
+                "B3": {
+                  "value": "EMEA",
+                  "row": 3,
+                  "column": 2
+                },
+                "C3": {
+                  "value": "$14,636,169.18$7,167,891.91$22,236,151.43$19,168,192.99 $63,208,405.50",
+                  "row": 3,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 3,
+              "row_label": "Row 4",
+              "is_header_row": false,
+              "cells": {
+                "A4": {
+                  "value": "Hardware",
+                  "row": 4,
+                  "column": 1
+                },
+                "B4": {
+                  "value": "EMEA",
+                  "row": 4,
+                  "column": 2
+                },
+                "C4": {
+                  "value": "$14,274,279.51$1,154,455.71$21,636,656.79$6,063,640.01 $43,129,032.02",
+                  "row": 4,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 4,
+              "row_label": "Row 5",
+              "is_header_row": false,
+              "cells": {
+                "A5": {
+                  "value": "Hardware",
+                  "row": 5,
+                  "column": 1
+                },
+                "B5": {
+                  "value": "EMEA",
+                  "row": 5,
+                  "column": 2
+                },
+                "C5": {
+                  "value": "$24,082,688.65$21,331,203.23$2,491,025.05$4,862,315.32 $52,767,232.25",
+                  "row": 5,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 5,
+              "row_label": "Row 6",
+              "is_header_row": false,
+              "cells": {
+                "A6": {
+                  "value": "Hardware",
+                  "row": 6,
+                  "column": 1
+                },
+                "B6": {
+                  "value": "APAC",
+                  "row": 6,
+                  "column": 2
+                },
+                "C6": {
+                  "value": "$20,585,821.36$7,195,273.67$13,786,945.13$7,422,618.39 $48,990,658.55",
+                  "row": 6,
+                  "column": 3
+                }
+              }
+            },
+            {
+              "row_index": 6,
+              "row_label": "Row 7",
+              "is_header_row": false,
+              "cells": {
+                "A7": {
+                  "value": "Services",
+                  "row": 7,
+                  "column": 1
+                },
+                "B7": {
+                  "value": "LATAM $13,918,514.10$19,003,658.09$5,566,725.76$10,322,856.38 $48,811,754.33",
+                  "row": 7,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "row_index": 7,
+              "row_label": "Row 8",
+              "is_header_row": false,
+              "cells": {
+                "A8": {
+                  "value": "Note: All figures in this report are synthetic and generated solely for the purpose of testing PDF extraction\npipelines. They should not be used for investment decisions.",
+                  "row": 8,
+                  "column": 1
+                }
+              }
             }
           ],
           "metadata": {
             "detection_method": "camelot_stream",
-            "quality_score": 99.58952583156407,
-            "cell_count": 21,
-            "whitespace": 4.761904761904762,
-            "order": 1
+            "quality_score": 98.16014608972354,
+            "cell_count": 111,
+            "whitespace": 9.90990990990991,
+            "order": 1,
+            "merged_from": 4,
+            "original_tables": [
+              3,
+              3,
+              4,
+              4
+            ]
           }
         }
       ],
       "metadata": {
         "filename": "synthetic_financial_report.pdf",
-        "extraction_timestamp": "2025-07-28T12:05:15.824782",
-        "extraction_method": "camelot_py",
-        "total_tables_found": 2,
+        "extraction_timestamp": "2025-08-11T23:53:59.948807",
+        "extraction_method": "camelot_py_with_fallback",
+        "total_tables_found": 1,
         "quality_distribution": {
           "high": 2,
           "medium": 0,
@@ -1615,10 +2396,10 @@
       "text_content": {
         "document_metadata": {
           "filename": "synthetic_financial_report.pdf",
-          "extraction_timestamp": "2025-07-28T12:05:16.259602",
+          "extraction_timestamp": "2025-08-11T23:54:00.387553",
           "extraction_method": "pymupdf_enhanced",
           "total_pages": 4,
-          "total_word_count": 396
+          "total_word_count": 437
         },
         "pages": [
           {
@@ -3283,7 +4064,818 @@
             "page_number": 3,
             "page_width": 612.0,
             "page_height": 792.0,
-            "sections": []
+            "sections": [
+              {
+                "section_id": "page_3_section_1",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Table 2: Revenue by Segment, Region, and Quarter (FY2024) \u2014 Large Table Spanning Pages",
+                "word_count": 14,
+                "character_count": 86,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 59.02000045776367,
+                  "end_y": 96.29800415039062,
+                  "bbox": [
+                    60.0,
+                    59.02000045776367,
+                    522.909912109375,
+                    96.29800415039062
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 14.0,
+                  "font_family": "Helvetica-Bold",
+                  "is_bold": true,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 3,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": []
+              },
+              {
+                "section_id": "page_3_section_2",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Segment Region Q1 Q2 Q3 Q4 FY",
+                "word_count": 7,
+                "character_count": 29,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 104.30000305175781,
+                  "end_y": 118.06999969482422,
+                  "bbox": [
+                    66.0,
+                    104.30000305175781,
+                    499.9800109863281,
+                    118.06999969482422
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 10.0,
+                  "font_family": "Helvetica-Bold",
+                  "is_bold": true,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": []
+              },
+              {
+                "section_id": "page_3_section_3",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Public Sector APAC $20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                "word_count": 5,
+                "character_count": 89,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 122.25,
+                  "end_y": 135.99000549316406,
+                  "bbox": [
+                    66.0,
+                    122.25,
+                    547.2000122070312,
+                    135.99000549316406
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 10.0,
+                  "font_family": "Helvetica",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 20144881.85,
+                    "original_text": "$20,144,881.85",
+                    "context": "Public Sector APAC $20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,",
+                    "position": {
+                      "x": 168.72809249363587,
+                      "y": 125.18325959966424,
+                      "bbox": [
+                        168.72809249363587,
+                        125.18325959966424,
+                        188.72809249363587,
+                        135.18325959966424
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 11126637.97,
+                    "original_text": "$11,126,637.97",
+                    "context": "Public Sector APAC $20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "position": {
+                      "x": 244.42247643631498,
+                      "y": 127.3446087783642,
+                      "bbox": [
+                        244.42247643631498,
+                        127.3446087783642,
+                        264.422476436315,
+                        137.3446087783642
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 9220463.1,
+                    "original_text": "$9,220,463.10",
+                    "context": "Public Sector APAC $20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "position": {
+                      "x": 320.11686037899403,
+                      "y": 129.50595795706417,
+                      "bbox": [
+                        320.11686037899403,
+                        129.50595795706417,
+                        340.11686037899403,
+                        139.50595795706417
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 24551346.75,
+                    "original_text": "$24,551,346.75",
+                    "context": "tor APAC $20,144,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "position": {
+                      "x": 390.4045026114818,
+                      "y": 131.51292505157127,
+                      "bbox": [
+                        390.4045026114818,
+                        131.51292505157127,
+                        410.4045026114818,
+                        141.51292505157127
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 65043329.67,
+                    "original_text": "$65,043,329.67",
+                    "context": "4,881.85$11,126,637.97$9,220,463.10$24,551,346.75 $65,043,329.67",
+                    "position": {
+                      "x": 471.50562826435214,
+                      "y": 133.8286563144641,
+                      "bbox": [
+                        471.50562826435214,
+                        133.8286563144641,
+                        491.50562826435214,
+                        143.8286563144641
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "section_id": "page_3_section_4",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Public Sector NA $5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                "word_count": 5,
+                "character_count": 85,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 338.25,
+                  "end_y": 351.989990234375,
+                  "bbox": [
+                    66.0,
+                    338.25,
+                    547.2000122070312,
+                    351.989990234375
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 10.0,
+                  "font_family": "Helvetica",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 5681362.1,
+                    "original_text": "$5,681,362.10",
+                    "context": "Public Sector NA $5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,1",
+                    "position": {
+                      "x": 162.24000244140626,
+                      "y": 340.997998046875,
+                      "bbox": [
+                        162.24000244140626,
+                        340.997998046875,
+                        182.24000244140626,
+                        350.997998046875
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 13683989.33,
+                    "original_text": "$13,683,989.33",
+                    "context": "Public Sector NA $5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "position": {
+                      "x": 235.83529842601104,
+                      "y": 343.0994083180147,
+                      "bbox": [
+                        235.83529842601104,
+                        343.0994083180147,
+                        255.83529842601104,
+                        353.0994083180147
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 8314966.79,
+                    "original_text": "$8,314,966.79",
+                    "context": "Public Sector NA $5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "position": {
+                      "x": 315.09177102481624,
+                      "y": 345.36246553308825,
+                      "bbox": [
+                        315.09177102481624,
+                        345.36246553308825,
+                        335.09177102481624,
+                        355.36246553308825
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 5103835.95,
+                    "original_text": "$5,103,835.95",
+                    "context": "Sector NA $5,681,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "position": {
+                      "x": 388.6870670094209,
+                      "y": 347.46387580422794,
+                      "bbox": [
+                        388.6870670094209,
+                        347.46387580422794,
+                        408.6870670094209,
+                        357.46387580422794
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 32784154.17,
+                    "original_text": "$32,784,154.17",
+                    "context": "81,362.10$13,683,989.33$8,314,966.79$5,103,835.95 $32,784,154.17",
+                    "position": {
+                      "x": 467.9435396082261,
+                      "y": 349.7269330193015,
+                      "bbox": [
+                        467.9435396082261,
+                        349.7269330193015,
+                        487.9435396082261,
+                        359.7269330193015
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "section_id": "page_3_section_5",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Public Sector LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                "word_count": 5,
+                "character_count": 89,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 446.25,
+                  "end_y": 459.989990234375,
+                  "bbox": [
+                    66.0,
+                    446.25,
+                    547.2000122070312,
+                    459.989990234375
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 10.0,
+                  "font_family": "Helvetica",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 14638247.01,
+                    "original_text": "$14,638,247.01",
+                    "context": "Public Sector LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,2",
+                    "position": {
+                      "x": 174.13483420382724,
+                      "y": 449.3376382549157,
+                      "bbox": [
+                        174.13483420382724,
+                        449.3376382549157,
+                        194.13483420382724,
+                        459.3376382549157
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 4915871.13,
+                    "original_text": "$4,915,871.13",
+                    "context": "Public Sector LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "position": {
+                      "x": 249.8292181465063,
+                      "y": 451.49898503335675,
+                      "bbox": [
+                        249.8292181465063,
+                        451.49898503335675,
+                        269.82921814650626,
+                        461.49898503335675
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 13516305.64,
+                    "original_text": "$13,516,305.64",
+                    "context": "Public Sector LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "position": {
+                      "x": 320.11686037899403,
+                      "y": 453.505949899052,
+                      "bbox": [
+                        320.11686037899403,
+                        453.505949899052,
+                        340.11686037899403,
+                        463.505949899052
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 1951816.39,
+                    "original_text": "$1,951,816.39",
+                    "context": "or LATAM $14,638,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "position": {
+                      "x": 395.8112443216731,
+                      "y": 455.66729667749297,
+                      "bbox": [
+                        395.8112443216731,
+                        455.66729667749297,
+                        415.8112443216731,
+                        465.66729667749297
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 35022240.17,
+                    "original_text": "$35,022,240.17",
+                    "context": "38,247.01$4,915,871.13$13,516,305.64$1,951,816.39 $35,022,240.17",
+                    "position": {
+                      "x": 471.50562826435214,
+                      "y": 457.828643455934,
+                      "bbox": [
+                        471.50562826435214,
+                        457.828643455934,
+                        491.50562826435214,
+                        467.828643455934
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "section_id": "page_3_section_6",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Public Sector LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                "word_count": 5,
+                "character_count": 89,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 716.25,
+                  "end_y": 729.989990234375,
+                  "bbox": [
+                    66.0,
+                    716.25,
+                    547.2000122070312,
+                    729.989990234375
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 10.0,
+                  "font_family": "Helvetica",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": 0,
+                  "alignment": "left"
+                },
+                "structure": {
+                  "heading_level": 5,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 17503294.98,
+                    "original_text": "$17,503,294.98",
+                    "context": "Public Sector LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,3",
+                    "position": {
+                      "x": 174.13483420382724,
+                      "y": 719.3376382549158,
+                      "bbox": [
+                        174.13483420382724,
+                        719.3376382549158,
+                        194.13483420382724,
+                        729.3376382549158
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 6300546.33,
+                    "original_text": "$6,300,546.33",
+                    "context": "Public Sector LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "position": {
+                      "x": 249.8292181465063,
+                      "y": 721.4989850333567,
+                      "bbox": [
+                        249.8292181465063,
+                        721.4989850333567,
+                        269.82921814650626,
+                        731.4989850333567
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 18835162.86,
+                    "original_text": "$18,835,162.86",
+                    "context": "Public Sector LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "position": {
+                      "x": 320.11686037899403,
+                      "y": 723.505949899052,
+                      "bbox": [
+                        320.11686037899403,
+                        723.505949899052,
+                        340.11686037899403,
+                        733.505949899052
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 9933394.46,
+                    "original_text": "$9,933,394.46",
+                    "context": "or LATAM $17,503,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "position": {
+                      "x": 395.8112443216731,
+                      "y": 725.667296677493,
+                      "bbox": [
+                        395.8112443216731,
+                        725.667296677493,
+                        415.8112443216731,
+                        735.667296677493
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  },
+                  {
+                    "value": 52572398.63,
+                    "original_text": "$52,572,398.63",
+                    "context": "03,294.98$6,300,546.33$18,835,162.86$9,933,394.46 $52,572,398.63",
+                    "position": {
+                      "x": 471.50562826435214,
+                      "y": 727.828643455934,
+                      "bbox": [
+                        471.50562826435214,
+                        727.828643455934,
+                        491.50562826435214,
+                        737.828643455934
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "currency",
+                    "unit": null,
+                    "currency": "USD",
+                    "confidence": 0.7999999999999999,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 10.0,
+                      "font_family": "Helvetica",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": 0
+                    }
+                  }
+                ]
+              }
+            ]
           },
           {
             "page_number": 4,
@@ -3386,7 +4978,7 @@
           ],
           "sections_by_type": {
             "header": 1,
-            "paragraph": 17,
+            "paragraph": 23,
             "list": 3,
             "table_caption": 1,
             "figure_caption": 0,
@@ -3395,11 +4987,11 @@
           }
         },
         "summary": {
-          "total_sections": 22,
-          "total_words": 396,
+          "total_sections": 28,
+          "total_words": 437,
           "llm_ready_sections": 14,
-          "average_section_length": 18.0,
-          "reading_time_estimate": 1.98
+          "average_section_length": 15.607142857142858,
+          "reading_time_estimate": 2.185
         }
       }
     }
