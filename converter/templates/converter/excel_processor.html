@@ -1759,6 +1759,12 @@
                                 }
                             }
                             
+                            // Numeric cells from meta if present
+                            let numericCells = 0;
+                            if (table.meta && typeof table.meta.numeric_cells === 'number') {
+                                numericCells = table.meta.numeric_cells;
+                            }
+
                             // Debug: Log what we found for this table
                             console.log(`DEBUG: Table ${j + 1} in sheet ${sheetName}:`, {
                                 hasRegion: !!table.region,
@@ -1766,7 +1772,8 @@
                                 regionValue: table.region,
                                 upperLeft: upperLeft,
                                 lowerRight: lowerRight,
-                                tableSize: tableSize
+                                tableSize: tableSize,
+                                numericCells
                             });
                             
                             summaryHTML += `<div class="summary-table">`;
@@ -1795,6 +1802,11 @@
                                 summaryHTML += `<span class="summary-coordinate-range">${upperLeft}:${lowerRight}</span>`;
                                 summaryHTML += `</div>`;
                             }
+                            // Numeric cells indicator
+                            summaryHTML += `<div class="summary-coordinate-group">`;
+                            summaryHTML += `<span class="summary-coordinate-label">Numeric Cells:</span>`;
+                            summaryHTML += `<span class="summary-coordinate-value">${numericCells}</span>`;
+                            summaryHTML += `</div>`;
                             summaryHTML += `</div>`;
                             summaryHTML += `</div>`;
                         }
@@ -1925,15 +1937,20 @@
                             <span class="label">Total Columns:</span>
                             <span class="value">${summary.workbook.sheets.reduce((sum, sheet) => sum + sheet.total_columns, 0)}</span>
                         </div>
+                        <div class="summary-item">
+                            <span class="label">Total Numeric Cells:</span>
+                            <span class="value">${summary.workbook.total_numeric_cells ?? 0}</span>
+                        </div>
                     </div>
                     <div class="sheet-list">
                         <h4>Sheets:</h4>
                         <ul>
                             ${summary.workbook.sheets.map(sheet => `
-                                <li>${sheet.name} (${sheet.table_count} tables, ${sheet.total_rows} rows, ${sheet.total_columns} columns)</li>
+                                <li>${sheet.name} (${sheet.table_count} tables, ${sheet.total_rows} rows, ${sheet.total_columns} columns, ${sheet.numeric_cells ?? 0} numeric cells)</li>
                             `).join('')}
                         </ul>
                     </div>
+                    
                 `;
                 
                 // Insert summary after the warning
@@ -2008,6 +2025,7 @@
                         margin-bottom: 0.25rem;
                         font-size: 0.9rem;
                     }
+                    
                 `;
                 document.head.appendChild(style);
             }

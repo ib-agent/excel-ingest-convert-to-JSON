@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from .compact_excel_processor import CompactExcelProcessor
+from typing import Any
 from .compact_table_processor import CompactTableProcessor
 from .excel_complexity_analyzer import ExcelComplexityAnalyzer
 from .excel_processor import ExcelProcessor
@@ -25,6 +26,115 @@ from .processing_registry import processing_registry
 
 # Temporary storage for processed data (in production, use Redis or database)
 processed_data_cache = {}
+
+
+def _estimate_total_cells_from_workbook(workbook: dict) -> int:
+    """
+    Estimate total populated cells from a workbook dict that may be in
+    compact (rows -> cells) or verbose (cells dict) format.
+
+    Args:
+        workbook: Dict with key 'sheets', each sheet may have either
+                  'cells' (verbose) or 'rows'->'cells' (compact).
+
+    Returns:
+        Integer count of cells.
+    """
+    total_cells = 0
+    try:
+        sheets = (workbook or {}).get('sheets', [])
+        for sheet in sheets:
+            # Verbose format
+            if isinstance(sheet.get('cells'), dict):
+                total_cells += len(sheet.get('cells', {}))
+                continue
+            # Compact format: rows is a list of row dicts, each with 'cells': List[[col, value, style?, formula?]]
+            rows = sheet.get('rows') or []
+            for row in rows:
+                row_cells = row.get('cells') or []
+                total_cells += len(row_cells)
+    except Exception:
+        # Be safe: on any unexpected shape, fall back to zero so we don't crash the request
+        total_cells = 0
+    return total_cells
+
+
+def _is_rle_cell(cell: list) -> bool:
+    """Detect if a compact-format cell array uses RLE encoding."""
+    return isinstance(cell, list) and len(cell) >= 5 and isinstance(cell[-1], int) and cell[-1] > 1
+
+
+def _is_numeric(value: Any) -> bool:
+    """Return True if value is a number (int/float) but not a bool."""
+    # Exclude booleans (bool is subclass of int)
+    if isinstance(value, bool):
+        return False
+    return isinstance(value, (int, float))
+
+
+def _estimate_total_numeric_cells_from_workbook(workbook: dict) -> int:
+    """
+    Estimate total numeric cells from a workbook in compact or verbose format.
+    - Counts values that are int or float (excluding bool)
+    - Ignores dates (they are formatted as strings in compact extraction)
+    - Handles RLE cells by multiplying by run length
+    """
+    total_numeric = 0
+    try:
+        sheets = (workbook or {}).get('sheets', [])
+        for sheet in sheets:
+            # Verbose format: 'cells' is a dict of A1 -> {value: ...}
+            if isinstance(sheet.get('cells'), dict):
+                for cell in sheet['cells'].values():
+                    value = cell.get('value') if isinstance(cell, dict) else None
+                    if _is_numeric(value):
+                        total_numeric += 1
+                continue
+
+            # Compact format: rows -> cells
+            rows = sheet.get('rows') or []
+            for row in rows:
+                for cell in row.get('cells', []):
+                    if not isinstance(cell, list) or len(cell) < 2:
+                        continue
+                    value = cell[1]
+                    if _is_numeric(value):
+                        if _is_rle_cell(cell):
+                            run_length = cell[-1]
+                            total_numeric += max(int(run_length), 0)
+                        else:
+                            total_numeric += 1
+    except Exception:
+        total_numeric = 0
+    return total_numeric
+
+
+def _estimate_numeric_cells_for_sheet(sheet: dict) -> int:
+    """Estimate numeric cells for a single sheet (compact or verbose), accounting for RLE."""
+    numeric = 0
+    try:
+        # Verbose format
+        if isinstance(sheet.get('cells'), dict):
+            for cell in sheet['cells'].values():
+                value = cell.get('value') if isinstance(cell, dict) else None
+                if _is_numeric(value):
+                    numeric += 1
+            return numeric
+
+        # Compact format
+        for row in sheet.get('rows', []) or []:
+            for cell in row.get('cells', []) or []:
+                if not isinstance(cell, list) or len(cell) < 2:
+                    continue
+                value = cell[1]
+                if _is_numeric(value):
+                    if _is_rle_cell(cell):
+                        numeric += max(int(cell[-1]), 0)
+                    else:
+                        numeric += 1
+    except Exception:
+        return numeric
+    return numeric
 
 
 def main_landing(request):
@@ -166,8 +276,9 @@ def upload_and_convert(request):
         enhanced_table_data['complexity_analysis'] = complexity_results
         
         # Quick size estimation to avoid expensive JSON serialization for large files
-        # Estimate based on cell count and sheet structure
-        total_cells = sum(len(sheet.get('cells', {})) for sheet in json_data.get('workbook', {}).get('sheets', []))
+        # Estimate based on cell count supporting both compact and verbose formats
+        total_cells = _estimate_total_cells_from_workbook(json_data.get('workbook', {}))
+        total_numeric_cells = _estimate_total_numeric_cells_from_workbook(json_data.get('workbook', {}))
         estimated_size = total_cells * 200  # Rough estimate: 200 bytes per cell
         
         # Check if response would be too large (>5MB estimated = likely >10MB actual)
@@ -205,7 +316,8 @@ def upload_and_convert(request):
                     'name': sheet.get('name', 'Unknown'),
                     'table_count': len(tables),
                     'total_rows': sum(len(table.get('labels', {}).get('rows', [])) for table in tables),
-                    'total_columns': sum(len(table.get('labels', {}).get('cols', [])) for table in tables)
+                    'total_columns': sum(len(table.get('labels', {}).get('cols', [])) for table in tables),
+                    'numeric_cells': _estimate_numeric_cells_for_sheet(sheet)
                 }
                 summary_data['workbook']['sheets'].append(sheet_summary)
             
@@ -256,13 +368,24 @@ def upload_and_convert(request):
             # Clean up temporary file
             default_storage.delete(temp_path)
             
+            # Provide rough size breakdowns expected by UI for download tiles
+            estimated_size_mb = estimated_size / 1024 / 1024
+            json_data_size_mb = estimated_size_mb
+            table_data_size_mb = max(estimated_size_mb * 0.6, 0.0)
+
             response_payload = {
                 'success': True,
                 'format': format_type,
                 'filename': uploaded_file.name,
                 'large_file': True,
                 'warning': f'File is very large (estimated {estimated_size / 1024 / 1024:.1f} MB). Use download links below.',
-                'summary': summary_data,
+                'summary': {
+                    **summary_data,
+                    'workbook': {
+                        **summary_data['workbook'],
+                        'total_numeric_cells': total_numeric_cells,
+                    }
+                },
                 'download_urls': {
                     'full_data': f'/api/download/?type=full&file_id={file_id}' if storage is None else None,
                     'table_data': f'/api/download/?type=table&file_id={file_id}' if storage is None else None
@@ -270,8 +393,11 @@ def upload_and_convert(request):
                 'storage': response_storage if storage is not None else None,
                 'processing_id': processing_id,
                 'file_info': {
-                    'estimated_size_mb': estimated_size / 1024 / 1024,
+                    'estimated_size_mb': estimated_size_mb,
+                    'json_data_size_mb': json_data_size_mb,
+                    'table_data_size_mb': table_data_size_mb,
                     'total_cells': total_cells,
+                    'total_numeric_cells': total_numeric_cells,
                     'sheet_count': len(json_data.get('workbook', {}).get('sheets', [])),
                     'total_tables': sum(len(sheet.get('tables', [])) for sheet in json_data.get('workbook', {}).get('sheets', []))
                 },
@@ -299,6 +425,15 @@ def upload_and_convert(request):
         else:
             # For smaller files, calculate actual sizes and return full data
             print(f"Debug - Calculating actual sizes for small file")
+            # Attach numeric cell count into both structures for downstream consumers
+            try:
+                if 'workbook' in json_data:
+                    json_data['workbook']['numeric_cell_count'] = _estimate_total_numeric_cells_from_workbook(json_data['workbook'])
+                if 'workbook' in enhanced_table_data:
+                    enhanced_table_data['workbook']['numeric_cell_count'] = json_data['workbook'].get('numeric_cell_count', 0)
+            except Exception:
+                pass
+
             json_data_size = len(json.dumps(json_data, default=str))
             table_data_size = len(json.dumps(enhanced_table_data, default=str))
             total_size = json_data_size + table_data_size

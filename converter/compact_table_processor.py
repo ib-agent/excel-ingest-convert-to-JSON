@@ -169,6 +169,7 @@ class CompactTableProcessor:
             'meta': {
                 'method': region.get('detection_method', 'unknown'),
                 'cells': self._count_cells_in_region(rows, adjusted_region),
+                'numeric_cells': self._count_numeric_cells_in_region(rows, adjusted_region),
                 'merged': len(sheet_data.get('merged', [])) > 0,
                 'original_region': [region['start_row'], region['start_col'], region['end_row'], region['end_col']]
             }
@@ -393,9 +394,45 @@ class CompactTableProcessor:
                         col_num = cell_array[0]
                         value = cell_array[1]
                         if start_col <= col_num <= end_col and value is not None:
-                            count += 1
+                            # Account for RLE cells by run length
+                            if self._is_rle_cell(cell_array):
+                                count += max(int(cell_array[-1]), 0)
+                            else:
+                                count += 1
         
         return count
+
+    def _count_numeric_cells_in_region(self, rows: List[Dict[str, Any]], region: dict) -> int:
+        """Count numeric (int/float, excluding bool) cells in the region (accounts for RLE)."""
+        count = 0
+        start_row = region['start_row']
+        end_row = region['end_row']
+        start_col = region['start_col']
+        end_col = region['end_col']
+        
+        for row_data in rows:
+            row_num = row_data.get('r', 1)
+            if start_row <= row_num <= end_row:
+                for cell_array in row_data.get('cells', []):
+                    if len(cell_array) >= 2:
+                        col_num = cell_array[0]
+                        value = cell_array[1]
+                        if start_col <= col_num <= end_col and self._is_numeric(value):
+                            if self._is_rle_cell(cell_array):
+                                count += max(int(cell_array[-1]), 0)
+                            else:
+                                count += 1
+        return count
+
+    def _is_rle_cell(self, cell: List[Any]) -> bool:
+        """Detect if a compact-format cell array uses RLE encoding."""
+        return isinstance(cell, list) and len(cell) >= 5 and isinstance(cell[-1], int) and cell[-1] > 1
+
+    def _is_numeric(self, value: Any) -> bool:
+        """Return True if value is a number (int/float) but not a bool."""
+        if isinstance(value, bool):
+            return False
+        return isinstance(value, (int, float))
     
     def _create_compact_default_table(self, sheet_data: dict, options: dict) -> Optional[Dict[str, Any]]:
         """Create a default compact table for the entire sheet if no tables detected"""
