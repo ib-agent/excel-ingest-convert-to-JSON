@@ -25,7 +25,7 @@ class TestLendflowBalanceSheet(unittest.TestCase):
     
     def setUp(self):
         """Set up test case"""
-        self.file_path = '/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/test_excel/pDD10abc_Lendflow_12.31_2024_Balance_Sheet_(1_19_25).xlsx'
+        self.file_path = '/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/fixtures/excel/pDD10abc_Lendflow_12.31_2024_Balance_Sheet_(1_19_25).xlsx'
         self.processor = CompactExcelProcessor()
         self.table_processor = CompactTableProcessor()
         

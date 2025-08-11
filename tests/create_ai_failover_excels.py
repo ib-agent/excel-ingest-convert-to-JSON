@@ -2,7 +2,7 @@
 Create Excel workbooks designed to trigger AI failover based on complexity
 metrics in `converter/excel_complexity_analyzer.py`.
 
-Files generated into `tests/test_excel/`:
+Files generated into `tests/fixtures/excel/`:
 - ai_failover_multi_level_headers.xlsx
 - ai_failover_complex_merges.xlsx
 - ai_failover_sparse_clusters.xlsx

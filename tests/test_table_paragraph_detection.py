@@ -11,10 +11,20 @@ This script tests that:
 import json
 import sys
 import os
+import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from PDF_processing import PDFProcessor
 
-def test_pdf_processing(pdf_path, expected_tables, expected_text_sections, expected_numbers):
+
+@pytest.mark.parametrize(
+    "pdf_filename,expected_tables,expected_text_sections,expected_numbers",
+    [
+        ("Test_PDF_Table_100_numbers.pdf", 1, 0, 0),
+        ("Test_PDF_Table_9_numbers.pdf", 1, 0, 0),
+        ("Test_PDF_with_3_numbers_in_large_paragraphs.pdf", 0, 3, 3),
+    ],
+)
+def test_pdf_processing(pdf_path, pdf_filename, expected_tables, expected_text_sections, expected_numbers):
     """
     Test PDF processing and verify results match expectations
     
@@ -33,7 +43,7 @@ def test_pdf_processing(pdf_path, expected_tables, expected_text_sections, expec
         
         # Process PDF
         result = processor.process_file(
-            pdf_path, 
+            pdf_path(pdf_filename), 
             extract_tables=True, 
             extract_text=True, 
             extract_numbers=True
@@ -92,71 +102,14 @@ def test_pdf_processing(pdf_path, expected_tables, expected_text_sections, expec
             if not table_content_in_text:
                 print("✅ No table content found in text sections")
         
-        return success
+        assert success is True
         
     except Exception as e:
         print(f"❌ Error processing {pdf_path}: {str(e)}")
-        return False
+        assert False, f"Error processing {pdf_filename}: {str(e)}"
 
 def main():
-    """Main test function"""
-    print("Testing Table and Paragraph Detection Improvements")
-    print("=" * 60)
-    
-    # Define test cases
-    test_cases = [
-        {
-            'path': 'tests/test_pdfs/Test_PDF_Table_100_numbers.pdf',
-            'expected_tables': 1,
-            'expected_text_sections': 0,  # Should be 0 because table content is excluded
-            'expected_numbers': 0,
-            'description': 'PDF with table only - should extract table, no text sections'
-        },
-        {
-            'path': 'tests/test_pdfs/Test_PDF_Table_9_numbers.pdf',
-            'expected_tables': 1,
-            'expected_text_sections': 0,  # Should be 0 because table content is excluded
-            'expected_numbers': 0,
-            'description': 'PDF with small table - should extract table, no text sections'
-        },
-        {
-            'path': 'tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf',
-            'expected_tables': 0,
-            'expected_text_sections': 3,
-            'expected_numbers': 3,
-            'description': 'PDF with paragraphs only - should extract text sections and numbers'
-        }
-    ]
-    
-    # Run tests
-    passed = 0
-    total = len(test_cases)
-    
-    for i, test_case in enumerate(test_cases, 1):
-        print(f"\nTest {i}/{total}: {test_case['description']}")
-        print("-" * 40)
-        
-        if test_pdf_processing(
-            test_case['path'],
-            test_case['expected_tables'],
-            test_case['expected_text_sections'],
-            test_case['expected_numbers']
-        ):
-            passed += 1
-            print("✅ Test PASSED")
-        else:
-            print("❌ Test FAILED")
-    
-    # Summary
-    print("\n" + "=" * 60)
-    print(f"Test Results: {passed}/{total} tests passed")
-    
-    if passed == total:
-        print("🎉 All tests passed! Table and paragraph detection is working correctly.")
-        return 0
-    else:
-        print("⚠️  Some tests failed. Please review the results above.")
-        return 1
+    pass
 
 if __name__ == "__main__":
-    sys.exit(main()) 
+    sys.exit(0)

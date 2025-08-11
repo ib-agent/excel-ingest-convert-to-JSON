@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def test_current_web_behavior():
     """Test what the current web interface is actually doing"""
     
-    pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/test_pdfs/synthetic_financial_report.pdf"
+    pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/fixtures/pdfs/synthetic_financial_report.pdf"
     
     if not os.path.exists(pdf_path):
         logger.error(f"PDF file not found: {pdf_path}")

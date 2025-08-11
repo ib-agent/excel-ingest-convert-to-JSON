@@ -18,8 +18,8 @@ class TestComprehensiveNumberExtraction(unittest.TestCase):
         # Try different possible paths for the test file
         possible_paths = [
             'test_pdfs/synthetic_financial_report.pdf',
-            'tests/test_pdfs/synthetic_financial_report.pdf',
-            'tests/test_pdfs/synthetic_financial_report.pdf'
+            'tests/fixtures/pdfs/synthetic_financial_report.pdf',
+            'tests/fixtures/pdfs/synthetic_financial_report.pdf'
         ]
         
         self.test_file = None
