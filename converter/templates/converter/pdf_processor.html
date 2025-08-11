@@ -1443,6 +1443,28 @@
                 updateJSONDisplay(data);
             }
 
+            function rectanglesOverlap(b1, b2) {
+                if (!b1 || !b2 || b1.length < 4 || b2.length < 4) return false;
+                const [x0, y0, x1, y1] = b1;
+                const [X0, Y0, X1, Y1] = b2;
+                return !(x1 < X0 || X1 < x0 || y1 < Y0 || Y1 < y0);
+            }
+
+            function collectTableRegionsByPage(data) {
+                const regionsByPage = new Map();
+                const tables = data?.pdf_processing_result?.tables?.tables || [];
+                tables.forEach(t => {
+                    const page = t?.region?.page_number;
+                    const bbox = t?.region?.bbox;
+                    if (typeof page === 'number' && Array.isArray(bbox) && bbox.length >= 4) {
+                        const arr = regionsByPage.get(page) || [];
+                        arr.push(bbox);
+                        regionsByPage.set(page, arr);
+                    }
+                });
+                return regionsByPage;
+            }
+
             function updateTablesDisplay(data) {
                 const tablesDisplay = document.getElementById('tablesDisplay');
                 const tablesCount = document.getElementById('tablesCount');
@@ -1535,6 +1557,33 @@
                 } else if (data?.pdf_processing_result?.text_content?.text_content?.pages?.[0]?.sections) {
                     textSections = data.pdf_processing_result.text_content.text_content.pages[0].sections;
                     console.log('Found text sections in nested structure:', textSections);
+                }
+
+                // If backend summary reports zero text sections, trust it and suppress any residual sections
+                const reportedTextSections = (
+                    data?.result?.pdf_processing_result?.processing_summary?.text_sections ??
+                    data?.pdf_processing_result?.processing_summary?.text_sections
+                );
+                if (reportedTextSections === 0) {
+                    textSections = [];
+                }
+
+                // Filter out any text sections that overlap table regions (defensive UI de-duplication)
+                if (Array.isArray(textSections) && textSections.length > 0) {
+                    const tableRegionsByPage = collectTableRegionsByPage(data);
+                    textSections = textSections.filter(section => {
+                        const page = section?.page_number;
+                        const bbox = section?.position?.bbox;
+                        if (!page || !Array.isArray(bbox) || bbox.length < 4) return true;
+                        const regions = tableRegionsByPage.get(page) || [];
+                        for (const tbl of regions) {
+                            if (rectanglesOverlap(bbox, tbl)) {
+                                // Overlaps a table region; hide from text display
+                                return false;
+                            }
+                        }
+                        return true;
+                    });
                 }
                 
                 // Ensure textSections is an array

@@ -140,31 +140,22 @@ class PDFRegionRemover:
                         regions_by_page[page_num] = []
                     regions_by_page[page_num].append(region)
             
-            # Process each page
+            # Process each page using redaction annotations (physically removes underlying text)
             for page_num in range(len(doc)):
                 if page_num in regions_by_page:
                     page = doc[page_num]
-                    
                     for region in regions_by_page[page_num]:
-                        # Extract bbox coordinates
                         bbox = region.get('region', {}).get('bbox', [])
                         if len(bbox) >= 4:
-                            # Ensure all coordinates are floats
                             x0, y0, x1, y1 = [float(coord) for coord in bbox[:4]]
-                            
-                            # Create white rectangle to cover table
                             rect = fitz.Rect(x0, y0, x1, y1)
-                            
-                            # Add white rectangle annotation
-                            annot = page.add_rect_annot(rect)
-                            annot.set_colors(stroke=[1, 1, 1], fill=[1, 1, 1])  # White
-                            annot.set_opacity(1.0)  # Fully opaque
-                            annot.update()
-                            
-                            logger.debug(f"Removed table region on page {page_num + 1}: {bbox}")
-            
-            # Save the modified PDF
-            doc.save(output_path)
+                            # Add redaction and fill with white
+                            page.add_redact_annot(rect, fill=(1, 1, 1))
+                    # Apply all redactions on the page to remove content
+                    page.apply_redactions()
+
+            # Save the modified PDF (ensure no incremental save so redactions are applied)
+            doc.save(output_path, garbage=4, deflate=True)
             doc.close()
             
             logger.info("PyMuPDF table removal completed successfully")
@@ -375,7 +366,7 @@ class PDFTableRemovalProcessor:
             
             # Step 4: Text Extraction from Table-Free PDF
             logger.info("Step 4: Text Extraction from Table-Free PDF")
-            text_content = self._step4_extract_text(table_free_pdf)
+            text_content = self._step4_extract_text(table_free_pdf, tables_result.get('tables', []))
             
             # Combine results
             result = self._combine_results(pdf_path, tables_json, text_content)
@@ -423,13 +414,12 @@ class PDFTableRemovalProcessor:
         self.table_free_pdf_path = self.region_remover.remove_regions(pdf_path, table_regions)
         return self.table_free_pdf_path
     
-    def _step4_extract_text(self, table_free_pdf: str) -> Dict[str, Any]:
-        """Step 4: Extract text content from table-free PDF"""
+    def _step4_extract_text(self, table_free_pdf: str, table_regions: List[Dict]) -> Dict[str, Any]:
+        """Step 4: Extract text content from table-free PDF with defensive exclusion"""
         logger.info("Extracting text from table-free PDF...")
         
-        # Extract text content following pdf-json-schema.md
-        # No need to exclude table regions since they've been physically removed
-        return self.text_extractor.extract_text_content(table_free_pdf)
+        # Pass original table regions as exclusion zones as a defensive measure
+        return self.text_extractor.extract_text_content(table_free_pdf, table_regions)
     
     def _add_padding_to_regions(self, regions: List[Dict], padding: int) -> List[Dict]:
         """Add padding around table regions to ensure complete removal"""

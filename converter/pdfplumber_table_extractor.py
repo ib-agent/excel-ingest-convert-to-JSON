@@ -156,25 +156,43 @@ class PDFPlumberTableExtractor:
         """
         tables = []
         
-        # Strategy 1: Extract tables with default settings
+        # Strategy 0: Use pdfplumber's native table objects with accurate bboxes
         try:
-            extracted_tables = page.extract_tables(self.table_settings)
-            
-            for i, table_data in enumerate(extracted_tables):
+            native_tables = page.find_tables(self.table_settings)
+            for tbl in native_tables:
+                try:
+                    table_data = tbl.extract()
+                except Exception:
+                    table_data = None
                 if table_data and len(table_data) >= self.min_table_size:
-                    # Estimate bounding box for the table
-                    bbox = self._estimate_table_bbox(page, table_data)
-                    
+                    bbox = tuple(tbl.bbox) if hasattr(tbl, 'bbox') else (0, 0, page.width, page.height)
                     table_region = TableRegion(
                         page_number=page_num,
                         bbox=bbox,
                         table_data=table_data,
-                        confidence=0.95  # PDFPlumber typically has high confidence
+                        confidence=0.96
                     )
                     tables.append(table_region)
-                    
         except Exception as e:
-            logger.warning(f"Default table extraction failed on page {page_num}: {e}")
+            logger.warning(f"Native table finding failed on page {page_num}: {e}")
+
+        # Strategy 1: Extract tables with default settings (fallback)
+        if not tables:
+            try:
+                extracted_tables = page.extract_tables(self.table_settings)
+                for i, table_data in enumerate(extracted_tables):
+                    if table_data and len(table_data) >= self.min_table_size:
+                        # Estimate bounding box for the table using safer heuristic
+                        bbox = self._estimate_table_bbox(page, table_data)
+                        table_region = TableRegion(
+                            page_number=page_num,
+                            bbox=bbox,
+                            table_data=table_data,
+                            confidence=0.93
+                        )
+                        tables.append(table_region)
+            except Exception as e:
+                logger.warning(f"Default table extraction failed on page {page_num}: {e}")
         
         # Strategy 2: Try with relaxed settings if no tables found
         if not tables:
@@ -226,30 +244,53 @@ class PDFPlumberTableExtractor:
             # Get all words on the page
             words = page.extract_words()
             
-            # Find words that match table content
-            table_words = []
+            # Build a conservative set of target tokens (avoid overly short tokens)
+            targets = set()
             for row in table_data:
                 for cell in row:
-                    if cell and cell.strip():
-                        cell_text = cell.strip()
-                        for word in words:
-                            if cell_text in word['text'] or word['text'] in cell_text:
-                                table_words.append(word)
+                    if not cell:
+                        continue
+                    t = str(cell).strip()
+                    if not t:
+                        continue
+                    if len(t) >= 3 or any(ch in t for ch in ['$', '%', '/', ',']):
+                        targets.add(t)
             
-            if table_words:
-                # Calculate bounding box from matching words
-                x0 = min(word['x0'] for word in table_words)
-                y0 = min(word['top'] for word in table_words)
-                x1 = max(word['x1'] for word in table_words)
-                y1 = max(word['bottom'] for word in table_words)
-                
-                return (x0, y0, x1, y1)
+            # Exact match only to avoid accidental expansion into paragraphs
+            matched = []
+            for w in words:
+                txt = w.get('text', '')
+                if txt in targets:
+                    matched.append(w)
+            
+            # If too few matches, try relaxed match for distinctive tokens (dates/currency)
+            if len(matched) < 5:
+                import re
+                date_like = re.compile(r"\d{1,2}/\d{1,2}/\d{2,4}")
+                currency_like = re.compile(r"^\$\s*\d")
+                label_like = {t for t in targets if t.lower() in {"category", "metric"}}
+                for w in words:
+                    txt = w.get('text', '')
+                    if date_like.match(txt) or currency_like.match(txt) or txt in label_like:
+                        matched.append(w)
+            
+            # If we have matches, compute tight bbox
+            if matched:
+                x0 = min(w['x0'] for w in matched)
+                y0 = min(w['top'] for w in matched)
+                x1 = max(w['x1'] for w in matched)
+                y1 = max(w['bottom'] for w in matched)
+                # Add minimal padding
+                pad = 2
+                return (max(0, x0 - pad), max(0, y0 - pad), x1 + pad, y1 + pad)
         
         except Exception as e:
             logger.debug(f"Could not estimate table bbox: {e}")
         
-        # Fallback: use page dimensions
-        return (0, 0, page.width, page.height)
+        # Final fallback: return a small centered box to avoid nuking page text
+        pw, ph = page.width, page.height
+        cx0, cy0, cx1, cy1 = pw * 0.25, ph * 0.25, pw * 0.75, ph * 0.75
+        return (cx0, cy0, cx1, cy1)
     
     def _detect_tables_manually(self, page: Any, page_num: int) -> List[TableRegion]:
         """

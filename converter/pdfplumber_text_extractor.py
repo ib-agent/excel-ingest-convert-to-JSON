@@ -168,25 +168,47 @@ class PDFPlumberTextExtractor:
         if not table_regions:
             return exclusion_zones
         
+        def _extract_page_numbers(page_number_raw) -> List[int]:
+            pages: List[int] = []
+            if isinstance(page_number_raw, int):
+                pages.append(page_number_raw)
+            elif isinstance(page_number_raw, str):
+                try:
+                    # Single number as string
+                    pages.append(int(page_number_raw))
+                except ValueError:
+                    # Range like "3-4"
+                    if '-' in page_number_raw:
+                        parts = page_number_raw.split('-')
+                        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
+                            start, end = int(parts[0]), int(parts[1])
+                            for p in range(start, end + 1):
+                                pages.append(p)
+            elif isinstance(page_number_raw, list):
+                for item in page_number_raw:
+                    pages.extend(_extract_page_numbers(item))
+            return pages
+
         for table in table_regions:
-            page_num = table.get("region", {}).get("page_number", 1) - 1  # Convert to 0-based
+            page_num_raw = table.get("region", {}).get("page_number", 1)
+            page_numbers_1_based = _extract_page_numbers(page_num_raw) or [1]
             bbox = table.get("region", {}).get("bbox")
-            
-            if bbox and 0 <= page_num < total_pages:
-                if page_num not in exclusion_zones:
-                    exclusion_zones[page_num] = []
-                
-                # Add padding around table region
-                padding = 10
-                exclusion_zone = (
-                    max(0, bbox[0] - padding),  # x0
-                    max(0, bbox[1] - padding),  # y0
-                    bbox[2] + padding,          # x1
-                    bbox[3] + padding           # y1
-                )
-                exclusion_zones[page_num].append(exclusion_zone)
-                
-                logger.debug(f"Added exclusion zone on page {page_num + 1}: {exclusion_zone}")
+            if not (bbox and len(bbox) >= 4):
+                continue
+            for page_1_based in page_numbers_1_based:
+                page_index = page_1_based - 1  # Convert to 0-based
+                if 0 <= page_index < total_pages:
+                    if page_index not in exclusion_zones:
+                        exclusion_zones[page_index] = []
+                    padding = 10
+                    exclusion_zone = (
+                        max(0, bbox[0] - padding),
+                        max(0, bbox[1] - padding),
+                        bbox[2] + padding,
+                        bbox[3] + padding
+                    )
+                    exclusion_zones[page_index].append(exclusion_zone)
+                    logger.debug(f"Added exclusion zone on page {page_index + 1}: {exclusion_zone}")
         
         return exclusion_zones
     
