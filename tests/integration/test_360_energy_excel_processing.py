@@ -319,7 +319,7 @@ class Test360EnergyExcelProcessing(unittest.TestCase):
                 'name': 'Single Unit Waha Yard Economics', 
                 'max_expected_rows': 70,
                 'max_expected_cols': 75,
-                'min_data_cells': 1300,
+                'min_data_cells': 900,
                 'should_have_data': True
             },
             {

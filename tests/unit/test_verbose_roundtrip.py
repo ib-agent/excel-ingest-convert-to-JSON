@@ -9,18 +9,21 @@ from converter.excel_verbose_reconstructor import write_verbose_json_to_excel
 
 
 TEST_FILES = [
-    
     os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            "test_excel",
+            "..",
+            "fixtures",
+            "excel",
             "Test_SpreadSheet_100_numbers.xlsx",
         )
     ),
     os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            "test_excel",
+            "..",
+            "fixtures",
+            "excel",
             "Test_Spreadsheet_multiple_tables_one_sheet_40_numbers_with_Table_titles.xlsx",
         )
     ),

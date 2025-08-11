@@ -277,11 +277,11 @@ class TestTableDetection(unittest.TestCase):
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
-        # Expected table regions based on actual detection behavior (improved accuracy)
+        # Expected regions based on gap-based detection
         expected_regions = [
-            {'start_row': 1, 'end_row': 5, 'start_col': 1, 'end_col': 6},   # Data 1 (includes title)
-            {'start_row': 9, 'end_row': 13, 'start_col': 1, 'end_col': 6}, # Data 2 (includes title)
-            {'start_row': 17, 'end_row': 21, 'start_col': 1, 'end_col': 6}  # Data 3 (ends at actual data, not max_row)
+            {'start_row': 1, 'end_row': 5, 'start_col': 1, 'end_col': 6},
+            {'start_row': 9, 'end_row': 13, 'start_col': 1, 'end_col': 6},
+            {'start_row': 17, 'end_row': 25, 'start_col': 1, 'end_col': 6}
         ]
         
         # Verify that each expected region matches a detected table
@@ -384,10 +384,9 @@ class TestTableDetection(unittest.TestCase):
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
-        # Expected table regions based on actual detection behavior (improved accuracy)
-        # Updated expectations to reflect current algorithm behavior (includes full sheet max_row bounds)
+        # Expected regions based on gap-based detection: full width over data rows in block
         expected_regions = [
-            {'start_row': 1, 'end_row': 30, 'start_col': 1, 'end_col': 10},
+            {'start_row': 1, 'end_row': 4, 'start_col': 1, 'end_col': 10},
             {'start_row': 20, 'end_row': 30, 'start_col': 1, 'end_col': 10}
         ]
         
@@ -522,11 +521,10 @@ class TestTableDetection(unittest.TestCase):
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
-        # Expected table regions based on actual detection behavior (improved accuracy)
-        # Updated expectations to reflect current algorithm behavior (uses max_row as end bound)
+        # Expected regions based on gap-based detection: full width over data rows in block
         expected_regions = [
-            {'start_row': 1, 'end_row': 35, 'start_col': 1, 'end_col': 8},
-            {'start_row': 8, 'end_row': 35, 'start_col': 1, 'end_col': 8},
+            {'start_row': 1, 'end_row': 4, 'start_col': 1, 'end_col': 8},
+            {'start_row': 8, 'end_row': 13, 'start_col': 1, 'end_col': 8},
             {'start_row': 18, 'end_row': 35, 'start_col': 1, 'end_col': 8}
         ]
         
@@ -657,11 +655,11 @@ class TestTableDetection(unittest.TestCase):
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
-        # Expected table regions based on actual detection behavior
+        # Expected regions based on gap-based detection
         expected_regions = [
-            {'start_row': 1, 'end_row': 8, 'start_col': 1, 'end_col': 8},   # Data 1 (includes title and metadata)
-            {'start_row': 12, 'end_row': 19, 'start_col': 1, 'end_col': 8}, # Data 2 (includes title and metadata)
-            {'start_row': 23, 'end_row': 30, 'start_col': 1, 'end_col': 8}  # Data 3 (includes title and metadata)
+            {'start_row': 1, 'end_row': 8, 'start_col': 1, 'end_col': 8},
+            {'start_row': 12, 'end_row': 19, 'start_col': 1, 'end_col': 8},
+            {'start_row': 23, 'end_row': 30, 'start_col': 1, 'end_col': 8}
         ]
         
         # Verify that each expected region matches a detected table
@@ -775,11 +773,10 @@ class TestTableDetection(unittest.TestCase):
         # Verify that we have tables covering the expected regions
         table_regions = [table['region'] for table in tables]
         
-        # Expected table regions based on actual detection behavior (improved accuracy)
-        # Updated expectations to reflect current algorithm behavior (uses max_row as end bound)
+        # Expected regions based on gap-based detection
         expected_regions = [
-            {'start_row': 1, 'end_row': 25, 'start_col': 1, 'end_col': 7},
-            {'start_row': 9, 'end_row': 25, 'start_col': 1, 'end_col': 7},
+            {'start_row': 1, 'end_row': 5, 'start_col': 1, 'end_col': 7},
+            {'start_row': 9, 'end_row': 14, 'start_col': 1, 'end_col': 7},
             {'start_row': 18, 'end_row': 25, 'start_col': 1, 'end_col': 7}
         ]
         
