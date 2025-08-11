@@ -40,10 +40,10 @@ def test_pdfplumber_migration():
     print("=" * 60)
     
     # Find test PDF files
+    repo_root = os.path.dirname(os.path.dirname(__file__))
     test_pdf_dirs = [
-        'tests/test_pdfs',
-        'tests',
-        '.'
+        os.path.join(repo_root, 'fixtures', 'pdfs'),
+        os.path.join(repo_root, 'fixtures'),
     ]
     
     test_pdfs = []

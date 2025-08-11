@@ -22,7 +22,7 @@ def test_financial_table_detection():
     print("=" * 60)
     
     # Upload the file again to get fresh data
-    file_path = os.path.join(os.path.dirname(__file__), 'test_excel', 'pDD10b - Exos_2023_financials.xlsx')
+    file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fixtures', 'excel', 'pDD10b - Exos_2023_financials.xlsx')
     
     client = APIClient()
     with open(file_path, 'rb') as f:

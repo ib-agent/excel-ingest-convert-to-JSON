@@ -26,11 +26,11 @@ class PDFStorageIntegrationTest(TestCase):
 
     def _load_fixture_pdf(self) -> bytes:
         # Load an existing small test PDF from repository fixtures
-        repo_root = os.path.dirname(os.path.dirname(__file__))
-        pdf_path = os.path.join(repo_root, 'tests', 'test_pdfs', 'Test_PDF_Table_9_numbers.pdf')
+        repo_tests_dir = os.path.dirname(os.path.dirname(__file__))
+        pdf_path = os.path.join(repo_tests_dir, 'fixtures', 'pdfs', 'Test_PDF_Table_9_numbers.pdf')
         if not os.path.exists(pdf_path):
             # Fallback to another known fixture
-            pdf_path = os.path.join(repo_root, 'tests', 'test_pdfs', 'Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf')
+            pdf_path = os.path.join(repo_tests_dir, 'fixtures', 'pdfs', 'Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf')
         with open(pdf_path, 'rb') as f:
             return f.read()
 

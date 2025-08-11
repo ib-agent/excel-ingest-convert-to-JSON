@@ -64,7 +64,7 @@ def analyze_row_patterns(sheet_data):
     return patterns
 
 
-def test_rle_compression(file_path, enable_rle=True):
+def test_rle_compression(file_path: str = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/fixtures/excel/Test_SpreadSheet_100_numbers.xlsx", enable_rle: bool = True):
     """Test RLE compression on a specific file"""
     print(f"\n{'='*80}")
     print(f"TESTING: {os.path.basename(file_path)}")

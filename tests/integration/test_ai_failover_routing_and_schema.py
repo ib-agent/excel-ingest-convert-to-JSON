@@ -55,10 +55,15 @@ def assert_schema_compat(standardized_ai: dict):
 @pytest.mark.parametrize("filename", TEST_FILES)
 def test_ai_failover_and_schema(tmp_path, filename, monkeypatch):
     # Arrange: create test files if not present
-    from .create_ai_failover_excels import main as create_all
-    create_all()
+    import importlib.util, pathlib
+    generator_path = pathlib.Path(__file__).resolve().parent.parent / 'create_ai_failover_excels.py'
+    spec = importlib.util.spec_from_file_location('create_ai_failover_excels', str(generator_path))
+    mod = importlib.util.module_from_spec(spec)
+    assert spec and spec.loader
+    spec.loader.exec_module(mod)
+    mod.main()
 
-    test_dir = os.path.join(os.path.dirname(__file__), "test_excel")
+    test_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "fixtures", "excel")
     file_path = os.path.join(test_dir, filename)
     assert os.path.exists(file_path), f"Missing generated file: {file_path}"
 

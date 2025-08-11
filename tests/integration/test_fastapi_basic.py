@@ -102,10 +102,10 @@ class TestFastAPIBasic:
     def test_pdf_upload(self):
         # Use existing small test PDF
         repo_root = os.path.dirname(os.path.dirname(__file__))
-        pdf_path = os.path.join(repo_root, 'tests', 'test_pdfs', 'Test_PDF_Table_9_numbers.pdf')
+        pdf_path = os.path.join(repo_root, 'fixtures', 'pdfs', 'Test_PDF_Table_9_numbers.pdf')
         if not os.path.exists(pdf_path):
             # Fallback
-            pdf_path = os.path.join(repo_root, 'tests', 'test_pdfs', 'Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf')
+            pdf_path = os.path.join(repo_root, 'fixtures', 'pdfs', 'Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf')
         with open(pdf_path, 'rb') as f:
             files = {'file': ('test.pdf', f.read(), 'application/pdf')}
         resp = self.client.post('/api/pdf/upload/', files=files)
@@ -117,9 +117,9 @@ class TestFastAPIBasic:
 
     def test_pdf_process_with_options(self):
         repo_root = os.path.dirname(os.path.dirname(__file__))
-        pdf_path = os.path.join(repo_root, 'tests', 'test_pdfs', 'Test_PDF_Table_9_numbers.pdf')
+        pdf_path = os.path.join(repo_root, 'fixtures', 'pdfs', 'Test_PDF_Table_9_numbers.pdf')
         if not os.path.exists(pdf_path):
-            pdf_path = os.path.join(repo_root, 'tests', 'test_pdfs', 'Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf')
+            pdf_path = os.path.join(repo_root, 'fixtures', 'pdfs', 'Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf')
         payload = {
             'file_path': pdf_path,
             'extract_tables': True,
