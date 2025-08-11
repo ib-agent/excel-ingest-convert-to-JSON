@@ -2,8 +2,8 @@ import os
 import json
 import uuid
 import tempfile
-from typing import Any, Dict
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+from typing import Any, Dict, Optional
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse, Response
 from converter.complexity_preserving_compact_processor import ComplexityPreservingCompactProcessor
 from converter.compact_table_processor import CompactTableProcessor
@@ -94,9 +94,14 @@ def _estimate_numeric_cells_for_sheet(sheet: dict) -> int:
 
 @router.post("/upload/")
 async def upload_and_convert(
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     enable_comparison: bool = Form(False),
     enable_ai_analysis: bool = Form(False),
+    async_mode: bool = Form(False),
+    callback_url: Optional[str] = Form(None),
+    pubsub_provider: Optional[str] = Form(None),
+    pubsub_topic: Optional[str] = Form(None),
 ):
     allowed_ext = {".xlsx", ".xlsm", ".xltx", ".xltm"}
     _, ext = os.path.splitext(file.filename)
@@ -108,6 +113,195 @@ async def upload_and_convert(
         full_path = tmp.name
 
     try:
+        # Support async processing: capture bytes and schedule background task
+        if async_mode and background_tasks is not None:
+            with open(full_path, "rb") as f:
+                file_bytes = f.read()
+
+            use_storage = os.getenv("USE_STORAGE_SERVICE", "false").lower() == "true"
+            storage = get_storage_service() if use_storage else None
+            processing_id = str(uuid.uuid4())
+
+            # Optionally store original file reference
+            response_storage = None
+            if storage:
+                try:
+                    original_ref = storage.store_file(
+                        data=file_bytes,
+                        storage_type=StorageType.ORIGINAL_FILE,
+                        filename=file.filename,
+                        metadata={"processing_id": processing_id},
+                    )
+                    response_storage = {"processing_id": processing_id, "original_file": original_ref.__dict__}
+                except Exception:
+                    response_storage = None
+
+            try:
+                processing_registry.register(processing_id, {
+                    'filename': file.filename,
+                    'type': 'excel',
+                    'status': 'processing',
+                    **({'storage': response_storage} if response_storage else {}),
+                })
+            except Exception:
+                pass
+
+            def _bg_task():
+                from fastapi_service.notification_sender import send_notifications
+                # Write bytes to a temp file for processor
+                with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as t2:
+                    t2.write(file_bytes)
+                    path2 = t2.name
+                # Reuse existing sync logic by invoking processor inline
+                try:
+                    processor = ComplexityPreservingCompactProcessor(enable_rle=True)
+                    json_data_local = processor.process_file(path2, filter_empty_trailing=True, include_complexity_metadata=True)
+
+                    analyzer = ExcelComplexityAnalyzer()
+                    complexity_results_local: Dict[str, Any] = {}
+                    meta_by_sheet = json_data_local.get("complexity_metadata", {}).get("sheets", {})
+                    for sheet in json_data_local.get("workbook", {}).get("sheets", []):
+                        name = sheet.get("name", "Unknown")
+                        complexity_results_local[name] = analyzer.analyze_sheet_complexity(sheet, complexity_metadata=meta_by_sheet.get(name))
+
+                    table_processor = CompactTableProcessor()
+                    table_data_local = table_processor.transform_to_compact_table_format(json_data_local, {
+                        "enable_comparison": enable_comparison,
+                        "enable_ai_analysis": enable_ai_analysis,
+                        "complexity_results": complexity_results_local,
+                    })
+                    table_data_local["complexity_analysis"] = complexity_results_local
+
+                    total_cells = _estimate_total_cells_from_workbook(json_data_local.get('workbook', {}))
+                    total_numeric_cells = _estimate_total_numeric_cells_from_workbook(json_data_local.get('workbook', {}))
+                    estimated_size = total_cells * 200
+
+                    use_storage_local = os.getenv("USE_STORAGE_SERVICE", "false").lower() == "true"
+                    storage_local = get_storage_service() if use_storage_local else None
+                    response_storage_local = None
+                    file_id_local = None
+                    download_urls_local = None
+
+                    if estimated_size > 5 * 1024 * 1024:
+                        summary_data = {'workbook': {'meta': json_data_local.get('workbook', {}).get('meta', {}), 'sheets': []}}
+                        for sheet in json_data_local.get('workbook', {}).get('sheets', []):
+                            tables = sheet.get('tables', [])
+                            sheet_summary = {
+                                'name': sheet.get('name', 'Unknown'),
+                                'table_count': len(tables),
+                                'total_rows': sum(len(t.get('labels', {}).get('rows', [])) for t in tables),
+                                'total_columns': sum(len(t.get('labels', {}).get('cols', [])) for t in tables),
+                                'numeric_cells': _estimate_numeric_cells_for_sheet(sheet),
+                            }
+                            summary_data['workbook']['sheets'].append(sheet_summary)
+
+                        if storage_local:
+                            try:
+                                full_ref = storage_local.store_json(data=json_data_local, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
+                                table_ref = storage_local.store_json(data=table_data_local, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                                response_storage_local = {
+                                    'processing_id': processing_id,
+                                    'processed_json': full_ref.__dict__,
+                                    'table_data': table_ref.__dict__,
+                                    'download_urls': {
+                                        'processed_json': storage_local.get_download_url(full_ref),
+                                        'table_data': storage_local.get_download_url(table_ref),
+                                    }
+                                }
+                            except Exception:
+                                response_storage_local = None
+                            download_urls_local = { 'full_data': None, 'table_data': None }
+                        else:
+                            file_id_local = str(uuid.uuid4())
+                            django_like_models.processed_data_cache[file_id_local] = {
+                                'full_data': json_data_local,
+                                'table_data': table_data_local,
+                                'filename': file.filename,
+                                'format': 'compact',
+                            }
+                            download_urls_local = {
+                                'full_data': f'/api/download/?type=full&file_id={file_id_local}',
+                                'table_data': f'/api/download/?type=table&file_id={file_id_local}',
+                            }
+
+                        processing_registry.register(processing_id, {
+                            'filename': file.filename,
+                            'type': 'excel',
+                            'storage': response_storage_local,
+                            'size_estimated_bytes': estimated_size,
+                            'large_file': True,
+                            'summary': {
+                                **summary_data,
+                                'workbook': { **summary_data['workbook'], 'total_numeric_cells': total_numeric_cells }
+                            },
+                            **({ 'file_id': file_id_local, 'download_urls': download_urls_local } if not storage_local else {}),
+                            'status': 'completed',
+                        })
+                    else:
+                        if not storage_local:
+                            try:
+                                file_id_local = str(uuid.uuid4())
+                                django_like_models.processed_data_cache[file_id_local] = {
+                                    'full_data': json_data_local,
+                                    'table_data': table_data_local,
+                                    'filename': file.filename,
+                                    'format': 'compact',
+                                }
+                                download_urls_local = {
+                                    'full_data': f'/api/download/?type=full&file_id={file_id_local}',
+                                    'table_data': f'/api/download/?type=table&file_id={file_id_local}',
+                                }
+                            except Exception:
+                                file_id_local = None
+                                download_urls_local = None
+
+                        if storage_local:
+                            try:
+                                full_ref = storage_local.store_json(data=json_data_local, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
+                                table_ref = storage_local.store_json(data=table_data_local, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                                response_storage_local = {
+                                    'processing_id': processing_id,
+                                    'processed_json': full_ref.__dict__,
+                                    'table_data': table_ref.__dict__,
+                                    'download_urls': {
+                                        'processed_json': storage_local.get_download_url(full_ref),
+                                        'table_data': storage_local.get_download_url(table_ref),
+                                    }
+                                }
+                            except Exception:
+                                response_storage_local = None
+
+                        processing_registry.register(processing_id, {
+                            'filename': file.filename,
+                            'type': 'excel',
+                            'storage': response_storage_local,
+                            'size_actual_bytes': len(json.dumps(json_data_local, default=str)) + len(json.dumps(table_data_local, default=str)),
+                            'large_file': False,
+                            **({ 'file_id': file_id_local, 'download_urls': download_urls_local } if not storage_local and file_id_local else {}),
+                            'status': 'completed',
+                        })
+                finally:
+                    try:
+                        os.remove(path2)
+                    except Exception:
+                        pass
+
+                # Send notifications with the final record
+                final_rec = processing_registry.get(processing_id) or {'processing_id': processing_id, 'type': 'excel', 'status': 'completed'}
+                final_rec['processing_id'] = processing_id
+                send_notifications(record=final_rec, callback_url=callback_url, pubsub_provider=pubsub_provider, pubsub_topic=pubsub_topic)
+
+            background_tasks.add_task(_bg_task)
+            return JSONResponse({
+                'accepted': True,
+                'processing_id': processing_id,
+                'status_endpoint': f'/api/status/{processing_id}/',
+                'results_endpoints': {
+                    'full': f'/api/results/{processing_id}/full',
+                    'table': f'/api/results/{processing_id}/table',
+                    'meta': f'/api/results/{processing_id}/meta',
+                }
+            }, status_code=202)
         processor = ComplexityPreservingCompactProcessor(enable_rle=True)
         json_data = processor.process_file(full_path, filter_empty_trailing=True, include_complexity_metadata=True)
 
@@ -203,6 +397,11 @@ async def upload_and_convert(
                 'storage': response_storage,
                 'size_estimated_bytes': estimated_size,
                 'large_file': True,
+                'summary': {
+                    **summary_data,
+                    'workbook': { **summary_data['workbook'], 'total_numeric_cells': total_numeric_cells }
+                },
+                **({ 'file_id': file_id, 'download_urls': download_urls } if not storage else {}),
             })
 
             estimated_size_mb = estimated_size / 1024 / 1024
@@ -247,6 +446,26 @@ async def upload_and_convert(
             except Exception:
                 pass
 
+            # For consistent retrieval later, also cache when storage is not configured
+            download_urls = None
+            file_id = None
+            if not storage:
+                try:
+                    file_id = str(uuid.uuid4())
+                    django_like_models.processed_data_cache[file_id] = {
+                        'full_data': json_data,
+                        'table_data': table_data,
+                        'filename': file.filename,
+                        'format': 'compact',
+                    }
+                    download_urls = {
+                        'full_data': f'/api/download/?type=full&file_id={file_id}',
+                        'table_data': f'/api/download/?type=table&file_id={file_id}',
+                    }
+                except Exception:
+                    file_id = None
+                    download_urls = None
+
             if storage:
                 try:
                     full_ref = storage.store_json(data=json_data, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
@@ -271,6 +490,7 @@ async def upload_and_convert(
                 'storage': response_storage,
                 'size_actual_bytes': len(json.dumps(json_data, default=str)) + len(json.dumps(table_data, default=str)),
                 'large_file': False,
+                **({ 'file_id': file_id, 'download_urls': download_urls } if not storage and file_id else {}),
             })
 
             return JSONResponse({
