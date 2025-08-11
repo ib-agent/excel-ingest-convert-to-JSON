@@ -186,7 +186,7 @@
 
         <div class="main-content">
             <div class="options-grid">
-                <div class="option-card" onclick="window.location.href='{% url 'excel_processor' %}'">
+                <div class="option-card" onclick="window.location.href='/excel/'">
                     <div class="option-icon">
                         <i class="fas fa-file-excel"></i>
                     </div>
@@ -201,12 +201,12 @@
                         <li>Table-oriented JSON output</li>
                         <li>Header resolution and cleaning</li>
                     </ul>
-                    <a href="{% url 'excel_processor' %}" class="cta-button">
+                    <a href="/excel/" class="cta-button">
                         Process Excel Files
                     </a>
                 </div>
 
-                <div class="option-card" onclick="window.location.href='{% url 'pdf_processor' %}'">
+                <div class="option-card" onclick="window.location.href='/pdf/'">
                     <div class="option-icon">
                         <i class="fas fa-file-pdf"></i>
                     </div>
@@ -221,7 +221,7 @@
                         <li>Structured JSON output</li>
                         <li>Number extraction and embedding</li>
                     </ul>
-                    <a href="{% url 'pdf_processor' %}" class="cta-button">
+                    <a href="/pdf/" class="cta-button">
                         Process PDF Files
                     </a>
                 </div>
