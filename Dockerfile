@@ -50,8 +50,8 @@ RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
 
-# Default to Django dev server (good DX locally). Override CMD to use Gunicorn in prod.
-ENV CMD="python manage.py runserver 0.0.0.0:8000"
+# Default command can be overridden by docker-compose; set a safe default to uvicorn
+ENV CMD="uvicorn fastapi_service.main:app --host 0.0.0.0 --port 8000"
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=10 \
   CMD curl -fsS http://localhost:8000/api/health/ || exit 1
