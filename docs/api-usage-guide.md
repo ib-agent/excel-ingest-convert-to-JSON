@@ -110,4 +110,9 @@ This guide summarizes available endpoints for uploading and retrieving JSON crea
  - Status values: `processing`, `completed`. Current flows process synchronously unless `async_mode=true` is used.
  - Large-file detection (Excel): estimated by cells; large files return summaries and download links rather than inline data.
 
+### Example JSON locations and test outputs
+
+- Example and expected JSON fixtures are under `tests/fixtures/json/`.
+- Tests write any generated outputs to a temporary directory via pytest's `tmp_path` fixture, so no artifacts are left in the repository root.
+
 
