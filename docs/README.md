@@ -327,6 +327,22 @@ pytest -q \
   tests/test_excel_additional_storage_integration.py
 ```
 
+### Test data and fixtures
+
+- All test fixtures live under `tests/fixtures/`:
+  - `tests/fixtures/excel/` – Excel workbooks used by tests
+  - `tests/fixtures/pdfs/` – PDF files used by tests
+  - `tests/fixtures/json/` – JSON fixtures and expected results
+  - `tests/fixtures/html/` – HTML samples (if applicable)
+
+- Tests write any generated result files to a temporary directory via pytest's `tmp_path` fixture. This keeps the repository clean and prevents stray artifacts (e.g., `*_results.json`) from being written to the project root.
+
+- Common pytest fixtures (e.g., `excel_path`, `pdf_path`, `json_path`) are defined in `tests/conftest.py` to consistently resolve fixture locations.
+
+- When adding new tests:
+  - Place static test assets under the appropriate `tests/fixtures/` subfolder.
+  - Use `tmp_path` for any outputs created during the test run.
+
 ### Code Style
 
 The project follows PEP 8 style guidelines. Use a linter like `flake8` or `black` for code formatting.

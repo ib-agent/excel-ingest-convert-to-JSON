@@ -105,5 +105,5 @@ def debug_table_detection(pdf_path: str):
         logger.error(f"Error with lenient parameters: {str(e)}")
 
 if __name__ == "__main__":
-    pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/test_pdfs/synthetic_financial_report.pdf"
+    pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/fixtures/pdfs/synthetic_financial_report.pdf"
     debug_table_detection(pdf_path) 
