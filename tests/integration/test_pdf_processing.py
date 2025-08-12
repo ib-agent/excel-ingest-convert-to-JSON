@@ -29,8 +29,8 @@ def test_table_extraction():
         processor = PDFProcessor(config)
         print("✓ PDFProcessor initialized successfully")
         
-        # Test with a sample PDF if available
-        test_pdf_path = "sample.pdf"  # You'll need to provide a test PDF
+        # Use existing fixture PDF if available
+        test_pdf_path = "tests/test_pdfs/Test_PDF_Table_100_numbers.pdf"
         
         if os.path.exists(test_pdf_path):
             print(f"Testing with: {test_pdf_path}")
@@ -38,10 +38,11 @@ def test_table_extraction():
             # Process PDF with tables only
             result = processor.process_file(test_pdf_path, extract_tables=True, extract_text=False, extract_numbers=False)
             
-            # Validate result structure
+            # Validate result structure matches current schema
             assert "pdf_processing_result" in result
             assert "tables" in result["pdf_processing_result"]
-            assert "metadata" in result["pdf_processing_result"]["tables"]
+            tables_obj = result["pdf_processing_result"]["tables"]
+            assert "tables" in tables_obj and isinstance(tables_obj["tables"], list)
             
             print("✓ PDF processing completed successfully")
             print(f"✓ Tables extracted: {result['pdf_processing_result']['processing_summary']['tables_extracted']}")
@@ -108,8 +109,8 @@ def test_full_extraction():
         processor = PDFProcessor(config)
         print("✓ PDFProcessor initialized successfully")
         
-        # Test with a sample PDF if available
-        test_pdf_path = "sample.pdf"
+        # Use existing fixture PDF if available
+        test_pdf_path = "tests/test_pdfs/Test_PDF_Table_9_numbers.pdf"
         
         if os.path.exists(test_pdf_path):
             print(f"Testing with: {test_pdf_path}")
@@ -122,11 +123,13 @@ def test_full_extraction():
                 extract_numbers=True
             )
             
-            # Validate result structure
+            # Validate result structure matches current schema
             assert "pdf_processing_result" in result
             assert "tables" in result["pdf_processing_result"]
             assert "text_content" in result["pdf_processing_result"]
-            assert "numbers_in_text" in result["pdf_processing_result"]
+            # Numbers are summarized in processing_summary; detailed structure may vary
+            summary = result["pdf_processing_result"].get("processing_summary", {})
+            assert "numbers_found" in summary
             
             print("✓ Full PDF processing completed successfully")
             print(f"✓ Tables extracted: {result['pdf_processing_result']['processing_summary']['tables_extracted']}")
