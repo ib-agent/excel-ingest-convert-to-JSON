@@ -255,17 +255,7 @@ python PDF_processing_pdfplumber.py tests/test_pdfs/sample.pdf
 
 ## 🎯 Rollback Plan
 
-If rollback is needed, the original Camelot-based files are preserved:
-
-```bash
-# Restore original processors (if needed)
-cp clean_pdf_processor.py clean_pdf_processor_pdfplumber_backup.py
-cp PDF_processing.py PDF_processing_pdfplumber_backup.py
-
-# Update requirements  
-cp pdf_requirements.txt pdf_requirements_pdfplumber.txt
-# Restore original requirements (add camelot-py, PyMuPDF back)
-```
+Camelot rollback is no longer supported. The preserved filenames (`clean_pdf_processor.py`, `PDF_processing.py`) are now compatibility shims that delegate to the PDFPlumber implementations to maintain import stability.
 
 ## ✅ Validation Checklist
 

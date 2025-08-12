@@ -2,6 +2,10 @@
 
 This document outlines the comprehensive plan for processing PDF documents to extract tables, numbers in text, and contextual text content into structured JSON formats.
 
+> Deprecation and current standard
+>
+> Camelot-based processing is deprecated in this project. PDFPlumber is the single, standard library for PDF table and text extraction. Any Camelot references in this document are historical. For implementation details, refer to `converter/pdfplumber_processor.py` and related PDFPlumber modules. The legacy entry point `PDF_processing.py` is now a compatibility shim that delegates to the PDFPlumber implementation.
+
 ## Overview
 
 The PDF processing system will extract three main components from PDF documents:

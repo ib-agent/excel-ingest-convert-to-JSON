@@ -65,10 +65,7 @@ This document outlines the comprehensive plan to migrate the PDF processing pipe
 **Goal**: Maintain existing API while switching backend
 
 **Approach**:
-- Create feature flag to switch between Camelot and PDFPlumber
-- Maintain same method signatures and return formats
-- Add gradual rollout capability
-- Preserve all existing configuration options
+- Legacy `PDF_processing.py` is now a shim that re-exports the PDFPlumber implementation and normalizes legacy summary fields used by tests (`text_sections`, `numbers_found`). No runtime feature flag is needed; PDFPlumber is the default and only backend.
 
 ### Phase 4: Testing and Validation
 **Goal**: Ensure PDFPlumber implementation matches or exceeds current performance
@@ -84,11 +81,9 @@ This document outlines the comprehensive plan to migrate the PDF processing pipe
 **Goal**: Replace Camelot with PDFPlumber in production
 
 **Steps**:
-1. Deploy with feature flag (default: Camelot)
-2. Gradual rollout with monitoring
-3. Performance and accuracy validation
-4. Full migration when confident
-5. Remove Camelot dependencies
+1. Full cutover to PDFPlumber (completed)
+2. Performance and accuracy validation (tests green)
+3. Remove Camelot dependencies and references in docs (this change)
 
 ## Technical Implementation Details
 

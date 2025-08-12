@@ -21,6 +21,10 @@ A powerful Django web application that converts Excel files to comprehensive JSO
 
 - **Robust API**: RESTful API endpoints for programmatic access
 
+## PDF Processing (Deprecation note)
+
+- PDF processing has standardized on PDFPlumber. Camelot-based modules have been deprecated and replaced by compatibility shims (`PDF_processing.py`, `clean_pdf_processor.py`) that delegate to the PDFPlumber implementations. For direct usage, prefer `converter/pdfplumber_processor.py`.
+
 - **File Format Support**: Supports modern Excel formats:
   - `.xlsx` (Excel Workbook)
   - `.xlsm` (Excel Macro-Enabled Workbook)

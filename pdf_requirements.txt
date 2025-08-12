@@ -2,8 +2,6 @@
 
 # Core PDF processing libraries
 pdfplumber>=0.11.0
-# Removed: camelot-py[cv]>=0.11.0 (replaced with pdfplumber)
-# Removed: PyMuPDF>=1.23.0 (replaced with pdfplumber)
 
 # Data processing
 pandas>=1.5.0
@@ -12,8 +10,8 @@ numpy>=1.21.0
 # Optional: For creating test PDFs
 reportlab>=3.6.0
 
-# Optional: For enhanced table detection
-opencv-python>=4.5.0
+# Optional: For enhanced table detection (not required for default PDFPlumber flow)
+# opencv-python>=4.5.0
 
 # Optional: For better text processing
 nltk>=3.8.0
