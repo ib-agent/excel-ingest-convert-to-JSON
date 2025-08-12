@@ -123,7 +123,6 @@ def test_ai_analysis_pipeline():
         print(f"   ⚠️  Validation Errors: {parsed_result['validation']['errors']}")
     
     assert parsed_result['validation']['valid'] is True
-    return parsed_result
 
 
 def test_comparison_engine():
@@ -216,7 +215,6 @@ def test_comparison_engine():
         print(f"   Key Insights: {comparison_result['insights'][0]}")
     
     assert 'summary' in comparison_result and 'metrics' in comparison_result
-    return comparison_result
 
 
 def test_end_to_end_processing():
@@ -317,14 +315,9 @@ def test_end_to_end_processing():
         
         print("\n✅ End-to-end processing completed successfully!")
         
-        return {
-            'file_processed': os.path.basename(file_path),
-            'complexity_score': complexity_analysis['complexity_score'],
-            'traditional_tables': len(traditional_tables),
-            'ai_tables': ai_result['table_count'],
-            'comparison_winner': comparison_result['summary']['winner'],
-            'ai_available': ai_client.is_available()
-        }
+        # Basic sanity assertions
+        assert 'summary' in comparison_result
+        assert isinstance(traditional_tables, list)
         
     except Exception as e:
         print(f"❌ End-to-end test failed: {str(e)}")
@@ -356,7 +349,6 @@ def test_cost_estimation():
     print(f"   Estimated total cost: ${cost_estimate['estimated_cost_usd']:.4f}")
     
     assert 'estimated_cost_usd' in cost_estimate
-    return cost_estimate
 
 
 def generate_test_report(results):

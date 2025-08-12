@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message
 logger = logging.getLogger(__name__)
 
 @dataclass
-class TestExpectation:
+class PDFTestExpectation:
     """Expected results for a test case"""
     name: str
     pdf_file: str
@@ -45,7 +45,7 @@ class PDFProcessorTestSuite:
         # Define test cases with expected results - ordered by complexity
         self.test_cases = [
             # Existing files in the test_pdfs directory
-            TestExpectation(
+            PDFTestExpectation(
                 name="Test_PDF_Table_100_numbers",
                 pdf_file="tests/test_pdfs/Test_PDF_Table_100_numbers.pdf",
                 expected_tables=1,
@@ -56,7 +56,7 @@ class PDFProcessorTestSuite:
                 min_paragraphs_page2=0,
                 description="Simple test: single large table with 100 numbers, minimal text"
             ),
-            TestExpectation(
+            PDFTestExpectation(
                 name="Test_PDF_with_3_numbers_in_large_paragraphs",
                 pdf_file="tests/test_pdfs/Test_PDF_with_3_numbers_in_large_paragraphs.pdf", 
                 expected_tables=0,
@@ -67,7 +67,7 @@ class PDFProcessorTestSuite:
                 min_paragraphs_page2=0,
                 description="Text-only test: large paragraphs with exactly 3 embedded numbers"
             ),
-            TestExpectation(
+            PDFTestExpectation(
                 name="Test_PDF_Table_9_numbers_with_before_and_after_paragraphs",
                 pdf_file="tests/test_pdfs/Test_PDF_Table_9_numbers_with_before_and_after_paragraphs.pdf",
                 expected_tables=1,
@@ -78,7 +78,7 @@ class PDFProcessorTestSuite:
                 min_paragraphs_page2=0,
                 description="Mixed test: small table with surrounding paragraph text"
             ),
-            TestExpectation(
+            PDFTestExpectation(
                 name="synthetic_financial_report",
                 pdf_file="tests/test_pdfs/synthetic_financial_report.pdf",
                 expected_tables=2,

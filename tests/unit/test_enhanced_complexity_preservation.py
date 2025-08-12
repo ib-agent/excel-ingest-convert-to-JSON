@@ -183,19 +183,7 @@ def test_enhanced_complexity_preservation():
             print(f"    Formula ratio: {formula_data.get('formula_ratio', 0.0):.3f}")
             print(f"    Complex formula ratio: {formula_data.get('complex_ratio', 0.0):.3f}")
     
-    return {
-        'sizes': {
-            'full': full_size,
-            'original_compact': original_compact_size,
-            'enhanced': enhanced_size
-        },
-        'complexity_scores': {
-            method: result['complexity_score'] 
-            for method, result in complexity_results.items()
-        },
-        'metadata_overhead': metadata_overhead,
-        'preservation_improvement': enhanced_preservation - original_preservation if 'Full' in complexity_results and full_score > 0 else 0
-    }
+    assert enhanced_size > 0 and original_compact_size > 0 and full_size > 0
 
 
 def test_multiple_files():
@@ -279,7 +267,6 @@ def test_multiple_files():
         print(f"    Metadata: {'✓' if result['has_metadata'] else '✗'}")
     
     assert isinstance(results_summary, list)
-    return results_summary
 
 
 if __name__ == "__main__":

@@ -802,7 +802,6 @@ def test_direct_header_resolution():
             print(f"    Total data cells with headers: {data_cells_with_headers}")
     
     assert 'workbook' in enhanced_data
-    return enhanced_data
 
 def test_api_header_resolution():
     """Test header resolution via API"""

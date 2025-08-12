@@ -154,7 +154,6 @@ def test_complexity_analyzer(tmp_path):
         print(f"   Score: {sheet['score']:.3f} | Recommendation: {sheet['recommendation']}")
     
     assert isinstance(results, dict)
-    return results
 
 
 def test_specific_scenarios():
