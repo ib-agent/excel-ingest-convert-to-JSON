@@ -5,6 +5,7 @@ Test script for header resolution functionality
 
 import json
 import requests
+import pytest
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
