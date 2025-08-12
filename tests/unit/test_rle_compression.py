@@ -184,7 +184,7 @@ def test_rle_compression(file_path: str = "/Users/jeffwinner/excel-ingest-conver
             overall_compression = (1 - total_stored_cells / total_logical_cells) * 100
             print(f"   Overall cell compression: {overall_compression:.2f}%")
         
-    return {
+        return {
             "processing_time": processing_time,
             "json_size": json_size,
             "total_logical_cells": total_logical_cells,
