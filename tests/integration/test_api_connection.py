@@ -7,6 +7,7 @@ This script tests the basic Anthropic API connection with minimal data.
 
 import os
 import sys
+import pytest
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from converter.anthropic_excel_client import AnthropicExcelClient
@@ -28,8 +29,7 @@ def test_basic_connection():
     print(f"Client available: {'✅' if client.is_available() else '❌'}")
     
     if not client.is_available():
-        print("❌ Client not available")
-        return False
+        pytest.skip("Anthropic client not available; skipping API connection test")
     
     # Try a very simple analysis
     try:
@@ -46,7 +46,7 @@ def test_basic_connection():
         
         # Test cost estimation first
         cost = client.estimate_api_cost(simple_sheet)
-        print(f"Cost estimate: ${cost['estimated_cost_usd']:.4f}")
+        assert 'estimated_cost_usd' in cost
         
         # Try actual API call (sheet-level)
         response = client.analyze_excel_sheet(
@@ -56,16 +56,8 @@ def test_basic_connection():
         )
         
         print(f"Response status: {response.get('status', 'unknown')}")
-        
-        if response.get('status') == 'success':
-            print("✅ API call successful!")
-            result = response.get('result', {})
-            tables = result.get('tables_detected', [])
-            print(f"Tables detected: {len(tables)}")
-            return True
-        else:
-            print(f"❌ API call failed: {response.get('message', 'Unknown error')}")
-            return False
+        assert isinstance(response, dict)
+        assert 'status' in response
             
     except Exception as e:
         print(f"❌ API test failed: {str(e)}")
@@ -80,7 +72,7 @@ def test_basic_connection():
             print("   3. Account not properly set up")
             print("   4. API key format issue")
             
-        return False
+        pytest.fail(f"API test failed: {e}")
 
 
 def main():

@@ -213,7 +213,7 @@ def test_web_interface_endpoints():
         return True
     except Exception as e:
         print(f"❌ Web interface test failed: {e}")
-        return False
+        assert False, f"Web interface test failed: {e}"
 
 def save_validation_report():
     """Save validation report"""

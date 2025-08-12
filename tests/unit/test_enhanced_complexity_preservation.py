@@ -25,7 +25,7 @@ def test_enhanced_complexity_preservation():
     
     if not os.path.exists(file_path):
         print(f"❌ File not found: {file_path}")
-        return
+        pytest.skip("Missing large Excel test file for complexity preservation test")
     
     print(f"📊 Testing: {os.path.basename(file_path)}\n")
     
@@ -278,6 +278,7 @@ def test_multiple_files():
         print(f"    Size: {result['file_size_kb']:.1f} KB")
         print(f"    Metadata: {'✓' if result['has_metadata'] else '✗'}")
     
+    assert isinstance(results_summary, list)
     return results_summary
 
 

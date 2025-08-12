@@ -455,7 +455,8 @@ def test_api_endpoints():
             print(f"❌ API test error: {str(e)}")
             results.append((test_name, False))
     
-    return results
+    # Convert results to asserts to satisfy pytest
+    assert all(success for _, success in results), f"Failures: {[name for name, success in results if not success]}"
 
 def save_test_results(test_name, enhanced_data):
     """Save test results to JSON file"""

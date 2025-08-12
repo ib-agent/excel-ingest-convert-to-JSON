@@ -153,6 +153,7 @@ def test_complexity_analyzer(tmp_path):
         print(f"{i+1}. {sheet['file']} - {sheet['sheet']}")
         print(f"   Score: {sheet['score']:.3f} | Recommendation: {sheet['recommendation']}")
     
+    assert isinstance(results, dict)
     return results
 
 

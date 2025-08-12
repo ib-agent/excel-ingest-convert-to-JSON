@@ -14,6 +14,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from converter.anthropic_excel_client import AnthropicExcelClient
+import pytest
 from converter.ai_result_parser import AIResultParser
 from converter.comparison_engine import ComparisonEngine
 from converter.complexity_preserving_compact_processor import ComplexityPreservingCompactProcessor
@@ -36,10 +37,9 @@ def test_ai_client():
         print("   1. Install anthropic: pip install anthropic")
         print("   2. Set ANTHROPIC_API_KEY environment variable")
         print("   Continuing with mock test...\n")
-        return False
+        pytest.skip("Anthropic client not available")
     else:
         print("✅ AI client ready for testing\n")
-        return True
 
 
 def test_ai_analysis_pipeline():
@@ -122,6 +122,7 @@ def test_ai_analysis_pipeline():
     if parsed_result['validation']['errors']:
         print(f"   ⚠️  Validation Errors: {parsed_result['validation']['errors']}")
     
+    assert parsed_result['validation']['valid'] is True
     return parsed_result
 
 
@@ -214,6 +215,7 @@ def test_comparison_engine():
     if comparison_result['insights']:
         print(f"   Key Insights: {comparison_result['insights'][0]}")
     
+    assert 'summary' in comparison_result and 'metrics' in comparison_result
     return comparison_result
 
 
@@ -230,7 +232,7 @@ def test_end_to_end_processing():
     
     if not os.path.exists(file_path):
         print(f"❌ No test files available")
-        return
+        pytest.skip("No test Excel files for end-to-end test")
     
     print(f"📊 Processing: {os.path.basename(file_path)}")
     
@@ -328,7 +330,7 @@ def test_end_to_end_processing():
         print(f"❌ End-to-end test failed: {str(e)}")
         import traceback
         traceback.print_exc()
-        return None
+        pytest.fail(f"End-to-end test failed: {e}")
 
 
 def test_cost_estimation():
@@ -353,6 +355,7 @@ def test_cost_estimation():
     print(f"   Estimated completion tokens: {cost_estimate['estimated_completion_tokens']:,}")
     print(f"   Estimated total cost: ${cost_estimate['estimated_cost_usd']:.4f}")
     
+    assert 'estimated_cost_usd' in cost_estimate
     return cost_estimate
 
 

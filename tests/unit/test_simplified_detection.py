@@ -112,7 +112,8 @@ def test_simple_multitable_detection():
         method = table.get('metadata', {}).get('detection_method', 'unknown')
         print(f"  Table {i+1}: Rows {region['start_row']}-{region['end_row']}, Method: {method}")
     
-    return new_regions, current_tables
+    assert isinstance(new_regions, list)
+    assert isinstance(current_tables, list)
 
 
 def test_frozen_panes_detection():

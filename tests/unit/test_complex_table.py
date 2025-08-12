@@ -444,8 +444,7 @@ def test_complex_transformation(tmp_path):
     with open(output_file, 'w') as f:
         json.dump(table_data, f, indent=2)
     print(f"\n✅ Complex transformation results saved to {output_file}")
-    
-    return table_data
+    assert 'workbook' in table_data and 'sheets' in table_data['workbook']
 
 if __name__ == "__main__":
     test_complex_transformation() 

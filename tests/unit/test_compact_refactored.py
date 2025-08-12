@@ -63,7 +63,9 @@ def test_compact_processor():
         print(f"  Table {i+1}: Rows {region[0]}-{region[2]}, Method: {method}")
     
     print("\n✅ Compact processor refactoring successful!")
-    return tables
+    # Assert at least one table detected in gap mode
+    assert isinstance(tables, list)
+    assert len(tables) >= 1
 
 
 if __name__ == "__main__":

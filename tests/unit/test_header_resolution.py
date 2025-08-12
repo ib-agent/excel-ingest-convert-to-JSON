@@ -800,6 +800,7 @@ def test_direct_header_resolution():
             
             print(f"    Total data cells with headers: {data_cells_with_headers}")
     
+    assert 'workbook' in enhanced_data
     return enhanced_data
 
 def test_api_header_resolution():
@@ -844,15 +845,16 @@ def test_api_header_resolution():
                     
                     print(f"    Data cells with header context: {cells_with_headers}")
             
+            assert 'resolved_data' in result
             return result['resolved_data']
         else:
             print(f"❌ API request failed with status {response.status_code}")
             print(f"Response: {response.text}")
-            return None
+            assert False, f"API request failed with status {response.status_code}"
             
     except requests.exceptions.ConnectionError:
         print("❌ Could not connect to server. Make sure the server is running on port 8001.")
-        return None
+        assert False, "API server not available for header resolution test"
     except Exception as e:
         print(f"❌ API test failed: {str(e)}")
         return None
