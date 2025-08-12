@@ -40,7 +40,9 @@ class PDFTableExtractor:
             config: Configuration dictionary for table extraction
         """
         self.config = config or self._get_default_config()
-        self.processor = PDFPlumberProcessor(config)
+        # Ensure downstream processor receives a properly wrapped config
+        wrapped_config = self.config if 'table_extraction' in self.config else {'table_extraction': self.config}
+        self.processor = PDFPlumberProcessor(wrapped_config)
         
         logger.info("PDFTableExtractor initialized with PDFPlumber")
     
@@ -265,7 +267,9 @@ class PDFTextProcessor:
             config: Configuration dictionary for text processing
         """
         self.config = config or self._get_default_config()
-        self.processor = PDFPlumberProcessor(config)
+        # Ensure downstream processor receives a properly wrapped config
+        wrapped_config = self.config if 'text_extraction' in self.config else {'text_extraction': self.config}
+        self.processor = PDFPlumberProcessor(wrapped_config)
         
         logger.info("PDFTextProcessor initialized with PDFPlumber")
     
@@ -376,7 +380,9 @@ class PDFNumberExtractor:
             config: Configuration dictionary for number extraction
         """
         self.config = config or self._get_default_config()
-        self.processor = PDFPlumberProcessor(config)
+        # Ensure downstream processor receives a properly wrapped config
+        wrapped_config = self.config if 'number_extraction' in self.config else {'number_extraction': self.config}
+        self.processor = PDFPlumberProcessor(wrapped_config)
         
         logger.info("PDFNumberExtractor initialized")
     
