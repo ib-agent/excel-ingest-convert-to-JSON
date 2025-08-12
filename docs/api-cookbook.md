@@ -138,4 +138,8 @@ curl -s "http://localhost:8000/api/storage/get-json/?key=<key>"
 3. Fetch results via `/api/results/{processing_id}/full` and `/table`.
 4. Optionally use `download_urls` for direct file download.
 
+### Example JSON and fixtures
+
+- Example JSON responses and expected data are under `tests/fixtures/json/`.
+- Tests write generated JSON outputs to a temporary directory via pytest `tmp_path` to avoid leaving files in the repository.
 
