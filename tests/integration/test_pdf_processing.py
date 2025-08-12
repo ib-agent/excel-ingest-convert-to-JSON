@@ -135,10 +135,10 @@ def test_full_extraction():
             print(f"✓ Tables extracted: {result['pdf_processing_result']['processing_summary']['tables_extracted']}")
             print(f"✓ Text sections: {result['pdf_processing_result']['processing_summary']['text_sections']}")
             print(f"✓ Numbers found: {result['pdf_processing_result']['processing_summary']['numbers_found']}")
-                # Overall quality may not be present in all runs; print if available
-                oq = result['pdf_processing_result']['processing_summary'].get('overall_quality_score')
-                if oq is not None:
-                    print(f"✓ Overall quality: {oq:.2f}")
+            # Overall quality may not be present in all runs; print if available
+            oq = result['pdf_processing_result']['processing_summary'].get('overall_quality_score')
+            if oq is not None:
+                print(f"✓ Overall quality: {oq:.2f}")
             
             # Save result for inspection
             output_file = "test_full_extraction_result.json"
