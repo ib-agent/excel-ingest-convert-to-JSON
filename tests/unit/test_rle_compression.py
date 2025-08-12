@@ -73,7 +73,7 @@ def test_rle_compression(file_path: str = "/Users/jeffwinner/excel-ingest-conver
     
     if not os.path.exists(file_path):
         print(f"❌ File not found: {file_path}")
-        return None
+        pytest.skip("RLE test file not found")
     
     file_size = os.path.getsize(file_path)
     print(f"📁 File size: {format_file_size(file_size)}")
@@ -184,14 +184,9 @@ def test_rle_compression(file_path: str = "/Users/jeffwinner/excel-ingest-conver
             overall_compression = (1 - total_stored_cells / total_logical_cells) * 100
             print(f"   Overall cell compression: {overall_compression:.2f}%")
         
-        return {
-            "processing_time": processing_time,
-            "json_size": json_size,
-            "total_logical_cells": total_logical_cells,
-            "total_stored_cells": total_stored_cells,
-            "rle_stats": result.get("rle_compression", {}),
-            "sheets_count": len(sheets)
-        }
+        # Basic assertions to validate output
+        assert isinstance(result, dict)
+        assert "workbook" in result
         
     except Exception as e:
         print(f"❌ Error processing file: {e}")

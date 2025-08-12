@@ -11,6 +11,7 @@ import logging
 import time
 from pathlib import Path
 from typing import Dict, List, Any
+import pytest
 
 # Import processors for testing
 from pdf_table_removal_processor import PDFTableRemovalProcessor
@@ -206,11 +207,9 @@ def test_web_interface_endpoints():
         print("   - Table removal endpoint: /api/pdf/table-removal/")
         print("   - Processing mode parameter: ?mode=table_removal")
         
-        return True
-        
     except ImportError:
         print("⚠️  Django not available (web interface testing skipped)")
-        return True
+        pytest.skip("Django not available for web interface endpoint test")
     except Exception as e:
         print(f"❌ Web interface test failed: {e}")
         assert False, f"Web interface test failed: {e}"
