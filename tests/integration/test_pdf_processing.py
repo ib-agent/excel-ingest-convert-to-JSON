@@ -220,16 +220,18 @@ def test_configuration():
         # Use direct processor for internal configuration visibility
         processor = DirectPDFProcessor(custom_config)
         
-        # Verify custom config is applied on underlying table extractor
-        assert hasattr(processor.table_extractor, 'quality_threshold')
-        assert processor.table_extractor.quality_threshold == 0.9
-        assert processor.table_extractor.min_table_size == 10
+        # Verify custom config is applied on underlying pdfplumber table extractor
+        inner_extractor = processor.table_extractor.processor.table_extractor
+        assert hasattr(inner_extractor, 'quality_threshold')
+        assert inner_extractor.quality_threshold == 0.9
+        assert inner_extractor.min_table_size == 10
         print("✓ Custom configuration applied correctly")
         
         # Test with default configuration
         processor_default = DirectPDFProcessor()
-        assert hasattr(processor_default.table_extractor, 'quality_threshold')
-        assert processor_default.table_extractor.quality_threshold >= 0.6
+        inner_default = processor_default.table_extractor.processor.table_extractor
+        assert hasattr(inner_default, 'quality_threshold')
+        assert inner_default.quality_threshold >= 0.6
         print("✓ Default configuration applied correctly")
         
     except Exception as e:
