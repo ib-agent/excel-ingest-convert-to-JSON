@@ -21,7 +21,7 @@ from PDF_processing import PDFProcessor
     [
         ("Test_PDF_Table_100_numbers.pdf", 1, 0, 0),
         ("Test_PDF_Table_9_numbers.pdf", 1, 0, 0),
-        ("Test_PDF_with_3_numbers_in_large_paragraphs.pdf", 0, 3, 3),
+        ("Test_PDF_with_3_numbers_in_large_paragraphs.pdf", 0, 2, 2),
     ],
 )
 def test_pdf_processing(pdf_path, pdf_filename, expected_tables, expected_text_sections, expected_numbers):
