@@ -123,7 +123,7 @@ class PDFProcessorTestSuite:
         self._print_test_summary(overall_results)
         return overall_results
     
-    def run_single_test(self, test_case: TestExpectation) -> Dict[str, Any]:
+    def run_single_test(self, test_case: PDFTestExpectation) -> Dict[str, Any]:
         """Run a single test case and return detailed results"""
         logger.info(f"Running test: {test_case.name}")
         
@@ -173,7 +173,7 @@ class PDFProcessorTestSuite:
                 'actual': {}
             }
     
-    def _expectation_to_dict(self, expectation: TestExpectation) -> Dict[str, Any]:
+    def _expectation_to_dict(self, expectation: PDFTestExpectation) -> Dict[str, Any]:
         """Convert test expectation to dictionary"""
         return {
             'tables': expectation.expected_tables,
@@ -192,7 +192,7 @@ class PDFProcessorTestSuite:
             page_counts[page] = page_counts.get(page, 0) + 1
         return page_counts
     
-    def _compare_results(self, expected: TestExpectation, actual: Dict[str, Any]) -> Dict[str, Any]:
+    def _compare_results(self, expected: PDFTestExpectation, actual: Dict[str, Any]) -> Dict[str, Any]:
         """Compare actual results with expectations"""
         issues = []
         score = 0
