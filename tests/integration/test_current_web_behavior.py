@@ -15,7 +15,7 @@ from PDF_processing import PDFProcessor
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def test_current_web_behavior():
+def test_current_web_behavior(tmp_path):
     """Test what the current web interface is actually doing"""
     
     pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/fixtures/pdfs/synthetic_financial_report.pdf"
@@ -93,10 +93,11 @@ def test_current_web_behavior():
                     cell_values = [str(cell.get('value', '')).strip() for cell in cells.values()]
                     logger.info(f"    Row {j+1}: {cell_values}")
         
-        # Save the result for comparison
-        with open('current_web_behavior_result.json', 'w') as f:
+        # Save the result for comparison in a temp file
+        output_file = tmp_path / 'current_web_behavior_result.json'
+        with open(output_file, 'w') as f:
             json.dump(result, f, indent=2)
-        logger.info(f"\nFull result saved to current_web_behavior_result.json")
+        logger.info(f"\nFull result saved to {output_file}")
         
     except Exception as e:
         logger.error(f"Error during processing: {str(e)}")

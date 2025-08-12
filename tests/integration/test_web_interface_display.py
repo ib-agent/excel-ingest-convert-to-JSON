@@ -15,7 +15,7 @@ from PDF_processing import PDFProcessor
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def test_web_interface_display():
+def test_web_interface_display(tmp_path):
     """Test the web interface display format"""
     
     pdf_path = "/Users/jeffwinner/excel-ingest-convert-to-JSON/tests/fixtures/pdfs/synthetic_financial_report.pdf"
@@ -92,10 +92,11 @@ def test_web_interface_display():
                         logger.warning(f"  Section type: {section.get('section_type')}")
                         logger.warning(f"  Content: {section_text[:100]}...")
         
-        # Save the full result for inspection
-        with open('web_interface_result.json', 'w') as f:
+        # Save the full result for inspection in a temp file
+        output_file = tmp_path / 'web_interface_result.json'
+        with open(output_file, 'w') as f:
             json.dump(web_response, f, indent=2)
-        logger.info(f"\nFull result saved to web_interface_result.json")
+        logger.info(f"\nFull result saved to {output_file}")
         
     except Exception as e:
         logger.error(f"Error during processing: {str(e)}")

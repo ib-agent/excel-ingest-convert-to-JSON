@@ -19,7 +19,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'converter'))
 
 from converter.pdfplumber_processor import PDFPlumberProcessor
 
-def test_pdfplumber_implementation():
+def test_pdfplumber_implementation(tmp_path):
     """Test the PDFPlumber implementation with available test files"""
     
     print("🧪 Testing PDFPlumber Implementation")
@@ -124,9 +124,9 @@ def test_pdfplumber_implementation():
             print(f"❌ Full processing failed: {e}")
             return False
         
-        # Save test results
+        # Save test results to a temp file
         print(f"\n💾 Saving test results...")
-        output_file = "pdfplumber_test_results.json"
+        output_file = tmp_path / "pdfplumber_test_results.json"
         try:
             with open(output_file, 'w') as f:
                 json.dump(full_result, f, indent=2, ensure_ascii=False)

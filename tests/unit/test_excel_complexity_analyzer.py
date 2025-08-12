@@ -15,7 +15,7 @@ from converter.excel_complexity_analyzer import ExcelComplexityAnalyzer
 import json
 
 
-def test_complexity_analyzer():
+def test_complexity_analyzer(tmp_path):
     """Test the complexity analyzer with various Excel files"""
     print("=== Excel Complexity Analyzer Test ===\n")
     
@@ -115,11 +115,12 @@ def test_complexity_analyzer():
         print("=" * 60)
         print()
     
-    # Save results
-    with open('complexity_analysis_results.json', 'w') as f:
+    # Save results to a temporary location so tests don't leave artifacts
+    output_file = tmp_path / 'complexity_analysis_results.json'
+    with open(output_file, 'w') as f:
         json.dump(results, f, indent=2, default=str)
     
-    print("✅ Analysis complete! Results saved to complexity_analysis_results.json")
+    print("✅ Analysis complete! Results saved to", str(output_file))
     
     # Print overall insights
     print("\n🎯 Key Insights:")

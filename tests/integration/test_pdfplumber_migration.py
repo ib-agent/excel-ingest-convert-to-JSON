@@ -32,7 +32,7 @@ except ImportError as e:
     print(f"Warning: Could not import PDF_processing_pdfplumber: {e}")
     PDFPlumberMainProcessor = None
 
-def test_pdfplumber_migration():
+def test_pdfplumber_migration(tmp_path):
     """
     Comprehensive test of the PDFPlumber migration
     """
@@ -85,8 +85,8 @@ def test_pdfplumber_migration():
     # Generate summary report
     print_summary_report(test_results)
     
-    # Save detailed results
-    output_file = "pdfplumber_migration_test_results.json"
+    # Save detailed results to a temporary location
+    output_file = tmp_path / "pdfplumber_migration_test_results.json"
     with open(output_file, 'w') as f:
         json.dump(test_results, f, indent=2, ensure_ascii=False)
     

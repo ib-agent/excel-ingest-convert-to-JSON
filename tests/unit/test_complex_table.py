@@ -398,7 +398,7 @@ def create_complex_excel_json():
     }
     return sample_json
 
-def test_complex_transformation():
+def test_complex_transformation(tmp_path):
     """Test the complex table transformation"""
     print("=== Testing Complex Table Transformation ===")
     
@@ -439,10 +439,11 @@ def test_complex_transformation():
                 is_header = row.get('is_header_row', 'N/A')
                 print(f"      Row {row['row_index']}: '{row['row_label']}' (header: {is_header})")
     
-    # Save results
-    with open("test_complex_transformation_result.json", 'w') as f:
+    # Save results to temp file
+    output_file = tmp_path / "test_complex_transformation_result.json"
+    with open(output_file, 'w') as f:
         json.dump(table_data, f, indent=2)
-    print(f"\n✅ Complex transformation results saved to test_complex_transformation_result.json")
+    print(f"\n✅ Complex transformation results saved to {output_file}")
     
     return table_data
 
