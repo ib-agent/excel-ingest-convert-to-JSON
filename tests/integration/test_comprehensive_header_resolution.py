@@ -405,7 +405,7 @@ def test_api_endpoints():
                 }
             
             response1 = requests.post(
-                "http://localhost:8001/api/transform-tables/",
+                "http://localhost:8000/api/transform-tables/",
                 json=payload,
                 timeout=10
             )
@@ -419,7 +419,7 @@ def test_api_endpoints():
             
             # Test header resolution API
             response2 = requests.post(
-                "http://localhost:8001/api/resolve-headers/",
+                "http://localhost:8000/api/resolve-headers/",
                 json={"table_data": table_data},
                 timeout=10
             )
@@ -450,7 +450,7 @@ def test_api_endpoints():
                 results.append((test_name, False))
                 
         except requests.exceptions.ConnectionError:
-            pytest.skip("API server not running on http://localhost:8001; skipping API endpoint tests")
+            pytest.skip("API server not running on http://localhost:8000; skipping API endpoint tests")
         except Exception as e:
             print(f"❌ API test error: {str(e)}")
             results.append((test_name, False))

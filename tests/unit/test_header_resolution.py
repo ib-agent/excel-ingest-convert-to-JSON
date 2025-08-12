@@ -812,7 +812,7 @@ def test_api_header_resolution():
         table_json = create_sample_table_json()
         
         # Make API request
-        url = "http://localhost:8001/api/resolve-headers/"
+        url = "http://localhost:8000/api/resolve-headers/"
         payload = {
             "table_data": table_json,
             "options": {
@@ -853,8 +853,8 @@ def test_api_header_resolution():
             assert False, f"API request failed with status {response.status_code}"
             
     except requests.exceptions.ConnectionError:
-        print("❌ Could not connect to server. Make sure the server is running on port 8001.")
-        pytest.skip("API server not running on http://localhost:8001")
+        print("❌ Could not connect to server. Make sure the server is running on port 8000.")
+        pytest.skip("API server not running on http://localhost:8000")
     except Exception as e:
         print(f"❌ API test failed: {str(e)}")
         return None

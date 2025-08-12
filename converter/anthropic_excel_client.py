@@ -122,6 +122,17 @@ class AnthropicExcelClient:
         except Exception as e:
             logger.error(f"AI analysis failed: {str(e)}")
             return self._create_error_response(str(e))
+
+    # Backward-compatible alias used by some tests
+    def analyze_excel_tables(self,
+                             sheet_data: Dict[str, Any],
+                             complexity_metadata: Optional[Dict[str, Any]] = None,
+                             analysis_focus: str = "comprehensive") -> Dict[str, Any]:
+        return self.analyze_excel_sheet(
+            sheet_data=sheet_data,
+            complexity_metadata=complexity_metadata,
+            analysis_focus=analysis_focus,
+        )
     
     def _build_sheet_analysis_prompt(self, 
                                     sheet_data: Dict[str, Any],

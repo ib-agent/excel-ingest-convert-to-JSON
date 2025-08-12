@@ -5,6 +5,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from fastapi_service.main import app
+import os
 
 
 @pytest.fixture(scope="session")
@@ -42,6 +43,11 @@ def storage_env(monkeypatch):
 
 @pytest.fixture()
 def fastapi_client(storage_env):
+    # Ensure Anthropic is available for AI-dependent tests when key is provided
+    if 'ANTHROPIC_API_KEY' not in os.environ:
+        key = os.getenv('ANTHROPIC_API_KEY') or os.environ.get('ANTHROPIC_API_KEY')
+        if key:
+            os.environ['ANTHROPIC_API_KEY'] = key
     return TestClient(app)
 
 
