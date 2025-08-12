@@ -2,15 +2,15 @@
   "pdf_processing_result": {
     "document_metadata": {
       "file_path": "tests/test_pdfs/Test_PDF_Table_100_numbers.pdf",
-      "processing_timestamp": "2025-08-12T23:12:33.471989",
-      "processing_duration": 0.104184,
+      "processing_timestamp": "2025-08-12T23:16:47.003035",
+      "processing_duration": 0.099446,
       "extraction_method": "pdfplumber_comprehensive"
     },
     "tables": {
       "extraction_metadata": {
         "method": "pdfplumber",
         "total_tables": 1,
-        "extraction_timestamp": "2025-08-12T23:12:33.521901",
+        "extraction_timestamp": "2025-08-12T23:16:47.050761",
         "file_path": "tests/test_pdfs/Test_PDF_Table_100_numbers.pdf"
       },
       "tables": [
@@ -786,13 +786,13 @@
         "method": "pdfplumber",
         "total_sections": 1,
         "total_words": 131,
-        "extraction_timestamp": "2025-08-12T23:12:33.569464",
+        "extraction_timestamp": "2025-08-12T23:16:47.096030",
         "file_path": "tests/test_pdfs/Test_PDF_Table_100_numbers.pdf"
       },
       "text_content": {
         "document_metadata": {
           "filename": "Test_PDF_Table_100_numbers.pdf",
-          "extraction_timestamp": "2025-08-12T23:12:33.522105",
+          "extraction_timestamp": "2025-08-12T23:16:47.050958",
           "extraction_method": "pdfplumber_enhanced",
           "total_pages": 1,
           "total_word_count": 131
@@ -4239,7 +4239,7 @@
       "extraction_metadata": {
         "method": "pdfplumber_enhanced",
         "total_numbers": 120,
-        "extraction_timestamp": "2025-08-12T23:12:33.576057"
+        "extraction_timestamp": "2025-08-12T23:16:47.102403"
       },
       "numbers": [
         {

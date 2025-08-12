@@ -1,0 +1,778 @@
+{
+  "pdf_processing_result": {
+    "document_metadata": {
+      "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers.pdf",
+      "processing_timestamp": "2025-08-12T23:16:47.110351",
+      "processing_duration": 0.024302,
+      "extraction_method": "pdfplumber_comprehensive"
+    },
+    "tables": {
+      "extraction_metadata": {
+        "method": "pdfplumber",
+        "total_tables": 1,
+        "extraction_timestamp": "2025-08-12T23:16:47.122762",
+        "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers.pdf"
+      },
+      "tables": [
+        {
+          "table_id": "table_1",
+          "region": {
+            "page_number": 1,
+            "bbox": [
+              72.5000000175,
+              86.50000035074993,
+              540.5000175,
+              191.49999674999992
+            ],
+            "detection_method": "pdfplumber"
+          },
+          "rows": [
+            {
+              "row_index": 0,
+              "row_label": "Item",
+              "is_header_row": true,
+              "cells": {
+                "A1": {
+                  "value": "Item",
+                  "column": 1,
+                  "row": 1
+                },
+                "B1": {
+                  "value": "April",
+                  "column": 2,
+                  "row": 1
+                },
+                "C1": {
+                  "value": "May",
+                  "column": 3,
+                  "row": 1
+                },
+                "D1": {
+                  "value": "June",
+                  "column": 4,
+                  "row": 1
+                }
+              }
+            },
+            {
+              "row_index": 1,
+              "row_label": "Item-One",
+              "is_header_row": false,
+              "cells": {
+                "A2": {
+                  "value": "Item-One",
+                  "column": 1,
+                  "row": 2
+                },
+                "B2": {
+                  "value": "101",
+                  "column": 2,
+                  "row": 2
+                },
+                "C2": {
+                  "value": "201",
+                  "column": 3,
+                  "row": 2
+                },
+                "D2": {
+                  "value": "301",
+                  "column": 4,
+                  "row": 2
+                }
+              }
+            },
+            {
+              "row_index": 2,
+              "row_label": "Item-Two",
+              "is_header_row": false,
+              "cells": {
+                "A3": {
+                  "value": "Item-Two",
+                  "column": 1,
+                  "row": 3
+                },
+                "B3": {
+                  "value": "102",
+                  "column": 2,
+                  "row": 3
+                },
+                "C3": {
+                  "value": "202",
+                  "column": 3,
+                  "row": 3
+                },
+                "D3": {
+                  "value": "302",
+                  "column": 4,
+                  "row": 3
+                }
+              }
+            },
+            {
+              "row_index": 3,
+              "row_label": "Item-Three",
+              "is_header_row": false,
+              "cells": {
+                "A4": {
+                  "value": "Item-Three",
+                  "column": 1,
+                  "row": 4
+                },
+                "B4": {
+                  "value": "103",
+                  "column": 2,
+                  "row": 4
+                },
+                "C4": {
+                  "value": "203",
+                  "column": 3,
+                  "row": 4
+                },
+                "D4": {
+                  "value": "303",
+                  "column": 4,
+                  "row": 4
+                }
+              }
+            }
+          ],
+          "columns": [
+            {
+              "column_index": 0,
+              "column_label": "Item",
+              "data_type": "text"
+            },
+            {
+              "column_index": 1,
+              "column_label": "April",
+              "data_type": "text"
+            },
+            {
+              "column_index": 2,
+              "column_label": "May",
+              "data_type": "text"
+            },
+            {
+              "column_index": 3,
+              "column_label": "June",
+              "data_type": "text"
+            }
+          ],
+          "metadata": {
+            "detection_method": "pdfplumber",
+            "quality_score": 0.96,
+            "cell_count": 16,
+            "confidence": 0.96
+          },
+          "name": "Table 1"
+        }
+      ],
+      "quality_metrics": {
+        "overall_confidence": 0.96,
+        "extraction_success": true
+      }
+    },
+    "text_content": {
+      "extraction_metadata": {
+        "method": "pdfplumber",
+        "total_sections": 1,
+        "total_words": 16,
+        "extraction_timestamp": "2025-08-12T23:16:47.134275",
+        "file_path": "tests/test_pdfs/Test_PDF_Table_9_numbers.pdf"
+      },
+      "text_content": {
+        "document_metadata": {
+          "filename": "Test_PDF_Table_9_numbers.pdf",
+          "extraction_timestamp": "2025-08-12T23:16:47.122999",
+          "extraction_method": "pdfplumber_enhanced",
+          "total_pages": 1,
+          "total_word_count": 16
+        },
+        "pages": [
+          {
+            "page_number": 1,
+            "page_width": 612,
+            "page_height": 792,
+            "sections": [
+              {
+                "section_id": "page_1_section_1",
+                "section_type": "paragraph",
+                "title": null,
+                "content": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                "word_count": 16,
+                "character_count": 84,
+                "llm_ready": false,
+                "position": {
+                  "start_y": 94.19519035547842,
+                  "end_y": 183.9451856054784,
+                  "bbox": [
+                    77.25,
+                    94.19519035547842,
+                    494.3321422290381,
+                    183.9451856054784
+                  ],
+                  "column_index": 0
+                },
+                "metadata": {
+                  "font_size": 12,
+                  "font_family": "Arial",
+                  "is_bold": false,
+                  "is_italic": false,
+                  "color": null,
+                  "alignment": "left",
+                  "line_spacing": null
+                },
+                "structure": {
+                  "heading_level": 4,
+                  "list_type": null,
+                  "list_level": null,
+                  "is_continuation": false
+                },
+                "relationships": {
+                  "parent_section": null,
+                  "child_sections": [],
+                  "related_tables": [],
+                  "related_figures": []
+                },
+                "numbers": [
+                  {
+                    "value": 101.0,
+                    "original_text": "101",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 251.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        251.25,
+                        106.19519035547842,
+                        269.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 201.0,
+                    "original_text": "201",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 275.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        275.25,
+                        106.19519035547842,
+                        293.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 301.0,
+                    "original_text": "301",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 299.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        299.25,
+                        106.19519035547842,
+                        317.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 102.0,
+                    "original_text": "102",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 377.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        377.25,
+                        106.19519035547842,
+                        395.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 202.0,
+                    "original_text": "202",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 401.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        401.25,
+                        106.19519035547842,
+                        419.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 302.0,
+                    "original_text": "302",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 425.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        425.25,
+                        106.19519035547842,
+                        443.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 103.0,
+                    "original_text": "103",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 515.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        515.25,
+                        106.19519035547842,
+                        533.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 203.0,
+                    "original_text": "203",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 539.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        539.25,
+                        106.19519035547842,
+                        557.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  },
+                  {
+                    "value": 303.0,
+                    "original_text": "303",
+                    "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+                    "position": {
+                      "x": 563.25,
+                      "y": 106.19519035547842,
+                      "bbox": [
+                        563.25,
+                        106.19519035547842,
+                        581.25,
+                        118.19519035547842
+                      ],
+                      "line_number": 1
+                    },
+                    "format": "integer",
+                    "unit": null,
+                    "currency": null,
+                    "confidence": 0.7,
+                    "extraction_method": "regex_pattern",
+                    "metadata": {
+                      "font_size": 12,
+                      "font_family": "Arial",
+                      "is_bold": false,
+                      "is_italic": false,
+                      "color": null
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "document_structure": {
+          "toc": [],
+          "sections_by_type": {
+            "header": 0,
+            "paragraph": 1,
+            "list": 0,
+            "table_caption": 0,
+            "figure_caption": 0,
+            "footer": 0,
+            "sidebar": 0
+          }
+        },
+        "summary": {
+          "total_sections": 1,
+          "total_words": 16,
+          "llm_ready_sections": 0,
+          "average_section_length": 16.0,
+          "reading_time_estimate": 0.08,
+          "total_numbers_found": 9
+        }
+      },
+      "quality_metrics": {
+        "llm_ready_sections": 0,
+        "extraction_success": true
+      }
+    },
+    "numbers": {
+      "extraction_metadata": {
+        "method": "pdfplumber_enhanced",
+        "total_numbers": 9,
+        "extraction_timestamp": "2025-08-12T23:16:47.134622"
+      },
+      "numbers": [
+        {
+          "value": 101.0,
+          "original_text": "101",
+          "number_type": "integer",
+          "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 3",
+          "position": {
+            "x": 251.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              251.25,
+              106.19519035547842,
+              269.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 201.0,
+          "original_text": "201",
+          "number_type": "integer",
+          "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 275.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              275.25,
+              106.19519035547842,
+              293.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 301.0,
+          "original_text": "301",
+          "number_type": "integer",
+          "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 299.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              299.25,
+              106.19519035547842,
+              317.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 102.0,
+          "original_text": "102",
+          "number_type": "integer",
+          "context": "Item April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 377.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              377.25,
+              106.19519035547842,
+              395.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 202.0,
+          "original_text": "202",
+          "number_type": "integer",
+          "context": "April May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 401.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              401.25,
+              106.19519035547842,
+              419.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 302.0,
+          "original_text": "302",
+          "number_type": "integer",
+          "context": "il May June Item-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 425.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              425.25,
+              106.19519035547842,
+              443.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 103.0,
+          "original_text": "103",
+          "number_type": "integer",
+          "context": "m-One 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 515.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              515.25,
+              106.19519035547842,
+              533.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": "million",
+            "currency": null
+          }
+        },
+        {
+          "value": 203.0,
+          "original_text": "203",
+          "number_type": "integer",
+          "context": "e 101 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 539.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              539.25,
+              106.19519035547842,
+              557.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        },
+        {
+          "value": 303.0,
+          "original_text": "303",
+          "number_type": "integer",
+          "context": "1 201 301 Item-Two 102 202 302 Item-Three 103 203 303",
+          "position": {
+            "x": 563.25,
+            "y": 106.19519035547842,
+            "bbox": [
+              563.25,
+              106.19519035547842,
+              581.25,
+              118.19519035547842
+            ],
+            "line_number": 1
+          },
+          "confidence": 0.7,
+          "page_number": 1,
+          "section_id": "page_1_section_1",
+          "metadata": {
+            "extraction_method": "pdfplumber_enhanced",
+            "unit": null,
+            "currency": null
+          }
+        }
+      ],
+      "summary": {
+        "by_type": {
+          "integer": 9
+        },
+        "by_page": {
+          "1": 9
+        },
+        "confidence_distribution": {
+          "high": 0,
+          "medium": 9,
+          "low": 0
+        }
+      }
+    },
+    "processing_summary": {
+      "tables_extracted": 1,
+      "text_sections_extracted": 1,
+      "numbers_extracted": 9,
+      "overall_success": true,
+      "errors": [],
+      "text_sections": 0,
+      "numbers_found": 0
+    }
+  }
+}

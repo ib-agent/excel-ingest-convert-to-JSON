@@ -164,14 +164,15 @@ def test_full_extraction():
                 print(f"    LLM-ready sections: {summary['llm_ready_sections']}")
                 print(f"    Average section length: {summary['average_section_length']:.1f} words")
             
-            # Number statistics
-            numbers = result["pdf_processing_result"]["numbers_in_text"]
-            if numbers:
-                summary = numbers["numbers_in_text"]["summary"]
-                print(f"  Numbers: {summary['total_numbers_found']} found")
-                for format_type, count in summary['numbers_by_format'].items():
-                    if count > 0:
-                        print(f"    {format_type}: {count}")
+                # Number statistics (if detailed structure present)
+                numbers = result["pdf_processing_result"].get("numbers_in_text")
+                if numbers and isinstance(numbers, dict):
+                    summary = numbers.get("numbers_in_text", {}).get("summary", {})
+                    if summary:
+                        print(f"  Numbers: {summary.get('total_numbers_found', 0)} found")
+                        for format_type, count in summary.get('numbers_by_format', {}).items():
+                            if count > 0:
+                                print(f"    {format_type}: {count}")
             
         else:
             pytest.skip(f"Test PDF not found: {test_pdf_path}")
