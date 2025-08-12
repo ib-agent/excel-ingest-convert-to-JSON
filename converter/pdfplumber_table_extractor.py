@@ -2,8 +2,8 @@
 PDFPlumber Table Extractor
 
 This module provides table extraction capabilities using PDFPlumber library.
-It replaces the Camelot-based table extraction with improved accuracy and 
-maintains compatibility with existing JSON schemas.
+It replaces legacy extractors with improved accuracy and maintains
+compatibility with existing JSON schemas.
 
 Author: PDF Processing Team
 Date: 2024

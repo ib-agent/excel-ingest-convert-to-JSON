@@ -238,7 +238,7 @@ Leverages the existing table-oriented JSON schema from Excel processing:
       "region": {
         "page_number": 1,
         "bbox": [x1, y1, x2, y2],
-        "detection_method": "camelot_lattice"
+        "detection_method": "pdfplumber"
       },
       "header_info": {
         "header_rows": [0],
@@ -261,7 +261,7 @@ Leverages the existing table-oriented JSON schema from Excel processing:
         }
       ],
       "metadata": {
-        "detection_method": "camelot_lattice",
+        "detection_method": "pdfplumber",
         "quality_score": 0.95,
         "cell_count": 25
       }
@@ -334,7 +334,7 @@ Leverages the existing table-oriented JSON schema from Excel processing:
 - Always produce a `text_content.pages` entry for every page in the document.
 - For pages not routed to AI, create sections from code-only extraction (paragraphs, headers, lists) without AI augmentation.
 - For pages routed to AI, prefer AI-provided sections and embedded numbers; optionally enrich with code-detected metadata if non-conflicting.
-- Consolidate all tables (from AI and native) under a `tables` structure, with each table carrying `page_number`, `bbox`, and `detection_method` = `ai_extraction` or `camelot_*`.
+- Consolidate all tables (from AI and native) under a `tables` structure, with each table carrying `page_number`, `bbox`, and `detection_method` = `ai_extraction` or `pdfplumber`.
 - Maintain stable IDs to support downstream diffing: `table_id` as `p{page}_t{index}` and `section_id` as `p{page}_s{index}` within reconstruction step.
 
 ## Implementation Phases
@@ -491,7 +491,10 @@ docs/
 ```json
 {
   "table_extraction": {
-    "methods": ["lattice", "stream"],
+    "table_settings": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "lines"
+    },
     "quality_threshold": 0.8,
     "edge_tolerance": 3,
     "row_tolerance": 3,

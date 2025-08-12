@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
-Deprecated backup module for Camelot-based PDF processing.
-
-This file is retained as a compatibility layer and delegates to the
-PDFPlumber-based implementation used by the primary module.
+Compatibility layer that delegates to the PDFPlumber-based implementation used by the
+primary module. Provided for historical import stability.
 """
 
 from PDF_processing_pdfplumber import (

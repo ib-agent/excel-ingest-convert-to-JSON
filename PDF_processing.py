@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """
-Deprecated Camelot-based PDF processing module.
-
 Compatibility shim that delegates to the PDFPlumber implementation while
 preserving the public API used across the codebase and tests.
 
