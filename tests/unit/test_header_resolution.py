@@ -854,7 +854,7 @@ def test_api_header_resolution():
             
     except requests.exceptions.ConnectionError:
         print("❌ Could not connect to server. Make sure the server is running on port 8001.")
-        assert False, "API server not available for header resolution test"
+        pytest.skip("API server not running on http://localhost:8001")
     except Exception as e:
         print(f"❌ API test failed: {str(e)}")
         return None

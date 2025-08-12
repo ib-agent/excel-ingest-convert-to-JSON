@@ -12,6 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from converter.table_processor import TableProcessor
 from converter.header_resolver import HeaderResolver
+import pytest
 
 def create_single_level_header_test():
     """Test case: Single level headers (simple table)"""
@@ -449,8 +450,7 @@ def test_api_endpoints():
                 results.append((test_name, False))
                 
         except requests.exceptions.ConnectionError:
-            print("❌ Could not connect to server")
-            results.append((test_name, False))
+            pytest.skip("API server not running on http://localhost:8001; skipping API endpoint tests")
         except Exception as e:
             print(f"❌ API test error: {str(e)}")
             results.append((test_name, False))
