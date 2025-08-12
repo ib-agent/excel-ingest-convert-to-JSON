@@ -18,6 +18,7 @@ from pathlib import Path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'converter'))
 
 from converter.pdfplumber_processor import PDFPlumberProcessor
+import pytest
 
 def test_pdfplumber_implementation(tmp_path):
     """Test the PDFPlumber implementation with available test files"""
@@ -42,8 +43,7 @@ def test_pdfplumber_implementation(tmp_path):
                 break
     
     if not test_pdf:
-        print("❌ No test PDF files found. Please add a PDF file to test with.")
-        return False
+        pytest.skip("No test PDF files found. Please add a PDF file to test with.")
     
     try:
         # Initialize PDFPlumber processor
@@ -53,11 +53,7 @@ def test_pdfplumber_implementation(tmp_path):
         # Test configuration validation
         print("✅ Testing configuration validation...")
         validation = processor.validate_configuration()
-        if validation['valid']:
-            print("✅ Configuration is valid")
-        else:
-            print(f"❌ Configuration errors: {validation['errors']}")
-            return False
+        assert validation['valid'], f"Configuration errors: {validation['errors']}"
         
         # Test capabilities
         print("✅ Testing capabilities...")
@@ -83,8 +79,7 @@ def test_pdfplumber_implementation(tmp_path):
                 print(f"   - Detection method: {first_table['region']['detection_method']}")
         
         except Exception as e:
-            print(f"❌ Table extraction failed: {e}")
-            return False
+            pytest.fail(f"Table extraction failed: {e}")
         
         # Test text extraction only
         print(f"\n📝 Testing text extraction on: {test_pdf}")
@@ -98,8 +93,7 @@ def test_pdfplumber_implementation(tmp_path):
             print(f"   - Numbers found: {text_summary['total_numbers_found']}")
         
         except Exception as e:
-            print(f"❌ Text extraction failed: {e}")
-            return False
+            pytest.fail(f"Text extraction failed: {e}")
         
         # Test full processing
         print(f"\n🚀 Testing full PDF processing on: {test_pdf}")
@@ -121,8 +115,7 @@ def test_pdfplumber_implementation(tmp_path):
                 print(f"⚠️  Processing errors: {processing_summary['processing_errors']}")
         
         except Exception as e:
-            print(f"❌ Full processing failed: {e}")
-            return False
+            pytest.fail(f"Full processing failed: {e}")
         
         # Save test results to a temp file
         print(f"\n💾 Saving test results...")
@@ -142,13 +135,10 @@ def test_pdfplumber_implementation(tmp_path):
         print(f"   - JSON schema compatibility: ✅ Working")
         print(f"   - Configuration validation: ✅ Working")
         
-        return True
+        return None
         
     except Exception as e:
-        print(f"❌ Critical error during testing: {e}")
-        import traceback
-        traceback.print_exc()
-        return False
+        pytest.fail(f"Critical error during testing: {e}")
 
 def main():
     """Main test function"""

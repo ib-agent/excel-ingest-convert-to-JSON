@@ -17,6 +17,7 @@ import json
 import time
 from pathlib import Path
 from typing import Dict, Any, List
+import pytest
 
 # Add converter directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'converter'))
@@ -54,8 +55,7 @@ def test_pdfplumber_migration(tmp_path):
                 test_pdfs.append(os.path.join(test_dir, pdf_file))
     
     if not test_pdfs:
-        print("❌ No test PDF files found.")
-        return False
+        pytest.skip("No test PDF files found for migration test")
     
     print(f"📄 Found {len(test_pdfs)} test PDF(s)")
     for pdf in test_pdfs:
@@ -98,12 +98,7 @@ def test_pdfplumber_migration(tmp_path):
     
     print(f"\n🎯 Overall Results: {total_passed} passed, {total_failed} failed")
     
-    if total_failed == 0:
-        print("🎉 PDFPlumber migration validation PASSED!")
-        return True
-    else:
-        print("❌ PDFPlumber migration validation FAILED!")
-        return False
+    assert total_failed == 0, "PDFPlumber migration validation failed"
 
 def _run_single_pdf(pdf_path: str, test_results: Dict) -> Dict[str, Any]:
     """

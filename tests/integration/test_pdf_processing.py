@@ -7,6 +7,7 @@ import json
 import logging
 import os
 import sys
+import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from PDF_processing import PDFProcessor, PDFTableExtractor
 
@@ -59,18 +60,15 @@ def test_table_extraction():
                 print(f"    Page: {table['region']['page_number']}")
             
         else:
-            print(f"⚠ Test PDF not found: {test_pdf_path}")
-            print("  Please provide a sample PDF file for testing")
+            pytest.skip(f"Test PDF not found: {test_pdf_path}")
             
     except ImportError as e:
         print(f"✗ Import error: {e}")
         print("  Please install required dependencies:")
         print("  pip install pdfplumber pandas")
+        pytest.skip("Missing dependencies for PDF tests")
     except Exception as e:
-        print(f"✗ Error during testing: {e}")
-        return False
-    
-    return True
+        pytest.fail(f"Error during table extraction test: {e}")
 
 def test_full_extraction():
     """Test full PDF extraction (tables, text, and numbers)"""
@@ -169,18 +167,15 @@ def test_full_extraction():
                         print(f"    {format_type}: {count}")
             
         else:
-            print(f"⚠ Test PDF not found: {test_pdf_path}")
-            print("  Please provide a sample PDF file for testing")
+            pytest.skip(f"Test PDF not found: {test_pdf_path}")
             
     except ImportError as e:
         print(f"✗ Import error: {e}")
         print("  Please install required dependencies:")
         print("  pip install pdfplumber pandas")
+        pytest.skip("Missing dependencies for PDF tests")
     except Exception as e:
-        print(f"✗ Error during testing: {e}")
-        return False
-    
-    return True
+        pytest.fail(f"Error during full extraction test: {e}")
 
 def test_table_extractor_directly():
     """Test PDFTableExtractor directly"""
@@ -203,12 +198,9 @@ def test_table_extractor_directly():
         print("✓ Configuration applied correctly")
         
     except ImportError as e:
-        print(f"✗ Import error: {e}")
+        pytest.skip(f"Import error: {e}")
     except Exception as e:
-        print(f"✗ Error during testing: {e}")
-        return False
-    
-    return True
+        pytest.fail(f"Error during table extractor test: {e}")
 
 def test_configuration():
     """Test configuration handling"""
@@ -238,10 +230,7 @@ def test_configuration():
         print("✓ Default configuration applied correctly")
         
     except Exception as e:
-        print(f"✗ Error during configuration testing: {e}")
-        return False
-    
-    return True
+        pytest.fail(f"Error during configuration test: {e}")
 
 def create_sample_pdf():
     """Create a simple sample PDF for testing"""
