@@ -16,7 +16,12 @@ from pathlib import Path
 from typing import Dict, Any, List
 from dataclasses import dataclass
 
-from clean_pdf_processor import CleanPDFProcessor, SimpleTableExtractor, TextExtractor, NumberExtractor
+from converter.pdf.plumber_clean_processor import (
+    CleanPDFProcessor,
+    PDFPlumberTableExtractor as SimpleTableExtractor,
+    PDFPlumberTextExtractor as TextExtractor,
+    NumberExtractor,
+)
 
 # Configure test logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
