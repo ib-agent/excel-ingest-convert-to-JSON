@@ -516,8 +516,29 @@ def transform_to_tables(payload: Dict[str, Any]):
     if not json_data:
         raise HTTPException(400, "No JSON data provided")
     options = payload.get("options", {})
-    table_processor = CompactTableProcessor()
-    table_data = table_processor.transform_to_compact_table_format(json_data, options)
+
+    # Detect input schema and delegate appropriately
+    # - If compact-style (rows list), use CompactTableProcessor
+    # - If table-oriented (cells dict), use TableProcessor
+    from converter.table_processor import TableProcessor
+    is_compact_input = False
+    try:
+        sheets = json_data.get("workbook", {}).get("sheets", [])
+        if sheets:
+            first_sheet = sheets[0]
+            # Compact has 'rows' (list of row objects), table-oriented has 'cells' (dict)
+            is_compact_input = isinstance(first_sheet.get("rows"), list) and not isinstance(first_sheet.get("cells"), dict)
+    except Exception:
+        is_compact_input = False
+
+    if is_compact_input:
+        table_processor = CompactTableProcessor()
+        table_data = table_processor.transform_to_compact_table_format(json_data, options)
+    else:
+        # Fallback to table-oriented transformation
+        tp = TableProcessor()
+        table_data = tp.transform_to_table_format(json_data, options)
+
     original_size = len(json.dumps(json_data))
     compressed_size = len(json.dumps(table_data))
     return {
@@ -538,11 +559,18 @@ def resolve_headers(payload: Dict[str, Any]):
     table_data = payload.get("table_data")
     if not table_data:
         raise HTTPException(400, "No table data provided")
+    # Perform header resolution using TableProcessor's HeaderResolver
+    from converter.header_resolver import HeaderResolver
+    try:
+        resolver = HeaderResolver()
+        resolved = resolver.resolve_headers(table_data)
+    except Exception:
+        # If resolution fails, return original
+        resolved = table_data
     return {
         "success": True,
         "format": "compact",
-        "resolved_data": table_data,
-        "message": "Compact format already includes resolved headers in labels structure",
+        "resolved_data": resolved,
     }
 
 

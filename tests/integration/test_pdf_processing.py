@@ -24,6 +24,7 @@ def test_table_extraction():
         }
     }
     
+    output_file = None
     try:
         # Initialize processor
         processor = PDFProcessor(config)
@@ -71,6 +72,12 @@ def test_table_extraction():
         pytest.skip("Missing dependencies for PDF tests")
     except Exception as e:
         pytest.fail(f"Error during table extraction test: {e}")
+    finally:
+        if output_file and os.path.exists(output_file):
+            try:
+                os.remove(output_file)
+            except Exception:
+                pass
 
 def test_full_extraction():
     """Test full PDF extraction (tables, text, and numbers)"""
@@ -104,6 +111,7 @@ def test_full_extraction():
         }
     }
     
+    output_file = None
     try:
         # Initialize processor
         processor = PDFProcessor(config)
@@ -184,6 +192,12 @@ def test_full_extraction():
         pytest.skip("Missing dependencies for PDF tests")
     except Exception as e:
         pytest.fail(f"Error during full extraction test: {e}")
+    finally:
+        if output_file and os.path.exists(output_file):
+            try:
+                os.remove(output_file)
+            except Exception:
+                pass
 
 def test_table_extractor_directly():
     """Test PDFTableExtractor directly"""

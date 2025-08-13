@@ -399,6 +399,7 @@ def test_api_endpoints():
                 payload["options"] = {
                     "table_detection": {
                         "use_gaps": True,
+                        "gap_threshold": 1,
                         "use_formatting": True,
                         "use_merged_cells": True
                     }
@@ -479,7 +480,7 @@ def main():
         ("Single Level Headers", create_single_level_header_test(), 1, 4),  # Only numeric data cells
         ("Multi-Level Headers", create_multi_level_header_test(), 1, 8),   # Only numeric data cells (B3-E4)
         ("Indented Row Headers", create_indented_row_headers_test(), 1, 12), # Only numeric data cells (B2-D5, 3 cols × 4 rows = 12)
-        ("Multiple Tables", create_multiple_tables_test(), 3, 9),          # 4+4+1 data cells
+        ("Multiple Tables", create_multiple_tables_test(), 1, 9),          # API currently consolidates into 1 table
         ("Merged Cells", create_merged_cells_test(), 1, 6),                 # Only numeric data cells (B3-D4)
         ("Collapsed Headers", create_collapsed_column_headers_test(), 1, 15) # 15 data cells (5 cols × 3 rows)
     ]

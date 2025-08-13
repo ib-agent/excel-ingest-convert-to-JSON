@@ -463,8 +463,15 @@ class TableProcessor:
         detection_options = options.copy()
         detection_options['sheet_data'] = sheet_data
         
-        # Use new simplified detection system
-        table_regions = self.detector.detect_tables(cells, dimensions, detection_options)
+        # Prefer explicit gap-based splitting when requested
+        force_gaps = options.get('table_detection', {}).get('use_gaps', False)
+        table_regions: List[Dict[str, Any]] = []
+        if force_gaps:
+            table_regions = self._detect_regions_by_gaps(cells, dimensions, options)
+        # Fallback to detector if no regions found
+        if not table_regions:
+            # Use new simplified detection system
+            table_regions = self.detector.detect_tables(cells, dimensions, detection_options)
         
         # Process each detected table region
         for i, region in enumerate(table_regions):
@@ -547,6 +554,78 @@ class TableProcessor:
         }
         
         return table
+
+    def _detect_regions_by_gaps(self, cells: dict, dimensions: dict, options: dict) -> List[Dict[str, Any]]:
+        """Detect table regions by splitting on blank row gaps.
+        This is a lightweight splitter used when API callers explicitly request gap detection.
+        """
+        if not cells:
+            return []
+        min_row = dimensions.get('min_row', 1)
+        max_row = dimensions.get('max_row', min_row)
+        min_col = dimensions.get('min_col', 1)
+        max_col = dimensions.get('max_col', min_col)
+
+        # Collect data rows present in cells
+        # Note: test fixtures often omit explicit 'row'/'column' fields.
+        # Fall back to parsing the row index from the coordinate key (e.g., "A12" -> 12).
+        data_rows_set = set()
+        for coord, cell_info in cells.items():
+            row_num = None
+            if isinstance(cell_info, dict):
+                row_num = cell_info.get('row')
+            if row_num is None and isinstance(coord, str):
+                # Extract digits from coordinate as the row number
+                import re
+                match = re.search(r"(\d+)$", coord)
+                if match:
+                    try:
+                        row_num = int(match.group(1))
+                    except ValueError:
+                        row_num = None
+            if row_num is not None:
+                data_rows_set.add(row_num)
+
+        data_rows = sorted(data_rows_set)
+        if len(data_rows) < 2:
+            # Single row of data → single region
+            return [{
+                'start_row': min_row,
+                'end_row': max_row,
+                'start_col': min_col,
+                'end_col': max_col,
+                'detection_method': 'gaps'
+            }]
+
+        # Default to requiring at least 2 consecutive blank rows to consider a split.
+        # This prevents splitting titles/metadata that are often separated by a single blank row
+        # from the actual table header/data, as expected by unit tests.
+        gap_threshold = options.get('table_detection', {}).get('gap_threshold', 2)
+        regions: List[Dict[str, Any]] = []
+        current_start = data_rows[0]
+
+        for i in range(1, len(data_rows)):
+            gap_size = data_rows[i] - data_rows[i - 1] - 1
+            if gap_size >= gap_threshold:
+                regions.append({
+                    'start_row': current_start,
+                    'end_row': data_rows[i - 1],
+                    'start_col': min_col,
+                    'end_col': max_col,
+                    'detection_method': 'gaps'
+                })
+                current_start = data_rows[i]
+
+        # Final region to the last data row (or max_row to satisfy downstream assumptions)
+        regions.append({
+            'start_row': current_start,
+            'end_row': max_row,
+            'start_col': min_col,
+            'end_col': max_col,
+            'detection_method': 'gaps'
+        })
+
+        return regions
     
     def _extract_table_cells(self, cells: dict, region: dict) -> Dict[str, Any]:
         """Extract cells that belong to the table region"""

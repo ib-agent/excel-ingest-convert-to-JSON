@@ -40,22 +40,32 @@ class TableDetector:
         bounds = self._extract_bounds(dimensions)
         
         # Build detection methods dynamically based on options
-        methods = [
-            self._detect_by_frozen_panes,
-            self._detect_financial_statement_layout,
-        ]
-        if options.get('table_detection', {}).get('use_gaps', False):
-            # Respect explicit gap-based detection first when requested
-            methods.append(self._detect_by_gaps)
-        methods.extend([
-            self._detect_by_blank_row_separation,
-            self._detect_by_temporal_headers,
-            # Prefer structured/full-table detection before heuristic splitters
-            self._detect_by_content_structure,
-            self._detect_by_multirow_headers,
-            self._detect_by_column_continuity,
-            self._detect_by_formatting,
-        ])
+        use_gaps = options.get('table_detection', {}).get('use_gaps', False)
+        if use_gaps:
+            # When explicitly asked to split by gaps, prefer splitting methods first
+            methods = [
+                self._detect_by_gaps,
+                self._detect_by_blank_row_separation,
+                self._detect_by_column_continuity,
+                self._detect_by_temporal_headers,
+                self._detect_by_multirow_headers,
+                # Keep aggregator/whole-area detectors last to avoid collapsing splits
+                self._detect_by_content_structure,
+                # Skip financial statement collapsing when gaps requested
+                self._detect_by_formatting,
+            ]
+        else:
+            methods = [
+                self._detect_by_frozen_panes,
+                self._detect_financial_statement_layout,
+                self._detect_by_blank_row_separation,
+                self._detect_by_temporal_headers,
+                # Prefer structured/full-table detection before heuristic splitters
+                self._detect_by_content_structure,
+                self._detect_by_multirow_headers,
+                self._detect_by_column_continuity,
+                self._detect_by_formatting,
+            ]
 
         # Try detection methods in priority order
         for method in methods:
