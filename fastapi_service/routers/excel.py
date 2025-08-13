@@ -2,6 +2,7 @@ import os
 import json
 import uuid
 import tempfile
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, BackgroundTasks
 from fastapi.responses import JSONResponse, Response
@@ -92,6 +93,18 @@ def _estimate_numeric_cells_for_sheet(sheet: dict) -> int:
     return numeric
 
 
+def _slugify_filename(name: str, max_len: int = 24) -> str:
+    base = os.path.splitext(os.path.basename(name))[0].lower()
+    cleaned = ''.join(ch if ch.isalnum() else '-' for ch in base)
+    cleaned = '-'.join(filter(None, cleaned.split('-')))
+    return cleaned[:max_len] or 'run'
+
+
+def _build_run_dir(filename: str) -> str:
+    ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
+    return f"{_slugify_filename(filename)}-{ts}"
+
+
 @router.post("/upload/")
 async def upload_and_convert(
     background_tasks: BackgroundTasks,
@@ -118,23 +131,25 @@ async def upload_and_convert(
             with open(full_path, "rb") as f:
                 file_bytes = f.read()
 
+            # Always persist to storage, but include references in response only when enabled
             use_storage = os.getenv("USE_STORAGE_SERVICE", "false").lower() == "true"
-            storage = get_storage_service() if use_storage else None
+            storage = get_storage_service()
             processing_id = str(uuid.uuid4())
 
-            # Optionally store original file reference
+            # Always store original file; include in response if enabled
             response_storage = None
-            if storage:
-                try:
-                    original_ref = storage.store_file(
-                        data=file_bytes,
-                        storage_type=StorageType.ORIGINAL_FILE,
-                        filename=file.filename,
-                        metadata={"processing_id": processing_id},
-                    )
+            original_ref = None
+            try:
+                original_ref = storage.store_file(
+                    data=file_bytes,
+                    storage_type=StorageType.ORIGINAL_FILE,
+                    filename=file.filename,
+                    metadata={"processing_id": processing_id},
+                )
+                if use_storage:
                     response_storage = {"processing_id": processing_id, "original_file": original_ref.__dict__}
-                except Exception:
-                    response_storage = None
+            except Exception:
+                response_storage = None
 
             try:
                 processing_registry.register(processing_id, {
@@ -177,7 +192,7 @@ async def upload_and_convert(
                     estimated_size = total_cells * 200
 
                     use_storage_local = os.getenv("USE_STORAGE_SERVICE", "false").lower() == "true"
-                    storage_local = get_storage_service() if use_storage_local else None
+                    storage_local = get_storage_service()
                     response_storage_local = None
                     file_id_local = None
                     download_urls_local = None
@@ -195,10 +210,11 @@ async def upload_and_convert(
                             }
                             summary_data['workbook']['sheets'].append(sheet_summary)
 
-                        if storage_local:
-                            try:
-                                full_ref = storage_local.store_json(data=json_data_local, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
-                                table_ref = storage_local.store_json(data=table_data_local, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                        # Always persist to storage; only include references when enabled
+                        try:
+                            full_ref = storage_local.store_json(data=json_data_local, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
+                            table_ref = storage_local.store_json(data=table_data_local, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                            if use_storage_local:
                                 response_storage_local = {
                                     'processing_id': processing_id,
                                     'processed_json': full_ref.__dict__,
@@ -208,10 +224,10 @@ async def upload_and_convert(
                                         'table_data': storage_local.get_download_url(table_ref),
                                     }
                                 }
-                            except Exception:
-                                response_storage_local = None
-                            download_urls_local = { 'full_data': None, 'table_data': None }
-                        else:
+                        except Exception:
+                            response_storage_local = None
+
+                        if not use_storage_local:
                             file_id_local = str(uuid.uuid4())
                             django_like_models.processed_data_cache[file_id_local] = {
                                 'full_data': json_data_local,
@@ -237,8 +253,25 @@ async def upload_and_convert(
                             **({ 'file_id': file_id_local, 'download_urls': download_urls_local } if not storage_local else {}),
                             'status': 'completed',
                         })
+                        # Write UI index for this run
+                        try:
+                            run_dir = _build_run_dir(file.filename)
+                            storage_local.put_json(f"runs/{run_dir}/meta/index.json", {
+                                'run_dir': run_dir,
+                                'processing_id': processing_id,
+                                'filename': file.filename,
+                                'file_type': 'excel',
+                                'created_at': datetime.now(timezone.utc).isoformat(),
+                                'keys': {
+                                    'original_file': (original_ref.key if original_ref else None) if 'original_ref' in locals() else None,
+                                    'processed_json': (full_ref.key if 'full_ref' in locals() else None),
+                                    'table_data': (table_ref.key if 'table_ref' in locals() else None),
+                                },
+                            })
+                        except Exception:
+                            pass
                     else:
-                        if not storage_local:
+                        if not use_storage_local:
                             try:
                                 file_id_local = str(uuid.uuid4())
                                 django_like_models.processed_data_cache[file_id_local] = {
@@ -255,10 +288,10 @@ async def upload_and_convert(
                                 file_id_local = None
                                 download_urls_local = None
 
-                        if storage_local:
-                            try:
-                                full_ref = storage_local.store_json(data=json_data_local, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
-                                table_ref = storage_local.store_json(data=table_data_local, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                        try:
+                            full_ref = storage_local.store_json(data=json_data_local, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
+                            table_ref = storage_local.store_json(data=table_data_local, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                            if use_storage_local:
                                 response_storage_local = {
                                     'processing_id': processing_id,
                                     'processed_json': full_ref.__dict__,
@@ -268,8 +301,8 @@ async def upload_and_convert(
                                         'table_data': storage_local.get_download_url(table_ref),
                                     }
                                 }
-                            except Exception:
-                                response_storage_local = None
+                        except Exception:
+                            response_storage_local = None
 
                         processing_registry.register(processing_id, {
                             'filename': file.filename,
@@ -280,6 +313,23 @@ async def upload_and_convert(
                             **({ 'file_id': file_id_local, 'download_urls': download_urls_local } if not storage_local and file_id_local else {}),
                             'status': 'completed',
                         })
+                        # Write UI index for this run
+                        try:
+                            run_dir = _build_run_dir(file.filename)
+                            storage_local.put_json(f"runs/{run_dir}/meta/index.json", {
+                                'run_dir': run_dir,
+                                'processing_id': processing_id,
+                                'filename': file.filename,
+                                'file_type': 'excel',
+                                'created_at': datetime.now(timezone.utc).isoformat(),
+                                'keys': {
+                                    'original_file': (original_ref.key if original_ref else None) if 'original_ref' in locals() else None,
+                                    'processed_json': (full_ref.key if 'full_ref' in locals() else None),
+                                    'table_data': (table_ref.key if 'table_ref' in locals() else None),
+                                },
+                            })
+                        except Exception:
+                            pass
                 finally:
                     try:
                         os.remove(path2)
@@ -327,21 +377,20 @@ async def upload_and_convert(
         LARGE_FILE_THRESHOLD = 5 * 1024 * 1024
 
         use_storage = os.getenv("USE_STORAGE_SERVICE", "false").lower() == "true"
-        storage = get_storage_service() if use_storage else None
+        storage = get_storage_service()
         processing_id = str(uuid.uuid4())
         response_storage = None
         original_ref = None
-        if storage:
-            try:
-                with open(full_path, "rb") as f:
-                    original_ref = storage.store_file(
-                        data=f.read(),
-                        storage_type=StorageType.ORIGINAL_FILE,
-                        filename=file.filename,
-                        metadata={"processing_id": processing_id},
-                    )
-            except Exception:
-                original_ref = None
+        try:
+            with open(full_path, "rb") as f:
+                original_ref = storage.store_file(
+                    data=f.read(),
+                    storage_type=StorageType.ORIGINAL_FILE,
+                    filename=file.filename,
+                    metadata={"processing_id": processing_id},
+                )
+        except Exception:
+            original_ref = None
 
         if estimated_size > LARGE_FILE_THRESHOLD:
             # Build summary only
@@ -358,11 +407,11 @@ async def upload_and_convert(
                 }
                 summary_data['workbook']['sheets'].append(sheet_summary)
 
-            # Store full results if storage is configured
-            if storage:
-                try:
-                    full_ref = storage.store_json(data=json_data, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
-                    table_ref = storage.store_json(data=table_data, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+            # Always persist; include references only when enabled
+            try:
+                full_ref = storage.store_json(data=json_data, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
+                table_ref = storage.store_json(data=table_data, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                if use_storage:
                     response_storage = {
                         'processing_id': processing_id,
                         'original_file': original_ref.__dict__ if original_ref else None,
@@ -374,10 +423,10 @@ async def upload_and_convert(
                             'table_data': storage.get_download_url(table_ref),
                         }
                     }
-                except Exception:
-                    response_storage = None
-                download_urls = { 'full_data': None, 'table_data': None }
-            else:
+            except Exception:
+                response_storage = None
+            download_urls = { 'full_data': None, 'table_data': None }
+            if not use_storage:
                 # Legacy in-memory cache
                 file_id = str(uuid.uuid4())
                 django_like_models.processed_data_cache[file_id] = {
@@ -407,6 +456,23 @@ async def upload_and_convert(
             estimated_size_mb = estimated_size / 1024 / 1024
             json_data_size_mb = estimated_size_mb
             table_data_size_mb = max(estimated_size_mb * 0.6, 0.0)
+            # Write UI index
+            try:
+                run_dir = _build_run_dir(file.filename)
+                storage.put_json(f"runs/{run_dir}/meta/index.json", {
+                    'run_dir': run_dir,
+                    'processing_id': processing_id,
+                    'filename': file.filename,
+                    'file_type': 'excel',
+                    'created_at': datetime.now(timezone.utc).isoformat(),
+                    'keys': {
+                        'original_file': original_ref.key if original_ref else None,
+                        'processed_json': (full_ref.key if 'full_ref' in locals() else None),
+                        'table_data': (table_ref.key if 'table_ref' in locals() else None),
+                    },
+                })
+            except Exception:
+                pass
             return JSONResponse({
                 'success': True,
                 'format': 'compact',
@@ -466,10 +532,10 @@ async def upload_and_convert(
                     file_id = None
                     download_urls = None
 
-            if storage:
-                try:
-                    full_ref = storage.store_json(data=json_data, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
-                    table_ref = storage.store_json(data=table_data, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+            try:
+                full_ref = storage.store_json(data=json_data, storage_type=StorageType.PROCESSED_JSON, key_prefix=f"{processing_id}")
+                table_ref = storage.store_json(data=table_data, storage_type=StorageType.TABLE_DATA, key_prefix=f"{processing_id}")
+                if use_storage:
                     response_storage = {
                         'processing_id': processing_id,
                         'original_file': original_ref.__dict__ if original_ref else None,
@@ -481,8 +547,8 @@ async def upload_and_convert(
                             'table_data': storage.get_download_url(table_ref),
                         }
                     }
-                except Exception:
-                    response_storage = None
+            except Exception:
+                response_storage = None
 
             processing_registry.register(processing_id, {
                 'filename': file.filename,
@@ -492,6 +558,23 @@ async def upload_and_convert(
                 'large_file': False,
                 **({ 'file_id': file_id, 'download_urls': download_urls } if not storage and file_id else {}),
             })
+            # Write UI index
+            try:
+                run_dir = _build_run_dir(file.filename)
+                storage.put_json(f"runs/{run_dir}/meta/index.json", {
+                    'run_dir': run_dir,
+                    'processing_id': processing_id,
+                    'filename': file.filename,
+                    'file_type': 'excel',
+                    'created_at': datetime.now(timezone.utc).isoformat(),
+                    'keys': {
+                        'original_file': original_ref.key if original_ref else None,
+                        'processed_json': (full_ref.key if 'full_ref' in locals() else None),
+                        'table_data': (table_ref.key if 'table_ref' in locals() else None),
+                    },
+                })
+            except Exception:
+                pass
 
             return JSONResponse({
                 "success": True,

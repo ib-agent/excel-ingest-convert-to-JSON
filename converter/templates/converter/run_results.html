@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Results</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background:#f3f4f6; margin:0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .card { background:#fff; border-radius:12px; border:1px solid #e5e7eb; padding:1rem; }
+        .tabs { display:flex; gap:0.5rem; margin-bottom:1rem; }
+        .tab { padding:0.5rem 1rem; border-radius:8px; border:1px solid #e5e7eb; cursor:pointer; background:#f9fafb; }
+        .tab.active { background:#e5e7eb; }
+        pre { white-space: pre-wrap; word-break: break-word; background:#0b1021; color:#e2e8f0; padding:1rem; border-radius:8px; overflow:auto; }
+        a.button { display:inline-block; background:#667eea; color:#fff; padding:0.5rem 1rem; border-radius:8px; text-decoration:none; }
+        .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; }
+        .kv { font-size: 0.95rem; }
+        .section-title { font-weight:600; margin:0.5rem 0; }
+        .muted { color:#6b7280; font-size: 0.9rem; }
+        .list { list-style:none; padding:0; margin:0; }
+        .list li { border-bottom:1px solid #e5e7eb; padding:0.5rem 0; }
+        details > summary { cursor:pointer; font-weight:600; }
+        .html-tables { margin-top: 0.5rem; }
+        .sheet-block { margin: 0.75rem 0; }
+        .table-block { margin: 0.5rem 0; }
+        .sheet-title { font-weight:600; margin: 0.25rem 0; }
+        .table-title { font-weight:600; margin: 0.25rem 0; }
+        table.rendered { border-collapse: collapse; width: 100%; }
+        table.rendered th, table.rendered td { border: 1px solid #e5e7eb; padding: 4px 6px; font-size: 12px; }
+        table.rendered thead th { background: #f3f4f6; }
+    </style>
+    <script>
+    function getRunDir() { return decodeURIComponent((location.pathname.split('/run/')[1] || '').replace(/\/$/, '')); }
+    let currentTab = 'full';
+    async function loadData() {
+        const runDir = getRunDir();
+        const r = await fetch(`/api/ui/run/${encodeURIComponent(runDir)}/data`);
+        if (!r.ok) return;
+        const data = await r.json();
+        const meta = data.meta || {};
+        document.getElementById('title').textContent = `${meta.filename || runDir} (${meta.file_type || 'unknown'})`;
+        const btns = document.getElementById('downloadButtons');
+        btns.innerHTML = '';
+        const keys = (meta.keys || {});
+        if (keys.original_file) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.original_file)}">Download original</a> `;
+        if (keys.processed_json) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.processed_json)}">Download full JSON</a> `;
+        if (keys.table_data) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.table_data)}">Download tables JSON</a> `;
+        // Show basic meta info
+        const info = document.getElementById('metaInfo');
+        const created = (meta.created_at && new Date(meta.created_at).toLocaleString()) || '';
+        info.innerHTML = '';
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        const kv = (k,v) => { const d=document.createElement('div'); d.className='kv'; d.innerHTML = `<strong>${k}:</strong> ${v ?? ''}`; return d; };
+        grid.appendChild(kv('Processing ID', meta.processing_id));
+        grid.appendChild(kv('Created', created));
+        grid.appendChild(kv('File type', meta.file_type));
+        grid.appendChild(kv('Filename', meta.filename));
+        info.appendChild(grid);
+        window._runData = data;
+        renderDetails(meta, data);
+        // Raw JSON view removed per request; omit renderTab
+    }
+    function renderDetails(meta, data) {
+        try {
+            if ((meta.file_type || '').toLowerCase() === 'excel') {
+                renderExcelDetails(data);
+            } else if ((meta.file_type || '').toLowerCase() === 'pdf') {
+                renderPdfDetails(data);
+            }
+        } catch (e) { /* no-op */ }
+    }
+    function renderExcelDetails(data) {
+        const container = document.getElementById('excelDetails');
+        if (!container) return;
+        const full = (data.full && data.full.workbook) ? data.full : (data.full || {});
+        const tables = (data.tables && data.tables.workbook) ? data.tables : (data.tables || {});
+        const workbook = full.workbook || {};
+        const sheets = (workbook.sheets || []);
+        let html = '';
+        // Workbook meta
+        html += '<div class="section-title">Workbook Meta</div>';
+        html += `<pre>${escapeHtml(JSON.stringify(workbook.meta || {}, null, 2))}</pre>`;
+        // Sheets overview
+        html += '<div class="section-title">Sheets</div>';
+        html += '<ul class="list">';
+        sheets.forEach((s, idx) => {
+            const tSheet = (tables.workbook && tables.workbook.sheets && tables.workbook.sheets[idx]) ? tables.workbook.sheets[idx] : {};
+            const tableCount = (tSheet.tables || []).length;
+            html += `<li><strong>${s.name || ('Sheet ' + (idx+1))}</strong> <span class="muted">(${tableCount} tables)</span>`;
+            if (s.dimensions) html += `<div class="muted">Dimensions: ${JSON.stringify(s.dimensions)}</div>`;
+            if (s.frozen) html += `<div class="muted">Frozen: ${JSON.stringify(s.frozen)}</div>`;
+            // Tables per sheet
+            if (tableCount > 0) {
+                (tSheet.tables || []).forEach((t, j) => {
+                    html += `<div style="margin:0.5rem 0;">
+                        <div><strong>${t.name || t.id || ('Table ' + (j+1))}</strong></div>
+                        <div class="muted">Region: ${escapeHtml(JSON.stringify(t.region || {}))}</div>
+                        <div class="muted">Headers: ${escapeHtml(JSON.stringify(t.headers || {}))}</div>
+                        <div class="muted">Labels: cols=${(t.labels && (t.labels.cols||[]).length) || 0}, rows=${(t.labels && (t.labels.rows||[]).length) || 0}</div>
+                    </div>`;
+                });
+            }
+            html += '</li>';
+        });
+        html += '</ul>';
+        // Render HTML tables
+        try {
+            html += '<div class="section-title" style="margin-top:0.75rem;">Rendered Tables</div>';
+            html += '<div class="html-tables">';
+            for (let i = 0; i < sheets.length; i++) {
+                const s = sheets[i] || {};
+                const tSheet = (tables.workbook && tables.workbook.sheets && tables.workbook.sheets[i]) ? tables.workbook.sheets[i] : {};
+                const tList = tSheet.tables || [];
+                html += `<div class="sheet-block"><div class="sheet-title">${escapeHtml(s.name || ('Sheet ' + (i+1)))}</div>`;
+                const cellMap = buildSheetCellMap(s);
+                if (tList.length === 0) {
+                    html += '<div class="muted">No tables detected on this sheet.</div>';
+                } else {
+                    tList.forEach((t, j) => {
+                        const region = Array.isArray(t.region) ? t.region : null;
+                        html += `<div class="table-block"><div class="table-title">${escapeHtml(t.name || t.id || ('Table ' + (j+1)))}</div>`;
+                        if (region && region.length === 4) {
+                            html += renderRegionAsTable(cellMap, t);
+                        } else {
+                            html += '<div class="muted">No region info to render.</div>';
+                        }
+                        html += '</div>';
+                    });
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+        } catch (e) { /* ignore */ }
+        container.innerHTML = html;
+    }
+    function buildSheetCellMap(sheet) {
+        const map = new Map(); // key: r, value: Map(col->val)
+        const ensureRow = (r) => { if (!map.has(r)) map.set(r, new Map()); return map.get(r); };
+        if (sheet && sheet.rows && Array.isArray(sheet.rows)) {
+            for (const row of sheet.rows) {
+                const r = row.r;
+                const rowMap = ensureRow(r);
+                (row.cells || []).forEach(c => { const col = c[0]; const val = c[1]; rowMap.set(col, val); });
+            }
+        } else if (sheet && sheet.cells && typeof sheet.cells === 'object') {
+            // verbose dictionary; parse A1 to row/col
+            for (const ref of Object.keys(sheet.cells)) {
+                const valObj = sheet.cells[ref] || {};
+                const {row, col} = cellRefToRowCol(ref);
+                const rowMap = ensureRow(row);
+                rowMap.set(col, valObj.value);
+            }
+        }
+        return map;
+    }
+    function cellRefToRowCol(ref) {
+        // Simple parser: letters then digits
+        const m = String(ref).match(/^([A-Za-z]+)(\d+)$/);
+        if (!m) return {row: 0, col: 0};
+        const letters = m[1].toUpperCase();
+        let col = 0; for (let i = 0; i < letters.length; i++) { col = col * 26 + (letters.charCodeAt(i) - 64); }
+        return {row: parseInt(m[2], 10), col};
+    }
+    function getValue(cellMap, r, c) {
+        const row = cellMap.get(r); if (!row) return '';
+        const v = row.get(c); return (v === undefined || v === null) ? '' : v;
+    }
+    function renderRegionAsTable(cellMap, tableDef) {
+        const [r1, c1, r2, c2] = tableDef.region;
+        const headers = (tableDef.headers || {});
+        const headerRows = Array.isArray(headers.rows) ? headers.rows : [];
+        let out = '<table class="rendered">';
+        // thead
+        if (headerRows.length > 0) {
+            out += '<thead>';
+            for (const hr of headerRows) {
+                if (hr < r1 || hr > r2) continue;
+                out += '<tr>';
+                for (let c = c1; c <= c2; c++) {
+                    out += `<th>${escapeHtml(String(getValue(cellMap, hr, c)))}</th>`;
+                }
+                out += '</tr>';
+            }
+            out += '</thead>';
+        }
+        // tbody
+        out += '<tbody>';
+        for (let r = r1; r <= r2; r++) {
+            // skip header rows if any
+            if (headerRows.includes(r)) continue;
+            out += '<tr>';
+            for (let c = c1; c <= c2; c++) {
+                out += `<td>${escapeHtml(String(getValue(cellMap, r, c)))}</td>`;
+            }
+            out += '</tr>';
+        }
+        out += '</tbody>';
+        out += '</table>';
+        return out;
+    }
+    function renderPdfDetails(data) {
+        const container = document.getElementById('pdfDetails');
+        if (!container) return;
+        const full = data.full || {};
+        const p = full.pdf_processing_result || full.result?.pdf_processing_result || {};
+        let html = '';
+        // Summary
+        const meta = p.document_metadata || {};
+        const summary = p.processing_summary || {};
+        html += '<div class="section-title">Processing Summary</div>';
+        html += '<div class="grid">';
+        html += `<div class="kv"><strong>Total pages:</strong> ${meta.total_pages ?? ''}</div>`;
+        html += `<div class="kv"><strong>Tables extracted:</strong> ${summary.tables_extracted ?? ''}</div>`;
+        html += `<div class="kv"><strong>Tables removed:</strong> ${summary.tables_removed ?? ''}</div>`;
+        html += `<div class="kv"><strong>Text sections:</strong> ${summary.text_sections ?? ''}</div>`;
+        html += '</div>';
+        // Tables
+        const tables = (p.tables && p.tables.tables) || [];
+        html += '<div class="section-title" style="margin-top:0.5rem;">Tables</div>';
+        if (tables.length === 0) {
+            html += '<div class="muted">No tables found.</div>';
+        } else {
+            html += '<ul class="list">';
+            tables.forEach((t, idx) => {
+                html += `<li><strong>Table ${idx+1}</strong>`;
+                if (t.region) html += `<div class="muted">Region: ${escapeHtml(JSON.stringify(t.region))}</div>`;
+                if (t.columns) html += `<div class="muted">Columns: ${t.columns.length}</div>`;
+                if (t.rows) html += `<div class="muted">Rows: ${t.rows.length}</div>`;
+                html += `<details><summary>Raw Table JSON</summary><pre>${escapeHtml(JSON.stringify(t, null, 2))}</pre></details>`;
+                html += '</li>';
+            });
+            html += '</ul>';
+        }
+        // Text sections with extracted numbers
+        html += '<div class="section-title" style="margin-top:0.5rem;">Text Sections with Extracted Numbers</div>';
+        const sections = collectPdfTextSections(full);
+        if (sections.length === 0) {
+            html += '<div class="muted">No text sections found.</div>';
+        } else {
+            html += '<ul class="list">';
+            sections.forEach((sec, idx) => {
+                const nums = (sec.numbers || []).map(n => (typeof n === 'object' ? n.value : n)).filter(Boolean);
+                const snippet = (sec.text || '').toString().slice(0, 240).replace(/\n/g,' ');
+                html += `<li><div><strong>Section ${idx+1}</strong> <span class=\"muted\">(page ${sec.page ?? '?'}; numbers: ${nums.length})</span></div>`;
+                html += `<div class=\"muted\">${escapeHtml(snippet)}${(sec.text||'').length>240?'...':''}</div>`;
+                if (nums.length > 0) {
+                    html += `<div class=\"muted\"><strong>Numbers:</strong> ${nums.map(x=>escapeHtml(String(x))).join(', ')}</div>`;
+                }
+                html += '</li>';
+            });
+            html += '</ul>';
+        }
+        container.innerHTML = html;
+    }
+    function escapeHtml(str) {
+        return (str || '').toString().replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+    }
+    function renderTab(tab) { /* raw JSON view removed */ }
+    window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+    </head>
+<body>
+    <div class="container">
+        <div class="card" style="margin-bottom:1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem;">
+                <div>
+                    <div id="title" style="font-size:1.25rem; font-weight:600;">Run</div>
+                    <div><a href="/" style="text-decoration:none;">← Back</a></div>
+                </div>
+                <div id="downloadButtons"></div>
+            </div>
+        </div>
+        <div class="card" style="margin-bottom:1rem;">
+            <div id="metaInfo"></div>
+        </div>
+        <!-- Raw JSON view removed per request -->
+        <div class="card" id="excelDetails" style="margin-top:1rem; display:block;"></div>
+        <div class="card" id="pdfDetails" style="margin-top:1rem; display:block;"></div>
+    </div>
+</body>
+</html>
+
+

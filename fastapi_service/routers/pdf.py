@@ -2,6 +2,7 @@ import os
 import json
 import uuid
 import tempfile
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 from fastapi import APIRouter, UploadFile, File, HTTPException, Form, BackgroundTasks
 from fastapi.responses import JSONResponse
@@ -60,24 +61,24 @@ async def upload_and_process_pdf(
                     result_local = processor_local.process(path2)
 
                     use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
-                    storage_local: StorageService | None = get_storage_service() if use_storage_service else None
+                    storage_local: StorageService | None = get_storage_service()
                     response_storage_local = None
                     file_id_local = None
                     download_urls_local = None
 
-                    if storage_local is not None:
-                        try:
-                            original_ref = storage_local.store_file(
-                                data=file_bytes,
-                                storage_type=StorageType.ORIGINAL_FILE,
-                                filename=file.filename,
-                                metadata={'processing_id': processing_id, 'type': 'pdf'}
-                            )
-                            result_ref = storage_local.store_json(
-                                data=result_local,
-                                storage_type=StorageType.PROCESSED_JSON,
-                                key_prefix=f"{processing_id}"
-                            )
+                    try:
+                        original_ref = storage_local.store_file(
+                            data=file_bytes,
+                            storage_type=StorageType.ORIGINAL_FILE,
+                            filename=file.filename,
+                            metadata={'processing_id': processing_id, 'type': 'pdf'}
+                        )
+                        result_ref = storage_local.store_json(
+                            data=result_local,
+                            storage_type=StorageType.PROCESSED_JSON,
+                            key_prefix=f"{processing_id}"
+                        )
+                        if use_storage_service:
                             response_storage_local = {
                                 'processing_id': processing_id,
                                 'original_file': original_ref.__dict__,
@@ -87,9 +88,10 @@ async def upload_and_process_pdf(
                                     'processed_json': storage_local.get_download_url(result_ref),
                                 }
                             }
-                        except Exception:
-                            response_storage_local = None
-                    else:
+                    except Exception:
+                        response_storage_local = None
+
+                    if not use_storage_service:
                         try:
                             from converter import models as django_like_models
                             file_id_local = str(uuid.uuid4())
@@ -106,6 +108,23 @@ async def upload_and_process_pdf(
                         except Exception:
                             file_id_local = None
                             download_urls_local = None
+                    # Write UI index for this run
+                    try:
+                        from .excel import _build_run_dir  # reuse helper
+                        run_dir = _build_run_dir(file.filename)
+                        storage_local.put_json(f"runs/{run_dir}/meta/index.json", {
+                            'run_dir': run_dir,
+                            'processing_id': processing_id,
+                            'filename': file.filename,
+                            'file_type': 'pdf',
+                            'created_at': datetime.now(timezone.utc).isoformat(),
+                            'keys': {
+                                'original_file': original_ref.key if 'original_ref' in locals() else None,
+                                'processed_json': result_ref.key if 'result_ref' in locals() else None,
+                            },
+                        })
+                    except Exception:
+                        pass
 
                     processing_registry.register(processing_id, {
                         'filename': file.filename,
@@ -140,26 +159,26 @@ async def upload_and_process_pdf(
         result = processor.process(full_path)
 
         use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
-        storage: StorageService | None = get_storage_service() if use_storage_service else None
+        storage: StorageService | None = get_storage_service()
         processing_id = str(uuid.uuid4())
         response_storage = None
         file_id = None
         download_urls = None
-        if storage is not None and processing_id is not None:
-            try:
-                with open(full_path, 'rb') as f:
-                    original_bytes = f.read()
-                original_ref = storage.store_file(
-                    data=original_bytes,
-                    storage_type=StorageType.ORIGINAL_FILE,
-                    filename=file.filename,
-                    metadata={'processing_id': processing_id, 'type': 'pdf'}
-                )
-                result_ref = storage.store_json(
-                    data=result,
-                    storage_type=StorageType.PROCESSED_JSON,
-                    key_prefix=f"{processing_id}"
-                )
+        try:
+            with open(full_path, 'rb') as f:
+                original_bytes = f.read()
+            original_ref = storage.store_file(
+                data=original_bytes,
+                storage_type=StorageType.ORIGINAL_FILE,
+                filename=file.filename,
+                metadata={'processing_id': processing_id, 'type': 'pdf'}
+            )
+            result_ref = storage.store_json(
+                data=result,
+                storage_type=StorageType.PROCESSED_JSON,
+                key_prefix=f"{processing_id}"
+            )
+            if use_storage_service:
                 response_storage = {
                     'processing_id': processing_id,
                     'original_file': original_ref.__dict__,
@@ -169,9 +188,10 @@ async def upload_and_process_pdf(
                         'processed_json': storage.get_download_url(result_ref),
                     }
                 }
-            except Exception:
-                response_storage = None
-        else:
+        except Exception:
+            response_storage = None
+
+        if not use_storage_service:
             # Cache result for retrieval via new results endpoints
             try:
                 file_id = str(uuid.uuid4())
@@ -190,6 +210,23 @@ async def upload_and_process_pdf(
             except Exception:
                 file_id = None
                 download_urls = None
+        # Write UI index for this run
+        try:
+            from .excel import _build_run_dir
+            run_dir = _build_run_dir(file.filename)
+            storage.put_json(f"runs/{run_dir}/meta/index.json", {
+                'run_dir': run_dir,
+                'processing_id': processing_id,
+                'filename': file.filename,
+                'file_type': 'pdf',
+                'created_at': datetime.now(timezone.utc).isoformat(),
+                'keys': {
+                    'original_file': original_ref.key if 'original_ref' in locals() else None,
+                    'processed_json': result_ref.key if 'result_ref' in locals() else None,
+                },
+            })
+        except Exception:
+            pass
 
         if (response_storage is not None) or file_id is not None:
             try:
@@ -253,26 +290,26 @@ async def upload_and_process_pdf_table_removal(
         result = processor.process(full_path)
 
         use_storage_service = os.getenv('USE_STORAGE_SERVICE', 'false').lower() == 'true'
-        storage: StorageService | None = get_storage_service() if use_storage_service else None
+        storage: StorageService | None = get_storage_service()
         processing_id = str(uuid.uuid4())
         response_storage = None
         file_id = None
         download_urls = None
-        if storage is not None:
-            try:
-                with open(full_path, 'rb') as f:
-                    original_bytes = f.read()
-                original_ref = storage.store_file(
-                    data=original_bytes,
-                    storage_type=StorageType.ORIGINAL_FILE,
-                    filename=file.filename,
-                    metadata={'processing_id': processing_id, 'type': 'pdf'}
-                )
-                result_ref = storage.store_json(
-                    data=result,
-                    storage_type=StorageType.PROCESSED_JSON,
-                    key_prefix=f"{processing_id}"
-                )
+        try:
+            with open(full_path, 'rb') as f:
+                original_bytes = f.read()
+            original_ref = storage.store_file(
+                data=original_bytes,
+                storage_type=StorageType.ORIGINAL_FILE,
+                filename=file.filename,
+                metadata={'processing_id': processing_id, 'type': 'pdf'}
+            )
+            result_ref = storage.store_json(
+                data=result,
+                storage_type=StorageType.PROCESSED_JSON,
+                key_prefix=f"{processing_id}"
+            )
+            if use_storage_service:
                 response_storage = {
                     'processing_id': processing_id,
                     'original_file': original_ref.__dict__,
@@ -282,9 +319,10 @@ async def upload_and_process_pdf_table_removal(
                         'processed_json': storage.get_download_url(result_ref),
                     }
                 }
-            except Exception:
-                response_storage = None
-        else:
+        except Exception:
+            response_storage = None
+
+        if not use_storage_service:
             try:
                 from converter import models as django_like_models
                 file_id = str(uuid.uuid4())

@@ -19,3 +19,9 @@ def pdf_page():
     return FileResponse("converter/templates/converter/pdf_processor.html")
 
 
+@router.get("/run/{run_dir}", include_in_schema=False)
+def run_page(run_dir: str):
+    # The page will fetch data via /api/ui/run/{run_dir}
+    return FileResponse("converter/templates/converter/run_results.html")
+
+

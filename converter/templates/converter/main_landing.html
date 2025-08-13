@@ -179,52 +179,26 @@
 </head>
 <body>
     <div class="container">
+        <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico" />
         <div class="header">
             <h1>Document to JSON Converter</h1>
             <p>Transform your Excel spreadsheets and PDF documents into structured JSON data with advanced table detection and header resolution</p>
         </div>
 
         <div class="main-content">
-            <div class="options-grid">
-                <div class="option-card" onclick="window.location.href='/excel/'">
-                    <div class="option-icon">
-                        <i class="fas fa-file-excel"></i>
-                    </div>
-                    <h2 class="option-title">Excel Processor</h2>
-                    <p class="option-description">
-                        Convert Excel spreadsheets (.xlsx, .xlsm, .xltx, .xltm) to structured JSON with advanced table detection and header resolution.
-                    </p>
-                    <ul class="option-features">
-                        <li>Multi-level header detection</li>
-                        <li>Frozen pane support</li>
-                        <li>Merged cell handling</li>
-                        <li>Table-oriented JSON output</li>
-                        <li>Header resolution and cleaning</li>
-                    </ul>
-                    <a href="/excel/" class="cta-button">
-                        Process Excel Files
-                    </a>
+            <div style="margin-bottom:2rem;">
+                <h2 style="margin-bottom:1rem;">Upload a document</h2>
+                <div id="dropZone" style="border:2px dashed #cbd5e1; border-radius:12px; padding:2.5rem; background:#f8fafc; text-align:center; color:#475569;">
+                    <i class="fas fa-upload" style="font-size:2rem; color:#6366f1;"></i>
+                    <div style="margin-top:0.5rem; font-weight:600;">Drag & drop a file here, or click to select</div>
+                    <div style="font-size:0.9rem; color:#64748b;">Supported: .xlsx, .xlsm, .xltx, .xltm, .pdf</div>
+                    <input id="fileInput" type="file" name="file" accept=".xlsx,.xlsm,.xltx,.xltm,.pdf" style="display:none;" />
                 </div>
-
-                <div class="option-card" onclick="window.location.href='/pdf/'">
-                    <div class="option-icon">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <h2 class="option-title">PDF Processor</h2>
-                    <p class="option-description">
-                        Extract tables from PDF documents and convert them to structured JSON format with intelligent table detection.
-                    </p>
-                    <ul class="option-features">
-                        <li>Table extraction from PDFs</li>
-                        <li>Multi-page document support</li>
-                        <li>Text and data recognition</li>
-                        <li>Structured JSON output</li>
-                        <li>Number extraction and embedding</li>
-                    </ul>
-                    <a href="/pdf/" class="cta-button">
-                        Process PDF Files
-                    </a>
-                </div>
+                <div id="uploadStatus" style="margin-top:0.75rem; color:#666;"></div>
+            </div>
+            <div style="margin-top:2rem;">
+                <h2 style="margin-bottom:1rem;">Recent runs</h2>
+                <div id="runsList"></div>
             </div>
         </div>
 
@@ -232,5 +206,106 @@
             <p>&copy; 2025 Document to JSON Converter. Built with Django and modern web technologies.</p>
         </div>
     </div>
+    <script>
+    async function postFile(file) {
+        const form = new FormData();
+        form.append('file', file);
+        const isPDF = file.name.toLowerCase().endsWith('.pdf');
+        const url = isPDF ? '/api/pdf/upload/' : '/api/upload/';
+        const resp = await fetch(url, { method: 'POST', body: form });
+        if (!resp.ok) throw new Error('Upload failed');
+        return await resp.json();
+    }
+
+    async function pollStatus(processingId, maxMs=60000) {
+        const start = Date.now();
+        while (Date.now() - start < maxMs) {
+            const r = await fetch(`/api/status/${processingId}/`);
+            if (r.ok) {
+                const body = await r.json();
+                if ((body.status || '').toLowerCase() === 'completed') return body;
+            }
+            await new Promise(res => setTimeout(res, 1000));
+        }
+        throw new Error('Timed out waiting for processing');
+    }
+
+    async function refreshRuns() {
+        const listEl = document.getElementById('runsList');
+        listEl.innerHTML = '';
+        try {
+            const r = await fetch('/api/ui/runs');
+            if (!r.ok) return;
+            const data = await r.json();
+            const ul = document.createElement('ul');
+            ul.style.listStyle = 'none';
+            ul.style.padding = '0';
+            for (const run of (data.runs || [])) {
+                const li = document.createElement('li');
+                li.style.display = 'flex';
+                li.style.alignItems = 'center';
+                li.style.justifyContent = 'space-between';
+                li.style.padding = '0.5rem 0.25rem';
+                li.style.borderBottom = '1px solid #e5e7eb';
+                const left = document.createElement('div');
+                left.textContent = `${run.filename} (${run.file_type || 'unknown'}) – ${new Date(run.created_at || Date.now()).toLocaleString()}`;
+                const right = document.createElement('div');
+                const view = document.createElement('a');
+                view.href = `/run/${encodeURIComponent(run.run_dir)}`;
+                view.className = 'cta-button';
+                view.textContent = 'View';
+                view.style.marginRight = '0.5rem';
+                const del = document.createElement('button');
+                del.className = 'cta-button';
+                del.style.background = '#ef4444';
+                del.textContent = 'Delete';
+                del.onclick = async () => {
+                    if (!confirm('Delete this run from storage?')) return;
+                    await fetch(`/api/ui/run/${encodeURIComponent(run.run_dir)}`, { method: 'DELETE' });
+                    await refreshRuns();
+                };
+                right.appendChild(view);
+                right.appendChild(del);
+                li.appendChild(left);
+                li.appendChild(right);
+                ul.appendChild(li);
+            }
+            listEl.appendChild(ul);
+        } catch (_) {}
+    }
+
+    const dz = document.getElementById('dropZone');
+    const input = document.getElementById('fileInput');
+    const statusEl = document.getElementById('uploadStatus');
+    dz.addEventListener('click', () => input.click());
+    dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.style.background = '#eef2ff'; });
+    dz.addEventListener('dragleave', () => { dz.style.background = '#f8fafc'; });
+    dz.addEventListener('drop', async (e) => {
+        e.preventDefault(); dz.style.background = '#f8fafc';
+        const file = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!file) return;
+        statusEl.textContent = 'Uploading...';
+        try {
+            const result = await postFile(file);
+            const pid = result.processing_id || (result.storage && result.storage.processing_id);
+            if (pid) { statusEl.textContent = 'Processing...'; await pollStatus(pid); }
+            statusEl.textContent = 'Done';
+        } catch (_) { statusEl.textContent = 'Error'; }
+        await refreshRuns();
+    });
+    input.addEventListener('change', async () => {
+        if (!input.files || !input.files[0]) return;
+        statusEl.textContent = 'Uploading...';
+        try {
+            const result = await postFile(input.files[0]);
+            const pid = result.processing_id || (result.storage && result.storage.processing_id);
+            if (pid) { statusEl.textContent = 'Processing...'; await pollStatus(pid); }
+            statusEl.textContent = 'Done';
+        } catch (_) { statusEl.textContent = 'Error'; }
+        await refreshRuns();
+    });
+
+    refreshRuns();
+    </script>
 </body>
 </html> 
