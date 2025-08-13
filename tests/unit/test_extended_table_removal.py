@@ -32,9 +32,9 @@ from dataclasses import dataclass, asdict
 import hashlib
 
 # Import processors for testing
-from pdf_table_removal_processor import PDFTableRemovalProcessor
-from pdf_table_removal_processor_optimized import OptimizedTableRemovalProcessor, PerformanceBenchmark
-from pdfplumber_clean_processor import CleanPDFProcessor
+from converter.pdf.table_removal import PDFTableRemovalProcessor
+from converter.pdf.table_removal_optimized import OptimizedTableRemovalProcessor, PerformanceBenchmark
+from converter.pdf.plumber_clean_processor import CleanPDFProcessor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

@@ -11,8 +11,8 @@ from converter.processing_registry import processing_registry
 # Import processors
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from PDF_processing_pdfplumber import PDFProcessor  # type: ignore
-from pdf_table_removal_processor import PDFTableRemovalProcessor  # type: ignore
+from converter.pdf.processing_pdfplumber import PDFProcessor  # type: ignore
+from converter.pdf.table_removal import PDFTableRemovalProcessor  # type: ignore
 from converter.pdf_ai_failover_pipeline import PDFAIFailoverPipeline
 
 router = APIRouter()

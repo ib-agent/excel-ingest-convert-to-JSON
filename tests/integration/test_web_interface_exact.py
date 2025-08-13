@@ -13,7 +13,7 @@ from pathlib import Path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from PDF_processing import PDFProcessor
+from converter.pdf.processing import PDFProcessor
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

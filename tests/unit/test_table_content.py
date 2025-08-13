@@ -9,7 +9,7 @@ import logging
 import json
 import requests
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from PDF_processing import PDFProcessor
+from converter.pdf.processing import PDFProcessor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

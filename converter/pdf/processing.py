@@ -10,7 +10,7 @@ Exports:
 - PDFNumberExtractor
 """
 
-from PDF_processing_pdfplumber import (
+from converter.pdf.processing_pdfplumber import (
     PDFProcessor as _PP_PDFProcessor,
     PDFTableExtractor as _PP_PDFTableExtractor,
     PDFTextProcessor as _PP_PDFTextProcessor,

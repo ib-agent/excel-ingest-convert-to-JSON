@@ -29,7 +29,7 @@ from functools import lru_cache
 import weakref
 
 # Import base processor
-from pdf_table_removal_processor import PDFTableRemovalProcessor, PDFRegionRemover
+from converter.pdf.table_removal import PDFTableRemovalProcessor, PDFRegionRemover
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')

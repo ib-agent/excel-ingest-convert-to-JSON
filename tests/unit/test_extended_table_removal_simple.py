@@ -14,7 +14,7 @@ from typing import Dict, List, Any
 import pytest
 
 # Import processors for testing
-from pdf_table_removal_processor import PDFTableRemovalProcessor
+from converter.pdf.table_removal import PDFTableRemovalProcessor
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

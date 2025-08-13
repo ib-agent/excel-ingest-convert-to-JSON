@@ -13,7 +13,7 @@ names:
 - NumberExtractor
 """
 
-from pdfplumber_clean_processor import (
+from converter.pdf.plumber_clean_processor import (
     CleanPDFProcessor as _PP_CleanPDFProcessor,
     PDFPlumberTableExtractor as _PP_TableExtractor,
     PDFPlumberTextExtractor as _PP_TextExtractor,

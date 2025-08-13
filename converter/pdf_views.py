@@ -25,10 +25,10 @@ from .pdf_ai_failover_pipeline import PDFAIFailoverPipeline
 # Import our PDF processing modules
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from PDF_processing_pdfplumber import PDFProcessor
+from converter.pdf.processing_pdfplumber import PDFProcessor
 
 # Import the new table removal processor
-from pdf_table_removal_processor import PDFTableRemovalProcessor
+from converter.pdf.table_removal import PDFTableRemovalProcessor
 
 # DEBUG: Add a distinctive log message to verify we're using the right module
 import logging

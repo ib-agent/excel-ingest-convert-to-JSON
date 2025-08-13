@@ -9,8 +9,8 @@ import os
 import sys
 import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from PDF_processing import PDFProcessor, PDFTableExtractor
-from PDF_processing_pdfplumber import PDFProcessor as DirectPDFProcessor, PDFTableExtractor as DirectPDFTableExtractor
+from converter.pdf.processing import PDFProcessor, PDFTableExtractor
+from converter.pdf.processing_pdfplumber import PDFProcessor as DirectPDFProcessor, PDFTableExtractor as DirectPDFTableExtractor
 
 def test_table_extraction():
     """Test table extraction functionality"""

@@ -19,11 +19,11 @@ from typing import Dict, List, Any
 import traceback
 
 # Import the new table removal processor
-from pdf_table_removal_processor import PDFTableRemovalProcessor
+from converter.pdf.table_removal import PDFTableRemovalProcessor
 
 # Import traditional processor for comparison
 try:
-    from pdfplumber_clean_processor import CleanPDFProcessor
+    from converter.pdf.plumber_clean_processor import CleanPDFProcessor
 except ImportError:
     CleanPDFProcessor = None
 

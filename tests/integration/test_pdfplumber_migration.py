@@ -24,13 +24,13 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'converter'))
 
 # Import PDFPlumber implementations
 from converter.pdfplumber_processor import PDFPlumberProcessor
-from pdfplumber_clean_processor import CleanPDFProcessor
+from converter.pdf.plumber_clean_processor import CleanPDFProcessor
 
 # Import the new PDFPlumber-based main processor
 try:
-    from PDF_processing_pdfplumber import PDFProcessor as PDFPlumberMainProcessor
+    from converter.pdf.processing_pdfplumber import PDFProcessor as PDFPlumberMainProcessor
 except ImportError as e:
-    print(f"Warning: Could not import PDF_processing_pdfplumber: {e}")
+    print(f"Warning: Could not import converter.pdf.processing_pdfplumber: {e}")
     PDFPlumberMainProcessor = None
 
 def test_pdfplumber_migration(tmp_path):

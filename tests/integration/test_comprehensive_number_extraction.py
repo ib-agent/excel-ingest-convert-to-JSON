@@ -8,7 +8,7 @@ import unittest
 import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from PDF_processing import PDFProcessor
+from converter.pdf.processing import PDFProcessor
 
 class TestComprehensiveNumberExtraction(unittest.TestCase):
     """Test that all number extraction fixes are working correctly"""
