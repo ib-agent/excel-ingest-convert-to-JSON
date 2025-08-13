@@ -26,20 +26,17 @@ WORKDIR /app
 
 # Install Python deps first (better layer caching)
 COPY docs/requirements.txt /app/docs/requirements.txt
-COPY pdf_requirements.txt /app/pdf_requirements.txt
+COPY requirements/pdf.txt /app/requirements/pdf.txt
 RUN python -m pip install --upgrade pip && \
     pip install -r /app/docs/requirements.txt && \
-    pip install -r /app/pdf_requirements.txt && \
+    pip install -r /app/requirements/pdf.txt && \
     pip install gunicorn
 
 # Copy application source
 COPY . /app
 
-# Default environment
-ENV DJANGO_SETTINGS_MODULE=excel_converter.settings \
-    DJANGO_DEBUG=true \
-    DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0 \
-    CORS_ALLOW_ALL_ORIGINS=true
+# Default environment (FastAPI-only)
+ENV CORS_ALLOW_ALL_ORIGINS=true
 
 # Ensure runtime dirs exist
 RUN mkdir -p /app/media /app/staticfiles

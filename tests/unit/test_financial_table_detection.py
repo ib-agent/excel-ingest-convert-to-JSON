@@ -6,11 +6,8 @@ Test script to verify financial table detection fix
 import sys
 import os
 import json
-import django
-from rest_framework.test import APIClient
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'excel_converter.settings')
-django.setup()
+from fastapi.testclient import TestClient
+from fastapi_service.main import app
 
 # Add the project root to the path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +21,7 @@ def test_financial_table_detection():
     # Upload the file again to get fresh data
     file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fixtures', 'excel', 'pDD10b - Exos_2023_financials.xlsx')
     
-    client = APIClient()
+    client = TestClient(app)
     with open(file_path, 'rb') as f:
         upload = {'file': f}
         response = client.post('/api/upload/', data=upload)
@@ -74,11 +71,10 @@ def test_financial_table_detection():
             try:
                 response = client.post(
                     '/api/transform-tables/',
-                    data={
+                    json={
                         'json_data': excel_data,
                         'options': options
-                    },
-                    format='json'
+                    }
                 )
                 
                 if response.status_code == 200:

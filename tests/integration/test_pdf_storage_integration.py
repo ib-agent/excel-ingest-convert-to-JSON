@@ -1,18 +1,14 @@
 import json
 import os
 import tempfile
-import django
-from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
-from rest_framework.test import APIClient
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'excel_converter.settings')
-django.setup()
+import unittest
+from fastapi.testclient import TestClient
+from fastapi_service.main import app
 
 
-class PDFStorageIntegrationTest(TestCase):
+class PDFStorageIntegrationTest(unittest.TestCase):
     def setUp(self):
-        self.client = APIClient()
+        self.client = TestClient(app)
         self.tmpdir = tempfile.TemporaryDirectory()
         os.environ['STORAGE_BACKEND'] = 'local'
         os.environ['LOCAL_STORAGE_PATH'] = self.tmpdir.name
@@ -36,8 +32,8 @@ class PDFStorageIntegrationTest(TestCase):
 
     def test_upload_and_process_pdf_stores_artifacts(self):
         pdf_bytes = self._load_fixture_pdf()
-        upload = SimpleUploadedFile('test.pdf', pdf_bytes, content_type='application/pdf')
-        resp = self.client.post('/api/pdf/upload/', data={'file': upload})
+        files = {'file': ('test.pdf', pdf_bytes, 'application/pdf')}
+        resp = self.client.post('/api/pdf/upload/', files=files)
         self.assertEqual(resp.status_code, 200)
         body = resp.json()
         self.assertIn('storage', body)
@@ -56,8 +52,8 @@ class PDFStorageIntegrationTest(TestCase):
 
     def test_upload_and_process_pdf_table_removal_stores_artifacts(self):
         pdf_bytes = self._load_fixture_pdf()
-        upload = SimpleUploadedFile('test.pdf', pdf_bytes, content_type='application/pdf')
-        resp = self.client.post('/api/pdf/table-removal/', data={'file': upload})
+        files = {'file': ('test.pdf', pdf_bytes, 'application/pdf')}
+        resp = self.client.post('/api/pdf/table-removal/', files=files)
         self.assertEqual(resp.status_code, 200)
         body = resp.json()
         self.assertIn('storage', body)

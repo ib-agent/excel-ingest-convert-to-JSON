@@ -1,17 +1,13 @@
 import os
 import tempfile
-import django
-from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
-from rest_framework.test import APIClient
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'excel_converter.settings')
-django.setup()
+import unittest
+from fastapi.testclient import TestClient
+from fastapi_service.main import app
 
 
-class ExcelAdditionalStorageIntegrationTest(TestCase):
+class ExcelAdditionalStorageIntegrationTest(unittest.TestCase):
     def setUp(self):
-        self.client = APIClient()
+        self.client = TestClient(app)
         self.tmpdir = tempfile.TemporaryDirectory()
         os.environ['STORAGE_BACKEND'] = 'local'
         os.environ['LOCAL_STORAGE_PATH'] = self.tmpdir.name
@@ -36,8 +32,8 @@ class ExcelAdditionalStorageIntegrationTest(TestCase):
 
     def test_analyze_excel_complexity_stores_artifacts(self):
         xlsx_bytes = self._create_minimal_xlsx()
-        upload = SimpleUploadedFile('complexity.xlsx', xlsx_bytes, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        resp = self.client.post('/api/excel/analyze-complexity/', data={'file': upload})
+        files = {'file': ('complexity.xlsx', xlsx_bytes, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')}
+        resp = self.client.post('/api/excel/analyze-complexity/', files=files)
         self.assertEqual(resp.status_code, 200)
         body = resp.json()
         self.assertIn('storage', body)
@@ -57,8 +53,8 @@ class ExcelAdditionalStorageIntegrationTest(TestCase):
 
     def test_excel_comparison_analysis_stores_artifacts(self):
         xlsx_bytes = self._create_minimal_xlsx()
-        upload = SimpleUploadedFile('comparison.xlsx', xlsx_bytes, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        resp = self.client.post('/api/excel/comparison-analysis/', data={'file': upload})
+        files = {'file': ('comparison.xlsx', xlsx_bytes, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')}
+        resp = self.client.post('/api/excel/comparison-analysis/', files=files)
         self.assertEqual(resp.status_code, 200)
         body = resp.json()
         self.assertIn('storage', body)

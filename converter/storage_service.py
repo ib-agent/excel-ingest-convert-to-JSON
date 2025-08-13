@@ -11,7 +11,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from django.conf import settings
+# Django-free defaulting: prefer env var LOCAL_STORAGE_PATH; otherwise use ./media/storage
 
 try:
     import boto3  # type: ignore
@@ -88,8 +88,8 @@ class LocalStorageService(StorageService):
         if base_dir is None:
             base_dir = os.getenv("LOCAL_STORAGE_PATH")
         if base_dir is None:
-            # default under Django MEDIA_ROOT
-            base_dir = str(Path(settings.MEDIA_ROOT) / "storage")
+            # default under local media directory
+            base_dir = str(Path("media") / "storage")
         self.base_path = Path(base_dir).resolve()
         self.base_path.mkdir(parents=True, exist_ok=True)
 

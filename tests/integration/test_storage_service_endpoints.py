@@ -1,18 +1,14 @@
 import json
 import os
 import tempfile
-import django
-from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
-from rest_framework.test import APIClient
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'excel_converter.settings')
-django.setup()
+import unittest
+from fastapi.testclient import TestClient
+from fastapi_service.main import app
 
 
-class StorageServiceEndpointsTest(TestCase):
+class StorageServiceEndpointsTest(unittest.TestCase):
     def setUp(self):
-        self.client = APIClient()
+        self.client = TestClient(app)
         self.tmpdir = tempfile.TemporaryDirectory()
         os.environ['STORAGE_BACKEND'] = 'local'
         os.environ['LOCAL_STORAGE_PATH'] = self.tmpdir.name
@@ -30,7 +26,7 @@ class StorageServiceEndpointsTest(TestCase):
             'key_prefix': 'test_prefix',
             'data': {'hello': 'world'},
         }
-        resp = self.client.post('/api/storage/store-json/', data=json.dumps(payload), content_type='application/json')
+        resp = self.client.post('/api/storage/store-json/', json=payload)
         self.assertEqual(resp.status_code, 201)
         body = resp.json()
         key = body['reference']['key']
@@ -43,7 +39,7 @@ class StorageServiceEndpointsTest(TestCase):
         # Get bytes
         resp = self.client.get(f'/api/storage/get/?key={key}')
         self.assertEqual(resp.status_code, 200)
-        self.assertIn('application/json', resp['Content-Type'])
+        self.assertIn('application/json', resp.headers.get('content-type', ''))
 
         # List
         prefix = key.split('/')[0]
@@ -59,8 +55,8 @@ class StorageServiceEndpointsTest(TestCase):
 
     def test_store_file(self):
         content = b'example-bytes'
-        upload = SimpleUploadedFile('example.bin', content, content_type='application/octet-stream')
-        resp = self.client.post('/api/storage/store-file/', data={'file': upload, 'storage_type': 'original'})
+        files = {'file': ('example.bin', content, 'application/octet-stream')}
+        resp = self.client.post('/api/storage/store-file/?storage_type=original', files=files)
         self.assertEqual(resp.status_code, 201)
         body = resp.json()
         key = body['reference']['key']
