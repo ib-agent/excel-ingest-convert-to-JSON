@@ -190,11 +190,12 @@ def get_run_html(run_dir: str):
 @router.delete("/run/{run_dir}")
 def delete_run(run_dir: str):
     storage = get_storage_service()
-    prefix = f"runs/{run_dir}/"
+    # With the new unified structure, run directories are at root level
+    prefix = f"{run_dir}/"
     try:
         deleted = storage.delete_prefix(prefix)
-        # Best-effort: also try deleting the meta marker in case backends treat dirs differently
-        storage.delete(prefix.rstrip("/"))  # ignore result
+        # Best-effort: also try deleting the directory itself in case backends treat dirs differently
+        storage.delete(run_dir.rstrip("/"))  # ignore result
     except Exception as e:
         raise HTTPException(500, f"failed to delete run: {str(e)}")
     return {"deleted": int(deleted) if isinstance(deleted, int) else (1 if deleted else 0), "run_dir": run_dir}

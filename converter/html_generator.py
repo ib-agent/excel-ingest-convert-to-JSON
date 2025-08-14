@@ -299,8 +299,8 @@ class HTMLGenerator:
         page = section.get('page', '?')
         
         html_parts = [
-            '<div class="text-section-block" style="margin:0.75rem 0; padding:0.75rem; border:1px solid #e5e7eb; border-radius:8px; background:#f9fafb;">',
-            '<div class="text-section-header" style="margin-bottom:0.5rem;">',
+            '<div class="text-section-block">',
+            '<div class="text-section-header" style="margin-bottom:0.5rem; color:#f8fafc;">',
             f'<strong>Section {idx + 1}</strong> ',
             f'<span class="muted">(Page {page} • {len(numbers)} numbers extracted)</span>',
             '</div>'
@@ -308,13 +308,13 @@ class HTMLGenerator:
         
         if content and content.strip():
             highlighted_text = self._highlight_numbers_in_text(content, numbers)
-            html_parts.append('<div class="text-content" style="margin:0.5rem 0; line-height:1.5; font-size:0.95rem;">')
+            html_parts.append('<div class="text-content" style="margin:0.5rem 0; line-height:1.5; font-size:0.95rem; color:#e2e8f0;">')
             html_parts.append(highlighted_text)
             html_parts.append('</div>')
         
         # Show extracted numbers with details
         if numbers:
-            html_parts.append(f'<details style="margin-top:0.5rem;"><summary class="muted">Extracted Numbers ({len(numbers)})</summary>')
+            html_parts.append(f'<details style="margin-top:0.5rem; color:#e2e8f0;"><summary class="muted">Extracted Numbers ({len(numbers)})</summary>')
             html_parts.append('<div class="numbers-list" style="margin:0.5rem 0; display:flex; flex-wrap:wrap; gap:0.5rem;">')
             
             for num in numbers:
@@ -472,7 +472,6 @@ class HTMLGenerator:
                 
                 highlight_span = (
                     f'<span class="highlighted-number {highlight_class}" '
-                    f'style="background-color: #fef3c7; border-radius: 3px; padding: 1px 3px; cursor: help; border-bottom: 1px dotted #f59e0b;" '
                     f'title="{self._escape_html(tooltip)}">{self._escape_html(original_text)}</span>'
                 )
                 
