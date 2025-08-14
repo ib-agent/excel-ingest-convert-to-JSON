@@ -112,7 +112,7 @@ async def upload_and_process_pdf(
                     try:
                         from .excel import _build_run_dir  # reuse helper
                         run_dir = _build_run_dir(file.filename)
-                        storage_local.put_json(f"runs/{run_dir}/meta/index.json", {
+                        ui_index_data = {
                             'run_dir': run_dir,
                             'processing_id': processing_id,
                             'filename': file.filename,
@@ -122,9 +122,13 @@ async def upload_and_process_pdf(
                                 'original_file': original_ref.key if 'original_ref' in locals() else None,
                                 'processed_json': result_ref.key if 'result_ref' in locals() else None,
                             },
-                        })
-                    except Exception:
-                        pass
+                        }
+                        storage_local.put_json(f"runs/{run_dir}/meta/index.json", ui_index_data)
+                        print(f"✅ Created UI index for run: {run_dir}")
+                    except Exception as e:
+                        print(f"❌ Failed to create UI index: {e}")
+                        import traceback
+                        traceback.print_exc()
 
                     processing_registry.register(processing_id, {
                         'filename': file.filename,
@@ -214,7 +218,7 @@ async def upload_and_process_pdf(
         try:
             from .excel import _build_run_dir
             run_dir = _build_run_dir(file.filename)
-            storage.put_json(f"runs/{run_dir}/meta/index.json", {
+            ui_index_data = {
                 'run_dir': run_dir,
                 'processing_id': processing_id,
                 'filename': file.filename,
@@ -224,9 +228,13 @@ async def upload_and_process_pdf(
                     'original_file': original_ref.key if 'original_ref' in locals() else None,
                     'processed_json': result_ref.key if 'result_ref' in locals() else None,
                 },
-            })
-        except Exception:
-            pass
+            }
+            storage.put_json(f"runs/{run_dir}/meta/index.json", ui_index_data)
+            print(f"✅ Created UI index for run: {run_dir}")
+        except Exception as e:
+            print(f"❌ Failed to create UI index: {e}")
+            import traceback
+            traceback.print_exc()
 
         if (response_storage is not None) or file_id is not None:
             try:
