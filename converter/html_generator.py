@@ -476,7 +476,8 @@ class HTMLGenerator:
                 )
                 
                 escaped_original = self._escape_html(original_text)
-                highlighted_text = highlighted_text.replace(escaped_original, highlight_span)
+                # Use more precise replacement to avoid corrupting already-generated HTML
+                highlighted_text = self._safe_replace_text(highlighted_text, escaped_original, highlight_span)
             
             return highlighted_text
         
@@ -515,6 +516,35 @@ class HTMLGenerator:
         if text is None:
             return ''
         return html.escape(str(text))
+    
+    def _safe_replace_text(self, html_text: str, target: str, replacement: str) -> str:
+        """
+        Safely replace text in HTML without corrupting existing HTML tags or attributes.
+        Only replaces text that appears outside of HTML tags.
+        """
+        import re
+        
+        if not target or target not in html_text:
+            return html_text
+        
+        # More robust approach: split HTML into text and tag segments
+        # and only replace text in the text segments
+        parts = re.split(r'(<[^>]*>)', html_text)
+        
+        # Parts will alternate between text content and HTML tags
+        # Even indices (0, 2, 4...) are text content
+        # Odd indices (1, 3, 5...) are HTML tags
+        
+        replaced = False
+        for i in range(len(parts)):
+            if i % 2 == 0 and not replaced:  # Text content, not HTML tag
+                if target in parts[i]:
+                    # Replace only the first occurrence to maintain order
+                    parts[i] = parts[i].replace(target, replacement, 1)
+                    replaced = True
+                    break
+        
+        return ''.join(parts)
     
     def _format_file_size(self, size_bytes: int) -> str:
         """Format file size in human-readable format"""

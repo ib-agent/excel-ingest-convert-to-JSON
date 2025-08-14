@@ -781,6 +781,11 @@
             return escapeHtml(text || '');
         }
         
+        // Skip highlighting if the text is already highlighted (pre-generated HTML)
+        if (text.includes('highlighted-number') || text.includes('<span')) {
+            return text; // Return as-is since it's already processed HTML
+        }
+        
         try {
             let highlightedText = escapeHtml(text);
             
