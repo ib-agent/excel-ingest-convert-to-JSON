@@ -392,11 +392,12 @@
             font-size: 0.8rem;
         }
 
-        .timestamp-cell {
+        .duration-cell {
             font-size: 0.65rem;
             color: #94a3b8;
             white-space: nowrap;
             line-height: 1.2;
+            font-weight: 600;
         }
 
         .actions-cell {
@@ -607,7 +608,7 @@
                 <th>Tables</th>
                 <th>Numbers</th>
                 <th>Cells/Sections</th>
-                <th>Processed</th>
+                <th>Duration</th>
                 <th>Actions</th>
             </tr>
         `;
@@ -623,9 +624,8 @@
             const fileType = summary.file_type.toLowerCase();
             const iconClass = fileType === 'pdf' ? 'fas fa-file-pdf' : 'fas fa-file-excel';
             
-            // Format timestamp
-            const timestamp = summary.created_at ? 
-                new Date(summary.created_at).toLocaleString() : 'Unknown time';
+            // Get processing duration
+            const duration = summary.processing_duration || 'N/A';
             
             // Get file type-specific stats
             const pagesSheets = fileType === 'pdf' ? (stats.total_pages || 0) : (stats.total_sheets || 0);
@@ -651,7 +651,7 @@
                 <td class="stats-cell">${stats.total_tables || 0}</td>
                 <td class="stats-cell">${stats.total_numbers || 0}</td>
                 <td class="stats-cell">${cellsSections}</td>
-                <td class="timestamp-cell">${timestamp}</td>
+                <td class="duration-cell">${duration}</td>
                 <td>
                     <div class="actions-cell">
                         <a href="/run/${encodeURIComponent(runData.run_dir)}?v=${Date.now()}" 

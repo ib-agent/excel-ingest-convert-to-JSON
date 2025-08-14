@@ -181,6 +181,9 @@ async def upload_and_convert(
     pubsub_provider: Optional[str] = Form(None),
     pubsub_topic: Optional[str] = Form(None),
 ):
+    # Track processing start time
+    processing_start_time = datetime.now(timezone.utc)
+    
     allowed_ext = {".xlsx", ".xlsm", ".xltx", ".xltm"}
     _, ext = os.path.splitext(file.filename)
     if ext.lower() not in allowed_ext:
@@ -631,13 +634,19 @@ async def upload_and_convert(
                 with open(full_path, 'rb') as f:
                     original_file_data = f.read()
                 
+                # Calculate processing duration
+                processing_end_time = datetime.now(timezone.utc)
+                processing_duration = (processing_end_time - processing_start_time).total_seconds()
+                
                 # Prepare metadata
                 meta_for_run = {
                     'run_dir': run_dir,
                     'processing_id': processing_id,
                     'filename': file.filename,
                     'file_type': 'excel',
-                    'created_at': datetime.now(timezone.utc).isoformat(),
+                    'created_at': processing_start_time.isoformat(),
+                    'completed_at': processing_end_time.isoformat(),
+                    'processing_duration_seconds': processing_duration,
                 }
                 
                 # Store all artifacts in run-centric structure

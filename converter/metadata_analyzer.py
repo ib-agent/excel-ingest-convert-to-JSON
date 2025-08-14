@@ -90,9 +90,41 @@ class MetadataAnalyzer:
     
     def _calculate_processing_time(self, meta: Dict[str, Any]) -> Optional[str]:
         """Calculate processing time if timestamps are available."""
-        # For now, return None as we don't have processing end time
-        # This could be enhanced by storing processing start/end times
+        duration_seconds = meta.get('processing_duration_seconds')
+        if duration_seconds is not None:
+            return self._format_duration(duration_seconds)
+        
+        # Fallback: try to calculate from start/end timestamps
+        created_at = meta.get('created_at')
+        completed_at = meta.get('completed_at')
+        if created_at and completed_at:
+            try:
+                from datetime import datetime
+                start = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                end = datetime.fromisoformat(completed_at.replace('Z', '+00:00'))
+                duration = (end - start).total_seconds()
+                return self._format_duration(duration)
+            except Exception:
+                pass
+        
         return None
+    
+    def _format_duration(self, seconds: float) -> str:
+        """Format duration in seconds to human-readable string."""
+        if seconds < 1:
+            return f"{int(seconds * 1000)}ms"
+        elif seconds < 60:
+            return f"{seconds:.1f}s"
+        elif seconds < 3600:
+            minutes = int(seconds // 60)
+            remaining_seconds = seconds % 60
+            if remaining_seconds < 1:
+                return f"{minutes}m"
+            return f"{minutes}m {remaining_seconds:.0f}s"
+        else:
+            hours = int(seconds // 3600)
+            minutes = int((seconds % 3600) // 60)
+            return f"{hours}h {minutes}m"
     
     def _analyze_pdf_data(self, processed_data: Dict[str, Any], 
                          table_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -264,8 +296,7 @@ class MetadataAnalyzer:
             'filename': enhanced_meta.get('filename', 'Unknown'),
             'file_type': file_type.upper(),
             'file_size': file_size_str,
-            'created_at': enhanced_meta.get('created_at', ''),
-            'processing_time': enhanced_meta.get('processing_time', 'N/A'),
+            'processing_duration': enhanced_meta.get('processing_time', 'N/A'),
         }
         
         # Add type-specific stats
