@@ -31,15 +31,59 @@
         table.rendered th, table.rendered td { border: 1px solid #e5e7eb; padding: 4px 6px; font-size: 12px; }
         table.rendered thead th { background: #f3f4f6; }
     </style>
+    <!-- Version: 1.0.11 - Fixed date formatting for column/row labels and table cell values -->
     <script>
+    const DEBUG_VERSION = "1.0.11";
+    const BUILD_TIME = "2025-08-14T18:20:00Z";
+    console.log(`🔧 Run Results Page Loading - Version ${DEBUG_VERSION} - Build: ${BUILD_TIME}`);
+    console.log(`🌐 Current URL: ${window.location.href}`);
+    console.log(`⏰ Page load time: ${new Date().toISOString()}`);
+    
     function getRunDir() { return decodeURIComponent((location.pathname.split('/run/')[1] || '').replace(/\/$/, '')); }
+    
+    function formatDate(dateString) {
+        try {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        } catch (e) {
+            return dateString;
+        }
+    }
+    
+    function formatFileSize(bytes) {
+        if (!bytes || bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+    }
+    
+    function formatLabelValue(value) {
+        // Format date values in labels to YYYY-MM-DD
+        const str = String(value);
+        // Check if it looks like a timestamp (ISO format with T)
+        if (str.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)) {
+            return formatDate(str);
+        }
+        return str;
+    }
+    
     let currentTab = 'full';
     async function loadData() {
         const runDir = getRunDir();
+        console.log(`📡 Loading data for run: ${runDir}`);
         const r = await fetch(`/api/ui/run/${encodeURIComponent(runDir)}/data`);
-        if (!r.ok) return;
+        if (!r.ok) {
+            console.error(`❌ Failed to load data: ${r.status} ${r.statusText}`);
+            return;
+        }
         const data = await r.json();
+        console.log(`✅ Data loaded successfully:`, data);
         const meta = data.meta || {};
+        console.log(`📋 Meta info:`, meta);
         document.getElementById('title').textContent = `${meta.filename || runDir} (${meta.file_type || 'unknown'})`;
         const btns = document.getElementById('downloadButtons');
         btns.innerHTML = '';
@@ -49,7 +93,7 @@
         if (keys.table_data) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.table_data)}">Download tables JSON</a> `;
         // Show basic meta info
         const info = document.getElementById('metaInfo');
-        const created = (meta.created_at && new Date(meta.created_at).toLocaleString()) || '';
+        const created = meta.created_at ? formatDate(meta.created_at) : '';
         info.innerHTML = '';
         const grid = document.createElement('div');
         grid.className = 'grid';
@@ -65,42 +109,135 @@
     }
     function renderDetails(meta, data) {
         try {
+            console.log(`🔧 renderDetails called with file_type: ${meta.file_type}`);
             if ((meta.file_type || '').toLowerCase() === 'excel') {
+                console.log(`📊 Routing to Excel renderer`);
+                document.getElementById('excelDetails').style.display = 'block';
+                document.getElementById('pdfDetails').style.display = 'none';
                 renderExcelDetails(data);
             } else if ((meta.file_type || '').toLowerCase() === 'pdf') {
+                console.log(`📄 Routing to PDF renderer`);
+                document.getElementById('excelDetails').style.display = 'none';
+                document.getElementById('pdfDetails').style.display = 'block';
                 renderPdfDetails(data);
+            } else {
+                console.warn(`❓ Unknown file_type: ${meta.file_type}`);
             }
-        } catch (e) { /* no-op */ }
+        } catch (e) { 
+            console.error(`❌ Error in renderDetails:`, e);
+        }
     }
     function renderExcelDetails(data) {
+        console.log(`📊 Rendering Excel details - Version ${DEBUG_VERSION}`);
         const container = document.getElementById('excelDetails');
-        if (!container) return;
+        if (!container) {
+            console.error(`❌ Container 'excelDetails' not found`);
+            return;
+        }
         const full = (data.full && data.full.workbook) ? data.full : (data.full || {});
         const tables = (data.tables && data.tables.workbook) ? data.tables : (data.tables || {});
         const workbook = full.workbook || {};
         const sheets = (workbook.sheets || []);
+        console.log(`📑 Found ${sheets.length} sheets in workbook:`, sheets);
         let html = '';
-        // Workbook meta
-        html += '<div class="section-title">Workbook Meta</div>';
-        html += `<pre>${escapeHtml(JSON.stringify(workbook.meta || {}, null, 2))}</pre>`;
+        // Workbook meta - improved formatting
+        html += '<div class="section-title">Workbook Information</div>';
+        const wbMeta = workbook.meta || {};
+        html += '<div class="grid">';
+        if (wbMeta.filename) html += `<div class="kv"><strong>Original Filename:</strong> ${escapeHtml(wbMeta.filename)}</div>`;
+        if (wbMeta.file_size) html += `<div class="kv"><strong>File Size:</strong> ${formatFileSize(wbMeta.file_size)}</div>`;
+        if (wbMeta.created) html += `<div class="kv"><strong>Created:</strong> ${escapeHtml(wbMeta.created)}</div>`;
+        if (wbMeta.modified) html += `<div class="kv"><strong>Modified:</strong> ${escapeHtml(wbMeta.modified)}</div>`;
+        if (wbMeta.application) html += `<div class="kv"><strong>Application:</strong> ${escapeHtml(wbMeta.application)}</div>`;
+        if (wbMeta.version) html += `<div class="kv"><strong>Version:</strong> ${escapeHtml(wbMeta.version)}</div>`;
+        html += '</div>';
+        
+        // Show additional metadata if available
+        const otherMeta = Object.keys(wbMeta).filter(k => !['filename', 'file_size', 'created', 'modified', 'application', 'version'].includes(k));
+        if (otherMeta.length > 0) {
+            html += '<details style="margin-top:0.5rem;"><summary>Additional Metadata</summary>';
+            html += `<pre style="margin-top:0.5rem;">${escapeHtml(JSON.stringify(Object.fromEntries(otherMeta.map(k => [k, wbMeta[k]])), null, 2))}</pre>`;
+            html += '</details>';
+        }
+        // File-level counts
+        try {
+            const fileCounts = computeFileCounts(sheets, tables);
+            html += '<div class="grid">';
+            html += `<div class="kv"><strong>Total sheets:</strong> ${fileCounts.sheetCount}</div>`;
+            html += `<div class="kv"><strong>Total tables:</strong> ${fileCounts.tableCount}</div>`;
+            html += `<div class="kv"><strong>Numeric cells:</strong> ${fileCounts.numericCells}</div>`;
+            html += '</div>';
+        } catch (e) { /* ignore */ }
         // Sheets overview
         html += '<div class="section-title">Sheets</div>';
         html += '<ul class="list">';
         sheets.forEach((s, idx) => {
-            const tSheet = (tables.workbook && tables.workbook.sheets && tables.workbook.sheets[idx]) ? tables.workbook.sheets[idx] : {};
-            const tableCount = (tSheet.tables || []).length;
+            // Get tables from the full workbook structure where they actually exist
+            const tableCount = (s.tables || []).length;
+            console.log(`📋 Sheet ${idx} "${s.name}": ${tableCount} tables`);
+            const sheetNumeric = countSheetNumeric(buildSheetCellMap(s));
             html += `<li><strong>${s.name || ('Sheet ' + (idx+1))}</strong> <span class="muted">(${tableCount} tables)</span>`;
-            if (s.dimensions) html += `<div class="muted">Dimensions: ${JSON.stringify(s.dimensions)}</div>`;
-            if (s.frozen) html += `<div class="muted">Frozen: ${JSON.stringify(s.frozen)}</div>`;
+            if (Array.isArray(s.dimensions) && s.dimensions.length === 4) {
+                const [sr1, sc1, sr2, sc2] = s.dimensions;
+                html += `<div class=\"muted\">Dimensions: ${JSON.stringify(s.dimensions)} (${getCellRef(sr1, sc1)}:${getCellRef(sr2, sc2)})</div>`;
+            } else if (s.dimensions) {
+                html += `<div class=\"muted\">Dimensions: ${escapeHtml(JSON.stringify(s.dimensions))}</div>`;
+            }
+            if (s.frozen) {
+                const fr = Array.isArray(s.frozen) ? (s.frozen[0] || 0) : (s.frozen.rows || 0);
+                const fc = Array.isArray(s.frozen) ? (s.frozen[1] || 0) : (s.frozen.cols || 0);
+                html += `<div class=\"muted\">Frozen panes: rows=${fr}, cols=${fc}</div>`;
+            }
+            if (Array.isArray(s.merged)) {
+                html += `<div class=\"muted\">Merged ranges: ${s.merged.length}</div>`;
+            }
+            html += `<div class="muted">Numeric cells: ${sheetNumeric}</div>`;
             // Tables per sheet
             if (tableCount > 0) {
-                (tSheet.tables || []).forEach((t, j) => {
-                    html += `<div style="margin:0.5rem 0;">
-                        <div><strong>${t.name || t.id || ('Table ' + (j+1))}</strong></div>
-                        <div class="muted">Region: ${escapeHtml(JSON.stringify(t.region || {}))}</div>
-                        <div class="muted">Headers: ${escapeHtml(JSON.stringify(t.headers || {}))}</div>
-                        <div class="muted">Labels: cols=${(t.labels && (t.labels.cols||[]).length) || 0}, rows=${(t.labels && (t.labels.rows||[]).length) || 0}</div>
-                    </div>`;
+                (s.tables || []).forEach((t, j) => {
+                    const region = Array.isArray(t.region) ? t.region : null;
+                    let regionA1 = '';
+                    if (region && region.length === 4) regionA1 = `${getCellRef(region[0], region[1])}:${getCellRef(region[2], region[3])}`;
+                    const ds = (t.headers && Array.isArray(t.headers.data_start)) ? t.headers.data_start : null;
+                    const dsA1 = ds ? getCellRef(ds[0], ds[1]) : '';
+                    const headerRows = (t.headers && Array.isArray(t.headers.rows)) ? t.headers.rows.join(', ') : '';
+                    const headerCols = (t.headers && Array.isArray(t.headers.cols)) ? t.headers.cols.join(', ') : '';
+                    const colLabels = (t.labels && Array.isArray(t.labels.cols)) ? t.labels.cols : [];
+                    const rowLabels = (t.labels && Array.isArray(t.labels.rows)) ? t.labels.rows : [];
+                    html += `<div style=\"margin:0.5rem 0; padding:0.5rem; border:1px solid #e5e7eb; border-radius:8px; background:#f9fafb;\">\n                        <div><strong>${t.name || t.id || ('Table ' + (j+1))}</strong></div>\n                        <div class=\"muted\" style=\"margin:0.25rem 0;\">Region: ${escapeHtml(JSON.stringify(t.region || {}))}${regionA1 ? ' ('+regionA1+')' : ''}</div>\n                        <div class=\"muted\" style=\"margin:0.25rem 0;\">Data start: ${escapeHtml(JSON.stringify(ds || {}))}${dsA1 ? ' ('+dsA1+')' : ''}</div>\n                        <div class=\"muted\" style=\"margin:0.25rem 0;\">Header rows: ${escapeHtml(headerRows)}</div>\n                        <div class=\"muted\" style=\"margin:0.25rem 0;\">Header cols: ${escapeHtml(headerCols)}</div>`;
+                    try {
+                        const cm = buildSheetCellMap(s);
+                        if (region && region.length === 4) {
+                            const trimmed = computeTrimmedRegion(cm, t);
+                            const tableNumeric = countRegionNumeric(cm, trimmed[0], trimmed[1], trimmed[2], trimmed[3]);
+                            const rows = trimmed[2] - trimmed[0] + 1 - ((t.headers?.rows || []).filter(r=> r>=trimmed[0] && r<=trimmed[2]).length);
+                            const cols = trimmed[3] - trimmed[1] + 1;
+                            html += `<div class=\"muted\" style=\"margin:0.25rem 0;\">Numeric cells: ${tableNumeric}; Size: ${rows} × ${cols}</div>`;
+                        }
+                    } catch (e) { /* ignore */ }
+                    
+                    // Add full labels display
+                    if (colLabels.length > 0) {
+                        html += `<details style=\"margin:0.25rem 0;\"><summary class=\"muted\">Column Labels (${colLabels.length})</summary>`;
+                        html += `<div style=\"margin:0.25rem 0; font-size:0.85rem; max-height:150px; overflow-y:auto; background:#fff; padding:0.5rem; border-radius:4px;\">`;
+                        colLabels.forEach((label, idx) => {
+                            const formattedLabel = formatLabelValue(label);
+                            html += `<span style=\"display:inline-block; margin:2px 4px 2px 0; padding:2px 6px; background:#e5e7eb; border-radius:3px; font-size:0.8rem;\">${idx}: ${escapeHtml(formattedLabel)}</span>`;
+                        });
+                        html += `</div></details>`;
+                    }
+                    
+                    if (rowLabels.length > 0) {
+                        html += `<details style=\"margin:0.25rem 0;\"><summary class=\"muted\">Row Labels (${rowLabels.length})</summary>`;
+                        html += `<div style=\"margin:0.25rem 0; font-size:0.85rem; max-height:150px; overflow-y:auto; background:#fff; padding:0.5rem; border-radius:4px;\">`;
+                        rowLabels.forEach((label, idx) => {
+                            const formattedLabel = formatLabelValue(label);
+                            html += `<span style=\"display:inline-block; margin:2px 4px 2px 0; padding:2px 6px; background:#e5e7eb; border-radius:3px; font-size:0.8rem;\">${idx}: ${escapeHtml(formattedLabel)}</span>`;
+                        });
+                        html += `</div></details>`;
+                    }
+                    
+                    html += `</div>`;
                 });
             }
             html += '</li>';
@@ -112,8 +249,7 @@
             html += '<div class="html-tables">';
             for (let i = 0; i < sheets.length; i++) {
                 const s = sheets[i] || {};
-                const tSheet = (tables.workbook && tables.workbook.sheets && tables.workbook.sheets[i]) ? tables.workbook.sheets[i] : {};
-                const tList = tSheet.tables || [];
+                const tList = s.tables || [];
                 html += `<div class="sheet-block"><div class="sheet-title">${escapeHtml(s.name || ('Sheet ' + (i+1)))}</div>`;
                 const cellMap = buildSheetCellMap(s);
                 if (tList.length === 0) {
@@ -156,6 +292,40 @@
         }
         return map;
     }
+    function isNonEmpty(val) {
+        return !(val === null || val === undefined || String(val).trim() === '');
+    }
+    function isNumeric(val) {
+        return typeof val === 'number' && !Number.isNaN(val);
+    }
+    function countSheetNumeric(cellMap) {
+        let count = 0;
+        for (const [, row] of cellMap) {
+            for (const [, v] of row) {
+                if (isNumeric(v)) count++;
+            }
+        }
+        return count;
+    }
+    function countRegionNumeric(cellMap, r1, c1, r2, c2) {
+        let count = 0;
+        for (let r = r1; r <= r2; r++) {
+            for (let c = c1; c <= c2; c++) {
+                const v = getValue(cellMap, r, c);
+                if (isNumeric(v)) count++;
+            }
+        }
+        return count;
+    }
+    function computeFileCounts(sheets, tables) {
+        let numeric = 0;
+        let tableCount = 0;
+        (sheets || []).forEach((s, idx) => {
+            numeric += countSheetNumeric(buildSheetCellMap(s));
+            tableCount += (s.tables || []).length;
+        });
+        return { sheetCount: (sheets || []).length, tableCount: tableCount, numericCells: numeric };
+    }
     function cellRefToRowCol(ref) {
         // Simple parser: letters then digits
         const m = String(ref).match(/^([A-Za-z]+)(\d+)$/);
@@ -164,12 +334,47 @@
         let col = 0; for (let i = 0; i < letters.length; i++) { col = col * 26 + (letters.charCodeAt(i) - 64); }
         return {row: parseInt(m[2], 10), col};
     }
+    function getColumnLetter(col) {
+        let result = '';
+        let n = col;
+        while (n > 0) {
+            n--;
+            result = String.fromCharCode(65 + (n % 26)) + result;
+            n = Math.floor(n / 26);
+        }
+        return result || 'A';
+    }
+    function getCellRef(row, col) {
+        return `${getColumnLetter(col)}${row}`;
+    }
     function getValue(cellMap, r, c) {
         const row = cellMap.get(r); if (!row) return '';
         const v = row.get(c); return (v === undefined || v === null) ? '' : v;
     }
+    function computeTrimmedRegion(cellMap, tableDef) {
+        let [r1, c1, r2, c2] = tableDef.region;
+        const headers = (tableDef.headers || {});
+        const headerRows = Array.isArray(headers.rows) ? headers.rows : [];
+        // find last non-empty column scanning from right
+        let lastNonEmpty = c1;
+        for (let c = c2; c >= c1; c--) {
+            let found = false;
+            for (const hr of headerRows) {
+                if (hr < r1 || hr > r2) continue;
+                if (isNonEmpty(getValue(cellMap, hr, c))) { found = true; break; }
+            }
+            if (!found) {
+                for (let r = r1; r <= r2; r++) {
+                    if (headerRows.includes(r)) continue;
+                    if (isNonEmpty(getValue(cellMap, r, c))) { found = true; break; }
+                }
+            }
+            if (found) { lastNonEmpty = c; break; }
+        }
+        return [r1, c1, r2, lastNonEmpty];
+    }
     function renderRegionAsTable(cellMap, tableDef) {
-        const [r1, c1, r2, c2] = tableDef.region;
+        const [r1, c1, r2, c2trim] = computeTrimmedRegion(cellMap, tableDef);
         const headers = (tableDef.headers || {});
         const headerRows = Array.isArray(headers.rows) ? headers.rows : [];
         let out = '<table class="rendered">';
@@ -179,8 +384,10 @@
             for (const hr of headerRows) {
                 if (hr < r1 || hr > r2) continue;
                 out += '<tr>';
-                for (let c = c1; c <= c2; c++) {
-                    out += `<th>${escapeHtml(String(getValue(cellMap, hr, c)))}</th>`;
+                for (let c = c1; c <= c2trim; c++) {
+                    const headerVal = getValue(cellMap, hr, c);
+                    const formattedHeaderVal = formatLabelValue(headerVal);
+                    out += `<th>${escapeHtml(formattedHeaderVal)}</th>`;
                 }
                 out += '</tr>';
             }
@@ -192,14 +399,47 @@
             // skip header rows if any
             if (headerRows.includes(r)) continue;
             out += '<tr>';
-            for (let c = c1; c <= c2; c++) {
-                out += `<td>${escapeHtml(String(getValue(cellMap, r, c)))}</td>`;
+            for (let c = c1; c <= c2trim; c++) {
+                const val = getValue(cellMap, r, c);
+                const formattedVal = formatLabelValue(val);
+                const rl = rowLabelFor(tableDef, r);
+                const cl = colLabelFor(tableDef, c);
+                const title = `Row: ${rl ?? (''+r)}, Col: ${cl ?? (''+c)}`;
+                out += `<td title="${escapeHtml(title)}">${escapeHtml(formattedVal)}</td>`;
             }
             out += '</tr>';
         }
         out += '</tbody>';
         out += '</table>';
         return out;
+    }
+    function colLabelFor(tableDef, c) {
+        try {
+            const cols = (tableDef.labels && tableDef.labels.cols) || [];
+            const region = Array.isArray(tableDef.region) ? tableDef.region : null;
+            if (region && region.length >= 4) {
+                // Labels start from the region beginning column
+                const offset = c - region[1];
+                return offset >= 0 && offset < cols.length ? cols[offset] : null;
+            }
+            return null;
+        } catch (e) { 
+            return null; 
+        }
+    }
+    function rowLabelFor(tableDef, r) {
+        try {
+            const rows = (tableDef.labels && tableDef.labels.rows) || [];
+            const ds = tableDef.headers && Array.isArray(tableDef.headers.data_start) ? tableDef.headers.data_start : null;
+            if (ds && ds.length >= 2) {
+                // Row labels start from data_start row
+                const offset = r - ds[0];
+                return offset >= 0 && offset < rows.length ? rows[offset] : null;
+            }
+            return null;
+        } catch (e) { 
+            return null; 
+        }
     }
     function renderPdfDetails(data) {
         const container = document.getElementById('pdfDetails');
@@ -255,6 +495,34 @@
         }
         container.innerHTML = html;
     }
+    function collectPdfTextSections(full) {
+        console.log(`📄 collectPdfTextSections called with:`, full);
+        // Extract text sections with numbers from PDF processing result
+        try {
+            const p = full.pdf_processing_result || full.result?.pdf_processing_result || {};
+            const sections = [];
+            
+            // Extract from text sections if available
+            if (p.text_sections && Array.isArray(p.text_sections)) {
+                p.text_sections.forEach((section, idx) => {
+                    if (section.extracted_numbers && section.extracted_numbers.length > 0) {
+                        sections.push({
+                            text: section.text || '',
+                            numbers: section.extracted_numbers,
+                            page: section.page || idx + 1
+                        });
+                    }
+                });
+            }
+            
+            console.log(`📄 Found ${sections.length} text sections with numbers`);
+            return sections;
+        } catch (e) {
+            console.error(`❌ Error in collectPdfTextSections:`, e);
+            return [];
+        }
+    }
+    
     function escapeHtml(str) {
         return (str || '').toString().replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
     }

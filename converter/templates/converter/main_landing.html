@@ -251,7 +251,8 @@
                 left.textContent = `${run.filename} (${run.file_type || 'unknown'}) – ${new Date(run.created_at || Date.now()).toLocaleString()}`;
                 const right = document.createElement('div');
                 const view = document.createElement('a');
-                view.href = `/run/${encodeURIComponent(run.run_dir)}`;
+                const cacheBust = `v=${Date.now()}`;
+                view.href = `/run/${encodeURIComponent(run.run_dir)}?${cacheBust}`;
                 view.className = 'cta-button';
                 view.textContent = 'View';
                 view.style.marginRight = '0.5rem';
