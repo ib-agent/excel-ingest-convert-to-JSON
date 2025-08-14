@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
 
 from converter.storage_service import get_storage_service
+from converter.metadata_analyzer import MetadataAnalyzer
 
 
 router = APIRouter()
@@ -36,6 +37,64 @@ def list_runs():
     # sort by created_at desc if present
     items.sort(key=lambda x: x.get("created_at", ""), reverse=True)
     return {"runs": items}
+
+@router.get("/runs/enhanced")
+def list_runs_enhanced():
+    """Get enhanced run list with detailed metadata and statistics."""
+    storage = get_storage_service()
+    
+    # Determine storage path for metadata analyzer
+    # For local storage, we can use the configured path
+    if hasattr(storage, 'base_path'):
+        storage_path = storage.base_path
+    else:
+        # Fallback to environment variable or default
+        storage_path = os.environ.get('LOCAL_STORAGE_PATH', './storage')
+    
+    analyzer = MetadataAnalyzer(storage_path)
+    run_dirs = _list_run_dirs()
+    enhanced_items: List[Dict[str, Any]] = []
+    
+    for rd in run_dirs:
+        try:
+            # Clean run directory name
+            clean_rd = rd.rstrip('/')
+            
+            # Get enhanced metadata
+            enhanced_meta = analyzer.analyze_run(clean_rd)
+            if enhanced_meta:
+                # Get display summary
+                display_summary = analyzer.get_display_summary(enhanced_meta)
+                enhanced_items.append({
+                    'run_dir': clean_rd,
+                    'enhanced_metadata': enhanced_meta,
+                    'display_summary': display_summary
+                })
+        except Exception as e:
+            # If enhancement fails, fall back to basic metadata
+            try:
+                key = f"{rd}meta.json" if rd.endswith("/") else f"{rd}/meta.json"
+                meta = storage.get_json(key)
+                enhanced_items.append({
+                    'run_dir': rd.rstrip('/'),
+                    'enhanced_metadata': meta,
+                    'display_summary': {
+                        'filename': meta.get('filename', 'Unknown'),
+                        'file_type': meta.get('file_type', 'unknown').upper(),
+                        'created_at': meta.get('created_at', ''),
+                        'error': f'Analysis failed: {str(e)}'
+                    }
+                })
+            except Exception:
+                continue
+    
+    # Sort by created_at desc
+    enhanced_items.sort(
+        key=lambda x: x.get('enhanced_metadata', {}).get('created_at', ''), 
+        reverse=True
+    )
+    
+    return {"runs": enhanced_items}
 
 
 @router.get("/run/{run_dir}")

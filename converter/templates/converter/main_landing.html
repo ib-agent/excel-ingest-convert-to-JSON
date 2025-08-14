@@ -15,9 +15,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
-            color: #333;
+            color: #1e293b;
         }
 
         .container {
@@ -28,31 +28,36 @@
 
         .header {
             text-align: center;
-            margin-bottom: 4rem;
-            color: white;
+            margin-bottom: 3rem;
+            color: #1e293b;
         }
 
         .header h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-weight: 300;
+            font-size: 1.1rem;
+            opacity: 0.8;
+            font-weight: 400;
             max-width: 600px;
             margin: 0 auto;
+            color: #64748b;
         }
 
         .main-content {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
             overflow: hidden;
-            padding: 3rem;
+            padding: 2rem;
         }
 
         .options-grid {
@@ -153,8 +158,297 @@
         .footer {
             text-align: center;
             margin-top: 3rem;
-            color: white;
+            color: #64748b;
             opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .runs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .run-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Enhanced Upload Zone Styles */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone:hover {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+
+        .upload-zone.dragover {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        }
+
+        .upload-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .upload-icon-wrapper i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .upload-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .upload-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .upload-status.uploading {
+            background: #eff6ff;
+            color: #3b82f6;
+            border: 1px solid #bfdbfe;
+        }
+
+        .upload-status.processing {
+            background: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fcd34d;
+        }
+
+        .upload-status.success {
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid #86efac;
+        }
+
+        .upload-status.error {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+        }
+
+        /* Enhanced Runs Display Styles */
+        .runs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .run-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .run-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .run-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+        }
+
+        .run-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .file-icon.pdf {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .file-icon.excel {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .file-details h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            word-break: break-word;
+        }
+
+        .file-details p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .file-type-badge {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .run-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .action-btn.danger {
+            background: #f8fafc;
+            color: #ef4444;
+            border: 1px solid #e2e8f0;
+        }
+
+        .action-btn.danger:hover {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .timestamp {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+
+        .no-runs {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+        }
+
+        .no-runs i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
 
         @media (max-width: 768px) {
@@ -187,18 +481,20 @@
 
         <div class="main-content">
             <div style="margin-bottom:2rem;">
-                <h2 style="margin-bottom:1rem;">Upload a document</h2>
-                <div id="dropZone" style="border:2px dashed #cbd5e1; border-radius:12px; padding:2.5rem; background:#f8fafc; text-align:center; color:#475569;">
-                    <i class="fas fa-upload" style="font-size:2rem; color:#6366f1;"></i>
-                    <div style="margin-top:0.5rem; font-weight:600;">Drag & drop a file here, or click to select</div>
-                    <div style="font-size:0.9rem; color:#64748b;">Supported: .xlsx, .xlsm, .xltx, .xltm, .pdf</div>
+                <h2 style="margin-bottom:1.5rem; font-size:1.5rem; font-weight:600; color:#1e293b;">Upload Document</h2>
+                <div id="dropZone" class="upload-zone">
+                    <div class="upload-icon-wrapper">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">Drag & drop a file here, or click to select</div>
+                    <div class="upload-subtext">Supports Excel (.xlsx, .xlsm, .xltx, .xltm) and PDF files</div>
                     <input id="fileInput" type="file" name="file" accept=".xlsx,.xlsm,.xltx,.xltm,.pdf" style="display:none;" />
                 </div>
-                <div id="uploadStatus" style="margin-top:0.75rem; color:#666;"></div>
+                <div id="uploadStatus" class="upload-status"></div>
             </div>
             <div style="margin-top:2rem;">
-                <h2 style="margin-bottom:1rem;">Recent runs</h2>
-                <div id="runsList"></div>
+                <h2 style="margin-bottom:1.5rem; font-size:1.5rem; font-weight:600; color:#1e293b;">Recent Processing Runs</h2>
+                <div id="runsList" class="runs-grid"></div>
             </div>
         </div>
 
@@ -232,79 +528,242 @@
 
     async function refreshRuns() {
         const listEl = document.getElementById('runsList');
-        listEl.innerHTML = '';
+        listEl.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin"></i><br>Loading recent runs...</div>';
+        
         try {
-            const r = await fetch('/api/ui/runs');
-            if (!r.ok) return;
-            const data = await r.json();
-            const ul = document.createElement('ul');
-            ul.style.listStyle = 'none';
-            ul.style.padding = '0';
-            for (const run of (data.runs || [])) {
-                const li = document.createElement('li');
-                li.style.display = 'flex';
-                li.style.alignItems = 'center';
-                li.style.justifyContent = 'space-between';
-                li.style.padding = '0.5rem 0.25rem';
-                li.style.borderBottom = '1px solid #e5e7eb';
-                const left = document.createElement('div');
-                left.textContent = `${run.filename} (${run.file_type || 'unknown'}) – ${new Date(run.created_at || Date.now()).toLocaleString()}`;
-                const right = document.createElement('div');
-                const view = document.createElement('a');
-                const cacheBust = `v=${Date.now()}`;
-                view.href = `/run/${encodeURIComponent(run.run_dir)}?${cacheBust}`;
-                view.className = 'cta-button';
-                view.textContent = 'View';
-                view.style.marginRight = '0.5rem';
-                const del = document.createElement('button');
-                del.className = 'cta-button';
-                del.style.background = '#ef4444';
-                del.textContent = 'Delete';
-                del.onclick = async () => {
-                    if (!confirm('Delete this run from storage?')) return;
-                    await fetch(`/api/ui/run/${encodeURIComponent(run.run_dir)}`, { method: 'DELETE' });
-                    await refreshRuns();
+            // Try enhanced API first, fallback to basic API
+            let data;
+            try {
+                const r = await fetch('/api/ui/runs/enhanced');
+                if (r.ok) {
+                    data = await r.json();
+                } else {
+                    throw new Error('Enhanced API not available');
+                }
+            } catch {
+                const r = await fetch('/api/ui/runs');
+                if (!r.ok) throw new Error('Failed to fetch runs');
+                const basicData = await r.json();
+                // Convert basic format to enhanced format
+                data = {
+                    runs: (basicData.runs || []).map(run => ({
+                        run_dir: run.run_dir,
+                        enhanced_metadata: run,
+                        display_summary: {
+                            filename: run.filename || 'Unknown',
+                            file_type: (run.file_type || 'unknown').toUpperCase(),
+                            created_at: run.created_at || '',
+                            file_size: 'N/A'
+                        }
+                    }))
                 };
-                right.appendChild(view);
-                right.appendChild(del);
-                li.appendChild(left);
-                li.appendChild(right);
-                ul.appendChild(li);
             }
-            listEl.appendChild(ul);
-        } catch (_) {}
+            
+            listEl.innerHTML = '';
+            
+            if (!data.runs || data.runs.length === 0) {
+                listEl.innerHTML = `
+                    <div class="no-runs">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>No processing runs yet</h3>
+                        <p>Upload a document above to get started</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            for (const runData of data.runs) {
+                const summary = runData.display_summary;
+                const meta = runData.enhanced_metadata;
+                const stats = meta.statistics || {};
+                
+                const card = createRunCard(runData.run_dir, summary, stats);
+                listEl.appendChild(card);
+            }
+        } catch (error) {
+            listEl.innerHTML = `
+                <div class="loading-state">
+                    <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i><br>
+                    Failed to load runs: ${error.message}
+                </div>
+            `;
+        }
+    }
+    
+    function createRunCard(runDir, summary, stats) {
+        const card = document.createElement('div');
+        card.className = 'run-card';
+        
+        const fileType = summary.file_type.toLowerCase();
+        const iconClass = fileType === 'pdf' ? 'fas fa-file-pdf' : 'fas fa-file-excel';
+        
+        // Format timestamp
+        const timestamp = summary.created_at ? 
+            new Date(summary.created_at).toLocaleString() : 'Unknown time';
+        
+        // Generate stats based on file type
+        let statsHtml = '';
+        if (fileType === 'pdf') {
+            statsHtml = `
+                <div class="stat-item">
+                    <span class="stat-value">${stats.total_pages || 0}</span>
+                    <span class="stat-label">Pages</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">${stats.total_tables || 0}</span>
+                    <span class="stat-label">Tables</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">${stats.text_sections || stats.total_text_sections || 0}</span>
+                    <span class="stat-label">Sections</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">${stats.numerical_values || stats.total_numbers || 0}</span>
+                    <span class="stat-label">Numbers</span>
+                </div>
+            `;
+        } else {
+            statsHtml = `
+                <div class="stat-item">
+                    <span class="stat-value">${stats.total_sheets || 0}</span>
+                    <span class="stat-label">Sheets</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">${stats.total_tables || 0}</span>
+                    <span class="stat-label">Tables</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">${stats.non_empty_cells || 0}</span>
+                    <span class="stat-label">Cells</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">${stats.numerical_values || stats.total_numbers || 0}</span>
+                    <span class="stat-label">Numbers</span>
+                </div>
+            `;
+        }
+        
+        card.innerHTML = `
+            <div class="run-header">
+                <div class="file-info">
+                    <div class="file-icon ${fileType}">
+                        <i class="${iconClass}"></i>
+                    </div>
+                    <div class="file-details">
+                        <h3>${summary.filename}</h3>
+                        <p>${summary.file_size || 'N/A'}</p>
+                    </div>
+                </div>
+                <div class="file-type-badge">${summary.file_type}</div>
+            </div>
+            
+            <div class="stats-grid">
+                ${statsHtml}
+            </div>
+            
+            <div class="timestamp">
+                <i class="fas fa-clock"></i> ${timestamp}
+            </div>
+            
+            <div class="run-actions">
+                <a href="/run/${encodeURIComponent(runDir)}?v=${Date.now()}" 
+                   class="action-btn primary">
+                    <i class="fas fa-eye"></i> View Results
+                </a>
+                <button class="action-btn danger" 
+                        onclick="deleteRun('${runDir}')">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        `;
+        
+        return card;
+    }
+    
+    async function deleteRun(runDir) {
+        if (!confirm('Delete this processing run from storage?\\n\\nThis action cannot be undone.')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/ui/run/${encodeURIComponent(runDir)}`, { 
+                method: 'DELETE' 
+            });
+            
+            if (response.ok) {
+                await refreshRuns();
+            } else {
+                alert('Failed to delete run. Please try again.');
+            }
+        } catch (error) {
+            alert('Error deleting run: ' + error.message);
+        }
+    }
+
+    function setUploadStatus(message, type = '') {
+        const statusEl = document.getElementById('uploadStatus');
+        statusEl.textContent = message;
+        statusEl.className = `upload-status ${type}`;
+        if (!message) {
+            statusEl.className = 'upload-status';
+        }
     }
 
     const dz = document.getElementById('dropZone');
     const input = document.getElementById('fileInput');
-    const statusEl = document.getElementById('uploadStatus');
+    
     dz.addEventListener('click', () => input.click());
-    dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.style.background = '#eef2ff'; });
-    dz.addEventListener('dragleave', () => { dz.style.background = '#f8fafc'; });
+    
+    dz.addEventListener('dragover', (e) => { 
+        e.preventDefault(); 
+        dz.classList.add('dragover');
+    });
+    
+    dz.addEventListener('dragleave', () => { 
+        dz.classList.remove('dragover');
+    });
+    
     dz.addEventListener('drop', async (e) => {
-        e.preventDefault(); dz.style.background = '#f8fafc';
+        e.preventDefault(); 
+        dz.classList.remove('dragover');
+        
         const file = e.dataTransfer.files && e.dataTransfer.files[0];
         if (!file) return;
-        statusEl.textContent = 'Uploading...';
-        try {
-            const result = await postFile(file);
-            const pid = result.processing_id || (result.storage && result.storage.processing_id);
-            if (pid) { statusEl.textContent = 'Processing...'; await pollStatus(pid); }
-            statusEl.textContent = 'Done';
-        } catch (_) { statusEl.textContent = 'Error'; }
-        await refreshRuns();
+        
+        await handleFileUpload(file);
     });
+    
     input.addEventListener('change', async () => {
         if (!input.files || !input.files[0]) return;
-        statusEl.textContent = 'Uploading...';
-        try {
-            const result = await postFile(input.files[0]);
-            const pid = result.processing_id || (result.storage && result.storage.processing_id);
-            if (pid) { statusEl.textContent = 'Processing...'; await pollStatus(pid); }
-            statusEl.textContent = 'Done';
-        } catch (_) { statusEl.textContent = 'Error'; }
-        await refreshRuns();
+        await handleFileUpload(input.files[0]);
     });
+    
+    async function handleFileUpload(file) {
+        try {
+            setUploadStatus(`Uploading ${file.name}...`, 'uploading');
+            
+            const result = await postFile(file);
+            const pid = result.processing_id || (result.storage && result.storage.processing_id);
+            
+            if (pid) { 
+                setUploadStatus('Processing document...', 'processing');
+                await pollStatus(pid); 
+            }
+            
+            setUploadStatus('✅ Processing completed successfully!', 'success');
+            
+            // Clear status after 3 seconds
+            setTimeout(() => setUploadStatus(''), 3000);
+            
+        } catch (error) { 
+            setUploadStatus(`❌ Upload failed: ${error.message}`, 'error');
+            
+            // Clear error after 5 seconds
+            setTimeout(() => setUploadStatus(''), 5000);
+        }
+        
+        await refreshRuns();
+    }
 
     refreshRuns();
     </script>
