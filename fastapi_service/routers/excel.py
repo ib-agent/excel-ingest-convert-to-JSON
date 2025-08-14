@@ -11,6 +11,7 @@ from converter.compact_table_processor import CompactTableProcessor
 from converter.excel_complexity_analyzer import ExcelComplexityAnalyzer
 from converter.storage_service import get_storage_service, StorageType
 from converter.processing_registry import processing_registry
+from converter.html_generator import HTMLGenerator
 from converter import models as django_like_models
 
 router = APIRouter()
@@ -103,6 +104,70 @@ def _slugify_filename(name: str, max_len: int = 24) -> str:
 def _build_run_dir(filename: str) -> str:
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     return f"{_slugify_filename(filename)}-{ts}"
+
+
+def _store_run_artifacts(storage, run_dir: str, original_file_data: bytes, original_filename: str, 
+                        json_data: Dict[str, Any], table_data: Dict[str, Any], meta: Dict[str, Any]) -> Dict[str, str]:
+    """Store all artifacts for a run in a single directory"""
+    artifacts = {}
+    
+    try:
+        # Store original file
+        file_ext = original_filename.split('.')[-1] if '.' in original_filename else 'bin'
+        original_key = f"{run_dir}/original.{file_ext}"
+        storage.put_bytes(original_key, original_file_data, content_type=_get_content_type(original_filename))
+        artifacts['original_file'] = original_key
+        print(f"✅ Stored original file: {original_key}")
+        
+        # Store processed JSON
+        processed_key = f"{run_dir}/processed.json"
+        storage.put_json(processed_key, json_data)
+        artifacts['processed_json'] = processed_key
+        print(f"✅ Stored processed JSON: {processed_key}")
+        
+        # Store table data
+        table_key = f"{run_dir}/table_data.json"
+        storage.put_json(table_key, table_data)
+        artifacts['table_data'] = table_key
+        print(f"✅ Stored table data: {table_key}")
+        
+        # Generate and store HTML
+        html_generator = HTMLGenerator()
+        data_for_html = {'full': json_data, 'tables': table_data}
+        html_content = html_generator.generate_complete_html(data_for_html, meta)
+        html_key = f"{run_dir}/display.html"
+        storage.put_bytes(html_key, html_content.encode('utf-8'), content_type='text/html')
+        artifacts['display_html'] = html_key
+        print(f"✅ Generated and stored HTML: {html_key}")
+        
+        # Store metadata
+        meta_key = f"{run_dir}/meta.json"
+        full_meta = {**meta, 'artifacts': artifacts}
+        storage.put_json(meta_key, full_meta)
+        artifacts['meta'] = meta_key
+        print(f"✅ Stored metadata: {meta_key}")
+        
+        print(f"✅ All artifacts stored for run: {run_dir}")
+        return artifacts
+        
+    except Exception as e:
+        print(f"❌ Failed to store run artifacts: {e}")
+        import traceback
+        traceback.print_exc()
+        return {}
+
+
+def _get_content_type(filename: str) -> str:
+    """Get content type based on file extension"""
+    ext = filename.lower().split('.')[-1] if '.' in filename else ''
+    content_types = {
+        'pdf': 'application/pdf',
+        'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'xls': 'application/vnd.ms-excel',
+        'json': 'application/json',
+        'html': 'text/html'
+    }
+    return content_types.get(ext, 'application/octet-stream')
 
 
 @router.post("/upload/")
@@ -558,23 +623,34 @@ async def upload_and_convert(
                 'large_file': False,
                 **({ 'file_id': file_id, 'download_urls': download_urls } if not storage and file_id else {}),
             })
-            # Write UI index
+            # Store all run artifacts in unified structure
             try:
                 run_dir = _build_run_dir(file.filename)
-                storage.put_json(f"runs/{run_dir}/meta/index.json", {
+                
+                # Get the original file data
+                with open(full_path, 'rb') as f:
+                    original_file_data = f.read()
+                
+                # Prepare metadata
+                meta_for_run = {
                     'run_dir': run_dir,
                     'processing_id': processing_id,
                     'filename': file.filename,
                     'file_type': 'excel',
                     'created_at': datetime.now(timezone.utc).isoformat(),
-                    'keys': {
-                        'original_file': original_ref.key if original_ref else None,
-                        'processed_json': (full_ref.key if 'full_ref' in locals() else None),
-                        'table_data': (table_ref.key if 'table_ref' in locals() else None),
-                    },
-                })
-            except Exception:
-                pass
+                }
+                
+                # Store all artifacts in run-centric structure
+                artifacts = _store_run_artifacts(
+                    storage, run_dir, original_file_data, file.filename,
+                    json_data, table_data, meta_for_run
+                )
+                
+                print(f"✅ Created unified run storage for: {run_dir}")
+            except Exception as e:
+                print(f"❌ Failed to create unified run storage: {e}")
+                import traceback
+                traceback.print_exc()
 
             return JSONResponse({
                 "success": True,

@@ -8,6 +8,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Form, Background
 from fastapi.responses import JSONResponse
 from converter.storage_service import get_storage_service, StorageService, StorageType
 from converter.processing_registry import processing_registry
+from converter.html_generator import HTMLGenerator
 
 # Import processors
 import sys
@@ -214,25 +215,36 @@ async def upload_and_process_pdf(
             except Exception:
                 file_id = None
                 download_urls = None
-        # Write UI index for this run
+        # Store all run artifacts in unified structure
         try:
-            from .excel import _build_run_dir
+            from .excel import _build_run_dir, _store_run_artifacts, _get_content_type
             run_dir = _build_run_dir(file.filename)
-            ui_index_data = {
+            
+            # Get the original file data
+            with open(full_path, 'rb') as f:
+                original_file_data = f.read()
+            
+            # Prepare metadata
+            meta_for_run = {
                 'run_dir': run_dir,
                 'processing_id': processing_id,
                 'filename': file.filename,
                 'file_type': 'pdf',
                 'created_at': datetime.now(timezone.utc).isoformat(),
-                'keys': {
-                    'original_file': original_ref.key if 'original_ref' in locals() else None,
-                    'processed_json': result_ref.key if 'result_ref' in locals() else None,
-                },
             }
-            storage.put_json(f"runs/{run_dir}/meta/index.json", ui_index_data)
-            print(f"✅ Created UI index for run: {run_dir}")
+            
+            # For PDF, we don't have separate table_data, so use the main result
+            table_data = result  # PDF result contains tables within the main structure
+            
+            # Store all artifacts in run-centric structure
+            artifacts = _store_run_artifacts(
+                storage, run_dir, original_file_data, file.filename,
+                result, table_data, meta_for_run
+            )
+            
+            print(f"✅ Created unified run storage for: {run_dir}")
         except Exception as e:
-            print(f"❌ Failed to create UI index: {e}")
+            print(f"❌ Failed to create unified run storage: {e}")
             import traceback
             traceback.print_exc()
 

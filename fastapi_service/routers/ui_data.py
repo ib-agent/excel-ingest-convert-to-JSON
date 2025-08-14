@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import HTMLResponse
 
 from converter.storage_service import get_storage_service
 
@@ -12,9 +13,9 @@ router = APIRouter()
 
 def _list_run_dirs() -> List[str]:
     storage = get_storage_service()
-    # list immediate subdirectories under runs/
+    # list immediate subdirectories - now runs are at root level
     try:
-        return sorted(storage.list_dirs("runs/"), reverse=True)
+        return sorted(storage.list_dirs(""), reverse=True)
     except Exception:
         return []
 
@@ -26,7 +27,7 @@ def list_runs():
     items: List[Dict[str, Any]] = []
     for rd in run_dirs:
         # each rd ends with trailing slash in local; normalize key
-        key = f"{rd}meta/index.json" if rd.endswith("/") else f"{rd}/meta/index.json"
+        key = f"{rd}meta.json" if rd.endswith("/") else f"{rd}/meta.json"
         try:
             meta = storage.get_json(key)
             items.append(meta)
@@ -40,7 +41,7 @@ def list_runs():
 @router.get("/run/{run_dir}")
 def get_run(run_dir: str):
     storage = get_storage_service()
-    key = f"runs/{run_dir}/meta/index.json"
+    key = f"{run_dir}/meta.json"
     try:
         meta = storage.get_json(key)
     except Exception as e:
@@ -51,30 +52,80 @@ def get_run(run_dir: str):
 @router.get("/run/{run_dir}/data")
 def get_run_data(run_dir: str):
     storage = get_storage_service()
-    index_key = f"runs/{run_dir}/meta/index.json"
+    meta_key = f"{run_dir}/meta.json"
     try:
-        meta = storage.get_json(index_key)
+        meta = storage.get_json(meta_key)
     except Exception as e:
         raise HTTPException(404, f"run not found: {str(e)}")
+    
     data: Dict[str, Any] = {"meta": meta}
-    keys: Dict[str, Optional[str]] = (meta or {}).get("keys", {})
-    # Load available artifacts safely
-    if keys.get("processed_json"):
+    
+    # Load artifacts from the new unified structure
+    artifacts = meta.get("artifacts", {})
+    
+    # Load processed JSON
+    if artifacts.get("processed_json"):
         try:
-            data["full"] = storage.get_json(keys["processed_json"])  # type: ignore[arg-type]
+            data["full"] = storage.get_json(artifacts["processed_json"])
         except Exception:
             pass
-    if keys.get("table_data"):
+    
+    # Load table data
+    if artifacts.get("table_data"):
         try:
-            data["tables"] = storage.get_json(keys["table_data"])  # type: ignore[arg-type]
+            data["tables"] = storage.get_json(artifacts["table_data"])
         except Exception:
             pass
-    if keys.get("complexity_results"):
-        try:
-            data["complexity"] = storage.get_json(keys["complexity_results"])  # type: ignore[arg-type]
-        except Exception:
-            pass
+    
     return data
+
+
+@router.get("/run/{run_dir}/html", response_class=HTMLResponse)
+def get_run_html(run_dir: str):
+    """Serve pre-generated HTML for a run"""
+    storage = get_storage_service()
+    
+    # First check if pre-generated HTML exists in new structure
+    html_key = f"{run_dir}/display.html"
+    try:
+        html_bytes = storage.get_bytes(html_key)
+        html_content = html_bytes.decode('utf-8')
+        return HTMLResponse(content=html_content)
+    except Exception:
+        # If no pre-generated HTML, fall back to generating it on-demand
+        try:
+            # Get the run data to generate HTML
+            meta_key = f"{run_dir}/meta.json"
+            meta = storage.get_json(meta_key)
+            artifacts = meta.get("artifacts", {})
+            
+            data = {"meta": meta}
+            if artifacts.get("processed_json"):
+                try:
+                    data["full"] = storage.get_json(artifacts["processed_json"])
+                except Exception:
+                    pass
+            if artifacts.get("table_data"):
+                try:
+                    data["tables"] = storage.get_json(artifacts["table_data"])
+                except Exception:
+                    pass
+            
+            # Generate HTML on-demand as fallback
+            from converter.html_generator import HTMLGenerator
+            html_generator = HTMLGenerator()
+            html_content = html_generator.generate_complete_html(data, meta)
+            
+            # Optionally cache the generated HTML
+            try:
+                storage.put_bytes(html_key, html_content.encode('utf-8'), content_type='text/html')
+            except Exception:
+                pass  # Ignore caching errors
+            
+            return HTMLResponse(content=html_content)
+            
+        except Exception as e:
+            raise HTTPException(404, f"run not found or HTML generation failed: {str(e)}")
 
 
 @router.delete("/run/{run_dir}")

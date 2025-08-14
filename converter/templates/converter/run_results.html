@@ -84,38 +84,101 @@
     let currentTab = 'full';
     async function loadData() {
         const runDir = getRunDir();
-        console.log(`📡 Loading data for run: ${runDir}`);
+        console.log(`📡 Loading optimized data for run: ${runDir}`);
+        
+        try {
+            // First try to load metadata for header and download buttons
+            const metaResponse = await fetch(`/api/ui/run/${encodeURIComponent(runDir)}/data`);
+            if (metaResponse.ok) {
+                const data = await metaResponse.json();
+                const meta = data.meta || {};
+                console.log(`📋 Meta info loaded:`, meta);
+                
+                // Update header
+                document.getElementById('title').textContent = `${meta.filename || runDir} (${meta.file_type || 'unknown'})`;
+                
+                // Update download buttons
+                const btns = document.getElementById('downloadButtons');
+                btns.innerHTML = '';
+                const keys = (meta.keys || {});
+                if (keys.original_file) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.original_file)}">Download original</a> `;
+                if (keys.processed_json) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.processed_json)}">Download full JSON</a> `;
+                if (keys.table_data) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.table_data)}">Download tables JSON</a> `;
+                
+                // Show basic meta info
+                const info = document.getElementById('metaInfo');
+                const created = meta.created_at ? formatDate(meta.created_at) : '';
+                info.innerHTML = '';
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+                const kv = (k,v) => { const d=document.createElement('div'); d.className='kv'; d.innerHTML = `<strong>${k}:</strong> ${v ?? ''}`; return d; };
+                grid.appendChild(kv('Processing ID', meta.processing_id));
+                grid.appendChild(kv('Created', created));
+                grid.appendChild(kv('File type', meta.file_type));
+                grid.appendChild(kv('Filename', meta.filename));
+                info.appendChild(grid);
+            }
+            
+            // Load pre-generated HTML content
+            await loadPreGeneratedHTML(runDir);
+            
+        } catch (error) {
+            console.error(`❌ Error loading data:`, error);
+            showFallbackMessage();
+        }
+    }
+    
+    async function loadPreGeneratedHTML(runDir) {
+        console.log(`🚀 Loading pre-generated HTML for: ${runDir}`);
+        try {
+            const htmlResponse = await fetch(`/api/ui/run/${encodeURIComponent(runDir)}/html`);
+            if (!htmlResponse.ok) {
+                throw new Error(`HTML request failed: ${htmlResponse.status}`);
+            }
+            
+            const htmlContent = await htmlResponse.text();
+            console.log(`✅ Pre-generated HTML loaded successfully (${htmlContent.length} characters)`);
+            
+            // Insert the pre-generated HTML into the appropriate container
+            const container = document.getElementById('preGeneratedContent');
+            if (container) {
+                container.innerHTML = htmlContent;
+                container.style.display = 'block';
+            }
+            
+            // Hide the old containers since we're using pre-generated content
+            const excelDetails = document.getElementById('excelDetails');
+            const pdfDetails = document.getElementById('pdfDetails');
+            if (excelDetails) excelDetails.style.display = 'none';
+            if (pdfDetails) pdfDetails.style.display = 'none';
+            
+        } catch (error) {
+            console.error(`❌ Failed to load pre-generated HTML:`, error);
+            console.log(`🔄 Falling back to client-side generation...`);
+            await loadDataFallback();
+        }
+    }
+    
+    async function loadDataFallback() {
+        // Fallback to the original client-side rendering
+        const runDir = getRunDir();
         const r = await fetch(`/api/ui/run/${encodeURIComponent(runDir)}/data`);
         if (!r.ok) {
             console.error(`❌ Failed to load data: ${r.status} ${r.statusText}`);
             return;
         }
         const data = await r.json();
-        console.log(`✅ Data loaded successfully:`, data);
-        const meta = data.meta || {};
-        console.log(`📋 Meta info:`, meta);
-        document.getElementById('title').textContent = `${meta.filename || runDir} (${meta.file_type || 'unknown'})`;
-        const btns = document.getElementById('downloadButtons');
-        btns.innerHTML = '';
-        const keys = (meta.keys || {});
-        if (keys.original_file) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.original_file)}">Download original</a> `;
-        if (keys.processed_json) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.processed_json)}">Download full JSON</a> `;
-        if (keys.table_data) btns.innerHTML += `<a class="button" href="/api/storage/get?key=${encodeURIComponent(keys.table_data)}">Download tables JSON</a> `;
-        // Show basic meta info
-        const info = document.getElementById('metaInfo');
-        const created = meta.created_at ? formatDate(meta.created_at) : '';
-        info.innerHTML = '';
-        const grid = document.createElement('div');
-        grid.className = 'grid';
-        const kv = (k,v) => { const d=document.createElement('div'); d.className='kv'; d.innerHTML = `<strong>${k}:</strong> ${v ?? ''}`; return d; };
-        grid.appendChild(kv('Processing ID', meta.processing_id));
-        grid.appendChild(kv('Created', created));
-        grid.appendChild(kv('File type', meta.file_type));
-        grid.appendChild(kv('Filename', meta.filename));
-        info.appendChild(grid);
+        console.log(`✅ Fallback data loaded:`, data);
         window._runData = data;
-        renderDetails(meta, data);
-        // Raw JSON view removed per request; omit renderTab
+        renderDetails(data.meta || {}, data);
+    }
+    
+    function showFallbackMessage() {
+        const container = document.getElementById('preGeneratedContent');
+        if (container) {
+            container.innerHTML = '<div class="muted">Unable to load processing results. Please try refreshing the page.</div>';
+            container.style.display = 'block';
+        }
     }
     function renderDetails(meta, data) {
         try {
@@ -727,9 +790,12 @@
         <div class="card" style="margin-bottom:1rem;">
             <div id="metaInfo"></div>
         </div>
-        <!-- Raw JSON view removed per request -->
-        <div class="card" id="excelDetails" style="margin-top:1rem; display:block;"></div>
-        <div class="card" id="pdfDetails" style="margin-top:1rem; display:block;"></div>
+        <!-- Pre-generated content container (optimized) -->
+        <div class="card" id="preGeneratedContent" style="margin-top:1rem; display:none;"></div>
+        
+        <!-- Fallback containers for client-side generation -->
+        <div class="card" id="excelDetails" style="margin-top:1rem; display:none;"></div>
+        <div class="card" id="pdfDetails" style="margin-top:1rem; display:none;"></div>
     </div>
 </body>
 </html>
