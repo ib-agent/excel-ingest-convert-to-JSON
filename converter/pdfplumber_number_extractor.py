@@ -41,13 +41,16 @@ class PDFPlumberNumberExtractor:
         """Get default configuration for number extraction"""
         return {
             'patterns': {
-                'integer': r'\b\d{1,3}(?:,\d{3})*\b',
-                'decimal': r'\b\d+\.\d+\b',
-                'percentage': r'\b\d+(?:\.\d+)?%\b',
+                # Order matters: more specific patterns first to avoid conflicts
+                'percentage': r'(?<!\w)\d+(?:\.\d+)?%(?!\w)',
                 'currency': r'\$\s*\d+(?:,\d{3})*(?:\.\d{2})?\b',
+                'ratio': r'\b\d+(?:\.\d+)?x\b',  # New: patterns like 1.80x, 2.31x
+                'date_number': r'(?:FY|CY|Q[1-4]\s*)?(?:19|20)\d{2}\b',  # Years like 2024, FY2024, CY2024, Q1 2024
                 'scientific_notation': r'\b\d+(?:\.\d+)?[eE][+-]?\d+\b',
                 'fraction': r'\b\d+/\d+\b',
-                'date_number': r'\b(?:19|20)\d{2}\b|\b\d{1,2}(?:st|nd|rd|th)\b'
+                'decimal': r'\b\d+\.\d+\b',
+                'integer': r'\b\d{1,3}(?:,\d{3})*\b',
+                'ordinal': r'\b\d{1,2}(?:st|nd|rd|th)\b'  # Separated from date_number
             },
             'context_window': 100,
             'confidence_threshold': 0.7,
@@ -80,10 +83,18 @@ class PDFPlumberNumberExtractor:
             for match in matches:
                 all_matches.append((match, format_type))
         
-        # Sort matches by start position and length (longer matches first)
-        all_matches.sort(key=lambda x: (x[0].start(), -x[0].end()))
+        # Sort matches by start position, then prioritize longer and more specific patterns
+        # Priority order: percentage > currency > ratio > date_number > others
+        pattern_priority = {'percentage': 0, 'currency': 1, 'ratio': 2, 'date_number': 3, 
+                           'scientific_notation': 4, 'fraction': 5, 'decimal': 6, 'integer': 7, 'ordinal': 8}
         
-        # Process matches, avoiding overlaps
+        all_matches.sort(key=lambda x: (
+            x[0].start(), 
+            pattern_priority.get(x[1], 9),  # More specific patterns first
+            -len(x[0].group(0))  # Then longer matches
+        ))
+        
+        # Process matches, avoiding overlaps but prioritizing more specific patterns
         for match, format_type in all_matches:
             start_pos = match.start()
             end_pos = match.end()
@@ -180,7 +191,7 @@ class PDFPlumberNumberExtractor:
                 return float(clean_text)
             
             elif format_type == 'percentage':
-                # Remove % symbol and convert
+                # Remove % symbol and convert, but preserve original text for display
                 clean_text = text.replace('%', '').strip()
                 return float(clean_text)
             
@@ -206,14 +217,22 @@ class PDFPlumberNumberExtractor:
                     if denominator != 0:
                         return numerator / denominator
             
+            elif format_type == 'ratio':
+                # Remove x suffix and convert (e.g., "1.80x" -> 1.80)
+                clean_text = text.replace('x', '').strip()
+                return float(clean_text)
+            
             elif format_type == 'date_number':
-                # Extract year or day number
-                if re.match(r'(?:19|20)\d{2}', text):
-                    return float(text)  # Year
-                else:
-                    # Extract day number from ordinal
-                    clean_text = re.sub(r'(st|nd|rd|th)', '', text)
-                    return float(clean_text)
+                # Extract year number (e.g., "2024" -> 2024, "FY2024" -> 2024)
+                year_match = re.search(r'(19|20)\d{2}', text)
+                if year_match:
+                    return float(year_match.group(0))
+                return float(text)
+            
+            elif format_type == 'ordinal':
+                # Extract day number from ordinal (e.g., "1st" -> 1)
+                clean_text = re.sub(r'(st|nd|rd|th)', '', text)
+                return float(clean_text)
         
         except (ValueError, ZeroDivisionError):
             pass

@@ -94,13 +94,16 @@ class PDFPlumberProcessor:
             },
             'number_extraction': {
                 'patterns': {
-                    'integer': r'\b\d{1,3}(?:,\d{3})*\b',
-                    'decimal': r'\b\d+\.\d+\b',
-                    'percentage': r'\b\d+(?:\.\d+)?%\b',
+                    # Order matters: more specific patterns first to avoid conflicts
+                    'percentage': r'(?<!\w)\d+(?:\.\d+)?%(?!\w)',
                     'currency': r'\$\s*\d+(?:,\d{3})*(?:\.\d{2})?\b',
+                    'ratio': r'\b\d+(?:\.\d+)?x\b',  # New: patterns like 1.80x, 2.31x
+                    'date_number': r'(?:FY|CY|Q[1-4]\s*)?(?:19|20)\d{2}\b',  # Years like 2024, FY2024, CY2024, Q1 2024
                     'scientific_notation': r'\b\d+(?:\.\d+)?[eE][+-]?\d+\b',
                     'fraction': r'\b\d+/\d+\b',
-                    'date_number': r'\b(?:19|20)\d{2}\b|\b\d{1,2}(?:st|nd|rd|th)\b'
+                    'decimal': r'\b\d+\.\d+\b',
+                    'integer': r'\b\d{1,3}(?:,\d{3})*\b',
+                    'ordinal': r'\b\d{1,2}(?:st|nd|rd|th)\b'  # Separated from date_number
                 },
                 'context_window': 100,
                 'confidence_threshold': 0.7,
