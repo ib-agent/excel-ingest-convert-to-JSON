@@ -201,3 +201,33 @@ def delete_run(run_dir: str):
     return {"deleted": int(deleted) if isinstance(deleted, int) else (1 if deleted else 0), "run_dir": run_dir}
 
 
+@router.delete("/cleanup-all")
+def cleanup_all_runs():
+    """Delete all runs and start fresh"""
+    storage = get_storage_service()
+    
+    try:
+        # Get all run directories
+        run_dirs = _list_run_dirs()  # Remove storage parameter
+        deleted_count = 0
+        
+        for run_dir in run_dirs:
+            try:
+                prefix = f"{run_dir}/"
+                deleted = storage.delete_prefix(prefix)
+                storage.delete(run_dir.rstrip("/"))  # ignore result
+                deleted_count += 1
+            except Exception as e:
+                # Continue with other deletions even if one fails
+                print(f"Failed to delete {run_dir}: {e}")
+                
+        return {
+            "message": "All runs deleted successfully", 
+            "deleted_count": deleted_count,
+            "success": True
+        }
+        
+    except Exception as e:
+        raise HTTPException(500, f"Failed to cleanup all runs: {str(e)}")
+
+

@@ -184,10 +184,29 @@ async def upload_and_convert(
     # Track processing start time
     processing_start_time = datetime.now(timezone.utc)
     
-    allowed_ext = {".xlsx", ".xlsm", ".xltx", ".xltm"}
+    # Auto-detect file type and route appropriately
     _, ext = os.path.splitext(file.filename)
-    if ext.lower() not in allowed_ext:
-        raise HTTPException(400, f"Unsupported file format. Allowed: {', '.join(sorted(allowed_ext))}")
+    ext_lower = ext.lower()
+    
+    # Check if it's a PDF - route to PDF processor
+    if ext_lower == '.pdf':
+        from fastapi_service.routers.pdf import upload_and_process_pdf
+        return await upload_and_process_pdf(
+            background_tasks=background_tasks,
+            file=file,
+            async_mode=async_mode,
+            callback_url=callback_url,
+            pubsub_provider=pubsub_provider,
+            pubsub_topic=pubsub_topic
+        )
+    
+    # Check if it's Excel format
+    allowed_excel_ext = {".xlsx", ".xlsm", ".xltx", ".xltm"}
+    if ext_lower not in allowed_excel_ext:
+        supported_formats = list(allowed_excel_ext) + ['.pdf']
+        raise HTTPException(400, f"Unsupported file format. Allowed: {', '.join(sorted(supported_formats))}")
+    
+    # Continue with Excel processing
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
         tmp.write(await file.read())

@@ -50,35 +50,25 @@ class HTMLGenerator:
         
         html_parts = []
         
-        # Document metadata section
-        html_parts.append(self._generate_meta_section(meta))
-        
-        # Workbook information
+        # Workbook information (removed duplicate metadata section)
         html_parts.append('<div class="section-title">Workbook Information</div>')
         wb_meta = workbook.get('meta', {})
-        html_parts.append('<div class="grid">')
-        
-        if wb_meta.get('filename'):
-            html_parts.append(f'<div class="kv"><strong>Original Filename:</strong> {self._escape_html(wb_meta["filename"])}</div>')
-        if wb_meta.get('file_size'):
-            html_parts.append(f'<div class="kv"><strong>File Size:</strong> {self._format_file_size(wb_meta["file_size"])}</div>')
-        if wb_meta.get('created'):
-            html_parts.append(f'<div class="kv"><strong>Created:</strong> {self._escape_html(wb_meta["created"])}</div>')
-        if wb_meta.get('modified'):
-            html_parts.append(f'<div class="kv"><strong>Modified:</strong> {self._escape_html(wb_meta["modified"])}</div>')
-        if wb_meta.get('application'):
-            html_parts.append(f'<div class="kv"><strong>Application:</strong> {self._escape_html(wb_meta["application"])}</div>')
-        if wb_meta.get('version'):
-            html_parts.append(f'<div class="kv"><strong>Version:</strong> {self._escape_html(wb_meta["version"])}</div>')
-        
-        html_parts.append('</div>')
-        
-        # File-level counts
         file_counts = self._compute_file_counts(sheets)
-        html_parts.append('<div class="grid">')
-        html_parts.append(f'<div class="kv"><strong>Total sheets:</strong> {file_counts["sheet_count"]}</div>')
-        html_parts.append(f'<div class="kv"><strong>Total tables:</strong> {file_counts["table_count"]}</div>')
-        html_parts.append(f'<div class="kv"><strong>Numeric cells:</strong> {file_counts["numeric_cells"]}</div>')
+        
+        # Compact single-row display
+        html_parts.append('<div style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center; font-size:0.9rem; margin:1rem 0;">')
+        
+        # Essential info only
+        if wb_meta.get('filename'):
+            html_parts.append(f'<span><strong>File:</strong> {self._escape_html(wb_meta["filename"])}</span>')
+        if wb_meta.get('file_size'):
+            html_parts.append(f'<span><strong>Size:</strong> {self._format_file_size(wb_meta["file_size"])}</span>')
+        
+        # Summary counts
+        html_parts.append(f'<span><strong>Sheets:</strong> {file_counts["sheet_count"]}</span>')
+        html_parts.append(f'<span><strong>Tables:</strong> {file_counts["table_count"]}</span>')
+        html_parts.append(f'<span><strong>Numbers:</strong> {file_counts["numeric_cells"]}</span>')
+        
         html_parts.append('</div>')
         
         # Sheets overview
@@ -110,10 +100,7 @@ class HTMLGenerator:
         
         html_parts = []
         
-        # Document metadata section
-        html_parts.append(self._generate_meta_section(meta))
-        
-        # Document information
+        # Document information (removed duplicate metadata section)
         doc_meta = pdf_result.get('document_metadata', {})
         summary = pdf_result.get('processing_summary', {})
         
@@ -188,7 +175,7 @@ class HTMLGenerator:
         return '\n'.join(html_parts)
     
     def _generate_sheet_overview(self, sheet: Dict[str, Any], idx: int) -> str:
-        """Generate HTML for sheet overview"""
+        """Generate simplified HTML for sheet overview with only table count and dimensions"""
         sheet_name = sheet.get('name', f'Sheet {idx + 1}')
         tables = sheet.get('tables', [])
         table_count = len(tables)
@@ -197,38 +184,14 @@ class HTMLGenerator:
             f'<li><strong>{self._escape_html(sheet_name)}</strong> <span class="muted">({table_count} tables)</span>'
         ]
         
-        # Add dimensions if available
-        dimensions = sheet.get('dimensions')
-        if isinstance(dimensions, list) and len(dimensions) == 4:
-            sr1, sc1, sr2, sc2 = dimensions
-            cell_ref = f'{self._get_cell_ref(sr1, sc1)}:{self._get_cell_ref(sr2, sc2)}'
-            html_parts.append(f'<div class="muted">Dimensions: {json.dumps(dimensions)} ({cell_ref})</div>')
-        elif dimensions:
-            html_parts.append(f'<div class="muted">Dimensions: {self._escape_html(json.dumps(dimensions))}</div>')
-        
-        # Add frozen panes info
-        frozen = sheet.get('frozen')
-        if frozen:
-            if isinstance(frozen, list):
-                fr, fc = frozen[0] if len(frozen) > 0 else 0, frozen[1] if len(frozen) > 1 else 0
-            else:
-                fr, fc = frozen.get('rows', 0), frozen.get('cols', 0)
-            html_parts.append(f'<div class="muted">Frozen panes: rows={fr}, cols={fc}</div>')
-        
-        # Add merged ranges info
-        merged = sheet.get('merged')
-        if isinstance(merged, list):
-            html_parts.append(f'<div class="muted">Merged ranges: {len(merged)}</div>')
-        
-        # Add numeric cells count
-        numeric_count = self._count_sheet_numeric(sheet)
-        html_parts.append(f'<div class="muted">Numeric cells: {numeric_count}</div>')
-        
-        # Add table details
+        # Add table dimensions in (B1:Q16) format only
         if tables:
-            for j, table in enumerate(tables):
-                table_detail_html = self._generate_table_detail(table, j)
-                html_parts.append(table_detail_html)
+            for table in tables:
+                region = table.get('region')
+                if isinstance(region, list) and len(region) == 4:
+                    sr1, sc1, sr2, sc2 = region
+                    cell_ref = f'{self._get_cell_ref(sr1, sc1)}:{self._get_cell_ref(sr2, sc2)}'
+                    html_parts.append(f'<div class="muted">({cell_ref})</div>')
         
         html_parts.append('</li>')
         
@@ -314,8 +277,8 @@ class HTMLGenerator:
         
         # Show extracted numbers with details
         if numbers:
-            html_parts.append(f'<details style="margin-top:0.5rem; color:#e2e8f0;"><summary class="muted">Extracted Numbers ({len(numbers)})</summary>')
-            html_parts.append('<div class="numbers-list" style="margin:0.5rem 0; display:flex; flex-wrap:wrap; gap:0.5rem;">')
+            html_parts.append(f'<details style="margin-top:0.75rem; color:#e2e8f0;"><summary class="muted">Extracted Numbers ({len(numbers)})</summary>')
+            html_parts.append('<div class="numbers-list" style="margin:0.75rem 0; display:flex; flex-wrap:wrap; gap:0.75rem; padding:0.5rem; background:rgba(15, 23, 42, 0.5); border-radius:8px; border:1px solid rgba(59, 130, 246, 0.1);">')
             
             for num in numbers:
                 badge_html = self._generate_number_badge(num)
@@ -367,11 +330,13 @@ class HTMLGenerator:
                         cell_value = cell_data.get('value', '')
                         break
                 
-                # Add tooltip
+                # Add tooltip (with formatted date labels)
                 table_id = table.get('table_id', 'Unknown')
                 row_label = row.get('row_label', row_idx + 1)
                 col_label = col.get('column_label', col.get('column_index', 0) + 1)
-                title = f'Table: {table_id} | Row: {row_label} | Col: {col_label}'
+                formatted_row_label = self._format_label_value(row_label) if row_label else str(row_idx + 1)
+                formatted_col_label = self._format_label_value(col_label) if col_label else str(col.get('column_index', 0) + 1)
+                title = f'Table: {table_id} | Row: {formatted_row_label} | Col: {formatted_col_label}'
                 
                 html_parts.append(f'<td title="{self._escape_html(title)}">{self._escape_html(cell_value)}</td>')
             
@@ -422,10 +387,12 @@ class HTMLGenerator:
                 val = self._get_cell_value(cell_map, r, c)
                 formatted_val = self._format_label_value(val)
                 
-                # Add tooltip with row/col labels
+                # Add tooltip with row/col labels (formatted for dates)
                 row_label = self._get_row_label(table, r)
                 col_label = self._get_col_label(table, c)
-                title = f'Row: {row_label or r}, Col: {col_label or c}'
+                formatted_row_label = self._format_label_value(row_label) if row_label else str(r)
+                formatted_col_label = self._format_label_value(col_label) if col_label else str(c)
+                title = f'Row: {formatted_row_label}, Col: {formatted_col_label}'
                 
                 html_parts.append(f'<td title="{self._escape_html(title)}">{self._escape_html(formatted_val)}</td>')
             
@@ -505,7 +472,7 @@ class HTMLGenerator:
         
         return (
             f'<span class="number-badge" '
-            f'style="display:inline-block; padding:3px 8px; background:#e5e7eb; border-radius:4px; font-size:0.85rem; cursor:pointer;" '
+            f'style="display:inline-block; padding:0.3rem 0.6rem; background:rgba(59, 130, 246, 0.2); color:#f8fafc; border-radius:6px; font-size:0.8rem; font-weight:600; cursor:pointer; border:1px solid rgba(59, 130, 246, 0.4); box-shadow:0 2px 4px rgba(0, 0, 0, 0.3);" '
             f'title="{self._escape_html(tooltip)}">{self._escape_html(display_text)}</span>'
         )
     
@@ -663,7 +630,7 @@ class HTMLGenerator:
         return cell_map.get(row, {}).get(col, '')
     
     def _compute_trimmed_region(self, cell_map: Dict[int, Dict[int, Any]], table_def: Dict[str, Any]) -> List[int]:
-        """Compute trimmed region for table"""
+        """Compute trimmed region for table with aggressive empty column removal"""
         region = table_def.get('region', [])
         if len(region) != 4:
             return region
@@ -672,34 +639,57 @@ class HTMLGenerator:
         headers = table_def.get('headers', {})
         header_rows = headers.get('rows', []) if isinstance(headers.get('rows'), list) else []
         
-        # Find last non-empty column
+        # Find last non-empty column (more aggressive)
         last_non_empty = c1
+        
+        # Count columns with meaningful data
         for c in range(c2, c1 - 1, -1):
             found = False
-            # Check header rows
-            for hr in header_rows:
-                if hr < r1 or hr > r2:
-                    continue
-                if self._is_non_empty(self._get_cell_value(cell_map, hr, c)):
+            cell_count = 0
+            non_empty_count = 0
+            
+            # Check all rows for this column
+            for r in range(r1, r2 + 1):
+                cell_count += 1
+                value = self._get_cell_value(cell_map, r, c)
+                if self._is_meaningful_cell(value):
+                    non_empty_count += 1
                     found = True
-                    break
-            # Check data rows
-            if not found:
-                for r in range(r1, r2 + 1):
-                    if r in header_rows:
-                        continue
-                    if self._is_non_empty(self._get_cell_value(cell_map, r, c)):
-                        found = True
-                        break
-            if found:
+            
+            # Only keep column if it has meaningful data in multiple cells
+            # or if it's in the first few columns (likely important structure)
+            if found and (non_empty_count > 1 or c - c1 < 3):
                 last_non_empty = c
                 break
+        
+        # Ensure we don't trim too aggressively - keep at least 3 columns if possible
+        if last_non_empty - c1 < 2 and c2 - c1 >= 2:
+            last_non_empty = min(c2, c1 + 2)
         
         return [r1, c1, r2, last_non_empty]
     
     def _is_non_empty(self, value: Any) -> bool:
         """Check if value is non-empty"""
         return value is not None and str(value).strip() != ''
+    
+    def _is_meaningful_cell(self, value: Any) -> bool:
+        """Check if cell contains meaningful data (more strict than just non-empty)"""
+        if value is None:
+            return False
+        
+        str_val = str(value).strip()
+        if not str_val:
+            return False
+        
+        # Consider meaningful if it's a number, has multiple characters, or contains alphanumeric
+        if str_val.replace('.', '').replace('-', '').replace(',', '').isdigit():
+            return True  # Number
+        if len(str_val) > 1:
+            return True  # Multi-character content
+        if str_val.isalnum():
+            return True  # Single letter/digit
+        
+        return False
     
     def _get_row_label(self, table_def: Dict[str, Any], row: int) -> Optional[str]:
         """Get row label for table"""
@@ -738,34 +728,11 @@ class HTMLGenerator:
         region = table.get('region')
         
         html_parts = [
-            '<div style="margin:0.5rem 0; padding:0.5rem; border:1px solid #e5e7eb; border-radius:8px; background:#f9fafb;">',
-            f'<div><strong>{self._escape_html(table_name)}</strong></div>'
+            '<div style="margin:0.5rem 0; padding:0.75rem; border:1px solid rgba(59, 130, 246, 0.2); border-radius:8px; background:rgba(30, 41, 59, 0.8);">',
+            f'<div style="color:#f8fafc; font-weight:600; margin-bottom:0.5rem;">{self._escape_html(table_name)}</div>'
         ]
         
-        if region:
-            region_str = json.dumps(region)
-            if isinstance(region, list) and len(region) == 4:
-                r1, c1, r2, c2 = region
-                a1_ref = f'{self._get_cell_ref(r1, c1)}:{self._get_cell_ref(r2, c2)}'
-                region_str += f' ({a1_ref})'
-            html_parts.append(f'<div class="muted" style="margin:0.25rem 0;">Region: {self._escape_html(region_str)}</div>')
-        
-        # Add other table metadata
-        headers = table.get('headers', {})
-        if headers.get('data_start'):
-            ds = headers['data_start']
-            ds_str = json.dumps(ds)
-            if isinstance(ds, list) and len(ds) >= 2:
-                ds_str += f' ({self._get_cell_ref(ds[0], ds[1])})'
-            html_parts.append(f'<div class="muted" style="margin:0.25rem 0;">Data start: {self._escape_html(ds_str)}</div>')
-        
-        if headers.get('rows'):
-            header_rows = ', '.join(str(r) for r in headers['rows'])
-            html_parts.append(f'<div class="muted" style="margin:0.25rem 0;">Header rows: {self._escape_html(header_rows)}</div>')
-        
-        if headers.get('cols'):
-            header_cols = ', '.join(str(c) for c in headers['cols'])
-            html_parts.append(f'<div class="muted" style="margin:0.25rem 0;">Header cols: {self._escape_html(header_cols)}</div>')
+        # Remove all metadata sections - they are not useful and don't follow the color scheme
         
         html_parts.append('</div>')
         

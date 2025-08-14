@@ -485,7 +485,14 @@
     <div class="container">
         <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico" />
         <div class="header">
-            <h1>Document to JSON Converter</h1>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div></div>
+                <h1 style="margin:0;">Document to JSON Converter</h1>
+                <button id="cleanupBtn" onclick="cleanupAll()" 
+                        style="background:#dc2626; color:white; border:none; padding:0.5rem 1rem; border-radius:6px; font-size:0.9rem; cursor:pointer; transition:all 0.2s;">
+                    <i class="fas fa-trash"></i> Cleanup All
+                </button>
+            </div>
             <p>Transform your Excel spreadsheets and PDF documents into structured JSON data with advanced table detection and header resolution</p>
         </div>
 
@@ -690,6 +697,38 @@
             }
         } catch (error) {
             alert('Error deleting run: ' + error.message);
+        }
+    }
+    
+    async function cleanupAll() {
+        if (!confirm('⚠️ This will delete ALL processed documents and start fresh. Are you sure?')) return;
+        
+        const cleanupBtn = document.getElementById('cleanupBtn');
+        const originalText = cleanupBtn.innerHTML;
+        
+        try {
+            // Show loading state
+            cleanupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cleaning...';
+            cleanupBtn.disabled = true;
+            cleanupBtn.style.background = '#6b7280';
+            
+            const response = await fetch('/api/ui/cleanup-all', { method: 'DELETE' });
+            
+            if (response.ok) {
+                const result = await response.json();
+                alert(`✅ Successfully deleted ${result.deleted_count} runs. Starting fresh!`);
+                await refreshRuns();
+            } else {
+                const error = await response.text();
+                alert(`❌ Failed to cleanup: ${error}`);
+            }
+        } catch (error) {
+            alert(`❌ Error during cleanup: ${error.message}`);
+        } finally {
+            // Restore button state
+            cleanupBtn.innerHTML = originalText;
+            cleanupBtn.disabled = false;
+            cleanupBtn.style.background = '#dc2626';
         }
     }
 
